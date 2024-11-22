@@ -1,0 +1,313 @@
+.setting-tab-main {
+    margin: 10px;
+    width: calc(100% - 20px);
+
+    .setting-tab-heading {
+        margin: 10px 0;
+        color: var(--color-gray);
+
+        i {
+            margin-right: 8px;
+        }
+    }
+
+    .nav {
+        border-right: 1px solid var(--color-gray);
+        width: 228px;
+    }
+
+    .nav-link {
+        color: var(--text-black-color);
+        font-size: 14px;
+        text-align: start;
+        margin-left: 20px;
+        padding: 5px 12px;
+    }
+
+    .nav-pills .nav-link.active,
+    .nav-pills .show>.nav-link {
+        background-color: var(--color-default);
+        color: var(--color-white);
+    }
+}
+
+.tab-content>.active {
+    color: var(--text-black-color);
+}
+.meettype-detail-block{
+    width: 1000px !important;
+}
+.restore-seeting-body {
+    width: 700px;
+
+    .setting-border-bottom {
+        border-bottom: 1px solid var(--color-gray);
+    }
+
+    // Smart color coding 
+
+    .eventColor {
+        border: none;
+        padding: 0;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+    }
+
+    .eventColor::-webkit-color-swatch {
+        border: none;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .eventColor::-webkit-color-swatch-wrapper {
+        border: none;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .change-priority-button {
+        background-color: var(--color-body);
+        color: var(--color-default);
+        width: 250px;
+    }
+}
+
+.toggleContainer {
+    position: relative;
+    user-select: none;
+    font-size: 14px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: fit-content;
+    border: 2px solid var(--contrast-5, rgb(0 5 55 / .05));
+    border-radius: 10px;
+    background-color: var(--contrast-5, rgb(0 5 55 / .05));
+    font-weight: 600;
+    color: var(--text-black-color);
+    cursor: pointer;
+}
+
+.toggleContainer::before {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0%;
+    border-radius: 10px;
+    background: var(--color-white);
+    transition: all 0.3s;
+}
+
+.toggleCheckbox:checked+.toggleContainer::before {
+    left: 50%;
+}
+
+.toggleContainer div {
+    padding: 3px 6px;
+    text-align: center;
+    z-index: 1;
+}
+
+.toggleCheckbox {
+    display: none;
+}
+
+.toggleCheckbox:checked+.toggleContainer div:first-child {
+    color: var(--text-black-color);
+    transition: color 0.3s;
+}
+
+.toggleCheckbox:checked+.toggleContainer div:last-child {
+    color: var(--text-black-color);
+    transition: color 0.3s;
+}
+
+.toggleCheckbox+.toggleContainer div:first-child {
+    color: var(--text-black-color);
+    transition: color 0.3s;
+}
+
+.toggleCheckbox+.toggleContainer div:last-child {
+    color: var(--text-black-color);
+    transition: color 0.3s;
+}
+
+/*----------Profile---------*/
+
+.account-setting-form-field {
+    border-bottom: 1px solid var(--color-gray);
+
+    input {
+        background-color: transparent;
+        color: var(--text-black-color);
+    }
+
+    label {
+        color: var(--color-gray);
+    }
+
+    input::-webkit-input-placeholder {
+        color: var(--color-gray);
+    }
+}
+
+/*-------------Integrations--------------*/
+
+.integrations_with_google {
+    gap: 10px;
+    border-radius: 7px;
+    padding: 5px 10px;
+    margin: 10px;
+    width: calc(33.33% - 20px);
+    border: 2px solid var(--contrast-5, rgba(34, 34, 38, 12%));
+    background-color: var(--contrast-5, rgb(0 5 55 / .05));
+
+    h6 {
+        margin: 0;
+    }
+
+    img {
+        width: 25px;
+    }
+
+    .request-button {
+        border: 1px solid #9aa2ac54;
+        color: var(--text-black-color);
+        background-color: var(--color-white);
+    }
+}
+
+.restore-button-connected {
+    background-color: var(--color-primary);
+    color: var(--fixed-black-color);
+    border: none !important;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+
+.slider-container {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 13px;
+    border-radius: 25px !important;
+    background: #ffffff;
+    outline: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #62bfc4;
+    cursor: pointer;
+}
+
+.labels {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 15px;
+}
+
+.table-container {
+    max-height: 368px;
+    overflow-y: auto;
+    border-radius: 20px;
+
+    .meeting-table {
+        background-color: #fefefe;
+        border-collapse: collapse;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.02);
+        width: 100%;
+
+
+        td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #edeef2;
+        }
+
+        .meeting-table-head {
+            background-color: #c4c7c9;
+            color: black;
+            position: sticky;
+            top: 0;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+
+        .meeting-table-body {
+            .meeting-table-row {
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    color: var(--color-white);
+                    background-color: var(--color-third);
+                }
+
+                .bi {
+                    cursor: pointer;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+
+.meetid-block{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;    
+}
+
+
+
+/*-------------Account setting form--------------*/
+
+.input-box {
+    position: relative;
+    margin: 30px 0;
+  }
+  
+  .input-box input {
+    width: 100%;
+    padding: 13px 50px 13px 20px;
+    background: #eee;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .input-box input::placeholder {
+    color: #888;
+    font-weight: 400;
+  }
+  
+  .input-box ion-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+  }
+  
+
+  

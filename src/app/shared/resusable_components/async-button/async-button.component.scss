@@ -1,0 +1,28 @@
+button {
+    width: 100%;
+    pointer-events: auto;
+}
+
+:host {
+    pointer-events: none;
+}
+
+.add-event-button {
+    background-color: var(--color-default);
+    color: var(--color-white);
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+.change-priority-button {
+    background-color: var(--color-body);
+    color: var(--color-default);
+    width: 250px;
+}
+
+.account-setting-action {
+    background-color: var(--color-body);
+    color: var(--color-default);
+    border: none;
+    width: 145px;
+}

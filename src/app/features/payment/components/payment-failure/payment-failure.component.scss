@@ -1,0 +1,22 @@
+.failure-icon {
+    font-size: 100px;
+    color: #dc3545;
+  }
+  .message {
+    font-size: 24px;
+    color: #333;
+  }
+  .btn-custom {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+  .btn-custom:hover {
+    background-color: #c82333;
+  }
+  .container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

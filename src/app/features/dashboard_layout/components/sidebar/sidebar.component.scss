@@ -1,0 +1,314 @@
+.onbording-table tr th,
+td {
+    color: #667085;
+    padding: 10px;
+}
+
+:host .table>:not(caption)>*>* {
+    background-color: var(--color-body) !important;
+}
+
+:host .form-select {
+    background: #F8FAFC !important;
+    border-radius: 4px;
+    height: 48px;
+    border: none;
+    padding: 15px;
+}
+
+:host .form-select option {
+    background: linear-gradient(0deg, #F5F6F7, #F5F6F7),
+        linear-gradient(0deg, #FFFFFF, #FFFFFF);
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 10px;
+    height: 42px !important;
+}
+
+:host .form-select:focus {
+    border: none;
+    outline: 0;
+    box-shadow: none;
+}
+
+.onboarding-error {
+    font-size: 10px;
+}
+
+.onboarding-form {
+    max-width: 800px !important;
+    // background-color: var(--color-body);
+
+    .back-button {
+        margin-left: 5px;
+    }
+}
+
+.invalid-feedback {
+    color: #e4182c !important;
+}
+
+// Range Select
+
+$number-of-options: 5;
+
+#form-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#debt-amount-slider {
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    user-select: none;
+
+    &::before {
+        content: " ";
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        width: calc(100% * (#{$number-of-options - 1} / #{$number-of-options}));
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #000;
+    }
+
+    input,
+    label {
+        box-sizing: border-box;
+        flex: 1;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    label {
+        display: inline-block;
+        position: relative;
+        width: 20%;
+        height: 100%;
+        user-select: none;
+
+        &::before {
+            content: attr(data-debt-amount);
+            position: absolute;
+            left: 50%;
+            padding-top: 10px;
+            transform: translate(-50%, 45px);
+            font-size: 14px;
+            letter-spacing: 0.4px;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0.85;
+            transition: all 0.15s ease-in-out;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            border: 2px solid #000;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+        }
+
+        &:hover::after {
+            transform: translate(-50%, -50%) scale(1.25);
+        }
+    }
+
+    input {
+        display: none;
+
+        &:checked {
+            +label::before {
+                font-weight: 800;
+                opacity: 1;
+            }
+
+            +label::after {
+                border-width: 4px;
+                transform: translate(-50%, -50%) scale(0.75);
+            }
+
+            ~#debt-amount-pos {
+                opacity: 1;
+            }
+
+            @for $i from 1 through $number-of-options {
+                &:nth-child(#{$i * 2 - 1})~#debt-amount-pos {
+                    left: #{($i * 20%) - 10%};
+                }
+            }
+        }
+    }
+
+    #debt-amount-pos {
+        display: block;
+        position: absolute;
+        top: 50%;
+        width: 12px;
+        height: 12px;
+        background: #000;
+        border-radius: 50%;
+        transition: all 0.15s ease-in-out;
+        transform: translate(-50%, -50%);
+        border: 2px solid #fff;
+        opacity: 0;
+        z-index: 2;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+        width: 24px;
+        opacity: 1;
+        margin-right: 12px;
+    }
+
+    to {
+        transform: rotate(360deg);
+        width: 24px;
+        opacity: 1;
+        margin-right: 12px;
+    }
+}
+
+input[type=time]::-webkit-calendar-picker-indicator {
+    position: relative;
+}
+
+.week-btn-grp {
+    vertical-align: middle;
+    display: inline-block;
+
+}
+
+.week-btn-grp button {
+    float: left;
+    font-size: 12px;
+    border: 1px solid #cac1c1;
+    border-radius: 50%;
+    padding: 10px 7PX;
+    margin-left: 7px;
+    border-left: none;
+    outline: none;
+    cursor: pointer;
+    background: #B3E1E4;
+    color: #000;
+    font-weight: 600;
+
+}
+
+.week-btn-grp .selectedDay {
+    background: #158f97;
+    color: #FFF;
+
+}
+
+.week-btn-grp button:hover {
+    color: #fff;
+}
+
+.ap-auto {
+    appearance: auto;
+}
+
+.form-control {
+    background-color: transparent;
+}
+
+
+
+.status-user-name {
+    color: var(--text-black-color);
+    margin: 0 10px 0 0;
+}
+
+.status-user-role {
+    color: var(--color-gray);
+    margin: 0 10px 0 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+.status-icon-container {
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.status-icon-container img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.offcanvas-header_child {
+    display: flex;
+    gap: 20px;
+}
+
+.notification-single-message {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 250px;
+    transform: translate(30%, 0%);
+    background: var(--color-white);
+    padding: 20px;
+    z-index: 2;
+    border-radius: 15px;
+    cursor: auto;
+}
+
+.notification-single-message .message-box {
+    overflow-y: auto;
+    height: 40vh;
+}
+
+
+.notification-single-message h4 {
+    font-size: 18px;
+    text-align: left;
+    color: var(--text-black-color);
+}
+
+.notification-single-message p {
+    font-size: 14px;
+    border-bottom: 1px solid var(--color-gray);
+    color: var(--color-gray);
+    padding: 10px 0;
+    text-align: justify;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.MobilerestoreScore {
+    display: block;
+}
+
+
+@media (max-width: 456px) { 
+    .MobilerestoreScore {
+        display: none;
+    }
+ }

@@ -1,0 +1,392 @@
+ <div class="row g-0 p-3">
+    <div class="col g-0 setting-tab-main d-flex align-items-start">
+        <div class="nav flex-column nav-pills pe-3" role="tablist" aria-orientation="vertical">
+            <ng-container *ngFor="let setting of settings">
+                <ng-container *ngIf="setting.permission.includes(userRole)">
+                    <p class="setting-tab-heading">
+                        <i [class]="setting.icon"></i> {{ setting.heading }}
+                    </p>
+                    <ng-container *ngFor="let tab of setting.tabs;let i =  index">
+                        <button class="nav-link" *ngIf="tab.permission.includes(userRole)" [class.active]="tab.active"
+                            [id]="tab.id" data-bs-toggle="pill" [attr.data-bs-target]="'#' + tab.target" type="button"
+                            role="tab" [attr.aria-controls]="tab.target" [attr.aria-selected]="tab.active"
+                            (click)="selectTab(tab, setting)">
+                            {{ tab.label }}
+                        </button>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+
+        <div class="tab-content d-flex justify-content-center w-100" id="v-pills-tabContent">
+            <ng-container *ngFor="let setting of settings">
+                <ng-container *ngFor="let tab of setting.tabs">
+                    <div class="tab-pane active px-3" *ngIf="tab.permission.includes(userRole)"
+                        [class.active]="tab.active" [id]="tab.target" role="tabpanel"
+                        [attr.aria-labelledby]="tab.id + '-tab'">
+                        <div class="restore-seeting-body d-flex justify-content-center flex-column gap-3"
+                            [class.meettype-detail-block]="tab.label == 'Meeting Type'">
+                            <ng-container *ngIf="tab.label == 'General'">
+                                <h4>{{ tab.label }}</h4>
+                                <!-- <div class="setting-border-bottom">
+                                    <div class="flex-between">
+                                        <p>Show declined events</p>
+                                        <input class="restore-switch" type="checkbox" checked="true">
+                                    </div>
+                                    <div class="flex-between">
+                                        <p>Show weekends</p>
+                                        <input class="restore-switch" type="checkbox" checked="true">
+                                    </div>
+                                </div>
+                                <div class="gap-2 setting-border-bottom">
+                                    <div class="flex-between">
+                                        <p class="m-0">Show weekends</p>
+                                        <div class="py-2">
+                                            <input type="checkbox" [checked]="isWeekendStart" id="toggle"
+                                                class="toggleCheckbox" />
+                                            <label for="toggle" class='toggleContainer' (click)="weekendToggle()">
+                                                <div>Sunday</div>
+                                                <div>Monday</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="flex-between">
+                                        <p class="m-0">Time format</p>
+                                        <div class="py-2">
+                                            <input type="checkbox" [checked]="is12HourTime" id="toggle"
+                                                class="toggleCheckbox" />
+                                            <label for="toggle" class='toggleContainer' (click)="timeToggle()">
+                                                <div>12-hour</div>
+                                                <div>24-hour</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="gap-2">
+                                    <div class="flex-between">
+                                        <p class="m-0">Color theme </p>
+                                        <div class="py-2">
+                                            <input type="checkbox" [checked]="isLightMode" id="toggle"
+                                                class="toggleCheckbox" />
+                                            <label for="toggle" class='toggleContainer' (click)="themeToggle()">
+                                                <div>Light</div>
+                                                <div>Dark</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="tab.label == 'Smart color coding'">
+                                <h4>{{ tab.label }}</h4>
+                                <div class="flex-between">
+                                    <div class="d-flex flex-column gap-3">
+                                        <p class="color-gray m-0 fs-5">Event</p>
+                                        <form [formGroup]="eventPriorityForm" class="d-flex flex-column gap-3">
+                                            <div class="d-flex align-items-center">
+                                                <input type="color" class="eventColor" formControlName="high">
+                                                <p class="m-0 ms-5" for="">High</p>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <input type="color" class="eventColor" formControlName="low">
+                                                <p class="m-0 ms-5">Medium</p>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <input type="color" class="eventColor" formControlName="medium">
+                                                <p class="m-0 ms-5">Low</p>
+                                            </div>
+                                        </form>
+                                        <app-async-button type="button" classes="restore-button"
+                                            [disabled]="isEventAsyncCall" [isAsyncCall]="isEventAsyncCall"
+                                            (click)="eventPriorityColor()">Change event
+                                            priority color</app-async-button>
+                                    </div>
+                                    <div class="d-flex flex-column gap-3">
+                                        <p class="color-gray fs-5 m-0">Task</p>
+                                        <form [formGroup]="taskPriorityForm" class="d-flex flex-column gap-3">
+                                            <div class="d-flex align-items-center">
+                                                <input type="color" name="" class="eventColor" formControlName="high">
+                                                <p class="m-0 ms-5">High</p>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <input type="color" name="" class="eventColor" formControlName="low">
+                                                <p class="m-0 ms-5">Medium</p>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <input type="color" name="" class="eventColor" formControlName="medium">
+                                                <p class="m-0 ms-5">Low</p>
+                                            </div>
+                                        </form>
+                                        <app-async-button type="button" classes="restore-button"
+                                            [disabled]="isTaskAsyncCall" [isAsyncCall]="isTaskAsyncCall"
+                                            (click)="taskPriorityColor()">Change task
+                                            priority color</app-async-button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="tab.label == 'Meeting Type'">
+                                <div class="d-flex justify-content-between">
+                                    <h4>{{ tab.label }} </h4>
+                                    <app-async-button type="submit" classes="restore-button"
+                                        *ngIf="userRole === 'Admin'"
+                                        (click)="addMeetingType('add', null)"><i class="bi bi-plus"></i></app-async-button>
+                                </div>
+                                <div class=" table-container">
+                                    <table class="w-100 meeting-table ">
+                                        <thead class="meeting-table-head">
+                                            <tr class="text-center ">
+                                                <td class="text-center fontweight-bold">#</td>
+                                                <td class="text-center font-weight-bold">Meeting type name</td>
+                                                <td class="text-center font-weight-bold">Priority</td>
+                                                <td class="text-center font-weight-bold">Action</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="meeting-table-body">
+                                            <ng-container *ngFor="let meet of meetingTypeList;let ind = index">
+                                                <tr class="meeting-table-row">
+                                                    <td class="text-center">{{ind+1}}</td>
+                                                    <td class="text-center">{{meet.meetingTypeName}}</td>
+                                                    <td class="text-center">{{meet.weight}}</td>
+                                                    <td class="text-center"><i
+                                                            class="bi bi-pencil-square mx-2 text-primary"
+                                                            (click)="addMeetingType('edit', meet)"></i>
+                                                        <i *ngIf="userRole === 'Admin'"
+                                                            class="bi bi-trash3-fill text-danger"
+                                                            (click)="addMeetingType('delete', meet)"></i>
+                                                    </td>
+
+                                                </tr>
+                                            </ng-container>
+                                            <ng-container *ngIf="meetingTypeList && !meetingTypeList.length"
+                                                class="text-center">
+                                                <tr class="text-center">
+                                                    <td colspan="5">
+                                                        No Meeting Type Found
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </ng-container>
+                            <ng-container *ngIf="tab.label == 'Profile'">
+                                <h4>{{ tab.label }}</h4>
+                                <form [formGroup]="accountSettingsForm" (ngSubmit)="accountSettings()">
+                                    <!-- <div class="account-setting-form-field py-3"> -->
+                                        <div class="d-flex gap-2 input-box">
+                                            <div class="w-50">
+                                                <label for="firstName" class="form-label">First Name</label>
+                                                <input type="text" class="form-control" id="firstName"
+                                                placeholder="Type First Name" formControlName="firstName"
+                                                [class.is-invalid]="accountSettingControls['firstName'].invalid && (accountSettingControls['firstName'].dirty || accountSettingControls['firstName'].touched)">
+                                                <div *ngIf="accountSettingControls['firstName'].errors"
+                                                    class="invalid-feedback">
+                                                    {{validationErrorMessage.firstNameRequiredError}}
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                <label for="lastName" class="form-label">Last Name</label>
+                                                <input type="text" class="form-control" id="lastName"
+                                                    placeholder="Type Last Name" formControlName="lastName"
+                                                    [class.is-invalid]="accountSettingControls['lastName'].invalid && (accountSettingControls['lastName'].dirty || accountSettingControls['lastName'].touched)">
+                                                <div *ngIf="accountSettingControls['lastName'].errors"
+                                                    class="invalid-feedback">
+                                                    {{validationErrorMessage.lastNameRequiredError}}
+                                                </div>
+
+                                            </div>
+                                               
+                                        </div>
+
+                                        <div class="d-flex gap-2 input-box">
+                                            <div class="w-50">
+                                                <label for="mobNumber" class="form-label">Mobile Number</label>
+                                                <input type="text" class="form-control" id="mobNumber" (input)="onInputChange($event)"
+                                                placeholder="Type Mobile Number" formControlName="mobNumber"
+                                                [class.is-invalid]="accountSettingControls['mobNumber'].invalid && (accountSettingControls['mobNumber'].dirty || accountSettingControls['mobNumber'].touched)">
+                                                <div *ngIf="accountSettingControls['mobNumber'].errors"
+                                                    class="invalid-feedback">
+                                                    {{validationErrorMessage.mobNumberRequiredError}}
+                                                </div>
+                                            </div>
+                                            <div class="w-50">
+                                                <label for="role" class="form-label">Role</label>
+                                                <input type="text" class="form-control" id="role"
+                                                    placeholder="Type Role Name" formControlName="role"
+                                                    [class.is-invalid]="accountSettingControls['role'].invalid && (accountSettingControls['role'].dirty || accountSettingControls['role'].touched)" readonly>
+                                                <div *ngIf="accountSettingControls['lastName'].errors"
+                                                    class="invalid-feedback">
+                                                    {{validationErrorMessage.roleNameRequiredError}}
+                                                </div>
+
+                                            </div>
+                                               
+                                        </div>
+                                        
+                                       
+                                        <div class="input-box">
+                                            <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email"
+                                                    placeholder="Enter your email" formControlName="email"
+                                                    [class.is-invalid]="accountSettingControls['email'].invalid && (accountSettingControls['email'].dirty || accountSettingControls['email'].touched)">
+                                                <div *ngIf="accountSettingControls['email'].errors"
+                                                    class="invalid-feedback">
+                                                    {{ accountSettingControls['email'].errors['required'] ?
+                                                    validationErrorMessage.emailRequiredError :
+                                                    validationErrorMessage.emailValidationError }}
+                                                </div>
+                                        </div>
+                                        <app-async-button type="submit" classes="restore-button"
+                                            [disabled]="accountSettingsForm.invalid || isProfileAsyncCall"
+                                            [isAsyncCall]="isProfileAsyncCall">Save
+                                            Changes</app-async-button>
+                                    
+                                </form>
+                                <div class="flex-between">
+                                    <div class="d-flex flex-column">
+                                        <p class="m-0 text-black-color">Delete account </p>
+                                        <span class="m-0 color-gray">This can not be undone
+                                        </span>
+                                    </div>
+                                    <button class="btn btn-outline-danger">Delete account</button>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="tab.label == 'Onboarding form'">
+                                <h4 class="m-0 text-center">{{ tab.label }}</h4>
+                                <!-- <app-onboarding class="profile-onboarding"></app-onboarding> -->
+                            </ng-container>
+                            <ng-container *ngIf="tab.label == 'Calendar'">
+                                <h4>{{ tab.label }}</h4>
+                                <div class="row g-0">
+                                    <div class="col-4 g-0 integrations_with_google flex-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img src="assets/icons/Social icon(google).svg" alt="">
+                                            <h6>Google</h6>
+                                        </div>
+                                        <div>
+                                            <!-- <button class="btn"
+                                                [ngClass]="{'restore-button-connected': connectedbutton, 'restore-button': !connectedbutton}"
+                                                (click)="connectWithGoogle()">{{ connectedbutton ? 'Connected' :
+                                                'Connect' }}</button> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-4 g-0 integrations_with_google flex-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img src="assets/icons/outlook-icon.svg" alt="">
+                                            <h6>Outlook</h6>
+                                        </div>
+                                        <div>
+                                            <button class="btn request-button">Request</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 g-0 integrations_with_google flex-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img src="../../assets/icons/apple-icon.svg" alt="">
+                                            <h6>Apple</h6>
+                                        </div>
+                                        <div>
+                                            <button class="btn request-button">Request</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="tab.label == 'Emails'">
+                                <h4>{{ tab.label }}</h4>
+                                <div class="d-flex flex-column gap-3">
+                                    <div class="flex-between">
+                                        <div class="d-flex flex-column">
+                                            <p class="m-0 text-black-color">Onboarding emails
+                                            </p>
+                                            <span class="m-0 color-gray">A series of emails that
+                                                help
+                                                you get started with Rise </span>
+                                        </div>
+                                        <input class="restore-switch" type="checkbox" [checked]="true">
+                                    </div>
+                                    <div class="flex-between">
+                                        <div class="d-flex flex-column">
+                                            <p class="m-0 text-black-color">Product updates
+                                            </p>
+                                            <span class="m-0 color-gray">Bi-weekly updates
+                                                where we share what we've been working on
+                                            </span>
+                                        </div>
+                                        <input class="restore-switch" type="checkbox" [checked]="false">
+                                    </div>
+                                    <div class="flex-between">
+                                        <div class="d-flex flex-column">
+                                            <p class="m-0 text-black-color">FocusGuard
+                                                notifications </p>
+                                            <span class="m-0 color-gray">Email me when
+                                                FocusGuard makes changes to my schedule
+                                            </span>
+                                        </div>
+                                        <input class="restore-switch" type="checkbox" [checked]="true">
+                                    </div>
+                                    <div class="flex-between">
+                                        <div class="d-flex flex-column">
+                                            <p class="m-0 text-black-color">
+                                                Flexible event updates
+                                            </p>
+                                            <span class="m-0 color-gray">A series of
+                                                Email me with an overview of calendar changes when flexible
+                                                events move
+                                            </span>
+                                        </div>
+                                        <input class="restore-switch" type="checkbox" [checked]="false">
+                                    </div>
+                                    <div class="flex-between">
+                                        <div class="d-flex flex-column">
+                                            <p class="m-0 text-black-color">
+                                                Flexible change feedback request
+                                            </p>
+                                            <span class="m-0 color-gray">Email me
+                                                when I move a flexible event manually to ask for
+                                                feedback
+                                            </span>
+                                        </div>
+                                        <input class="restore-switch" type="checkbox" [checked]="true">
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="tab.label == 'Manage dashboard'">
+                                <!-- <form [formGroup]="manageDashboardForm" (ngSubmit)="manageDashboard()">
+                                    <div class="flex-between">
+                                        <h4>{{ tab.label }}</h4>
+                                        <button class="btn restore-button" type="submit">Save Changes</button>
+                                    </div>
+                                    <ng-container *ngIf="userRole==='Admin'">
+                                        <select class="form-select mt-3" (change)="adminSelectDropdown($event)">
+                                            <option [value]="'all'" [selected]="adminFilterData === 'all'">All
+                                            </option>
+                                            <option [value]="'manager'" [selected]="adminFilterData === 'manager'">
+                                                Manager</option>
+                                            <option [value]="'employee'" [selected]="adminFilterData === 'employee'">
+                                                Employee</option>
+                                        </select>
+                                    </ng-container>
+                                    <ng-container *ngFor="let details of customdashboardDetails[userRole]">
+                                        <div class="d-flex flex-column gap-3">
+                                            <h6 class="m-0 color-gray fs-5 pt-4">{{ details.heading }}</h6>
+                                            <ng-container *ngFor="let subTitle of details.subHeading;">
+                                                <div class=" d-flex justify-content-between">
+                                                    <p class="m-0 text-black-color">{{ subTitle.label }} </p>
+                                                    <input class="restore-switch" type="checkbox"
+                                                        formControlName="{{ subTitle.isChecked }}"
+                                                        (change)="onSwitchChange(subTitle.isChecked, $event)">
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </form> -->
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+

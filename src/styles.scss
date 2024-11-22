@@ -1,0 +1,330 @@
+// /* You can add global styles to this file, and also import other style files */
+// @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+// *, ::before, ::after {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+//     text-decoration: none;
+//     list-style: none;
+// }
+
+// html {
+//     font-family: "Inter", sans-serif;
+//     font-size: var(--fs-base);
+//     line-height: 1.5;
+// }
+// /* Importing Bootstrap SCSS file. */
+// @import 'bootstrap/scss/bootstrap';
+
+/* You can add global styles to this file, and also import other style files */
+@import "styles/app.scss";
+// @import "../node_modules/angular-calendar/css/angular-calendar.css";
+// @import '../node_modules/ngx-guided-tour/scss/guided-tour-base-theme.scss';
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/assets/fonts/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/assets/fonts/Poppins-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/assets/fonts/Poppins-SemiBold.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/assets/fonts/Poppins-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/assets/fonts/Poppins-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+$font-main: "Poppins" !default;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-main !important;
+}
+
+.dashboard-sidebar {
+  background: var(--sidebar-primary-hover) !important;
+  z-index: 999;
+}
+
+.google-btn {
+  color: #344054;
+  background: #ffffff;
+  border: none;
+}
+
+.congrates-message-box {
+  width: calc(50vh);
+}
+
+.offcanvas-backdrop.show {
+  opacity: 0.3 !important;
+}
+
+:root {
+  --c-body-font-clr: #000;
+  --c-primary-focus-color: #03a9f5;
+  --c-primary-anchor-clr: #03a9f5;
+  --c-primary-btn-bg: #f0483e;
+  --c-white: #fff;
+  --c-zsh-place-fontcolor: #878787;
+  --c-zf-hover: #f6f8fb;
+  --c-highlight: #448ff7;
+  --c-primary-color: #272f43;
+  --c-top-bar-color: #262f45;
+  --c-cta: #1ab394;
+  --c-cta-padding: 12px 20px;
+  --c-dark-text: #333333;
+  --c-text-color: #272f43;
+  --c-b-radius: 3px;
+  --c-fontsize14: 14px;
+  --c-fontsize16: 16px;
+  --c-fontsize12: 12px;
+  --c-gray: #555555;
+  --c-body-bg: #f5f6f8;
+  --c-discard: #a8a8a8;
+  --c-gray-100: #ececec;
+  --c-gray-60: #9d9d9d;
+  --c-gray-50: #f5f6f8;
+  --c-gray-10: #bbbbbb;
+  --c-gray-200: #d6d4d4;
+  --c-light-gray: #f4f4f4;
+  --c-dark-blue-gray: #464d5d;
+  --c-charcoal-blue: #464d5d;
+  --c-sonic-silver: #7c7c7c;
+  --c-light-black: rgba(0, 0, 0, 0.7);
+  --c-silver-gray: #d3d3d3;
+  --c-corl: #ff6347;
+  --c-off-gray: #fafafa;
+  --c-mist-slate: #dddddd80;
+  --c-dark-charcoal: #333;
+  --c-soft-silver: #e3e3e3;
+  --c-granite-gray: #848484;
+  --c-red: red;
+  --c-teal: #20a58a;
+  --c-celadon-green: #52ad93;
+  --c-dodger-blue: #2680eb;
+  --c-alice-blue: #edf4fd;
+  --c-border-gray: #ddd;
+  --c-pale-gray: #eee;
+  --c-vibrant-red: #ef4c4c;
+  --c-aliceBlue: #ecf4fe;
+  --c-mintcream: #eef6f5;
+  --c-drak-sea-green: #88bcaa;
+  --c-keppel: #36bc9e;
+}
+
+ul li {
+  list-style: none;
+}
+
+.tree {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-left: 46px;
+  position: relative;
+}
+
+.tree .parent {
+  position: relative;
+  padding-block: 4px;
+}
+
+.tree .parent::before,
+.tree .parent::after {
+  content: "";
+  position: absolute;
+}
+
+.tree .parent::before {
+  width: 18px;
+  top: 13px;
+  left: -18px;
+  border-bottom: 1px dashed var(--c-gray-200);
+}
+
+.tree .parent::after {
+  display: block;
+  width: 0;
+  top: 0;
+  left: -27.5px;
+  height: 39px;
+  border-left: 1px solid var(--c-gray-200);
+  bottom: 0;
+}
+
+.tree .parent:last-child::after {
+  height: 5px;
+  bottom: auto;
+}
+
+.tree .parent::after {
+  height: 100%;
+  top: 23px;
+}
+
+.tree details[open] > .parent::before,
+.tree details[open] > .nested-item::after {
+  border-left-color: var(--c-drak-sea-green);
+}
+
+.tree .parent.parent:last-child::after {
+  content: none;
+  bottom: auto;
+}
+
+.tree details {
+  margin: 0 auto;
+}
+
+.details > .nested-list {
+  padding: 15px;
+}
+
+.tree summary {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+.tree summary::before {
+  content: "+";
+  position: absolute;
+  top: 0;
+  left: -37px;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  color: var(--c-gray-200);
+  border: 1px solid var(--c-gray-200);
+  border-radius: 50%;
+  background-color: var(--c-white);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tree::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -27px;
+  width: 1px;
+  height: 22px;
+  background-color: var(--c-gray-200);
+}
+
+.tree details[open] > summary::before {
+  content: "-";
+  border: 1px solid var(--c-drak-sea-green);
+  color: var(--c-drak-sea-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tree details[open] > .tree.parent::after {
+  display: block;
+  width: 0;
+  top: 0;
+  left: -27.5px;
+  height: 39px;
+  border-left: 1px solid var(--c-drak-sea-green); /* Change border color here */
+  bottom: 0;
+}
+
+.tree .nested-list {
+  padding: 0 0 0 45px;
+}
+
+.tree .nested-item {
+  position: relative;
+  padding: 10px 0 0 0;
+  margin-top: 0;
+}
+
+.tree .nested-item::before,
+.tree .nested-item::after {
+  content: "";
+  position: absolute;
+  left: -17px;
+}
+
+.tree .nested-item::before {
+  width: 28px;
+  top: 18px;
+  left: -27px;
+  border-bottom: 1px dashed var(--c-gray-200);
+}
+
+.tree .nested-item::after {
+  display: block;
+  width: 0;
+  top: 0;
+  left: -27px;
+  height: 45px;
+  height: 100%;
+  border-left: 1px solid var(--c-gray-200);
+  bottom: 0;
+}
+
+.tree .nested-item:last-child::after {
+  top: 0px;
+  height: 19px;
+  bottom: auto;
+}
+
+.tree .label {
+  display: inline-block;
+  font-size: 10px;
+  padding-inline: 3px;
+  color: #929292;
+  margin-right: 10px;
+  border: 1px solid var(--c-gray-100);
+}
+
+.tree > .parent:last-child {
+  padding-bottom: 0;
+}
+
+.tree-title {
+  font-size: 12px;
+}
+
+.tree-title:hover {
+  color: var(--c-keppel);
+  cursor: pointer;
+}
+
+

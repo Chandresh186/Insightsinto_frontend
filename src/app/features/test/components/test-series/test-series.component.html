@@ -1,0 +1,147 @@
+
+
+
+
+<main class="container">
+    <!-- User View start -->
+    <section class="test-series-grid">
+     
+      <article class="test-series-card" *ngFor="let series of testSeries">
+        <div class="card-header">
+          <h2>{{ series.title }}</h2>
+          <p
+            class="status"
+            [class.active]="series.status === 'Active'"
+            [class.completed]="series.status === 'Completed'"
+            [class.upcoming]="series.status === 'Upcoming'"
+          >
+            {{ series.status }}
+          </p>
+        </div>
+        <div class="card-content">
+          <p><strong>Tests:</strong> {{ series.tests }}</p>
+          <p><strong>Medium:</strong> {{ series.medium }}</p>
+          <p><strong>Start Date:</strong> {{ series.startDate | date: 'MMM d, y' }}</p>
+        </div>
+        <div class="card-footer">
+          <button [attr.aria-label]="'Action for ' + series.title">{{ series.buttonLabel }}</button>
+          
+        </div>
+      </article>
+    </section>
+     <!-- User View end -->
+    <Section class="Admin-view">
+      <button class="add-button" (click)="openModel()"> <i class="fas fa-plus"></i>  Add New</button>
+        <app-table  
+        [tableHeaders]="tableHeaders"
+        [tableData]="tableData"
+        [itemsPerPage]="5"
+        [actionsConfig]="actionsConfig"
+        (actionTriggered)="handleAction($event)"
+        [tableName]="'Test Series'"
+        [showTableName]="true"
+        [showSearchBar]="true"
+        [showColumns]="showColumns"
+        >
+        </app-table>
+    </Section>
+  </main>
+
+
+
+
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Create test series</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="testSeriesForm">
+            
+      
+        <div class="input-box">
+          <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name"
+                  placeholder="Enter Name" formControlName="name"
+                  [class.is-invalid]="testSeriesControls['name'].invalid && (testSeriesControls['name'].dirty || testSeriesControls['name'].touched)">
+              <div *ngIf="testSeriesControls['name'].errors"
+                  class="invalid-feedback">
+                  {{ validationErrorMessage.nameRequiredError }}
+              </div>
+        </div>
+      
+        <div class="input-box">
+          <label for="medium" class="form-label">Medium</label>
+              <input type="text" class="form-control" id="medium"
+                  placeholder="Enter Medium" formControlName="medium"
+                  [class.is-invalid]="testSeriesControls['medium'].invalid && (testSeriesControls['medium'].dirty || testSeriesControls['medium'].touched)">
+              <div *ngIf="testSeriesControls['medium'].errors"
+                  class="invalid-feedback">
+                  {{ validationErrorMessage.detailsRequiredError }}
+              </div>
+        </div>
+      
+        <div class="input-box">
+          <label for="details" class="form-label">Details</label>
+              <input type="text" class="form-control" id="details"
+                  placeholder="Enter Details" formControlName="details"
+                  [class.is-invalid]="testSeriesControls['details'].invalid && (testSeriesControls['details'].dirty || testSeriesControls['details'].touched)">
+              <div *ngIf="testSeriesControls['details'].errors"
+                  class="invalid-feedback">
+                  {{ validationErrorMessage.detailsRequiredError }}
+              </div>
+        </div>
+      
+      
+        <div class="input-box">
+          <label for="startDate" class="form-label">Start Date</label>
+              <input type="date" class="form-control" id="startDate"
+                  placeholder="Enter Start Date" formControlName="startDate"
+                  [class.is-invalid]="testSeriesControls['startDate'].invalid && (testSeriesControls['startDate'].dirty || testSeriesControls['startDate'].touched)">
+              <div *ngIf="testSeriesControls['startDate'].errors"
+                  class="invalid-feedback">
+                  {{ validationErrorMessage.detailsRequiredError }}
+              </div>
+        </div>
+      
+        
+      
+        
+      
+        <div class="input-box">
+          <label for="fee" class="form-label">Fee</label>
+              <input type="text" class="form-control" id="fee"
+                  placeholder="Enter Fee" formControlName="fee"
+                  [class.is-invalid]="testSeriesControls['fee'].invalid && (testSeriesControls['fee'].dirty || testSeriesControls['fee'].touched)">
+              <div *ngIf="testSeriesControls['fee'].errors"
+                  class="invalid-feedback">
+                  {{ validationErrorMessage.feeRequiredError }}
+              </div>
+        </div>
+      
+      </form>
+    </div>
+    <div class="modal-footer">
+      @if(idToBeUpdated == undefined) {
+        <app-async-button type="submit" classes="restore-button"
+        [disabled]="testSeriesForm.invalid || isCreateTestSeriesAsyncCall"
+        [isAsyncCall]="isCreateTestSeriesAsyncCall" (click)="CreateTestseries()">Create</app-async-button>
+
+      } @else {
+        <app-async-button type="submit" classes="restore-button"
+        [disabled]="testSeriesForm.invalid || isCreateTestSeriesAsyncCall"
+        [isAsyncCall]="isCreateTestSeriesAsyncCall" (click)="EditTestseries()">Edit</app-async-button>
+
+      }
+
+      
+    </div>
+  </ng-template>
+  
+
+
+ 
+  
+  
+ 

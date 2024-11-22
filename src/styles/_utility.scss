@@ -1,0 +1,131 @@
+// Use for common css 
+.restore-button {
+    background-color: var(--color-default) !important;
+    color: var(--color-white) !important;
+    transition: 0.5s;
+    border: none !important;
+    font-weight: 600;
+
+    &:hover {
+        background-color: var(--color-primary) !important;
+        color: var(--fixed-black-color) !important;
+    }
+}
+
+.color-gray {
+    color: var(--color-gray);
+}
+
+.text-black-color {
+    color: var(--text-black-color);
+}
+
+.color-white {
+    color: var(--color-white);
+}
+
+.btn.disabled,
+.btn:disabled,
+fieldset:disabled .btn {
+    color: var(--bs-body-bg);
+    border: 1px solid #000;
+    background-color: var(--color-gray) !important;
+}
+
+.form-select {
+    background-color: var(--color-white);
+    color: var(--text-black-color);
+
+    option {
+        color: var(--text-black-color);
+    }
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-end {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+::ng-deep .btn-check:checked+.btn,
+.btn:focus,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check)+.btn:active {
+    border: none;
+}
+
+::ng-deep button {
+
+    &:focus,
+    :hover {
+        outline: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+}
+
+.restore-switch {
+    position: relative;
+    height: 1.24rem;
+    width: 2.5rem;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 9999px;
+    background-color: rgba(100, 116, 139, 0.377);
+    transition: all .3s ease;
+}
+
+.restore-switch:checked {
+    background-color: var(--color-default);
+}
+
+.restore-switch::before {
+    position: absolute;
+    content: "";
+    left: calc(1.5rem - 1.6rem);
+    top: -0.05rem;
+    display: block;
+    height: 1.3rem;
+    width: 1.3rem;
+    cursor: pointer;
+    border: 1px solid rgba(100, 116, 139, 0.527);
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(100, 116, 139, 0.327);
+    transition: all .3s ease;
+}
+
+.restore-switch:hover::before {
+    box-shadow: 0 0 0px 8px rgba(0, 0, 0, .15)
+}
+
+.restore-switch:checked:hover::before {
+    box-shadow: 0 0 0px 8px rgba(236, 72, 153, .15)
+}
+
+.restore-switch:checked:before {
+    transform: translateX(100%);
+    border-color: var(--color-default);
+}
+
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}

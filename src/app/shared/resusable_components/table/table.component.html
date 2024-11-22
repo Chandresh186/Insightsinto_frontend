@@ -1,0 +1,92 @@
+   <div class="test-series-section ">
+     <!-- Search Input Field search-input -->
+  <div class="table-search-bar">
+    <h4 *ngIf="showTableName" class="table-heading">{{tableName}}</h4>
+    <input  *ngIf="showSearchBar"
+      type="text" 
+      [(ngModel)]="searchTerm" 
+      (input)="onSearch()" 
+      placeholder="Search..." 
+      class=""
+    />
+  </div>
+    <div class="table-container test-series-table table-responsive table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl">
+      <!-- Table -->
+      <table class="table mb-0">
+        <thead>
+          <tr>
+            <!-- Header Rows (for sorting) -->
+             <ng-container *ngFor="let header of tableHeaders">
+               @if(isColumnVisible(header.key)) {
+               
+               <th  (click)="onSort(header.key)" >
+   
+                   {{ header.displayName }}
+                   <span *ngIf="sortColumn === header.key">
+                     <ion-icon [name]="(sortDirection === 'asc' ? 'arrow-up' : 'arrow-down') + '-outline'"></ion-icon>
+                   </span>
+                  </th>
+                }
+             </ng-container>
+            <th *ngIf="getVisibleActions().length > 0">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of paginatedData">
+            <!-- Data Rows -->
+             <ng-container *ngFor="let header of tableHeaders">
+              @if(isColumnVisible(header.key)) {
+                <td  >
+                <ng-container *ngIf="header.pipe; else noPipe">
+                      <!-- {{ row[header.key]  }} -->
+                      <span *ngIf="header.pipe === 'currency'">
+                        {{ row[header.key] | currency: header.pipeFormat }}
+                      </span>
+                
+                      <!-- Apply date pipe dynamically -->
+                      <span *ngIf="header.pipe === 'date'">
+                        {{ row[header.key] | date: header.pipeFormat }}
+                      </span>
+                    </ng-container>
+                    <ng-template #noPipe>
+                      <!-- No pipe, just display the raw value -->
+                      {{ row[header.key] }}
+                    </ng-template>
+                  </td>
+              
+              }
+
+             </ng-container>
+            <td *ngIf="getVisibleActions().length > 0">
+                <button
+                  *ngFor="let action of getVisibleActions()"
+                  class="btn btn-sm"
+                  [ngClass]="action.class || 'btn-default'"
+                  (click)="onActionClick(action.key, row)"
+                >
+                  {{ action.label }}
+                </button>
+              </td>
+            
+          </tr>
+        </tbody>
+    </table>
+    <div class="no-data" *ngIf="paginatedData.length === 0" style="text-align: center">No data found</div>
+    </div>
+  
+    <!-- Pagination Controls -->
+    <div class="pagination-controls" *ngIf="!(paginatedData.length === 0)">
+      <ion-icon
+        name="chevron-back-outline"
+        [style.cursor]="currentPage === 1 ? 'not-allowed' : 'pointer'"
+        (click)="goToPreviousPage()"
+      ></ion-icon>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <ion-icon
+        name="chevron-forward-outline"
+        [style.cursor]="currentPage === totalPages ? 'not-allowed' : 'pointer'"
+        (click)="goToNextPage()"
+      ></ion-icon>
+    </div>
+  </div>
+  

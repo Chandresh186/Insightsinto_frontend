@@ -1,0 +1,277 @@
+<header class="d-none d-lg-block d-xl-block d-xxl-block"
+  > <!--[class.admin-bg-color]="userDetails?.role === 'Admin' || userDetails?.role === 'Super admin'"-->
+  <div class="flex-center p-3 row g-0">
+    <!-- <div class="col-8 g-0" style="width: calc(66.67% - 20px);">
+      <div class="row g-0" id="high-low-activity" > *ngIf="userRole === 'Employee' || userRole === 'Manager/HR'"
+        <div class="col-2 g-0 d-flex align-items-center justify-content-center">
+          <p class="m-0">Low</p>
+        </div>
+        <div class="col-8 g-0 d-flex align-items-center high-low-activity-img">
+          <img src="assets/sidebar-restore-icon.svg" alt="restore" [style.left.%]="workloadScore * 100"> 
+        </div>
+        <div class="col-2 g-0 d-flex align-items-center justify-content-center">
+          <p class="m-0">High</p>
+        </div>
+      </div>
+    </div> -->
+    <div class=" flex-end g-0 gap-3">
+      <ng-container > <!--*ngIf="userDetails?.role === 'Employee' || userDetails?.role === 'Manager/HR'">-->
+        <div class="search-icon" > <!--(click)="onbordingSteps()"-->
+          <img src="../../../assets/img/onboard-vector.png" width="30px" height="30px" class="mb-2 ">
+        </div>
+        <div>
+          <div class="search-icon" > <!--(click)="searchBar()"-->
+            <i class="bi bi-search" for="search"></i>
+          </div>
+        </div>
+        
+        <div class="pe-3">
+          <!-- <button type="button" class="btn position-relative main-notification" (click)="singleRNotification()"> 
+            <i class="bi bi-bell"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+             5
+              <span class="visually-hidden">unread messages</span>
+            </span> -->
+            <!-- <div  class="notification-single-message d-flex flex-column" *ngIf="isSingleRNotifationVisible"> 
+              <h4 class="0">Notifications 5</h4>
+              <div class="message-box">
+                <p class="empty-notification" *ngIf="messages.length === 0" >No notification right now 
+                </p>
+                <ng-container *ngIf="messages.length != 0">
+                  <ng-container *ngFor="let message of messages" style="cursor: pointer;">
+                    <p class="m-0" (click)="message.type == 'event'?openEventNotification():'' ">{{message?.message }}
+                    </p>
+                  </ng-container>
+                  <button class="btn text-primary" (click)="readAllNotification()">Make all as
+                    read</button>
+                </ng-container>
+              </div>
+            </div> -->
+          <!-- </button> -->
+        </div>
+      </ng-container>
+      <div class="flex-center">
+        <div>
+          <!-- <p class="status-user-name">{{userDetails?.firstName | titlecase }} {{userDetails?.lastName |
+            titlecase}}
+          </p> -->
+          <!-- <p class="status-user-role">{{userDetails?.role}}</p> -->
+           <p class="status-user-name">{{'david bekham'  | titlecase }} </p>
+           <p class="status-user-name">{{'Admin'  | titlecase}} </p>
+        </div>
+        <!-- <div class="dropdown status-icon-container" id="log_out">
+            <img alt="" class="dropdown-toggle" id="logout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                hello
+            </button>
+            <div class="dropdown-menu" aria-labelledby="logout">
+              <button class="dropdown-item" type="button">Action</button>
+              <button class="dropdown-item" type="button">Another action</button>
+              <button class="dropdown-item" type="button">Something else here</button>
+            </div>
+          </div> -->
+
+          <!-- <div class="dropdown status-icon-container"  id="log_out" >
+            <img alt="" class="dropdown-toggle" id="logout" data-bs-toggle="dropdown"  aria-expanded="false"
+                src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown button
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="logout">
+              <li >
+                <div class="m-0 d-flex gap-2 justify-content-around align-items-center">
+                    <ion-icon name="log-out-outline"></ion-icon> Logout
+                </div>
+             </li>
+          
+            </ul>
+          </div> -->
+
+          <div ngbDropdown class="d-inline-block status-icon-container"  id="log_out">
+            <img alt="" class="dropdown-toggle" id="logout" ngbDropdownToggle id="logout"
+                src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
+			
+			<div ngbDropdownMenu aria-labelledby="logout">
+				<button ngbDropdownItem class="d-flex justify-content-around align-items-center"><ion-icon name="log-out-outline"></ion-icon> Logout</button>
+				
+			</div>
+		</div>
+
+          
+
+
+        <!-- <div class='status-icon-container'  id="log_out" (click)="logoutModalShowHide()"> 
+          <img alt=""
+            src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
+         
+          <div class="logout" *ngIf="isLogoutVisible" (click)="signOut()"> 
+            <h6 class="m-0 d-flex gap-2"><i class="bi bi-box-arrow-right"></i> Logout</h6>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- <ng-template #onboardSteps let-onboardStepsModal>
+  <div class="modal-body py-1">
+    <div class="container-fluid">
+      <div class="row my-3">
+        <div class="col-12 text-center">
+          <h3>Life style and work environment</h3>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-10 offset-1 onboarding-form profile-onboarding">
+          <form [formGroup]="surve2form" (ngSubmit)="survey2()">
+            <div class="table-responsive ">
+              <table class="table onbording-table">
+                <tr>
+                  <th></th>
+                  <th class="text-center">Start</th>
+                  <th class="text-center">End</th>
+                </tr>
+                <tr class="mt-4">
+                  <td>Working Hours</td>
+                  <td>
+                    <input type="text" class="d-none">
+                    <input type="time" onfocus="this.showPicker()" class="form-control" formControlName="workhourtime"
+                      [class.is-invalid]="survey2FormControl['workhourtime'].invalid && (survey2FormControl['workhourtime'].dirty || survey2FormControl['workhourtime'].touched)" />
+                    <div *ngIf="survey2FormControl['workhourtime'].errors"
+                      class="invalid-feedback p-0 onboarding-error">
+                      {{validationErrorMessage.workHourTimeRequiredError}}
+                    </div>
+                  </td>
+                  <td class="ml-1">
+                    <input type="time" onfocus="this.showPicker()" class="form-control"
+                      formControlName="workhourtimeoff"
+                      [class.is-invalid]="survey2FormControl['workhourtimeoff'].invalid && (survey2FormControl['workhourtimeoff'].dirty || survey2FormControl['workhourtimeoff'].touched)" />
+                    <div *ngIf="survey2FormControl['workhourtimeoff'].errors"
+                      class="invalid-feedback p-0 onboarding-error">
+                      {{validationErrorMessage.workHourTimeOffRequiredError}}
+                    </div>
+                  </td>
+                </tr>
+                <tr class="mt-4">
+                  <td>Current stress level...</td>
+                  <td colspan="2">
+                    <div id="form-wrapper">
+                      <div id="debt-amount-slider">
+                        <input type="radio" id="radioFocus" formControlName="StressLevel" id="1" [value]="1"
+                          [checked]="surve2form.get('StressLevel')?.value === 1" />
+                        <label for="1" data-debt-amount="Low"></label>
+                        <input type="radio" formControlName="StressLevel" id="2" [value]="2"
+                          [checked]="surve2form.get('StressLevel')?.value === 2" />
+                        <label for="2"></label>
+                        <input type="radio" formControlName="StressLevel" id="3" [value]="3"
+                          [checked]="surve2form.get('StressLevel')?.value === 3" />
+                        <label for="3"></label>
+                        <input type="radio" formControlName="StressLevel" id="4" [value]="4"
+                          [checked]="surve2form.get('StressLevel')?.value === 4" />
+                        <label for="4"></label>
+                        <input type="radio" formControlName="StressLevel" id="5" [value]="5"
+                          [checked]="surve2form.get('StressLevel')?.value === 5" />
+                        <label for="5" data-debt-amount="High"></label>
+                        <div id="debt-amount-pos"></div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="survey2FormControl['StressLevel'].touched && survey2FormControl['StressLevel'].errors?.['required']"
+                      class="text-danger p-0 onboarding-error">
+                      {{validationErrorMessage.stressLevelRequiredError}}
+                    </div>
+                  </td>
+                </tr>
+                <tr class="mt-4">
+                  <td>Current work/life balance...</td>
+                  <td colspan="2">
+                    <div id="form-wrapper">
+                      <div id="debt-amount-slider">
+                        <input type="radio" formControlName="Lifebalance" id="6" [value]="1"
+                          [checked]="surve2form.get('Lifebalance')?.value === 1" />
+                        <label for="6" data-debt-amount="Low"></label>
+                        <input type="radio" formControlName="Lifebalance" id="7" [value]="2"
+                          [checked]="surve2form.get('Lifebalance')?.value === 2" />
+                        <label for="7"></label>
+                        <input type="radio" formControlName="Lifebalance" id="8" [value]="3"
+                          [checked]="surve2form.get('Lifebalance')?.value === 3" />
+                        <label for="8"></label>
+                        <input type="radio" formControlName="Lifebalance" id="9" [value]="4"
+                          [checked]="surve2form.get('Lifebalance')?.value === 4" />
+                        <label for="9"></label>
+                        <input type="radio" formControlName="Lifebalance" id="10" [value]="5"
+                          [checked]="surve2form.get('Lifebalance')?.value === 5" />
+                        <label for="10" data-debt-amount="High"></label>
+                        <div id="debt-amount-pos"></div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="survey2FormControl['Lifebalance'].touched && survey2FormControl['Lifebalance'].errors?.['required']"
+                      class="text-danger p-0 onboarding-error">
+                      {{validationErrorMessage.lifeBalanceRequiredError}}
+                    </div>
+                  </td>
+                </tr>
+
+                <tr class="mt-5" style="position: relative; top: 10px;">
+                  <td>How often do you exercise?</td>
+                  <td colspan="2">
+               
+
+                    <select class="form-control ap-auto " id="weekButtonGroup"  formControlName="Exercise" [class.is-invalid]="survey2FormControl['Exercise'].invalid && (survey2FormControl['Exercise'].dirty || survey2FormControl['Exercise'].touched)">
+                      <option value="undefined" disabled selected>Select Days a week</option>
+                      <option *ngFor="let days of allExcerciseDays" [value]="days.label">{{days.label}}</option>
+                      
+                    </select>
+                    <div
+                    *ngIf="survey2FormControl['Exercise'].invalid && (survey2FormControl['Exercise'].dirty || survey2FormControl['Exercise'].touched)"
+                    class="invalid-feedback m-0">Exercise is required
+                  </div>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>What is your date of birth?</td>
+                  <td colspan="2">
+                      <input class="form-control" type="date" name="BirthDate" id="BirthDate" formControlName="dateofbirth" >
+                     
+                  </td>
+              </tr>
+              <tr>
+                <td>How would you like to specify your gender?</td>
+                <td colspan="2">
+                    <select class="form-control ap-auto " id="weekButtonGroup" formControlName="gender">
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        
+                      </select>
+                </td>
+            </tr>
+            <tr>
+              <td>Select Your Timezone</td>
+              <td colspan="2">
+                  <select class="form-control ap-auto " id="weekButtonGroup"  formControlName="timezone" >
+                      <option value="" disabled selected>Select timezone</option>
+                      <option *ngFor="let time of timezone" [value]="time">{{time}}</option>
+                      
+                    </select>
+                   
+              </td>
+          </tr>
+              </table>
+            </div>
+            <div class="d-flex flex-column align-items-center login-form-action">
+              <div class="d-flex">
+   
+                <button type="button" class="btn btn-outline-danger back-button"
+                  (click)="onboardStepsModal.close()">Back</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template> -->

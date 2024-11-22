@@ -1,0 +1,299 @@
+<!-- 
+<body>
+  <header class="hero-section">
+    <div class="hero-content">
+      <h1>Welcome to Our Test Series</h1>
+      <p>Boost your preparation with the best online test series for competitive exams.</p>
+      <a href="#test-series" class="cta-button">Explore Now</a>
+    </div>
+  </header>
+
+  <section id="test-series" class="test-series-section">
+    <div class="container">
+      <h2>Ongoing Test Series</h2>
+      <div class="test-series-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Test Name</th>
+              <th>Category</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mock Test 1</td>
+              <td>Banking</td>
+              <td>2024-11-15</td>
+              <td>2024-11-20</td>
+              <td>Ongoing</td>
+            </tr>
+            <tr>
+              <td>Mock Test 2</td>
+              <td>Engineering</td>
+              <td>2024-11-10</td>
+              <td>2024-11-18</td>
+              <td>Ongoing</td>
+            </tr>
+            <tr>
+              <td>Mock Test 3</td>
+              <td>Medical</td>
+              <td>2024-11-12</td>
+              <td>2024-11-22</td>
+              <td>Ongoing</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2024 Test Series Platform. All rights reserved.</p>
+  </footer>
+</body>
+ -->
+
+
+
+
+
+<body>
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <div class="hero-content">
+      <h1>Welcome to Our Test Series Platform</h1>
+      <p>Prepare with the best online test series and achieve your goals.</p>
+      <a href="#test-series" class="cta-button">Explore Test Series</a>
+    </div>
+  </header>
+
+
+  
+  <!-- <div class="test-series-section"> -->
+   
+      <app-table  
+      [tableHeaders]="tableHeaders"
+      [tableData]="tableData"
+      [itemsPerPage]="5"
+      [actionsConfig]="actionsConfig"
+      (actionTriggered)="handleAction($event)"
+      [tableName]="'Test Series'"
+      [showTableName]="true"
+      [showSearchBar]="true"
+      [showColumns]="showColumns"
+      >
+      </app-table>
+      <!-- (rowClick)="onRowClicked($event)" -->
+  <!-- </div> -->
+
+  
+  
+
+  <!-- Features Section -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <h2>Why Choose Us?</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>Expertly Designed Tests</h3>
+          <p>Our test series are crafted by top educators and industry experts to ensure quality preparation.</p>
+        </div>
+        <div class="feature">
+          <h3>Detailed Performance Reports</h3>
+          <p>Track your progress with in-depth performance analytics and improve with every test.</p>
+        </div>
+        <div class="feature">
+          <h3>Flexible Timing</h3>
+          <p>Attempt tests at your convenience with a user-friendly platform available 24/7.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials-section">
+    <div class="container">
+      <h2>What Our Users Say</h2>
+      <div class="testimonials">
+        <div class="testimonial">
+          <p>"The test series helped me crack my exams with confidence. Highly recommended!"</p>
+          <h4>- John Doe</h4>
+        </div>
+        <div class="testimonial">
+          <p>"Detailed performance reports were a game changer for me. Thanks for such a great platform!"</p>
+          <h4>- Jane Smith</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="faq-section">
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h4>How do I enroll in a test series?</h4>
+          <p>Simply create an account, browse through the test series, and click on enroll.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Are the tests available offline?</h4>
+          <p>Currently, our tests are only available online to ensure instant performance reports.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 Test Series Platform. All rights reserved.</p>
+  </footer>
+</body>
+
+
+
+
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">{{!isLogin ? 'signUp' : 'Login'}}</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+    @if(!isLogin) {
+      <form  [formGroup]="signUpForm">
+        <div class="d-flex gap-2 input-box">
+            <div class="w-50">
+                    <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"
+                    [class.is-invalid]="signUpControl['firstName'].invalid && (signUpControl['firstName'].dirty || signUpControl['firstName'].touched)">
+                    <div *ngIf="signUpControl['firstName'].errors?.['required']" class="invalid-feedback m-0">
+                        {{validationErrorMessage.firstNameRequiredError}}
+                      </div>
+            </div>
+            <div class="w-50">
+                    <input type="text" class="form-control" placeholder="Last name" formControlName="lastName"
+                    [class.is-invalid]="signUpControl['lastName'].invalid && (signUpControl['lastName'].dirty || signUpControl['lastName'].touched)">
+                    <div *ngIf="signUpControl['lastName'].errors?.['required']" class="invalid-feedback m-0">
+                        {{validationErrorMessage.lastNameRequiredError}}
+                      </div>
+            </div>
+        </div>
+       
+        <div class="input-box">
+            <div class="position-relative">
+                <input type="email" class="form-control" placeholder="Email" formControlName="email"
+                [class.is-invalid]="signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)">
+                <ion-icon name="mail"></ion-icon>
+            </div>
+            <div *ngIf="signUpControl['email'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)}">
+                {{ signUpControl['email'].errors['required'] ?
+                validationErrorMessage.emailRequiredError :
+                validationErrorMessage.emailValidationError }}
+              </div>
+             
+        </div>
+        <div class="input-box">
+            <div class="position-relative">
+                <input [type]="hidePassword ? 'password' : 'text'" class="form-control" placeholder="Password" formControlName="password" 
+                [class.is-invalid]="signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)">
+                @if(signUpControl['password'].value) {
+                    <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                   
+                        <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                        <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                      
+                    </div>
+                } @else {
+  
+                    <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                }
+            </div>
+              <div *ngIf="signUpControl['password'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)}">
+                {{ signUpControl['password'].errors['required'] ?
+                validationErrorMessage.passwordRequiredError :
+                validationErrorMessage.passwordValidationError }}
+            
+              </div>
+  
+        </div>
+        
+      
+    </form>
+
+    } @else {
+      <form [formGroup]="loginForm">
+      
+        <div class="input-box">
+            <div class="position-relative">
+                <input type="text" placeholder="Username" formControlName="email"
+                [class.is-invalid]="loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)">
+                <ion-icon name="person" class="icon"></ion-icon>
+
+            </div>
+
+            <div *ngIf="loginFormControl['email'].errors" class="invalid-feedback"  [ngClass]="{'d-block': loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)}">
+                {{ loginFormControl['email'].errors['required'] ?
+                validationErrorMessage.emailRequiredError :
+                validationErrorMessage.emailValidationError }}
+              </div>
+        </div>
+        <div class="input-box">
+            <div class="position-relative">
+                <input type="password" placeholder="Password"  formControlName="password"
+                [class.is-invalid]="loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
+                @if(loginFormControl['password'].value) {
+                    <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                   
+                        <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                        <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                      
+                    </div>
+                } @else {
+
+                    <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                }
+
+            </div>
+            <div *ngIf="loginFormControl['password'].errors" class="invalid-feedback" [ngClass]="{'d-block': loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)}">
+                {{ loginFormControl['password'].errors['required'] ?
+                validationErrorMessage.passwordRequiredError :
+                validationErrorMessage.passwordValidationError }}
+              </div>
+        </div>
+        
+        
+    </form>
+    }
+  
+	</div>
+	<div class="modal-footer">
+    <app-async-button type="submit" classes="restore-button"
+    [disabled]="false"
+    [isAsyncCall]="false" (click)="isLogin = !isLogin">{{!isLogin ? 'Already have an account ?' : 'Don’t have an account?'}}</app-async-button>
+
+    @if(!isLogin ) {
+      <app-async-button type="submit" classes="restore-button"
+      [disabled]="signUpForm.invalid || isSignUpAsyncCall"
+      [isAsyncCall]="isSignUpAsyncCall" (click)="registerUser()">Singup</app-async-button>
+    } @else {
+      <app-async-button type="submit" classes="restore-button"
+      [disabled]="loginForm.invalid || isSignInAsyncCall"
+      [isAsyncCall]="isSignInAsyncCall" (click)="loginUser()">Login</app-async-button>
+    }
+	
+
+  
+	</div>
+
+	
+</ng-template>
+
+
+
+
+
+
+

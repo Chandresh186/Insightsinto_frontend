@@ -1,0 +1,194 @@
+<div class="body position-relative">
+    <ion-icon class="back-icon" name="arrow-back" routerLink="/"></ion-icon>
+    <div class="container" [ngClass]="{'active': isRegister}">
+        <div class="form-box login">
+            <form [formGroup]="loginForm">
+                <h1>Login</h1>
+                <div class="input-box">
+                    <div class="position-relative">
+                        <input type="text" placeholder="Username" formControlName="email"
+                        [class.is-invalid]="loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)">
+                        <ion-icon name="person" class="icon"></ion-icon>
+
+                    </div>
+
+                    <div *ngIf="loginFormControl['email'].errors" class="invalid-feedback"  [ngClass]="{'d-block': loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)}">
+                        {{ loginFormControl['email'].errors['required'] ?
+                        validationErrorMessage.emailRequiredError :
+                        validationErrorMessage.emailValidationError }}
+                      </div>
+                </div>
+                <div class="input-box">
+                    <div class="position-relative">
+                        <input type="password" placeholder="Password"  formControlName="password"
+                        [class.is-invalid]="loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
+                        @if(loginFormControl['password'].value) {
+                            <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                           
+                                <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                                <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                              
+                            </div>
+                        } @else {
+
+                            <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                        }
+
+                    </div>
+                    <div *ngIf="loginFormControl['password'].errors" class="invalid-feedback" [ngClass]="{'d-block': loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)}">
+                        {{ loginFormControl['password'].errors['required'] ?
+                        validationErrorMessage.passwordRequiredError :
+                        validationErrorMessage.passwordValidationError }}
+                      </div>
+                </div>
+                <div class="forgot-link">
+                    <a routerLink="/forgot_password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn" (click)="loginUser()" [disabled]="loginForm.invalid">Login</button>
+                <p>or login with social platforms</p>
+                <div class="social-icons">
+                    <!-- <a href="#"><i class='bx bxl-google' ></i></a>
+                    <a href="#"><i class='bx bxl-facebook' ></i></a>
+                    <a href="#"><i class='bx bxl-github' ></i></a>
+                    <a href="#"><i class='bx bxl-linkedin' ></i></a> -->
+                    <a href="#" ><ion-icon name="logo-google" class="social-icon"></ion-icon></a>
+                    <a href="#" ><ion-icon name="logo-facebook" class="social-icon"></ion-icon></a>
+                    <a href="#" ><ion-icon name="logo-github" class="social-icon"></ion-icon></a>
+                    <a href="#" ><ion-icon name="logo-linkedin" class="social-icon"></ion-icon></a>
+                    
+                    
+                    
+                    
+                </div>
+            </form>
+        </div>
+
+        <div class="form-box register">
+            <form  [formGroup]="signUpForm">
+                <h1>Registration</h1>
+                <div class="d-flex gap-2 input-box">
+                    <div class="w-50">
+                            <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"
+                            [class.is-invalid]="signUpControl['firstName'].invalid && (signUpControl['firstName'].dirty || signUpControl['firstName'].touched)">
+                            <div *ngIf="signUpControl['firstName'].errors?.['required']" class="invalid-feedback m-0">
+                                {{validationErrorMessage.firstNameRequiredError}}
+                              </div>
+                    </div>
+                    <div class="w-50">
+                            <input type="text" class="form-control" placeholder="Last name" formControlName="lastName"
+                            [class.is-invalid]="signUpControl['lastName'].invalid && (signUpControl['lastName'].dirty || signUpControl['lastName'].touched)">
+                            <div *ngIf="signUpControl['lastName'].errors?.['required']" class="invalid-feedback m-0">
+                                {{validationErrorMessage.lastNameRequiredError}}
+                              </div>
+                    </div>
+                </div>
+               
+                <div class="input-box">
+                    <div class="position-relative">
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email"
+                        [class.is-invalid]="signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)">
+                        <ion-icon name="mail"></ion-icon>
+                    </div>
+                    <div *ngIf="signUpControl['email'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)}">
+                        {{ signUpControl['email'].errors['required'] ?
+                        validationErrorMessage.emailRequiredError :
+                        validationErrorMessage.emailValidationError }}
+                      </div>
+                     
+                </div>
+                <div class="input-box">
+                    <!-- (input)="onInputChange($event)" -->
+                    <div class="position-relative">
+                        <input [type]="hidePassword ? 'password' : 'text'" class="form-control" placeholder="Password" formControlName="password" 
+                        [class.is-invalid]="signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)">
+                        @if(signUpControl['password'].value) {
+                            <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                           
+                                <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                                <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                              
+                            </div>
+                        } @else {
+
+                            <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                        }
+
+                        
+                    </div>
+
+
+                      <div *ngIf="signUpControl['password'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)}">
+                        {{ signUpControl['password'].errors['required'] ?
+                        validationErrorMessage.passwordRequiredError :
+                        validationErrorMessage.passwordValidationError }}
+                       <!-- <div *ngIf="(signUpControl['password'].errors['required'])">
+                        {{validationErrorMessage.passwordRequiredError }}
+                       </div>  -->
+                      </div>
+<!--          
+                      <small class="field-desc">Password must have at least:
+                        <ul>
+                          <li>
+   
+                            <svg id="min-length-check" viewBox="0 0 512 512" width="100" title="check-circle">
+                                <path style="fill: lime" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" />
+                              </svg>
+                            <span >
+                              8 characters
+                            </span>
+                          </li>
+                          <li>
+                            <svg id="numeric-char-check" viewBox="0 0 512 512" width="100" title="check-circle">
+                                <path style="fill: lime" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" />
+                              </svg>
+                            <span >
+                              1 numerical character
+                            </span>
+                          </li>
+                          <li>
+                            <svg id="uppercase-char-check" viewBox="0 0 512 512" width="100" title="check-circle">
+                                <path style="fill: lime" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" />
+                              </svg>
+                            <span>
+                              1 uppercase letter
+                            </span>
+                          </li>
+                          <li>
+                            <svg id="special-char-check" viewBox="0 0 512 512" width="100" title="check-circle">
+                                <path style="fill: lime" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" />
+                              </svg>
+                            <span >
+                              1 special character
+                            </span>
+                          </li>
+                        </ul>
+                      </small> -->
+                </div>
+                <button type="submit" class="btn" [disabled]="signUpForm.invalid" (click)="registerUser()">Register</button>
+                <p>or register with social platforms</p>
+                <div class="social-icons">
+            
+                    <a href="#" ><ion-icon name="logo-google" class="social-icon"></ion-icon></a>
+                    <a href="#" ><ion-icon name="logo-facebook" class="social-icon"></ion-icon></a>
+                    <a href="#" ><ion-icon name="logo-github" class="social-icon"></ion-icon></a>
+                    <a href="#" ><ion-icon name="logo-linkedin" class="social-icon"></ion-icon></a>
+                </div>
+            </form>
+        </div>
+
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>Hello, Welcome!</h1>
+                <p>Don't have an account?</p>
+                <button class="btn register-btn" (click)="isRegister = !isRegister">Register</button>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <h1>Welcome Back!</h1>
+                <p>Already have an account?</p>
+                <button class="btn login-btn" (click)="isRegister = !isRegister">Login</button>
+            </div>
+        </div>
+    </div>
+
+</div>

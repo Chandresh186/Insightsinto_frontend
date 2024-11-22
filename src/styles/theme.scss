@@ -1,0 +1,71 @@
+:root {
+    --color-second: #586574;
+    --color-third: #586574;
+    --color-white: #FFFFFF;
+    // --color-default: #112339;
+    --text-black-color: #27292C;
+    --color-body: #F3F5F6;
+    --color-gray: #9AA2AC;
+    // --color-primary: #87DEE4;
+    --sidebar-primary-color: #191919;
+    --sidebar-primary-hover: #667fea; // #112339;
+    --sidebar-background: #FFFFFF;
+    --sidebar-text-color: #191919;
+    // --expand-button: #2a4eead6; // #000000;
+    // --fixed-black-color: #000000;
+    --dashboard-box-color: #fafafa;
+    --sidebar-links-li-a-hover: #3355ea;
+
+    --color-default: hsl(229, 76%, 66%);
+    --color-primary: hsl(216, 15%, 52%);
+    --expand-button: hsl(229, 76%, 66%);
+    --fixed-black-color: hsl(214, 32%, 91%)
+}
+
+.restoreDarkMode {
+    --color-default: #87DEE4;
+    --color-white: #000000;
+    --text-black-color: #FFFFFF;
+    --color-body: #121212;
+    --color-gray: #9AA2AC;
+    --color-primary: #ffee93;
+    --expand-button: #FFFFFF;
+    --sidebar-primary-color: #191919;
+    --sidebar-primary-hover: #6c757d;
+    --sidebar-background: #F3F5F6;
+    --sidebar-text-color: #191919;
+    --dashboard-box-color: #181818;
+    --sidebar-links-li-a-hover: #B3E1E4
+}
+
+.restoreGreenTheme {
+    --color-default: #21321F;
+    --color-second: #628A5C;
+    --color-third: #C1CD77;
+    --color-white: #FFFFFF;
+    --color-body: #b7e4c7;
+}
+
+.restoreBrownTheme {
+    --color-default: #4B1D0D;
+    --color-second: #BE7E4E;
+    --color-third: #793D21;
+    --color-white: #FFFFFF;
+    --color-body: #F9DCB4;
+}
+
+.restoreOrangeTheme {
+    --color-default: #F7542E;
+    --color-second: #F87D61;
+    --color-third: #33383C;
+    --color-white: #FFFFFF;
+    --color-body: #D1EFED;
+}
+
+.restorePurpleTheme {
+    --color-default: #632763;
+    --color-second: #9A309A;
+    --color-third: #511f52;
+    --color-white: #FFFFFF;
+    --color-body: #FFDEFC;
+}

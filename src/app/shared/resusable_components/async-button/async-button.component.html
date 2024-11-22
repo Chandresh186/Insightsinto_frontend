@@ -1,0 +1,9 @@
+<button
+class="btn"
+[ngClass]="classes"
+[disabled]="isAsyncCall || disabled"
+[type]="type">
+<ng-content *ngIf="!isAsyncCall"></ng-content>
+<div *ngIf="isAsyncCall" class="spinner-border" role="status" [style.width.px]="20" [style.height.px]="20">
+</div>
+</button>

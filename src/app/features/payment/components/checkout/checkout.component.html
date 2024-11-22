@@ -1,0 +1,92 @@
+<!-- <button id="rzp-button1" (click)="payWithRazorpay()">
+    Pay Now
+</button>
+
+<button (click)="failed()">Failed</button>
+<button (click)="success()">Success</button> -->
+<div class="alert d-flex justify-content-end">
+    @for (alert of alerts; track alert) {
+        <ngb-alert class="w-25" [type]="alert.type" (closed)="close(alert)">{{ alert.message }}</ngb-alert>
+    }
+
+</div>
+
+
+<main class="container">
+    <div class="checkout">
+       
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <div class="summary-box">
+                <h2 class="summary-title">Order Summary</h2>
+                <div class="product">
+                    <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Nike Air Max 2024">
+                    <div class="product-details">
+                        <h3 class="product-name">{{selectedProduct.name}}</h3>
+                        <!-- <p class="product-size">Size: US 10</p> -->
+                        <p class="product-quantity">Quantity: 1</p>
+                        <p class="product-price"> INR {{selectedProduct.fee}}</p>
+                    </div>
+                </div>
+                <div class="promo-code">
+                    <input type="text" class="promo-input" placeholder="Promo Code">
+                    <button class="promo-btn">Apply</button>
+                </div>
+                <div class="cost-breakdown">
+                    <div class="cost-item">
+                        <span class="label">Subtotal</span>
+                        <span class="value"><b>INR</b>&nbsp;{{selectedProduct.fee}}</span>
+                    </div>
+                    <!-- <div class="cost-item">
+                        <span class="label">Shipping</span>
+                        <span class="value green">Free</span>
+                    </div> -->
+                    <!-- <div class="cost-item">
+                        <span class="label">Tax</span>
+                        <span class="value">$16.20</span>
+                    </div> -->
+                </div>
+                <div class="total">
+                    <span class="total-label">Total</span>
+                    <span class="total-value">INR {{selectedProduct.fee}}</span>
+                </div>
+                <button class="place-order-btn" (click)="payWithRazorpay()">
+                    Place Order
+                    <i class="fas fa-lock"></i>
+                </button>
+                <div class="terms">
+                    <p>By placing your order, you agree to our <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="privacy-link">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Trust Signals -->
+<section class="trust-signals">
+    <div class="container">
+        <div class="trust-item">
+            <i class="fas fa-lock"></i>
+            <h3>Secure Payment</h3>
+            <p>Your data is protected by 256-bit SSL encryption</p>
+        </div>
+        <div class="trust-item">
+            <i class="fas fa-undo"></i>
+            <h3>Free Returns</h3>
+            <p>60-day return policy for any reason</p>
+        </div>
+        <div class="trust-item">
+            <i class="fas fa-headset"></i>
+            <h3>24/7 Support</h3>
+            <p>We're here to assist you anytime</p>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+

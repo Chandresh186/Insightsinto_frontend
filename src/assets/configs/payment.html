@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Razorpay Payment</title>
+  <script src="https://checkout.razorpay.com/v1/magic-checkout.js"></script>
+</head>
+<body>
+  <h1>Make a Payment</h1>
+  <button id="rzp-button1">Pay</button>
+
+  <script>
+    var options = {
+      "key": "rzp_test_VS7HUYtUiTnDPz", // Enter the Key ID generated from the Dashboard
+      "one_click_checkout": true,
+      "name": "Acme Corp", // your business name
+      "order_id": "order_PL996R3ZVisw8o", // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "show_coupons": true, // default true; false if coupon widget should be hidden
+      "handler": function (response) {
+        console.log(response);
+        alert("Payment ID: " + response.razorpay_payment_id);
+      },
+      "prefill": {
+        "name": "Gaurav Kumar", // your customer's name
+        "email": "gaurav.kumar@example.com", 
+        "contact": "9000090000" // Provide the customer's phone number for better conversion rates
+      },
+      "notes": {
+        "address": "ABC Office"
+      }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response) {
+      alert("Error Code: " + response.error.code);
+      alert("Description: " + response.error.description);
+      alert("Source: " + response.error.source);
+      alert("Step: " + response.error.step);
+      alert("Reason: " + response.error.reason);
+      alert("Order ID: " + response.error.metadata.order_id);
+      alert("Payment ID: " + response.error.metadata.payment_id);
+    });
+
+    document.getElementById('rzp-button1').onclick = function (e) {
+      rzp1.open();
+      e.preventDefault();
+    }
+  </script>
+</body>
+</html>

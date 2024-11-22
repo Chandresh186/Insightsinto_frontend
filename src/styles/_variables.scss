@@ -1,0 +1,67 @@
+// Typography
+
+$font-main: 'Poppins' !default;
+$font-headings: $font-main !default;
+$link-text-decoration: none;
+$link-text-decoration-hover: underline;
+
+// Box shadows
+
+$box-shadow1: 0px 2px 6px 0px #14142B0F !default;
+$box-shadow2: 0px 2px 12px 0px #14142B14 !default;
+$box-shadow3: 0px 8px 28px 0px #14142B1A !default;
+$box-shadow4: 0px 14px 42px 0px #14142B24 !default;
+$box-shadow5: 0px 24px 65px 0px #14142B29 !default;
+$box-shadow6: 0px 32px 72px 0px #14142B3D !default;
+
+// Colors
+
+// These colors are used as supporting secondary colors in backgrounds, text colors, models, etc.
+$neutral-lightest: #F2F2F2 !default;
+$neutral-lighter: #D9D9D9 !default;
+$neutral-light: #A6A6A6 !default;
+$neutral-medium: #737373 !default;
+$neutral-dark: #595959 !default;
+
+// The primary color palette is used across all the interactive elements. Such as CATs, links, inputs, active states, etc.
+$primary: #B3E1E4 !default;
+$primary-light: #CEE7E3 !default;
+$primary-dark: #87DEE4 !default;
+
+// These secondary color palette is used alongside the primary to indicate to the user it’s the secondary focus.
+
+$secondary: #F7DA7C !default;
+$secondary-light: #F7E6AD !default;
+$secondary-dark: #F7CF4A !default;
+
+// These colors depict an emotion of positivity. Generally used across success, complete states.
+$success: #10B954 !default;
+
+// These colors depict an emotion of holding. Generally used across warning or on-hold states.
+$warning: #F59E0B !default;
+$warning-light: #F5E1BF !default;
+$warning-dark: #E65707 !default;
+
+// These colors depict an emotion of negativity, generally used across error states.
+$error: #D21028 !default;
+
+// These colors are used as supporting secondary colors in backgrounds, text  colors, models, etc.
+$black-shades: #000000 !default;
+$white-shades: #FFFFFF !default;
+
+
+
+// Sidebar color variables
+
+$sidebar-background: #112339;
+$sidebar-logo-background: linear-gradient(180deg, #B3E1E4 39.06%, rgba(195, 233, 241, 0.75) 100%);
+$sidebar-font-color: #FFFFFF;
+$sidebar-hover-background: #FFFFFF4D;
+$sidebar-high-low-activity-background: linear-gradient(90deg, #FFEE93 21.35%, #C3E9F1 71.87%);
+$sidebar-profile-logo-background: #C3E9F1;
+
+
+// auth color variables
+
+$login-title-color: #101828;
+$login-field-label-color: #667085
