@@ -1,5 +1,5 @@
 
-@if(!isCreateNewTest) {
+@if(!isCreateQuesToTest) {
     <div class="container">
         <header>
           <h1>Test Series Details</h1>
@@ -8,8 +8,8 @@
     
         <section class="series-details">
           <div class="details-header">
-            <h2>Series Name: <span>{{testSeriesDetails?.name}}</span></h2> <!-- isCreateNewTest = !isCreateNewTest-->
-            <button class="btn-create" id="createTestBtn" (click)="createTest()">+ Create New Test</button>
+            <h2>Series Name: <span>{{testSeriesDetails?.name}}</span></h2> <!-- isCreateQuesToTest = !isCreateQuesToTest-->
+            <button class="btn-create" id="createTestBtn" (click)="createTestModel()">+ Create New Test</button>
           </div>
           <p><strong>Description:</strong> &nbsp;{{testSeriesDetails?.details}}</p>
           <p><strong>Medium:</strong> &nbsp;{{testSeriesDetails?.medium}}</p>
@@ -37,24 +37,28 @@
 } @else {
     <div class="container">
         <header>
-            <h1>Create new Test</h1>
-            <p>Effortlessly create your test.</p>
+            <h1>Generate test questions</h1>
+            <p>Effortlessly generate test questions.</p>
           </header>
           <section class="series-details">
-            <div class="create-details-header">
-              <!-- <h2>Series Name: <span>Modern Test Series</span></h2> -->
-              <button class="btn-create" id="createTestBtn" (click)="isCreateNewTest = !isCreateNewTest">Back</button>
+            <div class="details-header">
+              <h2>Test Name: <span>{{testForm.title}}</span></h2>
+              <div>
+                <button class="btn-create" id="createTestBtns" (click)="generateQues = !generateQues">{{generateQues ? 'See question': 'Add question'}}</button> &nbsp;
+                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest">Back</button>
+
+              </div>
             </div>
-            <!-- <p><strong>Description:</strong> This is a detailed description of the modern test series.</p> -->
+            <p><strong>Duration:</strong> {{testForm.duration}}</p>
           </section>
 
 
-          <div class="wrapper">
+          <div class="wrapper" *ngIf="generateQues">
             <div class="createContainer">
-              <div class="input-group w-25rem ">
+              <div class="input-group w-25rem  ">
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control mb-0"
                   name="Search"
                   placeholder="Search"
                   (input)="onSearchChange($event)"
@@ -301,7 +305,7 @@
           </div>
           <br>
           <div >
-            <div class=" mt-5" *ngIf="GeneratedQuestions.length > 0 ; else noQUestion">
+            <div class="mt-5 my-4" *ngIf="GeneratedQuestions.length > 0 ; else noQUestion">
                 <h1 class="mb-4">Category-wise MCQs </h1>
                 <div class="accordion" id="accordionExample">
                     <div *ngFor="let category of GeneratedQuestions" class="accordion-item">
@@ -360,7 +364,7 @@
           </div>
           <div class="create-details-header">
             <!-- <h2>Series Name: <span>Modern Test Series</span></h2> -->
-            <button class="btn-create" id="createTestBtn" [disabled]="genQuestions.length == 0" >Create</button>
+            <button *ngIf="generateQues" class="btn-create" id="createTestBtn" [disabled]="GeneratedQuestions.length == 0" (click)="addQuesToTest()" >Add</button>
           </div>
             
        
@@ -383,108 +387,166 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <h4 class="modal-title" id="modal-basic-title">{{isEditTest ? 'Edit test' : 'Create test'}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="resetTestForm(); isEditTest = false; modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="testForm" (ngSubmit)="onSubmit()">
-
+   
+    
+  
       <!-- Title Field -->
       <div class="input-box">
         <label for="title" class="form-label">Title</label>
         <input type="text" class="form-control" id="title"
-          placeholder="Enter Title" formControlName="title"
-          [class.is-invalid]="testFormControls['title'].invalid && (testFormControls['title'].dirty || testFormControls['title'].touched)">
-        <div *ngIf="testFormControls['title'].errors" class="invalid-feedback">
-          {{ validationErrorMessage.titleRequiredError }}
-        </div>
+          placeholder="Enter Title" [(ngModel)]="testForm.title" name="title" required>
       </div>
     
       <!-- Subtitle Field -->
       <div class="input-box">
         <label for="subTitle" class="form-label">Sub Title</label>
         <input type="text" class="form-control" id="subTitle"
-          placeholder="Enter Subtitle" formControlName="subTitle">
+          placeholder="Enter Subtitle" [(ngModel)]="testForm.subTitle" name="subTitle">
       </div>
     
       <!-- Keywords Field -->
       <div class="input-box">
         <label for="keywords" class="form-label">Keywords</label>
-        <input type="text" class="form-control" id="keywords"
-          placeholder="Enter Keywords" formControlName="keywords"
-          [class.is-invalid]="testFormControls['keywords'].invalid && (testFormControls['keywords'].dirty || testFormControls['keywords'].touched)">
-        <div *ngIf="testFormControls['keywords'].errors" class="invalid-feedback">
-          {{ validationErrorMessage.keywordsRequiredError }}
+        <div class="chip-container  mb-10px">
+          <input type="text" class="chip-input" placeholder="Type and press Enter"
+            [(ngModel)]="keywordsInput" name="keywords" (keydown.enter)="addKeyWordsChip()" />
+          <div class="chips">
+            <span *ngFor="let chip of testForm.keyWords; let i = index" class="chip">
+              {{ chip }} <button class="remove-chip" (click)="removeKeyWordsChip(i)">×</button>
+            </span>
+          </div>
         </div>
       </div>
+      
     
-      <!-- Files Field -->
-      <div class="input-box">
-        <label for="files" class="form-label">Files</label>
-        <input type="file" class="form-control" id="files" formControlName="files" multiple>
-      </div>
+    
     
       <!-- Minimum Passing Score Field -->
       <div class="input-box">
         <label for="minimumPassingScore" class="form-label">Minimum Passing Score</label>
         <input type="number" class="form-control" id="minimumPassingScore"
-          placeholder="Enter Minimum Passing Score" formControlName="minimumPassingScore"
-          [class.is-invalid]="testFormControls['minimumPassingScore'].invalid && (testFormControls['minimumPassingScore'].dirty || testFormControls['minimumPassingScore'].touched)">
-        <div *ngIf="testFormControls['minimumPassingScore'].errors" class="invalid-feedback">
-          {{ validationErrorMessage.minimumPassingScoreRequiredError }}
-        </div>
+          placeholder="Enter Minimum Passing Score" [(ngModel)]="testForm.minimumPassingScore" name="minimumPassingScore" required>
       </div>
     
       <!-- Topics Field -->
+      <!-- <div class="input-box">
+        <label for="topics" class="form-label">Topics</label>
+        <input type="text" class="form-control" id="topics" placeholder="Enter Topics" [(ngModel)]="testForm.topics" name="topics">
+      </div> -->
+
       <div class="input-box">
         <label for="topics" class="form-label">Topics</label>
-        <input type="text" class="form-control" id="topics" placeholder="Enter Topics" formControlName="topics">
+        <div class="chip-container mb-10px">
+          <input type="text" class="chip-input" placeholder="Type and press Enter"
+            [(ngModel)]="topicsInput" name="topics" (keydown.enter)="addTopicsChip()" />
+          <div class="chips">
+            <span *ngFor="let chip of testForm.topics; let i = index" class="chip">
+              {{ chip }} <button class="remove-chip" (click)="removeTopicsChip(i)">×</button>
+            </span>
+          </div>
+        </div>
       </div>
+
+      <div class="">
+        <label for="exampleInputPassword1" class="form-label">Select Category</label>
+        <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
+
+          <!-- Input field with dropdown arrow -->
+       <div class="input-group" id="target_Dropdown">
+         <input
+         type="text"
+         class="select_input form-control dropdown-toggle  text-start"
+         placeholder="Select Category"
+         [value]="selectedOption && selectedOption.catName  || 'Select an option'"
+         (click)="toggleDropdown()"
+         (focus)="toggleDropdown()"
+         name="selectInput"
+         aria-expanded="dropdownOpen"
+         readonly
+       /> <!--(focus)="toggleDropdown()"-->
+       <span class="input-group-append"  >
+         <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon><!-- Bootstrap Icon for dropdown  -->
+       </span>
+     </div>
+       
+         <!-- Dropdown menu with search functionality -->
+         <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
+           <!-- Search input -->
+           <input
+             type="text"
+             class="form-control mb-2"
+             placeholder="Search..."
+             name="searchInput"
+             [(ngModel)]="searchQuery"
+             (input)="filterOptions()"
+             (click)="$event.stopPropagation()"  
+           />
+       
+           <!-- Filtered options list -->
+           <a
+             *ngFor="let option of filteredOptions"
+             class="dropdown-item"
+             href="#"
+             (click)="addCategoryChip(option); $event.preventDefault()"
+           >
+             {{ option.catName}}
+           </a>
+       
+           <!-- Message for no matches -->
+           <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
+             No options found
+           </div>
+         </div>
+         <div class="chip-container mb-10px" *ngIf="testForm.categoryIds.length > 0">
+          <div class="chips">
+            <span *ngFor="let chip of testForm.categoryIds; let i = index" class="chip">
+              {{ chip.catName }} <button class="remove-chip" (click)="removeTopicsChip(i)">×</button>
+            </span>
+          </div>
+         </div>
+       </div>
+      </div>
+
     
       <!-- Duration Field -->
       <div class="input-box">
         <label for="duration" class="form-label">Duration</label>
-        <input type="text" class="form-control" id="duration"
-          placeholder="Enter Duration" formControlName="duration"
-          [class.is-invalid]="testFormControls['duration'].invalid && (testFormControls['duration'].dirty || testFormControls['duration'].touched)">
-        <div *ngIf="testFormControls['duration'].errors" class="invalid-feedback">
-          {{ validationErrorMessage.durationRequiredError }}
-        </div>
+        <input type="text" class="form-control" id="duration" placeholder="Enter Duration" [(ngModel)]="testForm.duration" name="duration" required>
       </div>
     
       <!-- Language Field -->
       <div class="input-box">
         <label for="language" class="form-label">Language</label>
-        <input type="text" class="form-control" id="language"
-          placeholder="Enter Language" formControlName="language"
-          [class.is-invalid]="testFormControls['language'].invalid && (testFormControls['language'].dirty || testFormControls['language'].touched)">
-        <div *ngIf="testFormControls['language'].errors" class="invalid-feedback">
-          {{ validationErrorMessage.languageRequiredError }}
-        </div>
+        <input type="text" class="form-control" id="language" placeholder="Enter Language" [(ngModel)]="testForm.language" name="language" required>
       </div>
     
-      <!-- Category IDs Field -->
-      <div class="input-box">
-        <label for="categoryIds" class="form-label">Category IDs</label>
-        <input type="text" class="form-control" id="categoryIds"
-          placeholder="Enter Category IDs" formControlName="categoryIds"
-          [class.is-invalid]="testFormControls['categoryIds'].invalid && (testFormControls['categoryIds'].dirty || testFormControls['categoryIds'].touched)">
-        <div *ngIf="testFormControls['categoryIds'].errors" class="invalid-feedback">
-          {{ validationErrorMessage.categoryIdsRequiredError }}
+        <!-- Files Field -->
+        <div class="input-box">
+          <label for="files" class="form-label">Files</label>
+          <input type="file" class="form-control" id="files" (change)="onFileChange($event)" multiple>
         </div>
-      </div>
     
-   
     
-    </form>
     
     
     
   </div>
   <div class="modal-footer">
+    @if(isEditTest) {
+      <app-async-button type="button" classes="restore-button" [disabled]="false || createTestAsyncCall"
+      [isAsyncCall]="createTestAsyncCall" (click)="editTest()">Edit</app-async-button>
+    } @else {
+      <app-async-button type="button" classes="restore-button" [disabled]="false || createTestAsyncCall"
+    [isAsyncCall]="createTestAsyncCall" (click)="createTest()">Create</app-async-button>
+    }
     <!-- <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button> -->
-    <app-async-button type="submit" classes="restore-button" [disabled]="testForm.invalid || genQuesAsyncCall"
-    [isAsyncCall]="genQuesAsyncCall" >Create</app-async-button>
+    
+
+   
   </div>
 </ng-template>
 

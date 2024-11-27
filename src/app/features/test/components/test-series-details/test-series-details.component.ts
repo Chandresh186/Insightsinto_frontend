@@ -25,15 +25,30 @@ import { ActivatedRoute } from '@angular/router';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class TestSeriesDetailsComponent implements OnInit {
-  public isCreateNewTest: boolean = false;
+  public isCreateQuesToTest: boolean = false;
   public showColumns: any;
   public GeneratedQuestions: any;
   public questionForm!: FormGroup;
   public testSeriesDetails: any;
-  public testForm!: FormGroup;
-  public keywordsInput = '';
+  // public testForm!: FormGroup;
+  public testForm: any = {
+    title: '',
+    subTitle: '',
+    keyWords: [] as string[],
+    files: [] as File[],
+    minimumPassingScore: null as number | null,
+    topics: [] as string[],
+    duration: '',
+    language: '',
+    categoryIds: [] as any[]
+  };
+  public isEditTest: boolean = false
   public topicsInput = '';
   public categoryIdsInput = '';
+  public keywordsInput = '';
+  public generateQues: boolean = false;
+
+
 
   tableHeaders: any = [
     // { key: 'id', displayName: 'ID' },
@@ -116,6 +131,12 @@ export class TestSeriesDetailsComponent implements OnInit {
       key: 'delete',
       label: 'Delete',
       class: 'btn btn-outline-danger',
+      visible: true,
+    },
+    {
+      key: 'details',
+      label: 'Details',
+      class: 'btn btn-outline-info',
       visible: true,
     },
   ];
@@ -290,7 +311,10 @@ export class TestSeriesDetailsComponent implements OnInit {
         this.onEdit(event.row);
         break;
       case 'delete':
-        this.onDelete(event.row);
+        this.deleteTest(event.row);
+        break;
+      case 'details':
+        this.onDetails(event.row);
         break;
 
       default:
@@ -300,14 +324,69 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   onEdit(e: any) {
     console.log(e);
-  }
-
-  onDelete(e: any) {
-    console.log(e);
+    this.isEditTest = true;
+    this.testForm = {
+      title: e.title,
+      subTitle: e.subTitle,
+      keyWords: e.keywords,
+      files: [] as File[],
+      minimumPassingScore: e.minimumPassingScore,
+      topics: e.topics,
+      duration: e.duration,
+      language: e.language,
+      categoryIds: e.categories
+    }
+    this.createTestModel()
   }
 
   onDetails(e: any) {
     console.log(e);
+    this.isCreateQuesToTest = true;
+    this.testForm = {
+      title: e.title,
+      subTitle: e.subTitle,
+      keyWords: e.keywords,
+      files: [] as File[],
+      minimumPassingScore: e.minimumPassingScore,
+      topics: e.topics,
+      duration: e.duration,
+      language: e.language,
+      categoryIds: e.categories,
+     
+    }
+    this.testForm.id =  e.id
+
+    
+
+    this.loading = true; // Start loading
+   
+
+    this.testSeriesService
+      .getTestById(e.id)
+      .pipe(
+        tap((response) => {
+          console.log('successfull:', response);
+          this.AccordionData = response;
+          this.transformData();
+          
+        }),
+        catchError((error) => {
+          console.error('Error:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          
+        
+          this.loading = false; // Stop loading
+         
+          console.log('completed.');
+        })
+      )
+      .subscribe();
+
+
+
+
   }
 
   ngOnInit(): void {
@@ -339,17 +418,7 @@ export class TestSeriesDetailsComponent implements OnInit {
     });
 
 
-    this.testForm = new FormGroup({
-      title: new FormControl('', [Validators.required]),
-      subTitle: new FormControl(''),
-      keywords: new FormControl('', [Validators.required]),
-      files: new FormControl(''),
-      minimumPassingScore: new FormControl('', [Validators.required]),
-      topics: new FormControl(''),
-      duration: new FormControl('', [Validators.required]),
-      language: new FormControl('', [Validators.required]),
-      categoryIds: new FormControl('', [Validators.required])
-    });
+   
 
     const testSeriesId  = this.getTestSeriesId()
     this.getTestseries(testSeriesId)
@@ -363,33 +432,74 @@ export class TestSeriesDetailsComponent implements OnInit {
     return this.route.snapshot.params['id']
   }
 
-  get testFormControls() {
-    return this.testForm.controls;
-  }
+ 
 
-  addChips(field: string): void {
-    console.log(field)
-    // const value = this[`${field}Input`].trim();
-    // if (value && !this.testFormControls[field].value.includes(value)) {
-    //   this.testFormControls[field].setValue([...this.testFormControls[field].value, value]);
-    //   this[`${field}Input`] = ''; // Clear input after adding
-    // }
-  }
-
-  removeChips(field: string, index: number): void {
-    const updatedChips = [...this.testFormControls[field].value];
-    updatedChips.splice(index, 1);
-    this.testFormControls[field].setValue(updatedChips);
-  }
-
-  onSubmit(): void {
-    if (this.testForm.valid) {
-      console.log(this.testForm.value); // Output form data for testing
-    } else {
-      console.log("Form is invalid");
+  addKeyWordsChip(): void {
+    const trimmedKeyword = this.keywordsInput.trim();
+    
+    if (trimmedKeyword) {
+      // Add trimmed value to the chips array
+      this.testForm.keyWords.push(trimmedKeyword);
+      
+      // Clear the input field
+      this.keywordsInput = '';
+      
+      // Debugging: Check the chips array after adding a new chip
+      console.log(this.testForm.keyWords);
     }
   }
+  
+  removeKeyWordsChip(index: number): void {
+    // Remove chip by index from the chips array
+    this.testForm.keyWords.splice(index, 1);
+  }
 
+
+
+  addTopicsChip(): void {
+    const trimmedKeyword = this.topicsInput.trim();
+    
+    if (trimmedKeyword) {
+      // Add trimmed value to the chips array
+      this.testForm.topics.push(trimmedKeyword);
+      
+      // Clear the input field
+      this.topicsInput = '';
+      
+      // Debugging: Check the chips array after adding a new chip
+      console.log(this.testForm.topics);
+    }
+  }
+  
+  removeTopicsChip(index: number): void {
+    // Remove chip by index from the chips array
+    this.testForm.topics.splice(index, 1);
+  }
+
+
+  addCategoryChip(option: Category): void {
+    if (this.testForm.categoryIds.indexOf(option) === -1) {  // Avoid duplicates
+      this.testForm.categoryIds.push(option);
+    }
+   
+  }
+  
+  removeCategoryChip(index: number): void {
+    // Remove chip by index from the chips array
+    console.log(index)
+    this.testForm.categoryIds.splice(index, 1);
+  }
+
+
+
+
+  onFileChange(e: any) {
+    const selectedFiles = e.target.files;
+      // Convert the FileList object to an array and add to the files array
+      for (let i = 0; i < selectedFiles.length; i++) {
+        this.testForm.files.push(selectedFiles[i]);
+      }
+  }
   
 
   transformData() {
@@ -467,6 +577,8 @@ export class TestSeriesDetailsComponent implements OnInit {
   public chips: string[] = [];
   public chipInput: string = '';
 
+
+
   public loading = false; // To track loading state
   private errorMessage: string | null = null; // To store error messages
   public categories: Category[] | null = []; // To hold categories
@@ -488,6 +600,7 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   public categoryAsyncCall: boolean = false;
   public genQuesAsyncCall: boolean = false;
+  public createTestAsyncCall: boolean = false
   // public categorytobeMoved : any
 
   @ViewChild('content') content!: TemplateRef<any>; // Reference to the template
@@ -566,12 +679,14 @@ export class TestSeriesDetailsComponent implements OnInit {
   }
 
 
-  createTest() {
+  createTestModel() {
     this.modalRef = this.modalService.open(this.content, {
       scrollable: true,
       ariaLabelledBy: 'modal-basic-title',
     });
   }
+
+
 
   onSearchChange(query: any) {
     console.log(query.target.value);
@@ -788,6 +903,58 @@ export class TestSeriesDetailsComponent implements OnInit {
       .subscribe();
   }
 
+  createTest() {
+    this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
+    this.loading = true; // Start loading
+    this.createTestAsyncCall = true;
+
+    this.testSeriesService
+      .createTest(this.getTestSeriesId(), this.testForm)
+      .pipe(
+        tap((response) => {
+          console.log('Test created successfully:', response);
+         
+          
+        }),
+        catchError((error) => {
+          console.error('Error creating test:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          this.getTestsByTestSeries(this.getTestSeriesId())
+          this.resetTestForm();
+          this.closeModal();
+
+          this.loading = false; // Stop loading
+          this.createTestAsyncCall = false;
+          console.log('test creation request completed.');
+        })
+      )
+      .subscribe();
+
+    
+  }
+
+  resetTestForm() {
+    this.testForm = {
+      title: '',
+      subTitle: '',
+      keyWords: [],
+      files: [],
+      minimumPassingScore: null,
+      topics: [],
+      duration: '',
+      language: '',
+      categoryIds: []
+    };
+  }
+
+  editTest() {
+    console.log('edit')
+    this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
+    console.log(this.testForm)
+  }
+
 
   getTestseries(id: any) {
 
@@ -818,6 +985,41 @@ export class TestSeriesDetailsComponent implements OnInit {
       .subscribe();
   }
 
+
+  addQuesToTest() {
+    let Obj = {
+      testId: this.testForm.id,
+      questionIds : this.AccordionData.map((r:any) => r.id)
+    }
+    
+    this.loading = true; // Start loading
+   
+
+    this.testSeriesService
+      .addQuestionToTest(Obj)
+      .pipe(
+        tap((response) => {
+          console.log(' successfull:', response);
+          // this.testSeriesDetails =  response.response
+          
+        }),
+        catchError((error) => {
+          console.error('Error:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          
+        
+          this.loading = false; // Stop loading
+         
+          console.log('completed.');
+
+        })
+      )
+      .subscribe();
+    console.log(Obj)
+  }
+ 
 
 
   getTestsByTestSeries(id: any) {
@@ -915,9 +1117,33 @@ export class TestSeriesDetailsComponent implements OnInit {
       .subscribe();
   }
 
+  deleteTest(val: any) {
+    this.testSeriesService
+    .deleteTest(this.getTestSeriesId() , val.id)
+    .pipe(
+      tap((response) => {
+        console.log('Test deleted successfully:', response);
+      }),
+      catchError((error) => {
+        console.error('Error deleting test:', error);
+        return of(error); // Return an observable to handle the error
+      }),
+      finalize(() => {
+        this.getTestsByTestSeries(this.getTestSeriesId())
+        console.log('Test deletion request completed.');
+      })
+    )
+    .subscribe();
+  }
+
+
+
   closeModal() {
     if (this.modalRef) {
       this.modalRef.close(); // Close the modal
+    }
+    if(this.isEditTest) {
+      this.isEditTest = false;
     }
   }
 

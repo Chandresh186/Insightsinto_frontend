@@ -490,3 +490,62 @@ input[type="number"] {
 input.form-control {
   margin-bottom: 10px;
 }
+
+
+
+
+
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  gap: 4px;
+}
+
+.chip-container:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e0f7fa;
+  color: #00796b;
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.chip .remove-chip {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  color: #00796b;
+  font-size: 16px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.chip-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+
+.mb-10px {
+  margin-bottom: 10px;
+}

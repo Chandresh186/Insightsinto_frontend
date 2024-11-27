@@ -11,9 +11,21 @@ export class HttpService<T> {
   constructor(private http: HttpClient) {}
 
     // Create (POST)
-    post(url: string, data: T): Observable<T> {
-      return this.http.post<T>(url, data, { headers: this.headers });
+    // post(url: string, data: T): Observable<T> {
+    //   return this.http.post<T>(url, data, { headers: this.headers });
+    // }
+
+    post<T>(url: string, data: T): Observable<T> {
+      // Check if the data is an instance of FormData
+      if (data instanceof FormData) {
+        // If it is FormData, don't set 'Content-Type' header because browser will handle it
+        return this.http.post<T>(url, data);
+      } else {
+        // If it's not FormData, use the existing headers for regular JSON payload
+        return this.http.post<T>(url, data, { headers: this.headers });
+      }
     }
+    
   
     // Read (GET)
     get(url: string): Observable<T[]> {

@@ -36,9 +36,16 @@ export const API_CONSTANTS = {
 
 
       GET_TEST_By_TEST_SERIES_ID: (id: string) => `Test/testSeries/${id}`,
+      DELETE_TEST: (testSeriesId: string, testId: string) => `Test/${testSeriesId}/${testId}`,
 
 
-      FETCH_QUESTIONS_FOR_TEST : 'Test/FetchQuestionsForTest'
+      FETCH_QUESTIONS_FOR_TEST : 'Test/FetchQuestionsForTest',
+
+      ADD_QUESTIONS_TO_TEST : 'TestQuestionsMapping',
+      GET_TEST_BY_ID : (id: string) => `TestQuestionsMapping/${id}`,
+
+
+      CREATE_TEST: (testSeriesId: string) => `Test/CreateTest?testSeriesId=${testSeriesId}`
     },
 
 
