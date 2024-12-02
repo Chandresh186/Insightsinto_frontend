@@ -1,78 +1,16 @@
-<!-- 
-<body>
-  <header class="hero-section">
-    <div class="hero-content">
-      <h1>Welcome to Our Test Series</h1>
-      <p>Boost your preparation with the best online test series for competitive exams.</p>
-      <a href="#test-series" class="cta-button">Explore Now</a>
-    </div>
-  </header>
-
-  <section id="test-series" class="test-series-section">
-    <div class="container">
-      <h2>Ongoing Test Series</h2>
-      <div class="test-series-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Test Name</th>
-              <th>Category</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Mock Test 1</td>
-              <td>Banking</td>
-              <td>2024-11-15</td>
-              <td>2024-11-20</td>
-              <td>Ongoing</td>
-            </tr>
-            <tr>
-              <td>Mock Test 2</td>
-              <td>Engineering</td>
-              <td>2024-11-10</td>
-              <td>2024-11-18</td>
-              <td>Ongoing</td>
-            </tr>
-            <tr>
-              <td>Mock Test 3</td>
-              <td>Medical</td>
-              <td>2024-11-12</td>
-              <td>2024-11-22</td>
-              <td>Ongoing</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <p>&copy; 2024 Test Series Platform. All rights reserved.</p>
-  </footer>
-</body>
- -->
-
-
-
-
-
 <body>
   <!-- Hero Section -->
   <header class="hero-section">
     <div class="hero-content">
       <h1>Welcome to Our Test Series Platform</h1>
       <p>Prepare with the best online test series and achieve your goals.</p>
-      <a href="#test-series" class="cta-button">Explore Test Series</a>
+      <a href="javascript:void(0)" (click)="scrollToTestSeries()" class="cta-button">Explore Test Series</a>
     </div>
   </header>
 
 
   
-  <!-- <div class="test-series-section"> -->
+  <section id="test-series" #testSeries>
    
       <app-table  
       [tableHeaders]="tableHeaders"
@@ -87,7 +25,7 @@
       >
       </app-table>
       <!-- (rowClick)="onRowClicked($event)" -->
-  <!-- </div> -->
+  </section>
 
   
   

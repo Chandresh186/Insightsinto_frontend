@@ -1,0 +1,79 @@
+
+   
+  
+    <!-- Introductory Section -->
+    <header id="intro">
+      <div class="content">
+        <h1>Welcome to Our Test Series Platform</h1>
+        <p>Prepare for success with expertly designed online test series.</p>
+        <a href="javascript:void(0)" (click)="scrollToTestSeries()" class="cta-button">Explore Test Series</a> &nbsp;
+        <a href="javascript:void(0)" (click)="scrollToYourTestSeries()" class="cta-button">Explore Your Test Series</a>
+      </div>
+    </header>
+  
+    <!-- Test Series Table Section -->
+    
+      <!-- <h1>Available Test Series</h1> -->
+      <section id="test-series" #testSeries>
+   
+        <app-table  
+        [tableHeaders]="tableHeaders"
+        [tableData]="tableData"
+        [itemsPerPage]="5"
+        [actionsConfig]="actionsConfig"
+        (actionTriggered)="handleAction($event)"
+        [tableName]="'Test Series'"
+        [showTableName]="true"
+        [showSearchBar]="true"
+        [showColumns]="showColumns"
+        >
+        </app-table>
+        <!-- (rowClick)="onRowClicked($event)" -->
+    </section>
+  
+  
+    <!-- User's Test Series Section -->
+    <section id="section3" #yourtestSeries>
+      <h1 class="px-5">Your Test Series</h1>
+    
+
+      <body>
+
+        <main class="container">
+            <!-- User View start -->
+            <section class="test-series-grid">
+             
+              <article class="test-series-card" *ngFor="let series of testSeriesData">
+                <div class="card-header">
+                  <h2>{{ series.name }}</h2>
+                  <p
+                    class="status"
+                    [class.active]="series.status === 'Active'"
+                    [class.completed]="series.status === 'Completed'"
+                    [class.upcoming]="series.status === 'Upcoming'"
+                    [class.upcoming]="series.status === 'Ready'"
+                  >
+                    {{ series.status }}
+                  </p>
+                </div>
+                <div class="card-content">
+                  <p><strong>Tests:</strong> {{ series.details }}</p>
+                  <p><strong>Medium:</strong> {{ series.medium }}</p>
+                  <p><strong>Start Date:</strong> {{ series.startDate | date: 'MMM d, y' }}</p>
+                </div>
+                <div class="card-footer">
+                  <!-- <button [attr.aria-label]="'Action for ' + series.title">{{ series.buttonLabel }}</button> -->
+                  <button [attr.aria-label]="'Action for ' + series.title" (click)="seeDetails(series)">{{series.status === 'Ready'? 'Start Now':'see details'}}</button>
+                  
+                </div>
+              </article>
+              <p *ngIf="testSeriesData.length == 0" class="emptyMsg">You haven't purchased any test series yet.</p>
+            </section>
+        </main>
+        </body>
+      
+    </section>
+
+    
+  
+  

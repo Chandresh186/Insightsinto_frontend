@@ -4,11 +4,12 @@ import { TableComponent } from '../../../../shared/resusable_components/table/ta
 import { AsyncButtonComponent } from '../../../../shared/resusable_components/async-button/async-button.component';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, debounceTime, tap, catchError, of, finalize } from 'rxjs';
+import { Subject, debounceTime, tap, catchError, of, finalize, Subscription } from 'rxjs';
 import { Category, CategoryList, apiResponse } from '../../../../core/models/interface/categories.interface';
 import { CategoriesService } from '../../../../core/services/categories.service';
 import { TestSeriesService } from '../../../../core/services/test-series.service';
 import { ActivatedRoute } from '@angular/router';
+import { ngbootstrapModule } from '../../../../shared/modules/ng-bootstrap.modules';
 
 @Component({
   selector: 'app-test-series-details',
@@ -19,6 +20,7 @@ import { ActivatedRoute } from '@angular/router';
     AsyncButtonComponent,
     FormsModule,
     ReactiveFormsModule,
+    ngbootstrapModule
   ],
   templateUrl: './test-series-details.component.html',
   styleUrl: './test-series-details.component.scss',
@@ -47,6 +49,10 @@ export class TestSeriesDetailsComponent implements OnInit {
   public categoryIdsInput = '';
   public keywordsInput = '';
   public generateQues: boolean = false;
+  public totalQuestionCount !: number ;
+  public totalQuestions !: number ;
+  
+  private subscriptions: Subscription[] = [];
 
 
 
@@ -418,6 +424,10 @@ export class TestSeriesDetailsComponent implements OnInit {
     });
 
 
+
+      
+
+
    
 
     const testSeriesId  = this.getTestSeriesId()
@@ -431,6 +441,28 @@ export class TestSeriesDetailsComponent implements OnInit {
   getTestSeriesId() {
     return this.route.snapshot.params['id']
   }
+
+  calculateTotalQuestions() {
+    // Get values and convert to numbers, defaulting to 0 if invalid
+    const easyQuestions = Number(this.questionForm.get('easyQuestions')?.value) || 0;
+    const mediumQuestions = Number(this.questionForm.get('mediumQuestions')?.value) || 0;
+    const hardQuestions = Number(this.questionForm.get('hardQuestions')?.value) || 0;
+
+    // Calculate total questions
+    this.totalQuestions = easyQuestions + mediumQuestions + hardQuestions;
+
+    console.log(easyQuestions, mediumQuestions, hardQuestions)
+
+    // Log the total questions for debugging
+    console.log('Total questions:', this.totalQuestions, this.totalQuestionCount);
+
+    // Check if the total questions exceed the available total question count
+    if (this.totalQuestions > this.totalQuestionCount) {
+      // Alert if the total questions exceed the available count
+      alert('Total questions exceed the available question count!');
+    }
+  }
+
 
  
 
@@ -665,8 +697,9 @@ export class TestSeriesDetailsComponent implements OnInit {
   }
 
   onMove(val: any) {
+    this.subscribeToChanges();
     console.log(val);
-
+    this.totalQuestionCount = val.totalQuestionCount;
     this.selectedOption = val;
     this.questionForm.patchValue({
       id: val.id,
@@ -676,6 +709,36 @@ export class TestSeriesDetailsComponent implements OnInit {
       scrollable: false,
       ariaLabelledBy: 'modal-basic-title',
     });
+  }
+
+    // Subscribe to form control value changes with debounce
+    subscribeToChanges() {
+      const easyQuestionsSub:any = this.questionForm.get('easyQuestions')?.valueChanges
+        .pipe(debounceTime(500))
+        .subscribe(() => {
+          this.calculateTotalQuestions();
+        });
+  
+      const mediumQuestionsSub:any = this.questionForm.get('mediumQuestions')?.valueChanges
+        .pipe(debounceTime(500))
+        .subscribe(() => {
+          this.calculateTotalQuestions();
+        });
+  
+      const hardQuestionsSub:any = this.questionForm.get('hardQuestions')?.valueChanges
+        .pipe(debounceTime(500))
+        .subscribe(() => {
+          this.calculateTotalQuestions();
+        });
+  
+      // Store subscriptions for later unsubscription
+      this.subscriptions.push(easyQuestionsSub, mediumQuestionsSub, hardQuestionsSub);
+    }
+
+      // Unsubscribe from all valueChanges observables
+  unsubscribeFromChanges() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions = [];  // Clear the subscriptions array
   }
 
 
@@ -1145,6 +1208,8 @@ export class TestSeriesDetailsComponent implements OnInit {
     if(this.isEditTest) {
       this.isEditTest = false;
     }
+
+    this.unsubscribeFromChanges()
   }
 
   // Detect clicks outside the component to close the dropdown

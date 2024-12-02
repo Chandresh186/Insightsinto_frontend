@@ -8,9 +8,16 @@ export const dashboardRoutes: Routes = [
     //             (component) => component.SidebarComponent
     //         ),
     // },
-
     {
         path: '',
+        loadComponent: () =>
+            import('../pages/dashboard/dashboard.component').then(
+                (component) => component.DashboardComponent
+            ),
+    },
+
+    {
+        path: 'categories',
         loadComponent: () =>
             import('../pages/categories/categories.component').then(
                 (component) => component.CategoriesComponent
@@ -30,4 +37,25 @@ export const dashboardRoutes: Routes = [
                 (component) => component.SettingsComponent
             ),
     },
+
+    {
+        path: 'series-details/:id',
+        loadComponent: () =>
+            import('../pages/user-testseries-details/user-testseries-details.component').then(
+                (component) => component.UserTestseriesDetailsComponent
+            ),
+    },
+    
+    {
+        path: 'test/:id/:testSeriesId',
+        loadComponent: () =>
+            import('../pages/attempt-test/attempt-test.component').then(
+                (component) => component.AttemptTestComponent
+            ),
+    },
+
+    {
+        path: "**",
+        redirectTo: '/'
+    }
 ]

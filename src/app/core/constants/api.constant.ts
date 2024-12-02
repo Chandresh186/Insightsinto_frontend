@@ -30,6 +30,7 @@ export const API_CONSTANTS = {
     TESTSERIES: {
       GET_ALL_TEST_SERIES: 'TestSeries',
       GET_TEST_SERIES_BY_ID: (id: string) => `TestSeries/${id}`,
+      GET_TEST_SERIES_BY_USER_ID: (id: string) => `TestSeries/GetTestSeriesByUserId/${id}`,
       CREATE_TEST_SERIES: 'TestSeries',
       UPDATE_TEST_SERIES: (id: string) => `TestSeries/${id}`,
       DELETE_TEST_SERIES: (id: string) => `TestSeries/${id}`,
@@ -45,7 +46,9 @@ export const API_CONSTANTS = {
       GET_TEST_BY_ID : (id: string) => `TestQuestionsMapping/${id}`,
 
 
-      CREATE_TEST: (testSeriesId: string) => `Test/CreateTest?testSeriesId=${testSeriesId}`
+      CREATE_TEST: (testSeriesId: string) => `Test/CreateTest?testSeriesId=${testSeriesId}`,
+      START_TEST: 'Test/start',
+      SUMBIT_TEST: 'Test/submitTest'
     },
 
 

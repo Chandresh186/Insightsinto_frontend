@@ -1,0 +1,36 @@
+
+    <div class="container">
+        <header>
+          <h1>Test Series Details</h1>
+          <p>Effortlessly manage your test series and associated tests.</p>
+        </header>
+    
+        <section class="series-details">
+          <div class="details-header">
+            <h2>Series Name: <span>{{testSeriesDetails?.name}}</span></h2> 
+          </div>
+          <p><strong>Description:</strong> &nbsp;{{testSeriesDetails?.details}}</p>
+          <p><strong>Medium:</strong> &nbsp;{{testSeriesDetails?.medium}}</p>
+          <p><strong>Start Date:</strong> &nbsp;{{testSeriesDetails?.startDate | date: 'd MMM, y'}}</p>
+          <p><strong>Fee:</strong> &nbsp;{{testSeriesDetails?.fee | currency: 'INR'}}</p>
+        </section>
+    
+        <section class="tests-list">
+          <h2>Tests in this Series</h2>
+         
+          <app-table  
+          [tableHeaders]="tableHeaders"
+          [tableData]="tableData"
+          [itemsPerPage]="10"
+          [actionsConfig]="actionsConfig"
+          (actionTriggered)="handleAction($event)"
+          [tableName]="'Tests'"
+          [showTableName]="true"
+          [showSearchBar]="true"
+          [showColumns]="showColumns"
+          >
+          </app-table>
+        </section>
+      </div>
+
+

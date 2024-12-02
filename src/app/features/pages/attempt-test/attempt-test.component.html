@@ -1,0 +1,109 @@
+<!-- <p>attempt-test works!</p>
+
+
+<button class="btn btn-primary" (click)="submitTest()">Submit</button> -->
+
+
+<header>
+    <div class="difficulty" aria-label="Difficulty Level">
+        <h1>MPCJ – 2021 FREE MOCK TEST     </h1>
+     
+         <div class="test-timer">
+            <i class="far fa-clock"></i> Time Remaining: {{ remainingTime }}
+          </div>
+
+    </div>
+  </header>
+  <div class="container">
+    <div class="question-panel position-relative">
+      <h2 class="mb-0">Q &nbsp; 
+        <ng-container *ngIf="currentQuestion?.question?.includes('http'); else textQuestion">
+            <img [src]="currentQuestion?.question" alt="Question Image" class="question-image" />
+          </ng-container>
+          <ng-template #textQuestion>
+            {{ currentQuestion?.question }}
+          </ng-template>
+      </h2>
+      <div class="wrapper">
+          <div class="options">
+            <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'A'}">
+                <span class="option-label">A</span>
+                <ng-container *ngIf="currentQuestion?.a?.includes('http'); else textOptionA">
+                    <img [src]="currentQuestion?.a" alt="Option A Image" class="option-image" />
+                  </ng-container>
+                  <ng-template #textOptionA>
+                    {{ currentQuestion?.a }}
+                  </ng-template>
+                <input type="radio" name="answer" [(ngModel)]="selectedAnswer" value="A" [attr.aria-label]="currentQuestion?.a">
+            </label>
+            <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'B'}"> 
+                <span class="option-label">B</span>
+                <ng-container *ngIf="currentQuestion?.b?.includes('http'); else textOptionB">
+                    <img [src]="currentQuestion?.b" alt="Option B Image" class="option-image" />
+                  </ng-container>
+                  <ng-template #textOptionB>
+                    {{ currentQuestion?.b }}
+                  </ng-template>
+                <input type="radio" name="answer" [(ngModel)]="selectedAnswer" value="B" [attr.aria-label]="currentQuestion?.b">
+            </label>
+            <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'C'}">
+                <span class="option-label">C</span>
+                <ng-container *ngIf="currentQuestion?.c?.includes('http'); else textOptionC">
+                    <img [src]="currentQuestion?.c" alt="Option C Image" class="option-image" />
+                  </ng-container>
+                  <ng-template #textOptionC>
+                    {{ currentQuestion?.c }}
+                  </ng-template>
+                <input type="radio" name="answer" [(ngModel)]="selectedAnswer" value="C" [attr.aria-label]="currentQuestion?.c">
+            </label>
+            <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'D'}">
+                <span class="option-label">D</span>
+                <ng-container *ngIf="currentQuestion?.d?.includes('http'); else textOptionD">
+                    <img [src]="currentQuestion?.d" alt="Option D Image" class="option-image" />
+                  </ng-container>
+                  <ng-template #textOptionD>
+                    {{ currentQuestion?.d }}
+                  </ng-template>
+                <input type="radio" name="answer" [(ngModel)]="selectedAnswer" value="D" [attr.aria-label]="currentQuestion?.d">
+            </label>
+          </div>
+    
+          <div class="desc">
+            {{currentQuestion?.description}}
+          </div>
+
+      </div>
+   
+     
+
+      <div class="actions justify-content-between">
+          <!-- <div class="timer" aria-label="Time Elapsed"><i class="far fa-clock"></i> Time Elapsed on this question:  {{  }}</div> -->
+           <div></div>
+        <button class="button save-next" (click)="saveAnswer()">SAVE AND NEXT</button>
+       
+      </div>
+    </div>
+    <div class="question-sidebar position-relative">
+      <h3>Questions</h3>
+      <div class="">
+          <div class="question-list">
+            @for( q of questions; track q;let id = $index) {
+
+                <!-- <div class="question-number" [tabindex]="q.id" [aria-label]=`Question ${q.id}`>01</div> -->
+                <div class="question-number" [ngClass]="{'active': currentQuestioNumber.includes(q.id), 'attempted': answeredArray.includes(q.id) }" (click)="gotToQuestion(q)" [tabindex]="q.id" [attr.aria-label]="'Question ' + q.id">
+                    {{ id+1 }} 
+                  </div>
+            }
+            <!-- <div class="question-number" tabindex="0" aria-label="Question 2">02</div>
+            <div class="question-number" tabindex="0" aria-label="Question 3">03</div>
+            <div class="question-number active" tabindex="0" aria-label="Question 13">13</div>
+            <div class="question-number" tabindex="0" aria-label="Question 14">14</div>
+            <div class="question-number" tabindex="0" aria-label="Question 15">15</div> -->
+          </div>
+          
+        </div>
+        <div class="actions">
+          <button class="button submit" (click)="submitTest()">SUBMIT EXAM</button>
+        </div>
+    </div>
+  </div>

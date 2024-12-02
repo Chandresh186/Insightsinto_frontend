@@ -24,7 +24,8 @@ export interface NavItem {
 export class SidebarComponent {
 public isSidebarOpen: boolean = false;
 public menuItems: NavItem[] = [
-  { title: 'Categories', routeURL: '', icon: 'assets/icons/category.png'},
+  { title: 'Dashboard', routeURL: '../dash', icon: 'assets/icons/dashboard.png'},
+  { title: 'Categories', routeURL: 'categories', icon: 'assets/icons/category.png'},
   { title: 'Test', routeURL: 'test-series', icon: 'assets/icons/test.png' },
   // { title: 'Admin Dashboard', routeURL: 'admin-dashboard', icon: 'assets/icons/chart.svg' },
   // { title: 'Analytics', routeURL: 'analytics-reporting', icon: 'assets/icons/timer.svg' },

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TableComponent } from "../../../shared/resusable_components/table/table.component";
 import { TestSeriesService } from '../../../core/services/test-series.service';
 import { BehaviorSubject, catchError, finalize, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -96,7 +96,9 @@ export class TestSeriesLandingPageComponent implements OnInit{
   private orderId: string = '';
   private modalRef!: NgbModalRef;
   public isLogin: boolean = false;
-  public showColumns: any 
+  public showColumns: any;
+  @ViewChild('testSeries', { static: false }) testSeriesSection!: ElementRef; 
+
 
   constructor( private authService: AuthService, private testSeriesService: TestSeriesService, private modalService: NgbModal, private paymentService: PaymentService, private router : Router) {}
 
@@ -117,6 +119,10 @@ export class TestSeriesLandingPageComponent implements OnInit{
     this.loadTestSeries();
 
   }
+
+  scrollToTestSeries() {
+    this.testSeriesSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+}
 
  
 

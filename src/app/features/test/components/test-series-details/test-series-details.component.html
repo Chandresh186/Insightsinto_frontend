@@ -178,31 +178,31 @@
             <ul class="tree">
                 <li *ngFor="let category of filteredCategories" class="parent">
                     <details [open]="category.isOpen" class="details">
-                        <summary><span class="label">Category</span>{{ category.catName }} &nbsp; <i (click)="onMove(category)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                        <summary><span class="label">Category</span>{{ category.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{category.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{category.totalQuestionCount}} <i (click)="onMove(category)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
                         <ul class="nested-list">
                             <!-- Level 2 -->
                             <li *ngFor="let subCategory of category.subCategories" class="nested-item">
                                 <details [open]="subCategory.isOpen">
-                                    <summary><span class="label">Sub Category</span>{{ subCategory.catName }} &nbsp;  <i (click)="onMove(subCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                                    <summary><span class="label">Sub Category</span>{{ subCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subCategory.totalQuestionCount}} <i (click)="onMove(subCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
                                     <ul class="nested-list">
                                         <!-- Level 3 -->
                                         <li *ngFor="let subSubCategory of subCategory.subCategories" class="nested-item">
                                             <details [open]="subSubCategory.isOpen">
-                                                <summary><span class="label">Sub Category</span>{{ subSubCategory.catName }} &nbsp; <i (click)="onMove(subSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                                                <summary><span class="label">Sub Category</span>{{ subSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubCategory.totalQuestionCount}} <i (click)="onMove(subSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
                                                 <ul class="nested-list">
                                                     <!-- Level 4 -->
                                                     <li *ngFor="let subSubSubCategory of subSubCategory.subCategories"
                                                         class="nested-item">
                                                         <details [open]="subSubSubCategory.isOpen">
                                                             <summary><span class="label">Sub Category</span>{{
-                                                                subSubSubCategory.catName }} &nbsp;  <i (click)="onMove(subSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                                                                subSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubCategory.totalQuestionCount}}  <i (click)="onMove(subSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
                                                             <ul class="nested-list">
                                                                 <!-- Level 5 -->
                                                                 <li *ngFor="let subSubSubSubCategory of subSubSubCategory.subCategories"
                                                                     class="nested-item">
                                                                     <details [open]="subSubSubSubCategory.isOpen">
                                                                         <summary><span class="label">Sub Category</span>{{
-                                                                            subSubSubSubCategory.catName }} &nbsp;  <i (click)="onMove(subSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                                                                            subSubSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubCategory.totalQuestionCount}} <i (click)="onMove(subSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
                                                                         <ul class="nested-list">
                                                                             <!-- Level 6 -->
                                                                             <li *ngFor="let subSubSubSubSubCategory of subSubSubSubCategory.subCategories"
@@ -210,7 +210,7 @@
                                                                                 <details [open]="subSubSubSubSubCategory.isOpen">
                                                                                     <summary><span class="label">Sub
                                                                                             Category</span>{{
-                                                                                        subSubSubSubSubCategory.catName }} &nbsp;  <i (click)="onMove(subSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                                                        subSubSubSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubCategory.totalQuestionCount}}  <i (click)="onMove(subSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
                                                                                     </summary>
                                                                                     <ul class="nested-list">
                                                                                         <!-- Level 7 -->
@@ -221,7 +221,7 @@
                                                                                                 <summary><span class="label">Sub
                                                                                                         Category</span>{{
                                                                                                     subSubSubSubSubSubCategory.catName
-                                                                                                    }} &nbsp; 
+                                                                                                    }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubSubCategory.totalQuestionCount}}
                                                                                                     <i (click)="onMove(subSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
                                                                                                 </summary>
                                                                                                 <ul class="nested-list">
@@ -234,7 +234,7 @@
                                                                                                                     class="label">Sub
                                                                                                                     Category</span>{{
                                                                                                                 subSubSubSubSubSubSubCategory.catName
-                                                                                                                }} &nbsp; 
+                                                                                                                }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubSubSubCategory.totalQuestionCount}}
                                                                                                                 <i (click)="onMove(subSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
                                                                                                             </summary>
                                                                                                             <ul class="nested-list">
@@ -249,7 +249,7 @@
                                                                                                                                 Category</span>{{
                                                                                                                             subSubSubSubSubSubSubSubCategory.catName
                                                                                                                             }}
-                                                                                                                            &nbsp;
+                                                                                                                            &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubSubSubSubCategory.totalQuestionCount}}
                                                                                                                             
                                                                                                                             <i (click)="onMove(subSubSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
                                                                                                                         </summary>
@@ -266,7 +266,7 @@
                                                                                                                                             Category</span>{{
                                                                                                                                         subSubSubSubSubSubSubSubCategory.catName
                                                                                                                                         }}
-                                                                                                                                        &nbsp;
+                                                                                                                                        &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubSubSubSubSubCategory.totalQuestionCount}}
                                                                                                                                       
                                                                                                                                         <i (click)="onMove(subSubSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
                                                                                                                                     </summary>
@@ -339,7 +339,7 @@
                                 <li>d) {{ mcq.d }}</li>
                               </ul>
                               <br>
-                              <p><strong>Complexity:</strong> {{ mcq.complexity }}</p>
+                              <p><strong>Complexity:</strong> <span class="highlight">{{ mcq.complexity }}</span> </p>
                               <p><strong>Description:</strong> {{ mcq.description }}</p>
                             </li>
                           </ul>
@@ -554,7 +554,7 @@
 <ng-template #genQues let-modal>
   <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Generate Questions</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="questionForm.reset();modal.dismiss('Cross click')"></button>
+      <button type="button" class="btn-close" aria-label="Close" (click)="unsubscribeFromChanges();questionForm.reset();modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body move-modal">
 
@@ -616,7 +616,7 @@
               
   </div>
   <div class="modal-footer">
-      <app-async-button type="submit" classes="restore-button" [disabled]="questionForm.invalid || genQuesAsyncCall"
+      <app-async-button type="submit" classes="restore-button" [disabled]="questionForm.invalid || genQuesAsyncCall || totalQuestions > totalQuestionCount"
           [isAsyncCall]="genQuesAsyncCall" (click)="genQuestions()">Generate</app-async-button>
 
   </div>

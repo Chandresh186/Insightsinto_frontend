@@ -26,6 +26,11 @@ export class TestSeriesService {
     getTestSeriesById(id: any): Observable<any> {
       return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_SERIES_BY_ID(id)}`);
     }
+
+
+    getTestSeriesByUserId(id: any): Observable<any> {
+      return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_SERIES_BY_USER_ID(id)}`);
+    }
   
     // Update Test Series
     updateTestSeries(id: any, testSeries: any): Observable<any> {
@@ -96,4 +101,13 @@ export class TestSeriesService {
     getTestById(id: any): Observable<any> {
       return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_BY_ID(id)}`);
     }
+
+    startTest(data: any): Observable<any> {
+      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.START_TEST}`, data);
+    }
+
+    submitTest(data: any): Observable<any> {
+      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.SUMBIT_TEST}`, data);
+    }
+
 }
