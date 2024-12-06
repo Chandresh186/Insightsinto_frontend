@@ -38,6 +38,7 @@ export const dashboardRoutes: Routes = [
             ),
     },
 
+
     {
         path: 'series-details/:id',
         loadComponent: () =>
@@ -54,8 +55,18 @@ export const dashboardRoutes: Routes = [
             ),
     },
 
+
     {
-        path: "**",
-        redirectTo: '/'
+        path: 'dashboard',
+        loadComponent: () =>
+            import('../pages/admin-dashboard/admin-dashboard.component').then(
+                (component) => component.AdminDashboardComponent
+            ),
+    },
+
+    {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full',
     }
 ]

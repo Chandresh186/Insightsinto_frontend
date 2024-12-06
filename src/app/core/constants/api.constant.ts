@@ -7,7 +7,7 @@ export const API_CONSTANTS = {
     AUTH: {
       LOGIN: 'Account/login',
       REGISTER: 'Account/register',
-      LOGOUT: '/Account/logout-details',
+      LOGOUT: 'Account/logout-details',
     },
 
     USER: {
@@ -37,18 +37,27 @@ export const API_CONSTANTS = {
 
 
       GET_TEST_By_TEST_SERIES_ID: (id: string) => `Test/testSeries/${id}`,
+      GET_USER_TEST_By_TEST_SERIES_ID: (testSeriesId: string, userId: string) => `Test/testSeries/${testSeriesId}/user/${userId}`,
       DELETE_TEST: (testSeriesId: string, testId: string) => `Test/${testSeriesId}/${testId}`,
+
+      GET_TEST_RESULT_BY_ID: (testId: string, userId: string) => `Test/result/test/${testId}/user/${userId}`,
 
 
       FETCH_QUESTIONS_FOR_TEST : 'Test/FetchQuestionsForTest',
 
       ADD_QUESTIONS_TO_TEST : 'TestQuestionsMapping',
-      GET_TEST_BY_ID : (id: string) => `TestQuestionsMapping/${id}`,
+      GET_TEST_PAPER_BY_ID : (id: string) => `TestQuestionsMapping/${id}`,
+      GET_TEST_BY_ID : (id: string) => `Test/${id}`,
 
 
       CREATE_TEST: (testSeriesId: string) => `Test/CreateTest?testSeriesId=${testSeriesId}`,
+
+      SUBMIT_TEST: (userId: string, testSeriesId: string, testId: string) => `Test/checkanswers?userId=${userId}&testSeriesId=${testSeriesId}&testId=${testId}`,
+
       START_TEST: 'Test/start',
       SUMBIT_TEST: 'Test/submitTest'
+
+
     },
 
 

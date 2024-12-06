@@ -1,36 +1,262 @@
+<!-- <div class="container">
+  <header>
+    <h1>Test Series Details</h1>
+    <p>Effortlessly manage your test series and associated tests.</p>
+  </header>
 
-    <div class="container">
-        <header>
-          <h1>Test Series Details</h1>
-          <p>Effortlessly manage your test series and associated tests.</p>
-        </header>
-    
-        <section class="series-details">
-          <div class="details-header">
-            <h2>Series Name: <span>{{testSeriesDetails?.name}}</span></h2> 
-          </div>
-          <p><strong>Description:</strong> &nbsp;{{testSeriesDetails?.details}}</p>
-          <p><strong>Medium:</strong> &nbsp;{{testSeriesDetails?.medium}}</p>
-          <p><strong>Start Date:</strong> &nbsp;{{testSeriesDetails?.startDate | date: 'd MMM, y'}}</p>
-          <p><strong>Fee:</strong> &nbsp;{{testSeriesDetails?.fee | currency: 'INR'}}</p>
-        </section>
-    
-        <section class="tests-list">
-          <h2>Tests in this Series</h2>
-         
-          <app-table  
-          [tableHeaders]="tableHeaders"
-          [tableData]="tableData"
-          [itemsPerPage]="10"
-          [actionsConfig]="actionsConfig"
-          (actionTriggered)="handleAction($event)"
-          [tableName]="'Tests'"
-          [showTableName]="true"
-          [showSearchBar]="true"
-          [showColumns]="showColumns"
+  <section class="series-details px-3">
+    <div class="details-header">
+      <h2>
+        Series Name: <span>{{ testSeriesDetails?.name }}</span>
+      </h2>
+    </div>
+    <p><strong>Description:</strong> &nbsp;{{ testSeriesDetails?.details }}</p>
+    <p><strong>Medium:</strong> &nbsp;{{ testSeriesDetails?.medium }}</p>
+    <p>
+      <strong>Start Date:</strong> &nbsp;{{
+        testSeriesDetails?.startDate | date : "d MMM, y"
+      }}
+    </p>
+  </section>
+
+  <section id="section3">
+    <h1 class="px-3">Your Test</h1>
+
+    <div class="cards-container mb-5">
+      <ng-container *ngIf="testData.length > 0; else noTest">
+        <div class="card" *ngFor="let test of testData">
+          <div
+            class="card-label"
+            [ngClass]="{
+              active: test.status === 'Active',
+              completed: test.status === 'Completed',
+              upcoming: test.status === 'Upcoming' || test.status === 'Ready'
+            }"
           >
-          </app-table>
-        </section>
+            {{ test.status }}
+          </div>
+          <div class="card-body">
+            <p class="card-detail">
+              <strong>{{ test.Title | uppercase }}</strong>
+            </p>
+            <p class="card-detail">
+              <strong>Language:</strong> {{ test.language }}
+            </p>
+            <p class="card-detail">
+              <strong>Duration:</strong> {{ test.duration }}
+            </p>
+            <p class="card-detail">
+              <strong>Passing Score:</strong> {{ test.minimumPassingScore }}
+            </p>
+
+            <button
+              *ngIf="test.status === 'Ready'"
+              class="btn start-now"
+              (click)="onStart(test)"
+            >
+              Start Now
+            </button>
+            <button
+              *ngIf="test.status === 'Active'"
+              class="btn continue"
+              (click)="onStart(test)"
+            >
+              Continue
+            </button>
+            <button
+              *ngIf="test.status === 'Completed'"
+              class="btn view-details"
+              (click)="seeResult(test)"
+            >
+              View Details
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noTest>
+        <p class="empty-msg">No test found for the test series.</p>
+      </ng-template>
+    </div>
+  </section>
+</div>-->
+
+<ng-template #Result let-modal>
+  <div class="custom-modal-container">
+    <div class="modal-body">
+      <div class="test-result-card">
+        <div class="test-card-header d-flex justify-content-between">
+          <div class="w-100">
+            <h2>Test Result</h2>
+          </div>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+          ></button>
+        </div>
+        <div class="test-card-body">
+          <ul>
+            <li>
+              Right Answered:
+              <span>{{
+                testResultDetails && testResultDetails.rightAnswered
+              }}</span>
+            </li>
+            <li>
+              Total Questions:
+              <span>{{
+                testResultDetails && testResultDetails.totalQuestions
+              }}</span>
+            </li>
+            <li>
+              Answered Questions:
+              <span>{{
+                testResultDetails && testResultDetails.answeredQuestions
+              }}</span>
+            </li>
+            <li>
+              Unanswered Questions:
+              <span>{{
+                testResultDetails && testResultDetails.unansweredQuestions
+              }}</span>
+            </li>
+            <li>
+              Evaluation Score:
+              <span
+                >{{
+                  testResultDetails &&
+                    testResultDetails.evaluationScore.toFixed(2)
+                }}%</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="test-card-footer">
+          <p>
+            <strong>Test:</strong>
+            {{ testResultDetails && testResultDetails.testTitle }}
+          </p>
+          <p>
+            <strong>User:</strong>
+            {{ testResultDetails && testResultDetails.userName }}
+          </p>
+          <p>
+            <strong>Subitted:</strong>
+            {{
+              testResultDetails && testResultDetails.createdAt
+                | date : "d MMM, y"
+            }}
+          </p>
+        </div>
       </div>
+    </div>
+  </div>
+</ng-template> 
+
+
+
+
+
+
+
+
+
+
+<!-- enterprise-container -->
+
+<div class="container">
+  <header class="enterprise-header">
+    <h1>Explore Your Test Series</h1>
+    <p>Maximize your potential by leveraging the full range of test series and assessments to boost your progress</p>
+  </header>
+
+  <div class="enterprise-content">
+    <!-- Test Series Overview -->
+    <section class="series-overview">
+      <div class="overview-header">
+        <h2> <b>
+          {{ testSeriesDetails?.name  | uppercase}}
+        </b></h2>
+        <!-- <p>{{ testSeriesDetails?.details }}</p> -->
+      </div>
+      <div class="overview-metrics">
+        <div>
+          <label>Medium</label>
+          <span>{{ testSeriesDetails?.medium }}</span>
+        </div>
+        <div>
+          <label>Start Date</label>
+          <span>{{ testSeriesDetails?.startDate | date: "d MMM, y" }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Test List -->
+   
+    <section id="section3">
+      <h3 class="">Your Test</h3>
+  
+      <div class="cards-container mb-5">
+        <ng-container *ngIf="testData.length > 0; else noTest">
+          <div class="card" *ngFor="let test of testData">
+            <div
+              class="card-label"
+              [ngClass]="{
+                active: test.status === 'Active',
+                completed: test.status === 'Completed',
+                upcoming: test.status === 'Upcoming' || test.status === 'Ready'
+              }"
+            >
+              {{ test.status }}
+            </div>
+            <div class="card-body">
+              <p class="card-detail">
+                <strong>{{ test.title | uppercase }}</strong>
+              </p>
+              <p class="card-detail">
+                <strong>Language:</strong> {{ test.language }}
+              </p>
+              <p class="card-detail">
+                <strong>Duration:</strong> {{ test.duration }}
+              </p>
+              <p class="card-detail">
+                <strong>Passing Score:</strong> {{ test.minimumPassingScore }}
+              </p>
+  
+              <button
+                *ngIf="test.status === 'Ready'"
+                class="btn start-now"
+                (click)="onStart(test)"
+              >
+                Start Now
+              </button>
+              <button
+                *ngIf="test.status === 'Active'"
+                class="btn continue"
+                (click)="onStart(test)"
+              >
+                Continue
+              </button>
+              <button
+                *ngIf="test.status === 'Completed'"
+                class="btn view-details"
+                (click)="seeResult(test)"
+              >
+                View Details <!--seeResult(test)-->
+              </button>
+            </div>
+          </div>
+        </ng-container>
+  
+        <ng-template #noTest>
+          <p class="empty-msg">No test found for the test series.</p>
+        </ng-template>
+      </div>
+    </section>
+  </div>
+
+</div>
 
 

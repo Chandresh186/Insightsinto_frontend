@@ -46,7 +46,7 @@
   }
   
   .btn-create {
-    background: #28a745;
+    background: #4e54c8;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -56,7 +56,7 @@
   }
   
   .btn-create:hover {
-    background: #218838;
+    background: #667fea;
   }
   
   .tests-list h2 {
@@ -174,6 +174,11 @@
         align-items: center;
   }
 
+
+
+  ::ng-deep .tests-list .test-series-section {
+    padding: 30px 0px 10px !important;
+  }
 
 
 
@@ -374,8 +379,9 @@ input:checked + .slider:before {
 .wrapper {
     max-height: 60vh;
     overflow: auto;
-    border: 4px solid gray;
+    // border: 4px solid gray;
     border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .user-mapping-main {
@@ -556,4 +562,76 @@ input.form-control {
     margin-inline: 10px;
     border-radius: 6px;
     font-weight: 500;
+}
+
+
+
+
+
+
+
+
+.enterprise-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.enterprise-header h1 {
+  font-size: 2.5rem;
+  color: #0055cc;
+}
+
+.enterprise-header p {
+  font-size: 1.25rem;
+  color: #1a1a1a;
+  opacity: 0.8;
+}
+
+
+
+
+
+
+
+
+
+
+.series-overview {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.overview-header h2 {
+  font-size: 1.75rem;
+  color: #0055cc;
+  margin-bottom: 0.5rem;
+}
+
+.overview-metrics {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.overview-metrics div {
+  background: #f4f7fc;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  flex: 1;
+}
+
+.overview-metrics label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+
+@media (max-width: 800px) {
+  .overview-metrics {
+    flex-direction: column;
+  }
 }

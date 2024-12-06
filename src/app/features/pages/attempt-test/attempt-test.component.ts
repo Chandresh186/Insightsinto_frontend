@@ -4,6 +4,8 @@ import { TestSeriesService } from '../../../core/services/test-series.service';
 import { catchError, finalize, interval, of, Subscription, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Test } from '../../../core/models/interface/test.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-attempt-test',
@@ -15,12 +17,26 @@ import { FormsModule } from '@angular/forms';
 export class AttemptTestComponent implements OnInit {
   public loading = false; // To track loading state
   private errorMessage: string | null = null; // To store error messages
-  currentQuestion: any
-  currentQuestioNumber :any = []
-  selectedAnswer: string | null = null;
-  answeredArray: any = [];
+  public currentQuestion: any
+  public currentQuestioNumber :any = []
+  public selectedAnswer: string | null = null;
+  public answeredArray: any = [];
+  public reviewArray: any = [];
+  public testDetails!: Test
 
   questions:any = [
+    // {
+    //   "id": "f8c0b3d1-530d-4e9e-96f2-dc79f7a3d3bf",
+    //   "question": "ભારતનો રાષ્ટ્રગાન કયો છે?",
+    //   "a": "જન ગણ મન",
+    //   "b": "વંદે માતરમ",
+    //   "c": "સન્નિધિ સ્તુતિ",
+    //   "d": "સરસ્વતી વિજયામહે",
+    //   "complexity": "સહજ",
+    //   "categoryId": "123abc45-678d-90ef-11ab-ccddee99",
+    //   "categoryName": "ભારતીય સંસ્કૃતિ",
+    //   "description": "આલ્જિબ્રામાં મૌલિક ગણિત પ્રશ્ન.",
+    // },
 
     {
       "id": "727aa50e-5226-417c-83ee-c85a927f7982",
@@ -1238,12 +1254,12 @@ export class AttemptTestComponent implements OnInit {
   ];
 
 
-  totalTimeInMinutes: number = 2; // Total test time in minutes
-  remainingTime: string = "00:02"; // Remaining time in mm:ss format
+  totalTimeInMinutes!: number; // Total test time in minutes
+  remainingTime!: string ; // Remaining time in mm:ss format
   private totalTimeInSeconds: number = 0; // Total test time in seconds
   private timerSubscription: Subscription | null = null;
 
-  constructor(private route : ActivatedRoute,private testSeriesService: TestSeriesService, private router: Router) {
+  constructor(private route : ActivatedRoute,private testSeriesService: TestSeriesService, private router: Router, private toastr: ToastrService) {
     // console.log(this.questions)
   }
 
@@ -1256,22 +1272,13 @@ export class AttemptTestComponent implements OnInit {
       }
   };
 
-    this.getTest()
+    this.getTest();
+    this.getTestPaper();
 
   }
 
 
-  
 
-  // calculateTimeElapsed(currentQuestionNumber: number, totalQuestions: number = 60, totalTimeInMinutes: number = 60): string {
-  //   const timePerQuestion = totalTimeInMinutes / totalQuestions; // Minutes per question
-  //   const elapsedTime = currentQuestionNumber * timePerQuestion; // Total elapsed time
-    
-  //   // Format elapsed time as MM:SS
-  //   const minutes = Math.floor(elapsedTime);
-  //   const seconds = Math.round((elapsedTime - minutes) * 60);
-  //   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  // }
 
 
   startTestTimer(): void {
@@ -1285,6 +1292,15 @@ export class AttemptTestComponent implements OnInit {
         next: () => {
           this.totalTimeInSeconds--;
           this.remainingTime = this.formatTime(this.totalTimeInSeconds);
+
+           // Trigger alerts at specific times
+          if (this.totalTimeInSeconds === 600) {
+            this.toastr.warning('10 minutes left!.');
+          } else if (this.totalTimeInSeconds === 300) {
+            this.toastr.warning('5 minutes left!.');
+          } else if (this.totalTimeInSeconds === 60) {
+            this.toastr.warning('1 minutes left!.');
+          }
 
           if (this.totalTimeInSeconds === 0) {
             this.onTestComplete();
@@ -1311,6 +1327,8 @@ export class AttemptTestComponent implements OnInit {
   onTestComplete(): void {
     alert("Time's up! Submitting the test...");
     this.submitTest();
+
+   
   }
 
  
@@ -1323,15 +1341,17 @@ export class AttemptTestComponent implements OnInit {
     console.log(this.currentQuestioNumber)
   }
 
-
-  // saveAnswer() {
-  //   if (this.selectedAnswer) {
-  //     this.answeredArray[this.currentQuestion.id] = this.selectedAnswer; // Save the answer
-  //     const currentIndex = this.questions.indexOf(this.currentQuestion);
-  //     console.log('Saved answers: ', this.answeredArray);
-  //     this.moveToNextQuestion(); // Move to the next question after saving
-  //   }
-  // }
+  review() {
+    // this.toastr.warning("hello")
+      // Get the current question using its index in the questions array
+      const currentIndex = this.questions.findIndex((q:any) => q.id === this.currentQuestion.id);
+      const currentQuestion = this.questions[currentIndex];
+      console.log(currentQuestion)
+    this.reviewArray.push(this.currentQuestion.id)
+    console.log(this.reviewArray)
+       // Move to the next question after saving
+       this.moveToNextQuestion();
+  }
 
 
   saveAnswer() {
@@ -1340,6 +1360,14 @@ export class AttemptTestComponent implements OnInit {
       // Get the current question using its index in the questions array
       const currentIndex = this.questions.findIndex((q:any) => q.id === this.currentQuestion.id);
       const currentQuestion = this.questions[currentIndex];
+
+      if(this.reviewArray.includes(this.currentQuestion.id)) {
+        console.log(this.reviewArray);
+        const currentReviewIndex = this.reviewArray.findIndex((id:any) => id === this.currentQuestion.id);
+        this.reviewArray.splice(currentReviewIndex, 1);
+        console.log(this.reviewArray);
+        
+      }
   
       // Add the selected answer with the label to the question object
       currentQuestion['ans'] = this.selectedAnswer;
@@ -1392,47 +1420,57 @@ export class AttemptTestComponent implements OnInit {
     this.currentQuestion = ques;
     this.selectedAnswer = ques.ans
   }
+
+
+  convertTimeToRemainingFormat(duration: string): { totalTimeInMinutes: number; remainingTime: string } {
+    // Extract the number of minutes from the input string
+    const minutes = parseInt(duration.replace("min", "").trim(), 10);
+  
+    if (isNaN(minutes) ||  minutes < 0) {
+      throw new Error("Invalid duration format. Expected format: 'XX min' or duration must be a non-negative number.");
+    }
+  
+    // Calculate total time in minutes
+    const totalTimeInMinutes = minutes;
+  
+    // Convert to mm:ss format (no hours, only minutes and seconds)
+     const remainingTime = `${String(minutes).padStart(2, '0')}:00`;
+  
+    return { totalTimeInMinutes, remainingTime };
+  }
+  
+
  
   submitTest() {
-    const payload = {
-      userId: this.getUserId(),
-      testSeriesId: this.getTestSeriesId(),
-      testId: this.getTestId()
-    }
-    console.log(payload)
 
-    console.log("Test submitted.", this.questions);
-
-    
-    // this.loading = true; // Start loading
+    this.loading = true; // Start loading
    
 
-    // this.testSeriesService
-    //   .submitTest(payload)
-    //   .pipe(
-    //     tap((response) => {
-    //       console.log(' successfull:', response);
-    //       // this.testSeriesDetails =  response.response
+    this.testSeriesService
+      .submitTest(this.getUserId(), this.getTestSeriesId(), this.getTestId(), this.questions)
+      .pipe(
+        tap((response) => {
+          console.log(' successfull:', response);
+          // this.testSeriesDetails =  response.response
           
-    //     }),
-    //     catchError((error) => {
-    //       console.error('Error:', error);
-    //       return of(error); // Return an observable to handle the error
-    //     }),
-    //     finalize(() => {
+        }),
+        catchError((error) => {
+          console.error('Error:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
           
         
-    //       this.loading = false; // Stop loading
+          this.loading = false; // Stop loading
          
-    //       console.log('completed.');
-    //       // this.router.navigateByUrl(`dash/test/${val.id}/${this.getTestSeriesId()}`);
-    //       // //  this.router.navigateByUrl(`dash/test/${val.id}`);
-    //       // // this.router.navigate(['dash/test', val.id], { queryParams: { key1: 'value1', key2: 'value2' } });
-    //     })
-    //   )
-    //   .subscribe();
+          console.log('completed.');
+          this.router.navigateByUrl(`dash/series-details/${this.getTestSeriesId()}`);
+          // //  this.router.navigateByUrl(`dash/test/${val.id}`);
+          // // this.router.navigate(['dash/test', val.id], { queryParams: { key1: 'value1', key2: 'value2' } });
+        })
+      )
+      .subscribe();
   }
-
 
   getTest() {
     this.loading = true; // Start loading
@@ -1440,6 +1478,45 @@ export class AttemptTestComponent implements OnInit {
 
     this.testSeriesService
       .getTestById(this.getTestId())
+      .pipe(
+        tap((response) => {
+          console.log('successfull:', response);
+          if(response) {
+            const timer = this.convertTimeToRemainingFormat(response.duration);
+            this.totalTimeInMinutes = timer.totalTimeInMinutes; // Total test time in minutes
+            this.remainingTime = timer.remainingTime; // Remaining time in mm:ss format
+    
+            console.log(timer)
+            this.testDetails = response
+          }
+          
+        }),
+        catchError((error) => {
+          console.error('Error:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          
+        
+          this.loading = false; // Stop loading
+         
+          console.log('completed.');
+       
+          this.startTestTimer();
+
+          
+        })
+      )
+      .subscribe();
+  }
+
+
+  getTestPaper() {
+    this.loading = true; // Start loading
+   
+
+    this.testSeriesService
+      .getTestPaperById(this.getTestId())
       .pipe(
         tap((response) => {
           console.log('successfull:', response);
@@ -1458,7 +1535,7 @@ export class AttemptTestComponent implements OnInit {
           console.log('completed.');
           this.getActiveQuestion(this.questions[0].id)
           this.currentQuestion = this.questions[0];
-          this.startTestTimer();
+          // this.startTestTimer();
 
           
         })

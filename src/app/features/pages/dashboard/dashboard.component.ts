@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
 import { TableComponent } from '../../../shared/resusable_components/table/table.component';
 import { TestSeriesService } from '../../../core/services/test-series.service';
 import { catchError, finalize, of, tap } from 'rxjs';
@@ -7,13 +7,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaymentOrder } from '../../../core/models/interface/payment.interface';
 import { PaymentService } from '../../../core/services/payment.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
+ 
 })
 export class DashboardComponent {
   public showColumns: any;
@@ -174,7 +176,10 @@ export class DashboardComponent {
     const userId = JSON.parse(localStorage.getItem('currentUser') || 'null').response.userId
     this.loadTestSeries();
     this.loadUserTestSeries(userId)
+   
   }
+
+
 
   scrollToTestSeries() {
     this.testSeriesSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
@@ -264,6 +269,7 @@ export class DashboardComponent {
         catchError((error) => {
           this.errorMessage = 'Error loading test series.'; // Handle error message
           console.error('Error loading test series:', error);
+          this.testSeriesData= []
           return of([]); // Return an empty array in case of an error
         }),
         finalize(() => {

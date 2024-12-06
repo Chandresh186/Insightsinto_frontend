@@ -368,7 +368,7 @@ export class TestSeriesDetailsComponent implements OnInit {
    
 
     this.testSeriesService
-      .getTestById(e.id)
+      .getTestPaperById(e.id)
       .pipe(
         tap((response) => {
           console.log('successfull:', response);

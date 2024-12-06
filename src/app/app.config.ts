@@ -18,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       BrowserModule,
       BrowserAnimationsModule,
+      NgxSpinnerModule,
       ToastrModule.forRoot({
         timeOut:  5000,
         positionClass: 'toast-top-right',

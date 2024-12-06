@@ -1,24 +1,53 @@
 
 @if(!isCreateQuesToTest) {
     <div class="container">
-        <header>
+        <header class="enterprise-header">
           <h1>Test Series Details</h1>
           <p>Effortlessly manage your test series and associated tests.</p>
         </header>
     
-        <section class="series-details">
+        <!-- <section class="series-details">
           <div class="details-header">
-            <h2>Series Name: <span>{{testSeriesDetails?.name}}</span></h2> <!-- isCreateQuesToTest = !isCreateQuesToTest-->
+            <h2>Series Name: <span>{{testSeriesDetails?.name}}</span></h2> 
             <button class="btn-create" id="createTestBtn" (click)="createTestModel()">+ Create New Test</button>
           </div>
           <p><strong>Description:</strong> &nbsp;{{testSeriesDetails?.details}}</p>
           <p><strong>Medium:</strong> &nbsp;{{testSeriesDetails?.medium}}</p>
           <p><strong>Start Date:</strong> &nbsp;{{testSeriesDetails?.startDate | date: 'd MMM, y'}}</p>
           <p><strong>Fee:</strong> &nbsp;{{testSeriesDetails?.fee | currency: 'INR'}}</p>
+        </section> -->
+
+        <section class="series-overview">
+          <div class="overview-header d-flex justify-content-between mb-3">
+            <h2> <b>{{testSeriesDetails && testSeriesDetails.name | uppercase}}</b></h2> 
+            <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
+          </div>
+          <div class="overview-metrics">
+            <div>
+              <label>Description</label>
+              <span>{{testSeriesDetails &&  testSeriesDetails?.medium }}</span>
+            </div>
+            <div>
+              <label>Medium</label>
+              <span>{{testSeriesDetails &&  testSeriesDetails?.medium }}</span>
+            </div>
+            <div>
+              <label>Start Date</label>
+              <span>{{testSeriesDetails &&  testSeriesDetails?.startDate | date: "d MMM, y" }}</span>
+            </div>
+
+            <div>
+              <label>Fee</label>
+              <span>{{testSeriesDetails && testSeriesDetails?.fee | currency: 'INR'}}</span>
+            </div>
+          </div>
+      
         </section>
+
+        <hr>
     
         <section class="tests-list">
-          <h2>Tests in this Series</h2>
+          <h3>Tests in this Series</h3>
          
           <app-table  
           [tableHeaders]="tableHeaders"
@@ -36,11 +65,11 @@
       </div>
 } @else {
     <div class="container">
-        <header>
+        <header class="enterprise-header">
             <h1>Generate test questions</h1>
             <p>Effortlessly generate test questions.</p>
           </header>
-          <section class="series-details">
+          <!-- <section class="series-details">
             <div class="details-header">
               <h2>Test Name: <span>{{testForm.title}}</span></h2>
               <div>
@@ -50,7 +79,74 @@
               </div>
             </div>
             <p><strong>Duration:</strong> {{testForm.duration}}</p>
+          </section> -->
+
+
+
+
+          <section class="series-overview">
+            <div class="overview-header  d-flex justify-content-between mb-3">
+              <h2><b>{{testForm && testForm.title | uppercase}}</b></h2>
+              <div>
+                <button class="btn-create" id="createTestBtns" (click)="generateQues = !generateQues">{{generateQues ? 'See question': 'Add question'}}</button> &nbsp;
+                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest">Back</button>
+
+              </div>
+            </div>
+            <div class="overview-metrics">
+
+              <div>
+                <label>Sub Title</label>
+                <span>{{testForm &&  testForm?.subTitle }}</span>
+              </div>
+              <div>
+                <label>Duration</label>
+                <span>{{testForm &&  testForm?.duration }}</span>
+              </div>
+              <div>
+                <label>Language</label>
+                <span>{{testForm &&  testForm?.language }}</span>
+              </div>
+
+              <div>
+                <label>Passing Score</label>
+                <span>{{testForm &&  testForm?.minimumPassingScore }}</span>
+              </div>
+
+              
+            </div>
+            <!-- <p><strong>Duration:</strong> {{testForm.duration}}</p> -->
           </section>
+
+
+
+
+          <!-- <section class="series-overview">
+            <div class="overview-header d-flex justify-content-between mb-3">
+              <h2> <b>{{testSeriesDetails && testSeriesDetails.name | uppercase}}</b></h2> 
+              <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
+            </div>
+            <div class="overview-metrics">
+              <div>
+                <label>Description</label>
+                <span>{{testSeriesDetails &&  testSeriesDetails?.medium }}</span>
+              </div>
+              <div>
+                <label>Medium</label>
+                <span>{{testSeriesDetails &&  testSeriesDetails?.medium }}</span>
+              </div>
+              <div>
+                <label>Start Date</label>
+                <span>{{testSeriesDetails &&  testSeriesDetails?.startDate | date: "d MMM, y" }}</span>
+              </div>
+  
+              <div>
+                <label>Fee</label>
+                <span>{{testSeriesDetails && testSeriesDetails?.fee | currency: 'INR'}}</span>
+              </div>
+            </div>
+        
+          </section> -->
 
 
           <div class="wrapper" *ngIf="generateQues">

@@ -1,0 +1,212 @@
+<!-- <div class="container">
+
+  
+    <section class="mb-4">
+      <h2 class="mb-3">Overview</h2>
+      <div class="flex-container">
+        <div class="card">
+          <h2>Total Test Series Created</h2>
+          <p>45</p>
+        </div>
+        <div class="card">
+          <h2>Total Active Users</h2>
+          <p>1200</p>
+        </div>
+        <div class="card">
+          <h2>Recently Purchased Test Series</h2>
+          <p>8 test series purchased today</p>
+        </div>
+      </div>
+    </section>
+
+  
+   
+    <section class="list-section  mb-4">
+  
+      <div class="w-100">
+        <span class="more"><h5 class="mb-3 ">Test Series </h5> <i class="fa fa-ellipsis-v"></i></span>
+        <div class="list p-0">
+            <app-table  
+            [tableHeaders]="tableHeaders"
+            [tableData]="tableData"
+            [itemsPerPage]="5"
+            [actionsConfig]="actionsConfig"
+            (actionTriggered)="handleAction($event)"
+            [tableName]="''"
+            [showTableName]="true"
+            [showSearchBar]="true"
+            [showColumns]="showColumns1"
+            >
+            </app-table>
+        </div>
+      </div>
+
+      <section class="w-100">
+        <h5 class="mb-3">Notifications & Alerts</h5>
+        <div class="flex-container">
+         <div class="card">
+             <div class="alert">
+               <p><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
+             </div>
+             <div class="alert">
+               <p><strong>Support Requests:</strong> You have 5 new user feedback messages.</p>
+             </div>
+
+         </div>
+        </div>
+      </section>
+  
+     
+     
+    </section>
+  
+   
+     <div class="list-section d-flex w-100 gap-20px">
+        <div class="w-100">
+            <span class="more"><h5 class="mb-3 ">Tests </h5> <i class="fa fa-ellipsis-v"></i></span>
+            <div class="list p-0">
+    
+                    <app-table  
+                    [tableHeaders]="tableHeader"
+                    [tableData]="tableDatas"
+                    [itemsPerPage]="5"
+                    [actionsConfig]="actionsConfig"
+                    (actionTriggered)="handleAction($event)"
+                    [tableName]="''"
+                    [showTableName]="true"
+                    [showSearchBar]="true"
+                    [showColumns]="showColumns2"
+                    >
+                    </app-table>
+              
+            </div>
+          </div>
+       
+   
+         <section class="w-100">
+           <h5 class="mb-3">User Insights</h5>
+           <div class="flex-container">
+           
+             <div class="card">
+                <div class="alert">
+                  <p><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
+                </div>
+                <div class="alert">
+                  <p><strong>Support Requests:</strong> You have 5 new user feedback messages.</p>
+                </div>
+
+            </div>
+           </div>
+         </section>
+
+     </div>
+  </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="container">
+    <!-- Overview Section -->
+    <section class="mb-4">
+      <h2 class="mb-3">Overview</h2>
+      <div class="flex-container">
+        <div class="card">
+          <h2>Total Test Series Created</h2>
+          <p>45</p>
+        </div>
+        <div class="card">
+          <h2>Total Active Users</h2>
+          <p>1200</p>
+        </div>
+        <div class="card">
+          <h2>Recently Purchased Test Series</h2>
+          <p>8 test series purchased today</p>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Test Series Management -->
+    <section class="list-section mb-4">
+      <div class="w-100">
+        <span class="more">
+          <h5 class="mb-3">Test Series</h5> 
+          <i class="fa fa-ellipsis-v"></i>
+        </span>
+        <div class="list p-0">
+          <app-table  
+            [tableHeaders]="tableHeaders"
+            [tableData]="tableData"
+            [itemsPerPage]="5"
+            [actionsConfig]="actionsConfig"
+            (actionTriggered)="handleAction($event)"
+            [tableName]="''"
+            [showTableName]="true"
+            [showSearchBar]="true"
+            [showColumns]="showColumns1">
+          </app-table>
+        </div>
+      </div>
+      
+      <section class="w-100">
+        <h5 class="mb-3">Notifications & Alerts</h5>
+        <div class="flex-container">
+          <div class="card alert-card">
+            <div class="alert">
+              <p><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
+            </div>
+            <div class="alert">
+              <p><strong>Support Requests:</strong> You have 5 new user feedback messages.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  
+    <!-- User Insights -->
+    <section class="list-section mb-4">
+      <div class="w-100">
+        <span class="more">
+          <h5 class="mb-3">Tests</h5>
+          <i class="fa fa-ellipsis-v"></i>
+        </span>
+        <div class="list p-0">
+          <app-table  
+            [tableHeaders]="tableHeader"
+            [tableData]="tableDatas"
+            [itemsPerPage]="5"
+            [actionsConfig]="actionsConfig"
+            (actionTriggered)="handleAction($event)"
+            [tableName]="''"
+            [showTableName]="true"
+            [showSearchBar]="true"
+            [showColumns]="showColumns2">
+          </app-table>
+        </div>
+      </div>
+  
+      <section class="w-100">
+        <h5 class="mb-3">User Insights</h5>
+        <div class="flex-container">
+          <div class="card alert-card">
+            <div class="alert">
+              <p><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
+            </div>
+            <div class="alert">
+              <p><strong>Support Requests:</strong> You have 5 new user feedback messages.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+  
+  

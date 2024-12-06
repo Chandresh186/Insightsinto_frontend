@@ -10,7 +10,7 @@ export const httpConfigInterceptor: HttpInterceptorFn = (req, next) => {
   const spinner = inject(NgxSpinnerService);
   const toastr = inject(ToastrService)
   const token: string =JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
-  // spinner.show();
+  spinner.show();
   // toastr.info('Request initiated');
   if (token)
     req= req.clone({
@@ -36,7 +36,7 @@ export const httpConfigInterceptor: HttpInterceptorFn = (req, next) => {
       }),
       finalize(()=> {
         setTimeout(() => {
-          // spinner.hide()
+          spinner.hide()
         }, 1000);
       })
     );

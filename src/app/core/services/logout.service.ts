@@ -4,7 +4,9 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { API_CONSTANTS } from '../constants/api.constant';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LogoutService {
 private baseUrl = environment.URL;
 constructor(private httpService: HttpService<any>) { }

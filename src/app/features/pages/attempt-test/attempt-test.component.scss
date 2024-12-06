@@ -31,13 +31,13 @@ header h1 {
     margin-left: 5px;
 }
 
-.container {
+.container-question {
     display: flex;
     flex-wrap: wrap;
-    max-width: 1200px;
+    // max-width: 1200px;
     margin: 20px auto;
     gap: 20px;
-    padding: 0 15px;
+    // padding: 0 15px;
     height: 70vh; /* Full height of the viewport */
 }
 
@@ -240,7 +240,7 @@ header h1 {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
+    .container-question {
         flex-direction: column;
         height: auto; /* Allow natural height stacking */
     }
@@ -302,6 +302,39 @@ header h1 {
     color: #d9534f;
   }
   
+
+  .review {
+    background-color: #f8940685;
+    color: white;
+    border: 3px solid #f89406;
+  }
+
+  .review-next {
+    // background-color: #f89406;
+    // color: white;
+    // padding: 3px 20px;
+    // border-radius: 20px;
+    // cursor: pointer;
+    // transition: opacity 0.3s ease;
+
+    background-color: #f89406;
+    color: white;
+    padding: 3px 20px;
+    border-radius: 20px;
+}
+
+.review-next:disabled {
+    background-color: #e0e0e0; /* Light gray background */
+    color: #a0a0a0; /* Dimmed text color */
+    cursor: not-allowed; /* Pointer indicates non-clickable */
+    pointer-events: none; /* Prevent interaction */
+    opacity: 0.6; /* Dim the element */
+  }
+
+  .review-next:hover,
+.review-next:focus {
+  background-color: #e07b06; /* Darker orange for hover/focus */
+}
  
   
   

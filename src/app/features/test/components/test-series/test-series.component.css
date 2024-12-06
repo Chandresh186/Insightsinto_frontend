@@ -15,9 +15,9 @@ body {
 
 /* Container Styles */
 .container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    /* max-width: 1200px; */
+    /* margin: 2rem auto; */
+    /* padding: 0 1rem; */
 }
 
 /* Test Series Grid */
@@ -130,7 +130,7 @@ body {
 
 .Admin-view {
     position: relative;  /* Make the parent container relative for positioning */
-    padding: 1rem;
+    padding: 1rem 0;
 }
 
 /* Style the button */
@@ -139,7 +139,7 @@ body {
     top: 1rem;   /* Adjust as needed */
     right: 1rem;  /* Adjust as needed */
     padding: 0.5rem 1rem;
-    background-color: #007bff;
+    background-color: #4e54c8;
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -150,7 +150,7 @@ body {
 
 /* Hover effect for the button */
 .add-button:hover {
-    background-color: #0056b3;
+    background-color: #667fea;
 }
 
 
@@ -175,6 +175,31 @@ body {
         padding: 0.5rem 1rem;
     }
 }
+
+
+
+
+::ng-deep .tests-list .test-series-section {
+    padding: 30px 0px 10px !important;
+  }
+
+
+
+  .enterprise-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .enterprise-header h1 {
+    font-size: 2.5rem;
+    color: #0055cc;
+  }
+  
+  .enterprise-header p {
+    font-size: 1.25rem;
+    color: #1a1a1a;
+    opacity: 0.8;
+  }
 
   
   

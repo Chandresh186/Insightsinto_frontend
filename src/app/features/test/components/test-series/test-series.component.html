@@ -3,8 +3,9 @@
 
 
 <main class="container">
+
     <!-- User View start -->
-    <section class="test-series-grid">
+    <!-- <section class="test-series-grid">
      
       <article class="test-series-card" *ngFor="let series of testSeries">
         <div class="card-header">
@@ -28,10 +29,19 @@
           
         </div>
       </article>
-    </section>
-     <!-- User View end -->
+    </section> -->
+     <!-- User View end  <i class="fas fa-plus"></i>-->
+
+     <header class="enterprise-header">
+      <h1>Create Test Series</h1>
+      <p>Simplify the process of generating and organizing questions for your series.</p>
+    </header>
+
+    <hr>
+
+
     <Section class="Admin-view">
-      <button class="add-button" (click)="openModel()"> <i class="fas fa-plus"></i>  Add New</button>
+      <button class="add-button" (click)="openModel()">   Add New</button>
         <app-table  
         [tableHeaders]="tableHeaders"
         [tableData]="tableData"
