@@ -31,16 +31,20 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/ngx-spinner/animations/ball-scale-multiple.css"
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
+              "node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": [
-               "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/@popperjs/core/dist/umd/popper.min.js",
               "node_modules/dotenv/lib/main.js"
+              
+              
             ]
           },
           "configurations": {
@@ -48,13 +52,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1mb",
+                  "maximumError": "4MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "40kB",
+                  "maximumError": "80kB"
                 }
               ],
               "outputHashing": "all"

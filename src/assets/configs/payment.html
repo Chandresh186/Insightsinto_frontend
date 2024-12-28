@@ -18,7 +18,6 @@
       "order_id": "order_PL996R3ZVisw8o", // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "show_coupons": true, // default true; false if coupon widget should be hidden
       "handler": function (response) {
-        console.log(response);
         alert("Payment ID: " + response.razorpay_payment_id);
       },
       "prefill": {

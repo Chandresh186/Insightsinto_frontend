@@ -1,0 +1,179 @@
+// * {
+//     box-sizing: border-box;
+//     margin: 0;
+//     padding: 0;
+// }
+
+body {
+    // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    // background-color: #f7f9fc;
+    // margin: 0;
+    // padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 15px;
+    // box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #4e54c8;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field label {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.input-field input, .input-field select {
+    // padding: 12px;
+    line-height: 40px;
+    border-radius: 8px;
+    // border: 1px solid #ddd;
+    font-size: 16px;
+    color: #555;
+}
+
+.input-field input:focus, .input-field select:focus {
+    border-color: #4e54c8;
+    outline: none;
+}
+
+.checkbox-field {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.checkbox-field input {
+    width: 20px;
+    height: 20px;
+}
+
+.checkbox-field label {
+    font-size: 16px;
+    color: #555;
+}
+
+.button {
+    grid-column: span 2;
+    background-color: #4e54c8;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.button:disabled {
+    background-color: #b0b0b0; /* Gray color for disabled button */
+    cursor: not-allowed; /* Change the cursor to indicate it's not clickable */
+    opacity: 0.6; /* Slightly fade the button */
+}
+
+.button:disabled:hover {
+    background-color: #b0b0b0; /* Gray color for disabled button */
+    cursor: not-allowed; /* Change the cursor to indicate it's not clickable */
+    opacity: 0.6; /* Slightly fade the button */
+}
+
+.button:hover {
+    background-color: #3b42a0;
+}
+
+.table-container {
+    margin-top: 50px;
+}
+
+.table-container h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+}
+
+::ng-deep .table-container .table-search-bar {
+    box-shadow: none !important;
+}
+
+::ng-deep .table-container .table-container {
+    box-shadow: none !important;
+}
+
+::ng-deep .table-container .test-series-section{
+    padding: 20px 0 !important;
+    border: 1px solid #dddddd;
+    border-radius: 21px;
+} 
+
+input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+    -webkit-appearance: none; /* For Chrome, Safari, Edge */
+    appearance: none; /* Standard */
+}
+
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* For Chrome, Safari */
+    margin: 0; /* Remove margin in some browsers */
+}
+
+
+.add-button {
+    // position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #4e54c8;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #667fea;
+}
+
+
+@media screen and (max-width: 768px) {
+    .form-container {
+        grid-template-columns: 1fr;
+    }
+
+    .button {
+        grid-column: span 1;
+    }
+
+    .checkbox-field {
+        grid-column: span 1;
+    }
+}

@@ -1,0 +1,164 @@
+// * {
+//     box-sizing: border-box;
+//     margin: 0;
+//     padding: 0;
+// }
+
+// body {
+//     font-family: 'Arial', sans-serif;
+//     background-color: #f4f4f9;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     min-height: 100vh;
+//     margin: 0;
+//     color: #333;
+// }
+
+.wrapper-container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.wrapper-container h1 {
+    font-size: 2.5em;
+    color: #4e54c8;
+    margin-bottom: 40px;
+}
+
+.pricing-container {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.pricing-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 30px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.pricing-card h2 {
+    font-size: 2em;
+    color: #4e54c8;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.pricing-card p {
+    font-size: 1.1em;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.price {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #4e54c8;
+    margin-bottom: 20px;
+}
+
+.price span {
+    font-size: 1.2em;
+    color: #777;
+}
+
+.features {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.features li {
+    margin: 12px 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.button {
+    background: linear-gradient(45deg, #4e54c8, #8f94fb);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.button:hover {
+    background: linear-gradient(45deg, #8f94fb, #4e54c8);
+    transform: translateY(-3px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .pricing-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        // justify-content: center;
+        justify-content: start;
+    }
+
+    .pricing-card {
+        width: 40%;
+        max-width: 400px;
+    }
+
+    .wrapper-container h1 {
+        font-size: 2.2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pricing-card {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .wrapper-container h1 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .wrapper-container h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .price {
+        font-size: 1.8em;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 12px 25px;
+    }
+
+    .features li {
+        font-size: 1em;
+    }
+}

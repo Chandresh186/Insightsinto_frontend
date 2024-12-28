@@ -329,7 +329,7 @@ header .btn-group {
 .mobile-nav {
   position: fixed;
   inset: 0;
-  background: var(--background-primary);
+  background: hsl(0, 0%, 100%);
   padding: 70px 20px;
   overflow: auto;
   overscroll-behavior: contain;

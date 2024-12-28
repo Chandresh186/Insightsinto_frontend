@@ -8,7 +8,7 @@ import { Subject, debounceTime, tap, catchError, of, finalize, Subscription } fr
 import { Category, CategoryList, apiResponse } from '../../../../core/models/interface/categories.interface';
 import { CategoriesService } from '../../../../core/services/categories.service';
 import { TestSeriesService } from '../../../../core/services/test-series.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ngbootstrapModule } from '../../../../shared/modules/ng-bootstrap.modules';
 
 @Component({
@@ -20,7 +20,8 @@ import { ngbootstrapModule } from '../../../../shared/modules/ng-bootstrap.modul
     AsyncButtonComponent,
     FormsModule,
     ReactiveFormsModule,
-    ngbootstrapModule
+    ngbootstrapModule,
+    RouterModule
   ],
   templateUrl: './test-series-details.component.html',
   styleUrl: './test-series-details.component.scss',
@@ -38,7 +39,7 @@ export class TestSeriesDetailsComponent implements OnInit {
     subTitle: '',
     keyWords: [] as string[],
     files: [] as File[],
-    minimumPassingScore: null as number | null,
+    minimumPassingScore: '',
     topics: [] as string[],
     duration: '',
     language: '',
@@ -53,6 +54,9 @@ export class TestSeriesDetailsComponent implements OnInit {
   public totalQuestions !: number ;
   
   private subscriptions: Subscription[] = [];
+
+  public startTime: string = '';
+  public endTime: string = '';
 
 
 
@@ -131,7 +135,7 @@ export class TestSeriesDetailsComponent implements OnInit {
       key: 'edit',
       label: 'Edit',
       class: 'btn btn-outline-primary',
-      visible: true,
+      visible: false,
     },
     {
       key: 'delete',
@@ -311,7 +315,6 @@ export class TestSeriesDetailsComponent implements OnInit {
   };
 
   handleAction(event: { action: string; row: any }) {
-    // console.log(`Action: ${event.action}, Row:`, event.row);
     switch (event.action) {
       case 'edit':
         this.onEdit(event.row);
@@ -329,7 +332,6 @@ export class TestSeriesDetailsComponent implements OnInit {
   }
 
   onEdit(e: any) {
-    console.log(e);
     this.isEditTest = true;
     this.testForm = {
       title: e.title,
@@ -346,7 +348,6 @@ export class TestSeriesDetailsComponent implements OnInit {
   }
 
   onDetails(e: any) {
-    console.log(e);
     this.isCreateQuesToTest = true;
     this.testForm = {
       title: e.title,
@@ -371,7 +372,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       .getTestPaperById(e.id)
       .pipe(
         tap((response) => {
-          console.log('successfull:', response);
           this.AccordionData = response;
           this.transformData();
           
@@ -385,7 +385,6 @@ export class TestSeriesDetailsComponent implements OnInit {
         
           this.loading = false; // Stop loading
          
-          console.log('completed.');
         })
       )
       .subscribe();
@@ -442,6 +441,33 @@ export class TestSeriesDetailsComponent implements OnInit {
     return this.route.snapshot.params['id']
   }
 
+ 
+
+  calculateTimeDifference() {
+    if (this.startTime && this.endTime) {
+      const start = new Date(`1970-01-01T${this.startTime}:00`);
+      const end = new Date(`1970-01-01T${this.endTime}:00`);
+      
+      // Ensure end time is after start time, if not adjust for the next day
+      // if (end < start) {
+      //   end.setDate(end.getDate() + 1); // Adding 1 day to handle cases where the end time is the next day
+      // }
+
+        // Validation: Check if the end time is earlier than the start time
+    if (end < start) {
+      console.error("End time cannot be earlier than start time.");
+      this.testForm.duration = null; // Clear the duration
+      return; // Exit the function
+    }
+
+      const diff = (end.getTime() - start.getTime()) / (1000 * 60); // Convert milliseconds to minutes
+      this.testForm.duration = diff;
+    }
+  }
+
+  
+
+
   calculateTotalQuestions() {
     // Get values and convert to numbers, defaulting to 0 if invalid
     const easyQuestions = Number(this.questionForm.get('easyQuestions')?.value) || 0;
@@ -451,10 +477,8 @@ export class TestSeriesDetailsComponent implements OnInit {
     // Calculate total questions
     this.totalQuestions = easyQuestions + mediumQuestions + hardQuestions;
 
-    console.log(easyQuestions, mediumQuestions, hardQuestions)
 
     // Log the total questions for debugging
-    console.log('Total questions:', this.totalQuestions, this.totalQuestionCount);
 
     // Check if the total questions exceed the available total question count
     if (this.totalQuestions > this.totalQuestionCount) {
@@ -477,7 +501,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       this.keywordsInput = '';
       
       // Debugging: Check the chips array after adding a new chip
-      console.log(this.testForm.keyWords);
     }
   }
   
@@ -499,7 +522,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       this.topicsInput = '';
       
       // Debugging: Check the chips array after adding a new chip
-      console.log(this.testForm.topics);
     }
   }
   
@@ -518,7 +540,6 @@ export class TestSeriesDetailsComponent implements OnInit {
   
   removeCategoryChip(index: number): void {
     // Remove chip by index from the chips array
-    console.log(index)
     this.testForm.categoryIds.splice(index, 1);
   }
 
@@ -583,7 +604,6 @@ export class TestSeriesDetailsComponent implements OnInit {
     // (No need to sort if you want to keep the original order from AccordionData)
     this.GeneratedQuestions = this.sortCategoriesAndMCQs(categoryWiseMcqs);
 
-    console.log(this.GeneratedQuestions);
   }
 
   sortCategoriesAndMCQs(data: any[]): any[] {
@@ -690,7 +710,6 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   selectOption(option: Category): void {
     this.selectedOption = option; // Set the selected option
-    console.log(this.selectedOption);
     this.dropdownOpen = false; // Close dropdown
     this.searchQuery = ''; // Reset search input
     this.filteredOptions = this.categories ? [...this.categories] : []; // Reset filtered list
@@ -698,7 +717,6 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   onMove(val: any) {
     this.subscribeToChanges();
-    console.log(val);
     this.totalQuestionCount = val.totalQuestionCount;
     this.selectedOption = val;
     this.questionForm.patchValue({
@@ -752,7 +770,6 @@ export class TestSeriesDetailsComponent implements OnInit {
 
 
   onSearchChange(query: any) {
-    console.log(query.target.value);
     this.searchCatSubject.next(query.target.value); // Emit the query to search
   }
 
@@ -799,7 +816,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       this.AllMappedCat,
       this.searchCategory
     );
-    // console.log(data, this.searchCategory)
     return data;
   }
 
@@ -810,7 +826,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       .getCategories()
       .pipe(
         tap((response) => {
-          console.log('Categories fetched successfully:', response);
           var res: apiResponse = response;
           this.categories = res.response; // Assign the fetched categories to the categories array
           this.setFilteration(this.categories);
@@ -833,7 +848,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       .getallmappedCategories()
       .pipe(
         tap((response) => {
-          console.log('Categories fetched successfully:', response);
 
           this.addIsOpenProperty(response);
           this.AllMappedCat = response; // Assign the fetched categories to the categories array
@@ -868,7 +882,6 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   onToggleCategory(event: Event): void {
     const isChecked = (event.target as HTMLInputElement).checked;
-    console.log('Switch toggled:', !isChecked);
     this.isCreateNewCategory = !isChecked;
     // You can add your logic here based on whether the switch is on or off
   }
@@ -884,7 +897,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       .createCategory(reqBody)
       .pipe(
         tap((response) => {
-          console.log('Category created successfully:', response);
         }),
         catchError((error) => {
           console.error('Error creating category:', error);
@@ -892,7 +904,6 @@ export class TestSeriesDetailsComponent implements OnInit {
         }),
         finalize(() => {
           this.loading = false; // Stop loading
-          console.log('Category creation request completed.');
           this.selectedOption = null;
           this.chips = [];
           this.getCategories();
@@ -912,7 +923,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       .createCategory(reqBody)
       .pipe(
         tap((response) => {
-          console.log('Category created successfully:', response);
         }),
         catchError((error) => {
           console.error('Error creating category:', error);
@@ -920,7 +930,6 @@ export class TestSeriesDetailsComponent implements OnInit {
         }),
         finalize(() => {
           this.loading = false; // Stop loading
-          console.log('Category creation request completed.');
           this.selectedOption = null;
           this.chips = [];
           this.getCategories();
@@ -937,7 +946,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       numberOfQuestionsMedium: this.questionForm.get('mediumQuestions')?.value,
       numberOfQuestionsHard: this.questionForm.get('hardQuestions')?.value,
     };
-    console.log(reqBody);
 
     this.loading = true; // Start loading
     this.genQuesAsyncCall = true;
@@ -946,7 +954,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       .fetchQuestionsForTest(reqBody)
       .pipe(
         tap((response) => {
-          console.log('Category updated successfully:', response);
           this.AccordionData = response;
           this.transformData();
         }),
@@ -960,7 +967,6 @@ export class TestSeriesDetailsComponent implements OnInit {
           this.selectedOption = null;
           this.loading = false; // Stop loading
           this.genQuesAsyncCall = false;
-          console.log('Category updation request completed.');
         })
       )
       .subscribe();
@@ -971,11 +977,11 @@ export class TestSeriesDetailsComponent implements OnInit {
     this.loading = true; // Start loading
     this.createTestAsyncCall = true;
 
+
     this.testSeriesService
       .createTest(this.getTestSeriesId(), this.testForm)
       .pipe(
         tap((response) => {
-          console.log('Test created successfully:', response);
          
           
         }),
@@ -990,7 +996,6 @@ export class TestSeriesDetailsComponent implements OnInit {
 
           this.loading = false; // Stop loading
           this.createTestAsyncCall = false;
-          console.log('test creation request completed.');
         })
       )
       .subscribe();
@@ -1004,18 +1009,19 @@ export class TestSeriesDetailsComponent implements OnInit {
       subTitle: '',
       keyWords: [],
       files: [],
-      minimumPassingScore: null,
+      minimumPassingScore: '',
       topics: [],
       duration: '',
       language: '',
       categoryIds: []
     };
+
+    this.startTime = '';
+    this.endTime = '';
   }
 
   editTest() {
-    console.log('edit')
     this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
-    console.log(this.testForm)
   }
 
 
@@ -1029,7 +1035,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       .getTestSeriesById(id)
       .pipe(
         tap((response) => {
-          console.log(' successfull:', response);
           this.testSeriesDetails =  response.response
           
         }),
@@ -1042,7 +1047,6 @@ export class TestSeriesDetailsComponent implements OnInit {
         
           this.loading = false; // Stop loading
          
-          console.log('completed.');
         })
       )
       .subscribe();
@@ -1062,7 +1066,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       .addQuestionToTest(Obj)
       .pipe(
         tap((response) => {
-          console.log(' successfull:', response);
           // this.testSeriesDetails =  response.response
           
         }),
@@ -1074,13 +1077,12 @@ export class TestSeriesDetailsComponent implements OnInit {
           
         
           this.loading = false; // Stop loading
+          this.generateQues = false;
          
-          console.log('completed.');
 
         })
       )
       .subscribe();
-    console.log(Obj)
   }
  
 
@@ -1095,11 +1097,9 @@ export class TestSeriesDetailsComponent implements OnInit {
       .getTestByTestSeries(id)
       .pipe(
         tap((response) => {
-          console.log('successfull:', response);
           this.tableData = response; // Assign the fetched data to the list
           this.showColumns  = this.generateTableHeaders(response.map(({ id,keywords,files,topics,categories,minimumPassingScore, ...rest }: any) => rest));
           this.tableHeaders = this.generateTableHeaders(response)
-          console.log(this.tableHeaders)
           
         }),
         catchError((error) => {
@@ -1111,7 +1111,6 @@ export class TestSeriesDetailsComponent implements OnInit {
         
           this.loading = false; // Stop loading
          
-          console.log('completed.');
         })
       )
       .subscribe();
@@ -1157,7 +1156,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       (item: any) => item.id !== val.id
     );
     this.transformData();
-    console.log(this.AccordionData);
   }
 
   DeleteCategory(id: any) {
@@ -1165,14 +1163,12 @@ export class TestSeriesDetailsComponent implements OnInit {
       .deleteCategory(id)
       .pipe(
         tap((response) => {
-          console.log('Category deleted successfully:', response);
         }),
         catchError((error) => {
           console.error('Error deleting category:', error);
           return of(error); // Return an observable to handle the error
         }),
         finalize(() => {
-          console.log('Category deletion request completed.');
           this.getCategories();
           this.getAllMappedCategories();
         })
@@ -1185,7 +1181,6 @@ export class TestSeriesDetailsComponent implements OnInit {
     .deleteTest(this.getTestSeriesId() , val.id)
     .pipe(
       tap((response) => {
-        console.log('Test deleted successfully:', response);
       }),
       catchError((error) => {
         console.error('Error deleting test:', error);
@@ -1193,7 +1188,6 @@ export class TestSeriesDetailsComponent implements OnInit {
       }),
       finalize(() => {
         this.getTestsByTestSeries(this.getTestSeriesId())
-        console.log('Test deletion request completed.');
       })
     )
     .subscribe();

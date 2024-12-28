@@ -1260,7 +1260,6 @@ export class AttemptTestComponent implements OnInit {
   private timerSubscription: Subscription | null = null;
 
   constructor(private route : ActivatedRoute,private testSeriesService: TestSeriesService, private router: Router, private toastr: ToastrService) {
-    // console.log(this.questions)
   }
 
 
@@ -1307,7 +1306,7 @@ export class AttemptTestComponent implements OnInit {
           }
         },
         error: (err) => console.error(err),
-        complete: () => console.log("Timer completed!")
+        complete: () => {}
       });
   }
 
@@ -1338,7 +1337,6 @@ export class AttemptTestComponent implements OnInit {
 
   getActiveQuestion(id:any) {
     this.currentQuestioNumber = [id];
-    console.log(this.currentQuestioNumber)
   }
 
   review() {
@@ -1346,26 +1344,21 @@ export class AttemptTestComponent implements OnInit {
       // Get the current question using its index in the questions array
       const currentIndex = this.questions.findIndex((q:any) => q.id === this.currentQuestion.id);
       const currentQuestion = this.questions[currentIndex];
-      console.log(currentQuestion)
     this.reviewArray.push(this.currentQuestion.id)
-    console.log(this.reviewArray)
        // Move to the next question after saving
        this.moveToNextQuestion();
   }
 
 
   saveAnswer() {
-    console.log('not selectedAnswer')
     if (this.selectedAnswer) {
       // Get the current question using its index in the questions array
       const currentIndex = this.questions.findIndex((q:any) => q.id === this.currentQuestion.id);
       const currentQuestion = this.questions[currentIndex];
 
       if(this.reviewArray.includes(this.currentQuestion.id)) {
-        console.log(this.reviewArray);
         const currentReviewIndex = this.reviewArray.findIndex((id:any) => id === this.currentQuestion.id);
         this.reviewArray.splice(currentReviewIndex, 1);
-        console.log(this.reviewArray);
         
       }
   
@@ -1375,15 +1368,10 @@ export class AttemptTestComponent implements OnInit {
       // Save the answer to the answeredArray
       this.answeredArray.push(this.currentQuestion.id);
   
-      console.log('Saved answers: ', this.answeredArray);
-      console.log('Updated question with answer:', currentQuestion);
-      console.log(this.questions)
   
       // Move to the next question after saving
       this.moveToNextQuestion();
-      console.log('selectedAnswer')
     }
-    console.log('not selectedAnswer')
   }
 
 
@@ -1415,7 +1403,6 @@ export class AttemptTestComponent implements OnInit {
 
 
   gotToQuestion(ques: any) {
-    console.log(ques)
     this.getActiveQuestion(ques.id)
     this.currentQuestion = ques;
     this.selectedAnswer = ques.ans
@@ -1450,7 +1437,6 @@ export class AttemptTestComponent implements OnInit {
       .submitTest(this.getUserId(), this.getTestSeriesId(), this.getTestId(), this.questions)
       .pipe(
         tap((response) => {
-          console.log(' successfull:', response);
           // this.testSeriesDetails =  response.response
           
         }),
@@ -1463,7 +1449,6 @@ export class AttemptTestComponent implements OnInit {
         
           this.loading = false; // Stop loading
          
-          console.log('completed.');
           this.router.navigateByUrl(`dash/series-details/${this.getTestSeriesId()}`);
           // //  this.router.navigateByUrl(`dash/test/${val.id}`);
           // // this.router.navigate(['dash/test', val.id], { queryParams: { key1: 'value1', key2: 'value2' } });
@@ -1480,13 +1465,11 @@ export class AttemptTestComponent implements OnInit {
       .getTestById(this.getTestId())
       .pipe(
         tap((response) => {
-          console.log('successfull:', response);
           if(response) {
             const timer = this.convertTimeToRemainingFormat(response.duration);
             this.totalTimeInMinutes = timer.totalTimeInMinutes; // Total test time in minutes
             this.remainingTime = timer.remainingTime; // Remaining time in mm:ss format
     
-            console.log(timer)
             this.testDetails = response
           }
           
@@ -1500,7 +1483,6 @@ export class AttemptTestComponent implements OnInit {
         
           this.loading = false; // Stop loading
          
-          console.log('completed.');
        
           this.startTestTimer();
 
@@ -1519,7 +1501,6 @@ export class AttemptTestComponent implements OnInit {
       .getTestPaperById(this.getTestId())
       .pipe(
         tap((response) => {
-          console.log('successfull:', response);
           this.questions = response;
           
         }),
@@ -1532,7 +1513,6 @@ export class AttemptTestComponent implements OnInit {
         
           this.loading = false; // Stop loading
          
-          console.log('completed.');
           this.getActiveQuestion(this.questions[0].id)
           this.currentQuestion = this.questions[0];
           // this.startTestTimer();

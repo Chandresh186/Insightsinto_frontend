@@ -102,7 +102,6 @@ export class CategoriesComponent implements OnInit {
 
     selectOption(option: Category): void {
       this.selectedOption = option; // Set the selected option
-      console.log(this.selectedOption)
       this.dropdownOpen = false; // Close dropdown
       this.searchQuery = ''; // Reset search input
       this.filteredOptions = this.categories ? [...this.categories] : []; // Reset filtered list
@@ -111,7 +110,6 @@ export class CategoriesComponent implements OnInit {
     mapParentId(option: Category) : void {
       this.categoryForm.get('parentCatId')?.patchValue(option.id)
       this.selectedOption = option; // Set the selected option
-      console.log(this.selectedOption)
       this.dropdownOpen = false; // Close dropdown
       this.searchQuery = ''; // Reset search input
       this.filteredOptions = this.categories ? [...this.categories] : []; // Reset filtered list
@@ -120,7 +118,6 @@ export class CategoriesComponent implements OnInit {
 
 
     onEdit(val:any) {
-      console.log(val)
     
       this.categoryForm.patchValue({
         id: val.id,
@@ -134,7 +131,6 @@ export class CategoriesComponent implements OnInit {
 
 
     onMove(val:any) {
-      console.log(val)
       // this.categorytobeMoved = val
       this.categoryForm.patchValue({
         id: val.id,
@@ -151,7 +147,6 @@ export class CategoriesComponent implements OnInit {
 
 
     onSearchChange(query: any) {
-      console.log(query.target.value)
       this.searchCatSubject.next(query.target.value); // Emit the query to search
     }
 
@@ -202,7 +197,6 @@ export class CategoriesComponent implements OnInit {
   get filteredCategories() {
     // const data = this.setOpenByCondition(this.AllMappedCat, (item:any) => item.catName.toLowerCase() === this.searchCategory.toLowerCase());
     const data = this.setOpenByCondition(this.AllMappedCat, this.searchCategory)
-    // console.log(data, this.searchCategory)
     return data;
   }
 
@@ -213,7 +207,6 @@ export class CategoriesComponent implements OnInit {
     this.loading = true;  // Set loading state to true while fetching data
     this.categoriesService.getCategories().pipe(
       tap(response => {
-        console.log('Categories fetched successfully:', response);
         var res: apiResponse = response;
         this.categories = res.response;  // Assign the fetched categories to the categories array
         this.setFilteration(this.categories)
@@ -234,7 +227,6 @@ export class CategoriesComponent implements OnInit {
     this.loading = true;  // Set loading state to true while fetching data
     this.categoriesService.getallmappedCategories().pipe(
       tap(response => {
-        console.log('Categories fetched successfully:', response);
         
         this.addIsOpenProperty(response);
         this.AllMappedCat = response;  // Assign the fetched categories to the categories array
@@ -271,7 +263,6 @@ export class CategoriesComponent implements OnInit {
 
   onToggleCategory(event: Event): void {
     const isChecked = (event.target as HTMLInputElement).checked;
-    console.log('Switch toggled:', !isChecked);
     this.isCreateNewCategory = !isChecked;
     // You can add your logic here based on whether the switch is on or off
   }
@@ -287,7 +278,6 @@ export class CategoriesComponent implements OnInit {
     this.categoriesService.createCategory(reqBody)
       .pipe(
         tap(response => {
-          console.log('Category created successfully:', response);
 
         }),
         catchError(error => {
@@ -296,7 +286,6 @@ export class CategoriesComponent implements OnInit {
         }),
         finalize(() => {
           this.loading = false; // Stop loading
-          console.log('Category creation request completed.');
           this.selectedOption = null;
           this.chips = [];
           this.getCategories();
@@ -316,7 +305,6 @@ export class CategoriesComponent implements OnInit {
     this.categoriesService.createCategory(reqBody)
       .pipe(
         tap(response => {
-          console.log('Category created successfully:', response);
 
         }),
         catchError(error => {
@@ -325,7 +313,6 @@ export class CategoriesComponent implements OnInit {
         }),
         finalize(() => {
           this.loading = false; // Stop loading
-          console.log('Category creation request completed.');
           this.selectedOption = null;
           this.chips = [];
           this.getCategories();
@@ -340,14 +327,12 @@ export class CategoriesComponent implements OnInit {
   EditCategory() {
     const reqBody = [this.categoryForm.value];
 
-    console.log(reqBody)
     this.loading = true; // Start loading
     this.categoryAsyncCall = true;
 
     this.categoriesService.updateCategory(this.categoryForm.value.id , reqBody)
       .pipe(
         tap(response => {
-          console.log('Category updated successfully:', response);
 
         }),
         catchError(error => {
@@ -360,7 +345,6 @@ export class CategoriesComponent implements OnInit {
           this.selectedOption = null;
           this.loading = false; // Stop loading
           this.categoryAsyncCall = false;
-          console.log('Category updation request completed.');
           this.getCategories();
           this.getAllMappedCategories();
 
@@ -375,7 +359,6 @@ export class CategoriesComponent implements OnInit {
     this.categoriesService.deleteCategory(id)
       .pipe(
         tap(response => {
-          console.log('Category deleted successfully:', response);
 
         }),
         catchError(error => {
@@ -383,7 +366,6 @@ export class CategoriesComponent implements OnInit {
           return of(error); // Return an observable to handle the error
         }),
         finalize(() => {
-          console.log('Category deletion request completed.');
           this.getCategories();
           this.getAllMappedCategories();
 

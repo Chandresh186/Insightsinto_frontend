@@ -8,6 +8,7 @@ export const API_CONSTANTS = {
       LOGIN: 'Account/login',
       REGISTER: 'Account/register',
       LOGOUT: 'Account/logout-details',
+      REGISTER_AND_LOGIN: 'Account/registerAndLogin'
     },
 
     USER: {
@@ -23,6 +24,22 @@ export const API_CONSTANTS = {
       GET_CATEGORY_BY_ID: (id: string) => `Category/${id}`,
       UPDATE_CATEGORY: (id: string) => `Category/${id}`,
       DELETE_CATEGORY: (id: string) => `Category/${id}`
+    },
+
+    Blogs: {
+      GET_ALL_BLOGS: 'Blog',
+      CREATE_BLOG: 'Blog',
+      GET_BLOG_BY_ID: (id: string) => `Blog/${id}`,
+      UPDATE_BLOG_BY_ID: (id: string) => `Blog/${id}`,
+      DELETE_BLOG_BY_ID: (id: string) => `Blog/${id}`
+
+    },
+
+    COUPONS: {
+      CREATE_COUPON : 'PromoCode',
+      GET_ALL_COUPON :  'PromoCode/all',
+      GET_COUPON_BY_CODE : (code: string) => `PromoCode/code/${code}`,
+      DELETE_COUPON_BY_ID : (id: string) => `PromoCode/${id}`,
     },
   
     // Other Endpoints
@@ -54,11 +71,30 @@ export const API_CONSTANTS = {
 
       SUBMIT_TEST: (userId: string, testSeriesId: string, testId: string) => `Test/checkanswers?userId=${userId}&testSeriesId=${testSeriesId}&testId=${testId}`,
 
-      START_TEST: 'Test/start',
+      START_Online_TEST: 'Test/start',
+      START_Offline_TEST: 'Test/offlineTest',
       SUMBIT_TEST: 'Test/submitTest'
 
 
     },
+
+    DAILY_EDITORIAL: {
+      CREATE_DAILY_EDITORIAL: "DailyEditorial/upload",
+      GET_ALL_EDITORIAL: "DailyEditorial/alleditorial",
+      GET_ALL_EDITORIAL_By_UserId: (id: string)=>  `DailyEditorial/alleditorial/${id}`,
+      GET_EDITORISL_BY_CURRENT_DATE: (date: string) => `DailyEditorial/${date}`,
+      DELETE_EDITORIAL: (id: string) => `DailyEditorial/${id}`
+    },
+
+    ADMIN_DASHBOARD: {
+      GET_ADMIN_DASHBOARD: "AdminDashboard/dashboard-data"
+    },
+
+    USER_DASHBOARD: {
+      GET_USER_DASHBOARD: (id: string) => `UserDashboard/GetUserDashboard?userId=${id}`
+    },
+
+   
 
 
     PAYMENT : {

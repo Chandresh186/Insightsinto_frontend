@@ -161,6 +161,75 @@
 
 
 
+<ng-template #instruction let-modal>
+	<div class="modal-header" style="background-color: #4e54c8; color: white">
+		<h4 class="modal-title" id="modal-basic-title">Paper Instructions: Online & Offline</h4>
+		
+
+    
+	</div>
+	<div class="modal-body">
+		<body style="font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333;">
+
+      
+    
+      <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        
+        <div style="margin-bottom: 40px; padding-bottom: 10px; border-bottom: 2px solid #ececec;">
+          <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #4e54c8;">Online Paper Instructions</h2>
+          <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+            The online test provides an easy-to-use platform for conducting exams. To ensure a smooth experience, please follow these guidelines:
+          </p>
+          <ul style="padding-left: 20px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px; font-size: 16px;">Ensure a stable internet connection throughout the exam.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Preferably use a desktop or laptop for the best experience. Avoid using mobile devices.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Log in to your account before the exam begins to avoid delays.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Be aware of the start time and join the exam promptly to avoid any disruptions.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Review the instructions and exam paper before starting.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Use the built-in timer to keep track of the remaining exam time.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">If you experience technical difficulties, immediately contact the support team for assistance.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Your answers will be saved automatically and submitted once the exam is completed.</li>
+          </ul>
+        </div>
+    
+        <div style="padding-bottom: 10px;">
+          <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #4e54c8;">Offline Paper Instructions</h2>
+          <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+            For offline exams, the test will be conducted in a traditional format on paper. Follow the guidelines below:
+          </p>
+          <ul style="padding-left: 20px; margin-bottom: 20px;">
+            <li style="margin-bottom: 10px; font-size: 16px;">Ensure you have a pen/pencil and all necessary stationary before starting.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Write your name, roll number, and other required details on the first page.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Read all instructions carefully before starting the exam.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Answer all questions in the provided spaces on the test paper.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Do not write outside the designated answer spaces.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Ensure your handwriting is legible and clear.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Once the exam is completed, submit your paper to the invigilator.</li>
+            <li style="margin-bottom: 10px; font-size: 16px;">Double-check your paper for any missed questions before submission.</li>
+          </ul>
+        </div>
+    
+      </div>
+    
+      <!-- <footer style="background-color: #4e54c8; color: white; text-align: center; padding: 15px 0; font-size: 14px;">
+        © 2024 Insight Into | All Rights Reserved
+      </footer> -->
+    
+    </body>
+	</div>
+	<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary"  (click)="modal.dismiss('Cross click')">Cancel</button>
+		<button type="button" class="btn btn-outline-primary" (click)="onlineStart(selectedTest)">Attempt Online</button>
+		<button type="button" class="btn btn-outline-primary" (click)="offlineStart(selectedTest) ; startCountdown(selectedTest.id, selectedTest.duration)">Attempt Offline</button>
+	</div>
+</ng-template>
+
+
+
+
+
+
+
 
 
 
@@ -206,6 +275,7 @@
               [ngClass]="{
                 active: test.status === 'Active',
                 completed: test.status === 'Completed',
+                offline: test.status === 'Offline',
                 upcoming: test.status === 'Upcoming' || test.status === 'Ready'
               }"
             >
@@ -219,7 +289,7 @@
                 <strong>Language:</strong> {{ test.language }}
               </p>
               <p class="card-detail">
-                <strong>Duration:</strong> {{ test.duration }}
+                <strong>Duration:</strong> {{ test.duration }}    {{test.remainingTime}}
               </p>
               <p class="card-detail">
                 <strong>Passing Score:</strong> {{ test.minimumPassingScore }}
@@ -228,14 +298,38 @@
               <button
                 *ngIf="test.status === 'Ready'"
                 class="btn start-now"
-                (click)="onStart(test)"
+                (click)="openInstuctionModel(instruction, test)"
               >
-                Start Now
+                Start Now <!--(click)="onStart(test)"-->
               </button>
+
+
+              <button
+              *ngIf="test.status === 'Offline'"
+              class="btn  offline"
+              (click)="fileInput.click()"
+            >
+              Submit Answer Sheet
+            </button>
+            <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput hidden />
+              
+              <!-- <div ngbDropdown *ngIf="test.status === 'Ready'">
+                <button type="button" class="btn start-now w-100" [id]="test.title+test.id" ngbDropdownToggle>
+                  Start Now
+                </button>
+                <div ngbDropdownMenu [attr.aria-labelledby]="test.title+test.id" class="p-2 w-100">
+                
+                  <button type="button" class="btn start-now text-center" ngbDropdownItem>Attempt Offline</button>
+                  <div class="dropdown-divider"></div>
+                  <button type="button" class="btn start-now text-center" ngbDropdownItem>Attempt Online</button>
+                </div>
+              </div> -->
+
+
               <button
                 *ngIf="test.status === 'Active'"
                 class="btn continue"
-                (click)="onStart(test)"
+                (click)="onlineStart(test)"
               >
                 Continue
               </button>
@@ -258,5 +352,16 @@
   </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 

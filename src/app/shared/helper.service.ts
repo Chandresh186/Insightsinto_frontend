@@ -11,16 +11,7 @@ export function patternValidator(): ValidatorFn {
     };
   }
 
-// Unified password validator function
-// export function passwordPatternValidator(control: FormControl): ValidatorFn  {
-//   const password = control.value || '';
-//   const validations = {
-//     minLengthCheck: password.length >= 8,
-//     numericCharCheck: /\d/.test(password),
-//     uppercaseCharCheck: /[A-Z]/.test(password),
-//     specialCharCheck: /[!@#$%^&*]/.test(password)
-//   }
-// }
+
 
 
 

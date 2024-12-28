@@ -69,7 +69,6 @@ export class TestSeriesLandingPageComponent implements OnInit{
   
    // Handle Action Event
    handleAction(event: { action: string; row: any }) {
-    // console.log(`Action: ${event.action}, Row:`, event.row);
     switch (event.action) {
       case 'buy':
         this.onBuy(event.row);
@@ -190,17 +189,7 @@ export class TestSeriesLandingPageComponent implements OnInit{
     this.selectedTestSeries = row;
     this.paymentService.setSelectedProductForCheckout(this.selectedTestSeries);
     this.modalRef = this.modalService.open(this.content,  { scrollable: true , ariaLabelledBy: 'modal-basic-title'});
-    // const paymentOrderData: PaymentOrder = {
-    //   amount: '10', // Use the validated amount
-    //   currency: 'INR',
-    //   receipt: 'qwd5465675er', // Use response ID as receipt
-    // };
-    // this.paymentService.createOrder(paymentOrderData).subscribe((res) => {
-    //   console.log(res.data)
-    //   const orderId = res.data
-    //   // this.router.navigateByUrl(`/payment/checkout/${orderId}`);
-    //   this.router.navigate(['/payment/checkout', orderId]);
-    // });
+   
    
   }
 
@@ -213,11 +202,9 @@ export class TestSeriesLandingPageComponent implements OnInit{
     
       this.testSeriesService.getTestSeries().pipe(
         tap((response: any) => {
-          // console.log('Test Series fetched successfully:', response);
           this.tableData = response.response; // Assign the fetched data to the list
           this.showColumns  = this.generateTableHeaders(response.response.map(({ id, ...rest }: any) => rest));
           this.tableHeaders = this.generateTableHeaders(response.response)
-          // console.log(this.tableHeaders, this.tableData)
         }),
         catchError((error) => {
           this.errorMessage = 'Error loading test series.'; // Handle error message
@@ -280,14 +267,12 @@ export class TestSeriesLandingPageComponent implements OnInit{
 
   registerUser() {
     const registerData: registerRequest = this.signUpForm.value; // Extract form data
-    console.log('Registering user with data:', registerData);
   
     this.isSignUpAsyncCall = true;
     this.loading = true; // Set loading state
   
     // Log selectedTestSeries to debug the issue
     const selectedTestSeries = this.paymentService.getSelectedProductForCheckout()
-    console.log('Selected test series:', selectedTestSeries);
   
     if (!selectedTestSeries || !selectedTestSeries.fee) {
       console.error('Invalid test series data. Ensure the test series is selected and contains a valid amount.');
@@ -297,49 +282,56 @@ export class TestSeriesLandingPageComponent implements OnInit{
       return;
     }
   
-    this.authService.register(registerData).pipe(
+    this.authService.registerAndLogin(registerData).pipe(
       tap(registerResponse => {
-        console.log('Registration response received:', registerResponse);
         if (!registerResponse || !registerResponse.status) {
           throw new Error('Invalid registration response. Registration failed.');
         }
+        localStorage.setItem('currentUser', JSON.stringify(registerResponse));
+        const product = {
+          userid: registerResponse.response.userId,
+          productid: selectedTestSeries.id,
+          moduleType: 'testseries'
+        }
+        localStorage.setItem('product', JSON.stringify(product))
+        this.closeModal();
+        this.router.navigateByUrl(`/dash/payment/checkout/${registerResponse.response.userId}`); // Navigate to checkout
         this.signUpForm.reset(); // Reset the form after successful registration
       }),
-      switchMap(registerResponse => {
-        // Step 2: Create order after registration
-        const paymentOrderData: PaymentOrder = {
-          amount: selectedTestSeries.fee, // Use the validated amount
-          currency: 'INR',
-          receipt: registerResponse.response.id, // Use response ID as receipt
-          productId: this.selectedTestSeries.id
-        };
+      // switchMap(registerResponse => {
+      //   // Step 2: Create order after registration
+      //   const paymentOrderData: PaymentOrder = {
+      //     amount: selectedTestSeries.fee, // Use the validated amount
+      //     currency: 'INR',
+      //     receipt: registerResponse.response.id, // Use response ID as receipt
+      //     productId: this.selectedTestSeries.id
+      //   };
   
-        console.log('Payment order data:', paymentOrderData);
-        return this.paymentService.createOrder(paymentOrderData); // Call the Create Order API
-      }),
-      tap(orderResponse => {
-        if (orderResponse) {
-          this.orderId = orderResponse.data.orderId; // Assuming orderResponse contains an 'id' field
-          const product = {
-            userid: orderResponse.data.userId,
-            productid: orderResponse.data.productId
-          }
-          localStorage.setItem('product', JSON.stringify(product))
-          console.log('Order created successfully:', orderResponse);
-        } else {
-          throw new Error('Order creation failed. Response is empty.');
-        }
-      }),
-      switchMap(() => {
-        if (this.orderId) {
-          // this.paymentService.setSelectedProductForCheckout(this.selectedTestSeries); // Save selected product
-          this.closeModal();
-          this.router.navigateByUrl(`/payment/checkout/${this.orderId}`); // Navigate to checkout
-        } else {
-          throw new Error('Order ID is missing. Cannot navigate to checkout.');
-        }
-        return of(null);
-      }),
+      //   return this.paymentService.createOrder(paymentOrderData); // Call the Create Order API
+      // }),
+      // tap(orderResponse => {
+      //   if (orderResponse) {
+      //     this.orderId = orderResponse.data.orderId; // Assuming orderResponse contains an 'id' field
+      //     const product = {
+      //       userid: orderResponse.data.userId,
+      //       productid: orderResponse.data.productId,
+      //       moduleType: 'testseries'
+      //     }
+      //     localStorage.setItem('product', JSON.stringify(product))
+      //   } else {
+      //     throw new Error('Order creation failed. Response is empty.');
+      //   }
+      // }),
+      // switchMap(() => {
+      //   if (this.orderId) {
+      //     // this.paymentService.setSelectedProductForCheckout(this.selectedTestSeries); // Save selected product
+      //     this.closeModal();
+      //     this.router.navigateByUrl(`/payment/checkout/${this.orderId}`); // Navigate to checkout
+      //   } else {
+      //     throw new Error('Order ID is missing. Cannot navigate to checkout.');
+      //   }
+      //   return of(null);
+      // }),
       catchError(error => {
         this.errorMessage = error.message || 'Something went wrong. Please try again.';
         console.error('Error during registration or payment process:', error);
@@ -359,14 +351,12 @@ export class TestSeriesLandingPageComponent implements OnInit{
 
   loginUser() {
     const loginData: loginRequest = this.loginForm.value; // Extract form data
-    console.log('Logging in with data:', loginData);
     
     this.isSignInAsyncCall = true;
     this.loading = true; // Set loading state
   
     // Log selectedTestSeries to debug the issue (optional)
     const selectedTestSeries = this.paymentService.getSelectedProductForCheckout();
-    console.log('Selected test series:', selectedTestSeries);
   
     if (!selectedTestSeries || !selectedTestSeries.fee) {
       console.error('Invalid test series data. Ensure the test series is selected and contains a valid amount.');
@@ -378,49 +368,56 @@ export class TestSeriesLandingPageComponent implements OnInit{
   
     this.authService.login(loginData).pipe(
       tap(loginResponse => {
-        console.log('Login response received:', loginResponse);
         if (!loginResponse || !loginResponse.status) {
           throw new Error('Invalid login response. Login failed.');
         }
         // Handle successful login - you might want to save tokens, user data, etc.
         this.loginForm.reset();
         localStorage.setItem('currentUser', JSON.stringify(loginResponse));
-      }),
-      switchMap(loginResponse => {
-        // Step 2: Create order after login (if needed)
-        const paymentOrderData: PaymentOrder = {
-          amount: selectedTestSeries.fee, // Use the validated amount
-          currency: 'INR',
-          receipt: loginResponse.response.userId, // Use user ID or any other identifier as receipt
-          productId: selectedTestSeries.id // Use selected test series ID
-        };
-    
-        console.log('Payment order data:', paymentOrderData);
-        return this.paymentService.createOrder(paymentOrderData); // Call the Create Order API
-      }),
-      tap(orderResponse => {
-        if (orderResponse) {
-          this.orderId = orderResponse.data.orderId; // Assuming orderResponse contains an 'id' field
           const product = {
-            userid: orderResponse.data.userId,
-            productid: orderResponse.data.productId
+            userid: loginResponse.response.userId,
+            productid: selectedTestSeries.id,
+            moduleType: 'testseries'
           };
           localStorage.setItem('product', JSON.stringify(product));
-          console.log('Order created successfully:', orderResponse);
-        } else {
-          throw new Error('Order creation failed. Response is empty.');
-        }
-      }),
-      switchMap(() => {
-        if (this.orderId) {
-          // this.paymentService.setSelectedProductForCheckout(this.selectedTestSeries); // Save selected product
           this.closeModal();
-          this.router.navigateByUrl(`/payment/checkout/${this.orderId}`); // Navigate to checkout
-        } else {
-          throw new Error('Order ID is missing. Cannot navigate to checkout.');
-        }
-        return of(null);
+          this.router.navigateByUrl(`/dash/payment/checkout/${loginResponse.response.userId}`); // Navigate to checkout
+          this.loginForm.reset();
       }),
+      // switchMap(loginResponse => {
+      //   // Step 2: Create order after login (if needed)
+      //   const paymentOrderData: PaymentOrder = {
+      //     amount: selectedTestSeries.fee, // Use the validated amount
+      //     currency: 'INR',
+      //     receipt: loginResponse.response.userId, // Use user ID or any other identifier as receipt
+      //     productId: selectedTestSeries.id // Use selected test series ID
+      //   };
+    
+      //   return this.paymentService.createOrder(paymentOrderData); // Call the Create Order API
+      // }),
+      // tap(orderResponse => {
+      //   if (orderResponse) {
+      //     this.orderId = orderResponse.data.orderId; // Assuming orderResponse contains an 'id' field
+      //     const product = {
+      //       userid: orderResponse.data.userId,
+      //       productid: orderResponse.data.productId,
+      //       moduleType: 'testseries'
+      //     };
+      //     localStorage.setItem('product', JSON.stringify(product));
+      //   } else {
+      //     throw new Error('Order creation failed. Response is empty.');
+      //   }
+      // }),
+      // switchMap(() => {
+      //   if (this.orderId) {
+      //     // this.paymentService.setSelectedProductForCheckout(this.selectedTestSeries); // Save selected product
+      //     this.closeModal();
+      //     this.router.navigateByUrl(`/payment/checkout/${this.orderId}`); // Navigate to checkout
+      //   } else {
+      //     throw new Error('Order ID is missing. Cannot navigate to checkout.');
+      //   }
+      //   return of(null);
+      // }),
       catchError(error => {
         this.errorMessage = error.message || 'Something went wrong. Please try again.';
         console.error('Error during login or payment process:', error);

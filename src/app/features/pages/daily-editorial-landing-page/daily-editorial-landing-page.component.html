@@ -1,0 +1,401 @@
+<!-- 
+
+<div class="container d-flex justify-content-center">
+
+
+    <div class="accordion" id="accordionExample" style="width: 80rem;">
+      <ng-container *ngFor="let editorial of allEditoril">
+        <div class="accordion-item" [id]="editorial.id">
+          <h2 class="accordion-header" id="{{'heading' + editorial.id}}">
+            <button class="accordion-button" (click)="showPdf(editorial.filePath, editorial.id)" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + editorial.id" aria-expanded="true" [attr.aria-controls]="'collapse' + editorial.Id">
+              <div class="w-100 d-flex justify-content-between">
+
+                <strong class="m-0">{{editorial.fileName}}</strong> <strong *ngIf="currentId == editorial.id" class="m-0 px-3">Page: {{ currentPage }} of {{ totalPages }}</strong>
+              </div>
+            </button>
+          </h2>
+          <div [id]="'collapse' + editorial.id" class="accordion-collapse collapse"  [class.show]="allEditoril[0].id === editorial.id" [attr.aria-labelledby]="'heading' + editorial.id" data-bs-parent="#accordionExample">
+            <div class="accordion-body position-relative">
+             
+              <div class="pdf-container">
+                <pdf-viewer
+                  id="outerContainer"
+                  [src]="pdfSrc"
+                  [rotation]="0"
+                  [original-size]="false"
+                  [show-all]="true"
+                  [fit-to-page]="false"
+                  [zoom]="1"
+                  [zoom-scale]="'page-width'"
+                  [stick-to-page]="false"
+                  [render-text]="true"
+                  [external-link-target]="'blank'"
+                  [autoresize]="true"
+                  [show-borders]="false"
+                  style="width: 100%; height: 80vh;"
+                  (after-load-complete)="afterLoadComplete($event)" 
+                  (pagechanging)="onPageChange($event)" 
+                ></pdf-viewer>
+                <div class="register-overlay" [id]="'overlay'+editorial.id">
+                
+                    <div class>
+                      <p>To view more pages, please register!</p>
+                      <button (click)="showOverlay = false">Register Now</button>
+                    </div>
+
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+    
+    </div>
+
+      </div> -->
+
+
+
+
+
+
+
+
+<div class="body">
+  <div class="container">
+    <header class="header">
+      <h1>Daily Editorial</h1>
+      <p>Preview today's editorial PDFs and stay informed.</p>
+    </header>
+  
+    <section class="editorial-list">
+      <ng-container *ngFor="let editorial of allEditoril">
+        <!-- Editorial Item 1 -->
+        <div class="editorial-item">
+          <div class="editorial-info">
+            <span class="editorial-title">Editorial: {{editorial.fileName}}</span>
+            <span class="editorial-date"> {{editorial.uploadDate | date: 'MMMM d, y'}}</span>
+          </div>
+          <div *ngIf="!pricingAndPlans.includes(editorial.id)" class="editorial-preview">
+            <div class="pdf-preview position-relative" [id]="'collapse' + editorial.id">
+              <div class="pdf-container w-100">
+                <pdf-viewer
+                  id="outerContainer"
+                  [src]="editorial.filePath"
+                  [rotation]="0"
+                  [original-size]="false"
+                  [show-all]="true"
+                  [fit-to-page]="false"
+                  [zoom]="1"
+                  [zoom-scale]="'page-width'"
+                  [stick-to-page]="false"
+                  [render-text]="true"
+                  [external-link-target]="'blank'"
+                  [autoresize]="true"
+                  [show-borders]="false"
+                  style="width: 100%; height: 400px;"
+                  (after-load-complete)="afterLoadComplete($event)" 
+                  (pagechanging)="onPageChange($event, editorial.id)" 
+                ></pdf-viewer>
+                <div class="register-overlay" [id]="'overlay'+editorial.id">
+                
+                    <div >
+                      <p class="mb-0">To view more pages, please register!</p>
+                 
+                    </div>
+
+                
+                </div>
+              </div>
+            </div>
+            <div class="pdf-actions">
+              <!-- <a  class="btn view-btn" routerLink="/auth">Login</a> -->
+              <a  class="btn view-btn" (click)="seePlans(editorial.id)">See plans</a>
+              <!-- <a  class="btn view-btn" (click)="onBuy(editorial , 'monthly', '149')">Buy</a> -->
+
+              <!-- <div class="pricing-container">
+                <h1>Pricing Plans</h1>
+                <div class="table-responsive">
+                  <table class="pricing-table table table-bordered ">
+                    <thead>
+                      <tr>
+                        <th>Plan</th>
+                        <th>Monthly</th>
+                        <th>3-Monthly</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="label">Normal</td>
+                        <td>
+                          <div class="d-flex align-items-center justify-content-between">
+                            <div class="price">₹149</div>
+                            <a  class="buy-button" (click)="onBuy(editorial , 'monthly', '149')">Buy </a>
+  
+                          </div>
+                        </td>
+                        <td>
+                          <div  class="d-flex align-items-center justify-content-between">
+                            <div>
+                              <span class="strike">₹449</span>
+                              <div class="price">₹399</div>
+                            </div>
+                            <a  class="buy-button" (click)="onBuy(editorial , 'quarterly', '399')">Buy </a>
+  
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="label">Referral</td>
+                        <td>
+                          <div  class="d-flex align-items-center justify-content-between">
+                            <div class="price">₹99</div>
+                            <a  class="buy-button" (click)="onBuy(editorial , 'monthly', '99')">Buy </a>
+  
+                          </div>
+                        </td>
+                        <td>
+                          <div  class="d-flex align-items-center justify-content-between">
+                            <div>
+                              <span class="strike">₹299</span>
+                              <div class="price">₹249</div>
+                            </div>
+                            <a  class="buy-button" (click)="onBuy(editorial , 'quarterly', '249')">Buy </a>
+  
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="footer-note">* Prices are inclusive of all taxes.</div>
+              </div> -->
+            </div>
+          </div>
+          <div class="plans" *ngIf="pricingAndPlans.includes(editorial.id)">
+            <div class="wrapper-container">
+              <div class="d-flex justify-content-between">
+
+                <h1>Plans & Pricing</h1>
+                <div>
+
+                  <a  class="btn view-btn" (click)="pricingAndPlans = []">Back</a>
+                </div>
+              </div>
+              <div class="pricing-containers">
+                  <div class="pricing-card">
+                      <h2>Monthly</h2>
+                      <p>Perfect for students looking to enhance their preparation with a monthly subscription.</p>
+
+                      
+                      <div class="price">₹149<span>/mo</span></div>
+                      <ul class="features h-29">
+                          <li class="d-flex align-items-baseline justify-content-center">Referral : &nbsp;<div class="referral-price">₹99<span>/mo</span></div></li>
+                          <!-- <li>5GB Storage</li>
+                          <li>Email Support</li>
+                          <li>Basic Features</li> -->
+                      </ul>
+                      <button class="button" (click)="onBuy(editorial , 'monthly', '149')">Purchase</button>
+                  </div>
+      
+                  <div class="pricing-card">
+                      <h2>Quarterly</h2>
+                      <p>Perfect for students looking to enhance their preparation with a quarterly subscription.</p>
+                      <div class="">
+                        <div class="price mb-0">₹399<span>/mo</span></div>
+                        <div class="price strike">₹449<span>/mo</span></div>
+
+                      </div>
+                      <ul class="features">
+                          <li class="d-flex align-items-baseline justify-content-center">Referral : &nbsp;
+                          <div class="">
+                            <div class="referral-price">₹249<span>/mo</span></div>
+                            <div class="referral-price strike">₹299<span>/mo</span></div>
+                          </div></li>
+                          <!-- <li>50GB Storage</li>
+                          <li>Priority Support</li>
+                          <li>Advanced Features</li> -->
+                      </ul>
+                      <button class="button" (click)="onBuy(editorial , 'quarterly', '399')">Purchase</button>
+                  </div>
+      
+                  <!-- <div class="pricing-card">
+                      <h2>Premium</h2>
+                      <p>Best for large teams with advanced needs.</p>
+                      <div class="price">$79<span>/mo</span></div>
+                      <ul class="features">
+                          <li>Unlimited Users</li>
+                          <li>Unlimited Storage</li>
+                          <li>24/7 Support</li>
+                          <li>All Features</li>
+                      </ul>
+                      <button class="button">Get Started</button>
+                  </div> -->
+              </div>
+          </div>
+          </div>
+        </div>
+
+      </ng-container>
+  
+     
+  
+    </section>
+  </div>
+
+</div>
+
+
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">{{!isLogin ? 'signUp' : 'Login'}}</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+    @if(!isLogin) {
+      <form  [formGroup]="signUpForm">
+        <div class="d-flex gap-2 input-box">
+            <div class="w-50">
+                    <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"
+                    [class.is-invalid]="signUpControl['firstName'].invalid && (signUpControl['firstName'].dirty || signUpControl['firstName'].touched)">
+                    <div *ngIf="signUpControl['firstName'].errors?.['required']" class="invalid-feedback m-0">
+                        {{validationErrorMessage.firstNameRequiredError}}
+                      </div>
+            </div>
+            <div class="w-50">
+                    <input type="text" class="form-control" placeholder="Last name" formControlName="lastName"
+                    [class.is-invalid]="signUpControl['lastName'].invalid && (signUpControl['lastName'].dirty || signUpControl['lastName'].touched)">
+                    <div *ngIf="signUpControl['lastName'].errors?.['required']" class="invalid-feedback m-0">
+                        {{validationErrorMessage.lastNameRequiredError}}
+                      </div>
+            </div>
+        </div>
+       
+        <div class="input-box">
+            <div class="position-relative">
+                <input type="email" class="form-control" placeholder="Email" formControlName="email"
+                [class.is-invalid]="signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)">
+                <ion-icon name="mail"></ion-icon>
+            </div>
+            <div *ngIf="signUpControl['email'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)}">
+                {{ signUpControl['email'].errors['required'] ?
+                validationErrorMessage.emailRequiredError :
+                validationErrorMessage.emailValidationError }}
+              </div>
+             
+        </div>
+        <div class="input-box">
+            <div class="position-relative">
+                <input [type]="hidePassword ? 'password' : 'text'" class="form-control" placeholder="Password" formControlName="password" 
+                [class.is-invalid]="signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)">
+                @if(signUpControl['password'].value) {
+                    <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                   
+                        <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                        <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                      
+                    </div>
+                } @else {
+  
+                    <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                }
+            </div>
+              <div *ngIf="signUpControl['password'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)}">
+                {{ signUpControl['password'].errors['required'] ?
+                validationErrorMessage.passwordRequiredError :
+                validationErrorMessage.passwordValidationError }}
+            
+              </div>
+  
+        </div>
+        
+      
+    </form>
+
+    } @else {
+      <form [formGroup]="loginForm">
+      
+        <div class="input-box">
+            <div class="position-relative">
+                <input type="text" placeholder="Username" formControlName="email"
+                [class.is-invalid]="loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)">
+                <ion-icon name="person" class="icon"></ion-icon>
+
+            </div>
+
+            <div *ngIf="loginFormControl['email'].errors" class="invalid-feedback"  [ngClass]="{'d-block': loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)}">
+                {{ loginFormControl['email'].errors['required'] ?
+                validationErrorMessage.emailRequiredError :
+                validationErrorMessage.emailValidationError }}
+              </div>
+        </div>
+        <div class="input-box">
+            <div class="position-relative">
+                <input [type]="hidePassword ? 'password': 'text'" placeholder="Password"  formControlName="password"
+                [class.is-invalid]="loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
+                @if(loginFormControl['password'].value) {
+                    <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                   
+                        <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                        <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                      
+                    </div>
+                } @else {
+
+                    <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                }
+
+            </div>
+            <div *ngIf="loginFormControl['password'].errors" class="invalid-feedback" [ngClass]="{'d-block': loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)}">
+                {{ loginFormControl['password'].errors['required'] ?
+                validationErrorMessage.passwordRequiredError :
+                validationErrorMessage.passwordValidationError }}
+              </div>
+        </div>
+        
+        
+    </form>
+    }
+  
+	</div>
+	<div class="modal-footer">
+    <app-async-button type="submit" classes="restore-button"
+    [disabled]="false"
+    [isAsyncCall]="false" (click)="isLogin = !isLogin">{{!isLogin ? 'Already have an account ?' : 'Don’t have an account?'}}</app-async-button>
+
+    @if(!isLogin ) {
+      <app-async-button type="submit" classes="restore-button"
+      [disabled]="signUpForm.invalid || isSignUpAsyncCall"
+      [isAsyncCall]="isSignUpAsyncCall" (click)="registerUser()">Singup</app-async-button>
+    } @else {
+      <app-async-button type="submit" classes="restore-button"
+      [disabled]="loginForm.invalid || isSignInAsyncCall"
+      [isAsyncCall]="isSignInAsyncCall" (click)="loginUser()">Login</app-async-button>
+    }
+	
+
+  
+	</div>
+
+	
+</ng-template>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  

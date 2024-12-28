@@ -1,0 +1,42 @@
+<body>
+    <header class="header">
+      <h1>Insight Into Blog</h1>
+      <p>Your source for insightful articles and tutorials.</p>
+
+    
+    </header>
+    <div class="search blog-container d-flex justify-content-between">
+        <input type="text" name="search" id="search" placeholder="search" (input)="onSearch($event)">
+        <a *ngIf="checkRole('admin')" routerLink="../create-blog"   class="read-more">Create blog</a>
+
+      </div>
+    <main class="blog-container">
+        <!-- getBlogs -->
+         @for (blog of filteredBlogs; track $index) {
+            <ng-container >
+                <div class="blog-card">
+                 <div class="position-relative">
+                     <img [src]="blog && blog.coverImage" alt="Core Web Vitals" class="blog-img">
+                     <div class="card-actions" *ngIf="checkRole('admin')">
+                         <i class="far fa-edit edit" [routerLink]="['../edit-blog', blog.id]" ></i> 
+                         <i class="far fa-trash-alt trash" (click)="deleteBlog(blog.id)"></i>
+     
+                     </div>
+                 </div>
+                  <h2>{{blog && blog.title}}</h2>
+                  <p>{{blog && blog.description}}</p>
+                   
+                      <a [routerLink]="['../blog-details', blog.id]"  class="read-more">Read More</a>
+     
+                </div>
+     
+            </ng-container>
+         } @empty {
+            <p *ngIf="filteredBlogs.length == blogs.length">No data found. </p> 
+            <p *ngIf="filteredBlogs.length !== blogs.length">No data found matching your search. </p>
+
+         }
+     
+    </main>
+  
+  </body>

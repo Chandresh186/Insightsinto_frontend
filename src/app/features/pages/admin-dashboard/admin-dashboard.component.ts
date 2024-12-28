@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TableComponent } from '../../../shared/resusable_components/table/table.component';
+import { AdminDashboardService } from '../../../core/services/admin-dashboard.service';
+import { catchError, finalize, of, tap } from 'rxjs';
+import { TestSeriesService } from '../../../core/services/test-series.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,107 +14,52 @@ import { TableComponent } from '../../../shared/resusable_components/table/table
   styleUrl: './admin-dashboard.component.scss'
 })
 export class AdminDashboardComponent {
-  public showColumns1: any ;
-  public showColumns2: any ;
-  tableHeaders:any = [
-    // { key: 'id', displayName: 'ID' },
-    // { key: 'name', displayName: 'Name' },
-    // { key: 'medium', displayName: 'Medium' },
-    // { key: 'details', displayName: 'Details' },
-    // { key: 'startDate', displayName: 'Start Date' },
-    // { key: 'fee', displayName: 'Fee' }
-  ];
+  public testSereisShowColumns: any ;
+  public testShowColumns: any ;
+  public loading : boolean = false;
+  private errorMessage: string | null = null;
+  public dashboardData : any;
+  testSeriesTableHeaders:any = [];
 
-  tableHeader: any = [
-    // { key: 'id', displayName: 'ID' },
-    // { key: 'name', displayName: 'Test Series Name' },
-    // { key: 'medium', displayName: 'Delivery Mode' },
-    // { key: 'details', displayName: 'Description' },
-    // { key: 'startDate', displayName: 'Starting Date' },
-    // { key: 'fee', displayName: 'Cost (INR)' }
-  ];
+  testTableHeaders: any = [];
   
 
-  tableData:any = [
-    {
-      id: '1',
-      name: 'Test Series 1',
-      medium: 'Online',
-      details: 'Details 1',
-      startDate: '2024-11-12',
-      fee: '1000'
-    },
-    {
-      id: '2',
-      name: 'Test Series 2',
-      medium: 'Offline',
-      details: 'Details',
-      startDate: '2024-11-15',
-      fee: '1500'
-    }
-  ];
+  testSeriesData:any = [];
 
 
-  tableDatas: any = [
-    {
-      id: '1',
-      name: 'Advanced Java Programming',
-      medium: 'Online',
-      details: 'In-depth coverage of advanced Java concepts.',
-      startDate: '2024-12-01',
-      fee: '1200'
-    },
-    {
-      id: '2',
-      name: 'Data Science Bootcamp',
-      medium: 'Hybrid',
-      details: 'Comprehensive course on Data Science, covering theory and practice.',
-      startDate: '2024-12-10',
-      fee: '2000'
-    },
-
-
-    {
-      id: '2',
-      name: 'Data Science Bootcamp',
-      medium: 'Hybrid',
-      details: 'Comprehensive course on Data Science, covering theory and practice.',
-      startDate: '2024-12-10',
-      fee: '2000'
-    },
-
-
-    {
-      id: '2',
-      name: 'Data Science Bootcamp',
-      medium: 'Hybrid',
-      details: 'Comprehensive course on Data Science, covering theory and practice.',
-      startDate: '2024-12-10',
-      fee: '2000'
-    },
-    
-  ];
+  testData: any = [];
   
 
 
 
-  actionsConfig = [
-    { key: 'delete', label: 'Delete', class: 'btn btn-outline-danger', visible: true },
-    { key: 'detail', label: 'Details', class: 'btn btn-outline-info', visible: true }, // Hidden action
+  testSeriesActionsConfig = [
+    { key: 'testSereisDelete', label: 'Delete', class: 'btn btn-outline-danger', visible: true },
+    { key: 'testSeriesDetail', label: 'Details', class: 'btn btn-outline-info', visible: true }, // Hidden action
   ];
 
+  testActionsConfig = [
+    { key: 'testDelete', label: 'Delete', class: 'btn btn-outline-danger', visible: true },
+    { key: 'testDetail', label: 'Details', class: 'btn btn-outline-info', visible: true }, // Hidden action
+  ];
 
 
 
   handleAction(event: { action: string; row: any }) {
-    // console.log(`Action: ${event.action}, Row:`, event.row);
     switch (event.action) {
      
-      case 'delete':
-        this.onDelete(event.row);
+      case 'testSereisDelete':
+        this.onTestSeriesDelete(event.row);
         break;
-      case 'detail':
-        this.onDetails(event.row);
+      case 'testSeriesDetail':
+        this.ontestSeriesDetails(event.row);
+        break;
+
+      case 'testDelete':
+        this.onTestDelete(event.row);
+        break;
+
+      case 'testDetail':
+        this.onTestDetails(event.row);
         break;
     
       default:
@@ -118,16 +67,40 @@ export class AdminDashboardComponent {
     }
   }
 
-
+  constructor(private adminDashboardService : AdminDashboardService, private testSeriesService: TestSeriesService,private router: Router) {}
 
   ngOnInit() {
-    this.showColumns1  = this.generateTableHeaders(this.tableData.map(({ id, ...rest }: any) => rest));
-    this.tableHeaders = this.generateTableHeaders(this.tableData)
+    this. getAdminDashboardDetails();
+  }
 
-    this.showColumns2  = this.generateTableHeaders(this.tableDatas.map(({ id, ...rest }: any) => rest));
-    this.tableHeader = this.generateTableHeaders(this.tableDatas)
 
-    console.log(this.tableHeader, this.tableHeaders)
+  getAdminDashboardDetails() {
+    this.loading = true; // Set loading state to true while fetching data
+    
+    this.adminDashboardService.getAdminDashboard().pipe(
+      tap((response: any) => {
+        // this.allEditoril = response
+        this.dashboardData = response;
+
+        this.testSeriesData = response && response.testSeries
+        this.testSereisShowColumns  = this.generateTableHeaders(this.testSeriesData.map(({ id, ...rest }: any) => rest));
+        this.testSeriesTableHeaders = this.generateTableHeaders(this.testSeriesData)
+
+        this.testData = response && response.tests
+        this.testShowColumns  = this.generateTableHeaders(this.testData.map(({ id,files,topics,categories,minimumPassingScore,testSeriesId,testSeriesName, ...rest }: any) => rest));
+        this.testTableHeaders = this.generateTableHeaders(this.testData)
+
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error loading admin dashboard.'; // Handle error message
+        console.error('Error loading admin dashboard:', error);
+        // this.allEditoril = []; 
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+      })
+    ).subscribe();
   }
 
 
@@ -167,15 +140,49 @@ export class AdminDashboardComponent {
   }
 
 
-  onDetails(val: any) {
-    console.log(val);
+  ontestSeriesDetails(val: any) {
+    this.router.navigateByUrl(`dash/test-series`);
   }
 
-  onDelete(val:any) {
-    console.log(val)
+  onTestSeriesDelete(val:any) {
+
+    this.loading = true; // Set loading state to true while fetching data
+  
+    this.testSeriesService.deleteTestSeries(val.id).pipe(
+      tap((response: any) => {
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error creating test series.'; // Handle error message
+        console.error('Error creating test series:', error);
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+        this.getAdminDashboardDetails();
+      })
+    ).subscribe();
   }
 
-  onEdit(val: any) {
-    console.log(val)
+  onTestDelete(val: any) {
+    this.loading = true;
+    this.testSeriesService
+    .deleteTest(val.testSeriesId , val.id)
+    .pipe(
+      tap((response) => {
+      }),
+      catchError((error) => {
+        console.error('Error deleting test:', error);
+        return of(error); // Return an observable to handle the error
+      }),
+      finalize(() => {
+        this.loading = false;
+        this.getAdminDashboardDetails();
+      })
+    )
+    .subscribe();
+  }
+
+  onTestDetails(val: any) {
+    this.router.navigateByUrl(`dash/test-series/test-series-details/${val.testSeriesId}`);
   }
 }

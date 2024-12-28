@@ -13,6 +13,5 @@ export class PaymentFailureComponent implements OnInit {
   isUserLoggedIn!: boolean;
   ngOnInit() {
     this.isUserLoggedIn = localStorage.getItem('currentUser') !== null;
-    console.log(this.isUserLoggedIn)
   }
 }

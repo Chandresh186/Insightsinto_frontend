@@ -39,7 +39,15 @@ export class HttpService<T> {
   
     // Update (PUT)
     update(url: string, data: T): Observable<T> {
-      return this.http.put<T>(`${url}`, data, { headers: this.headers });
+       // Check if the data is an instance of FormData
+       if (data instanceof FormData) {
+        // If it is FormData, don't set 'Content-Type' header because browser will handle it
+        return this.http.put<T>(url, data);
+      } else {
+        // If it's not FormData, use the existing headers for regular JSON payload
+        return this.http.put<T>(`${url}`, data, { headers: this.headers });
+      }
+      
     }
   
     // Delete (DELETE)

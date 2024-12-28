@@ -39,12 +39,20 @@ export class PaymentService {
   }
 
   getSelectedProductForCheckout() {
-    return this.selectedProductForCheckout;
+    // return this.selectedProductForCheckout;
+    const product = localStorage.getItem('selectedProductForCheckout');
+    return product ? JSON.parse(product) : null; // Parse JSON if product exists
   }
 
   setSelectedProductForCheckout(product: any) {
-    this.selectedProductForCheckout = product;
+    // this.selectedProductForCheckout = product;
+    localStorage.setItem('selectedProductForCheckout', JSON.stringify(product)); // Store as JSON
   }
+
+    // Clear the selected product from localStorage
+    clearSelectedProduct(): void {
+      localStorage.removeItem('selectedProductForCheckout');
+    }
 
   get nativeWindow(): any {
     if (isPlatformBrowser(this.platformId)) {

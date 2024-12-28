@@ -1,0 +1,42 @@
+<!-- <body> -->
+    <div class="container">
+      <header class="blog-header">
+        <img [src]="blogData && blogData.coverImage" alt="Blog Cover Image">
+        <h1 class="blog-title">{{blogData && blogData.title}}</h1>
+      </header>
+      <section class="blog-content">
+        <p class="blog-date-author">Published on {{blogData && blogData.createdAt  | date: 'MMMM d, yyyy'}}  by <strong>Admin</strong></p>
+        <div class="blog-body" [innerHTML]="blogData && blogData.blogContent">
+          <!-- <p>Web development has always been an ever-evolving field, with new technologies and trends emerging every year. In 2024, we are looking at some groundbreaking innovations that could shape the way we build and experience the web.</p>
+          <blockquote>"The web is becoming smarter and more user-focused than ever before."</blockquote>
+          <p>From the rise of AI-driven applications to enhanced browser capabilities, developers now have a plethora of tools at their disposal to create engaging user experiences. One of the key trends in 2024 is the focus on accessibility and inclusivity, ensuring that websites are usable by everyone, regardless of abilities.</p>
+          <p>Another exciting development is the shift towards more sustainable web practices. Green hosting and optimized coding techniques are becoming a standard as developers work towards reducing their carbon footprint.</p> -->
+        </div>
+        <div class="blog-tags">
+          <ng-container *ngFor="let tag of blogData && blogData.tags">
+            <a href="javascript:void(0)" class="tag">{{tag && tag.catName}}</a>
+
+          </ng-container>
+       
+        </div>
+        <section class="related-blogs">
+          <h3>Related Blogs</h3>
+          <div class="related-item">
+            <img src="https://via.placeholder.com/80" alt="Related Blog 1">
+            <a href="#">Top JavaScript Frameworks to Watch in 2024</a>
+          </div>
+          <div class="related-item">
+            <img src="https://via.placeholder.com/80" alt="Related Blog 2">
+            <a href="#">How AI is Changing the Face of Web Design</a>
+          </div>
+          <div class="related-item">
+            <img src="https://via.placeholder.com/80" alt="Related Blog 3">
+            <a href="#">10 Tips for Creating Accessible Websites</a>
+          </div>
+        </section>
+      </section>
+      <footer>
+        &copy; 2024 BlogName. All rights reserved.
+      </footer>
+    </div>
+  <!-- </body> -->

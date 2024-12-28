@@ -50,11 +50,8 @@ export class TableComponent implements OnChanges {
     if (changes['tableData']) {
       this.filteredData = this.tableData;
       this.updatePagination();
-      // console.log('Table data has changed:', changes['tableData'].currentValue);
     }
-    if (changes['tableHeaders']) {
-      console.log('Table headers have changed:', changes['tableHeaders'].currentValue);
-    }
+   
   }
 
       // Search functionality: filter data based on the search term
@@ -128,7 +125,6 @@ export class TableComponent implements OnChanges {
     onActionClick(actionKey: string, row: any) {
       const action = this.actionsConfig.find(a => a.key === actionKey);
       if (action && action.visible !== false) {
-        // console.log(`Action "${actionKey}" triggered for:`, row);
         this.actionTriggered.emit({ action: actionKey, row });
         // Implement dynamic action execution
       } else {

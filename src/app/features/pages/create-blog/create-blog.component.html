@@ -1,0 +1,144 @@
+
+  <div class="container">
+    <h1>{{getBlogId() ? 'Edit Blog': 'Create a New Blog'}}</h1>
+    <form (ngSubmit)="getBlogId() ? onEditSubmit(blogForm)  : onSubmit(blogForm)" #blogForm="ngForm">
+      <!-- Blog Title -->
+      <div>
+        <label for="title">Blog Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Enter the blog title"
+          required
+          [(ngModel)]="blogData.title"
+          #title="ngModel"
+        />
+      </div>
+
+      <!-- Blog Description -->
+      <div>
+        <label for="title">Blog Description</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          placeholder="Enter the blog description"
+          required
+          [(ngModel)]="blogData.description"
+          #title="ngModel"
+        />
+      </div>
+  
+      <!-- Cover Image -->
+      <div>
+        <label for="cover-image">Cover Image</label>
+        <input
+          type="file"
+          id="cover-image"
+          name="cover-image"
+          accept="image/*"
+          (change)="onFileChange($event)"
+        />
+      </div>
+
+      <div *ngIf="getBlogId() && checkIfHttpOrHttps(this.blogData.coverImage)" class="d-flex justify-content-center">
+        <img [src]="blogData.coverImage" alt="cover img" width="150">
+    </div>
+
+      <div>
+        <div  >
+            <label for="exampleInputPassword1" class="form-label">Select Category</label>
+            <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
+ 
+              <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+           <div class="input-group" id="target_Dropdown">
+             <input
+             type="text"
+             class="select_input form-control dropdown-toggle  text-start cursor-pointer"
+             placeholder="Select Category"
+             [value]="selectedOption && selectedOption.catName  || 'Select an option'"
+             (click)="toggleDropdown()"
+            
+             name="selectInput"
+             aria-expanded="dropdownOpen"
+             id="dropdownOpen"
+             readonly
+           /> <!--(focus)="toggleDropdown()"-->
+           <span class="input-group-append"  >
+            <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+             <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+           </span>
+         </div>
+           
+             <!-- Dropdown menu with search functionality -->
+             <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
+               <!-- Search input -->
+               <input
+                 type="text"
+                 class="form-control mb-2"
+                 placeholder="Search..."
+                 name="searchInput"
+                 [(ngModel)]="searchQuery"
+                 (input)="filterOptions()"
+                 (click)="$event.stopPropagation()"  
+               />
+           
+               <div class="list-wrapper">
+
+                   <a
+                     *ngFor="let option of filteredOptions"
+                     class="dropdown-item "
+                     href="#"
+                     [ngStyle]="{ 'cursor': isElementInChips(option) ? 'not-allowed' : 'pointer' }"
+                     (click)="isElementInChips(option) ? '' : selectOption(option); $event.preventDefault()"
+                   >
+                     {{ option.catName}} 
+                   </a>
+               </div>
+               <!-- Filtered options list -->
+           
+               <!-- Message for no matches -->
+               <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
+                 No options found
+               </div>
+             </div>
+           </div>
+          </div>
+        <div *ngIf="chips.length > 0" class="my-3">
+          <div class="chip-input-container">
+          
+          
+            <div class="chip-list">
+              <span
+                class="badge bg-primary me-2 mb-2"
+                *ngFor="let chip of chips; let i = index">
+                {{ chip.catName }}
+                <button
+                  type="button"
+                  class=""
+                  aria-label="Remove"
+                  (click)="removeChip(i)">
+                  <i class="fas fa-times"></i>
+                </button> 
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Blog Content -->
+      <div>
+        <label for="content">Blog Content</label>
+        <div id="editor" class="editor-container"></div>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="d-flex custom-gap">
+        <button type="submit" [disabled]="!blogForm.valid">Publish Blog</button>
+        <button id="back" type="button" routerLink="/dash/blogs" >Back</button>
+      </div>
+    </form>
+ 
+  </div>
+  

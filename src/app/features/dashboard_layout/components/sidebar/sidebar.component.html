@@ -19,7 +19,7 @@
                 <ul>
                     <ng-container *ngFor="let menu of menuItems">
                       
-                        <!-- <ng-container *ngIf="checkPermission(menu.title)"> -->
+                        <ng-container *ngIf="checkPermission(menu.title)">
                             <li>
                                 <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="tooltip" placement="right" [ngbTooltip]="menu?.title">
                                     <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}"
@@ -28,7 +28,7 @@
                                         {{menu?.title}}</span>
                                 </a>
                             </li>
-                        <!-- </ng-container> -->
+                        </ng-container>
                     </ng-container>
                 </ul>
             </div>
@@ -70,111 +70,114 @@
                       </div>
                     </div>
                   </div> -->
-
-                  <!-- <ng-container *ngIf="currentUserRole === 'Employee' || currentUserRole === 'Manager/HR'">
-                    <div class="d-flex">
-                        <div class="search-icon" (click)="onbordingSteps()">
-                            <img src="../../../assets/img/onboard-vector.png" width="30px" height="30px" class="mb-2 ">
-                          </div>
-                          <div class="pe-3">
-                            <button type="button" class="btn position-relative main-notification" (click)="singleRNotification()">
-                              <i class="bi bi-bell"></i>
-                              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{messageCount}}
-                                <span class="visually-hidden">unread messages</span>
-                              </span>
-                              <div *ngIf="isSingleRNotifationVisible" class="notification-single-message d-flex flex-column">
-                                <h4 class="0">Notifications ({{messages.length}})</h4>
-                                <div class="message-box">
-                                  <p class="empty-notification" *ngIf="messages.length === 0">No notification right now
-                                  </p>
-                                  <ng-container *ngIf="messages.length != 0">
-                                    <ng-container *ngFor="let message of messages" style="cursor: pointer;">
-                                      <p class="m-0" (click)="message.type == 'event'?openEventNotification():'' ">{{message?.message }}
-                                      </p>
+                  <div class="d-flex">
+                    <ng-container>
+                      <div class="d-flex">
+                          <!-- <div class="search-icon" (click)="onbordingSteps()">
+                              <img src="../../../assets/img/onboard-vector.png" width="30px" height="30px" class="mb-2 ">
+                            </div> -->
+                            <div class="pe-3">
+                              <button type="button"  id="notification" class="btn position-relative main-notification" (click)="singleRNotification()">
+                                <!-- <i class="bi bi-bell"></i> -->
+                                <i class="far fa-bell"id="notification-bell" ></i>
+                                <span *ngIf="messages.length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                  {{messageCount}}
+                                  <span class="visually-hidden">unread messages</span>
+                                </span>
+                                <div *ngIf="isSingleRNotifationVisible" class="notification-single-message d-flex flex-column">
+                                  <h4 class="0">Notifications ({{messages.length}})</h4>
+                                  <div class="message-box">
+                                    <p class="empty-notification" *ngIf="messages.length === 0">No notification right now
+                                    </p>
+                                    <ng-container *ngIf="messages.length != 0">
+                                      <ng-container *ngFor="let message of messages" style="cursor: pointer;">
+                                        <p [ngClass]="{'unread_message' : !(message && message.isRead)}" class="m-0" >{{message?.message }} <!--(click)="message.type == 'event'?openEventNotification():'' "-->
+                                        </p>
+                                      </ng-container>
                                     </ng-container>
-                                    <button class="btn text-primary" (click)="readAllNotification()">Make all as
-                                      read</button>
-                                  </ng-container>
+                                  </div>
+                                  <button *ngIf="messages.length > 0" class="btn text-primary" (click)="readAllNotification()">Make all as
+                                    read</button>
+                                </div>
+                              </button>
+                            </div>
+                      </div>
+                        
+                    </ng-container>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                        aria-labelledby="toggleNavigationLabel">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <span id="toggleNavigationLabel" class="visually-hidden">Open Navigation Menu</span>
+    
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                        aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <div class="offcanvas-header_child">
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">RESTORE</h5>
+    
+                            <div class="flex-center">
+                                <div>
+                                  <p class="status-user-name">{{userDetails.firstName | titlecase }} {{userDetails.lastName |
+                                    titlecase}}
+                                  </p>
+                                  <p class="status-user-role">{{userDetails.role}}</p>
+                                </div>
+                                <div class='status-icon-container cursor_pointer' id="log_out"> <!-- (click)="logoutModalShowHide()"-->
+                                  <img alt=""
+                                    src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
+                              
+                                  <!-- <div class="logout" *ngIf="isLogoutVisible" (click)="signOut()">
+                                    <h6 class="m-0 d-flex gap-2"><i class="bi bi-box-arrow-right"></i> Logout</h6>
+                                  </div> -->
                                 </div>
                               </div>
-                            </button>
-                          </div>
+                            </div>
+                            
+    
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="d-flex mb-3">
+                                <input type="text" id="search" class="form-control" placeholder="Search"
+                                    > <!--[ngbTypeahead]="search" (selectItem)="onSelect($event)"-->
+                            </div>
+                       
+                                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                    <ng-container *ngFor="let menu of menuItems">
+                                        <ng-container *ngIf="checkPermission(menu.title)">
+                                            <li class="nav-item">
+                                                <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="nav-link" aria-current="page" data-bs-toggle="offcanvas">
+                                                    <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}"
+                                                        width="23px">
+                                                    <span class="link hide">
+                                                        {{menu?.title}}</span>
+                                                </a>
+                                            </li>
+                                        </ng-container>
+                                    </ng-container>
+                                </ul>
+                          
+    
+                            <ul class="navbar-nav justify-content-end flex-grow-1 position-absolute bottom-0">
+                                <li class="nav-item cursor-pointer">
+                                    <a class="nav-link" id="log_out" aria-current="page" data-bs-toggle="offcanvas"
+                                        >
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                      
-                  </ng-container> -->
+                  </div>
 
 
                   
 
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-                    aria-labelledby="toggleNavigationLabel">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <span id="toggleNavigationLabel" class="visually-hidden">Open Navigation Menu</span>
-
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-                    aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <div class="offcanvas-header_child">
-                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">RESTORE</h5>
-
-                        <div class="flex-center">
-                            <div>
-                              <p class="status-user-name">{{userDetails.firstName | titlecase }} {{userDetails.lastName |
-                                titlecase}}
-                              </p>
-                              <p class="status-user-role">{{userDetails.role}}</p>
-                            </div>
-                            <div class='status-icon-container' id="log_out"> <!-- (click)="logoutModalShowHide()"-->
-                              <img alt=""
-                                src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
-                          
-                              <!-- <div class="logout" *ngIf="isLogoutVisible" (click)="signOut()">
-                                <h6 class="m-0 d-flex gap-2"><i class="bi bi-box-arrow-right"></i> Logout</h6>
-                              </div> -->
-                            </div>
-                          </div>
-                        </div>
-                        
-
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <div class="d-flex mb-3">
-                            <input type="text" id="search" class="form-control" placeholder="Search"
-                                > <!--[ngbTypeahead]="search" (selectItem)="onSelect($event)"-->
-                        </div>
-                   
-                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                <ng-container *ngFor="let menu of menuItems">
-                                    <ng-container > <!--*ngIf="checkPermission(menu.title)"-->
-                                        <li class="nav-item">
-                                            <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="nav-link" aria-current="page" data-bs-toggle="offcanvas">
-                                                <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}"
-                                                    width="23px">
-                                                <span class="link hide">
-                                                    {{menu?.title}}</span>
-                                            </a>
-                                        </li>
-                                    </ng-container>
-                                </ng-container>
-                            </ul>
-                      
-
-                        <ul class="navbar-nav justify-content-end flex-grow-1 position-absolute bottom-0">
-                            <li class="nav-item cursor-pointer">
-                                <a class="nav-link" id="log_out" aria-current="page" data-bs-toggle="offcanvas"
-                                    >
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <span>Logout</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </nav>
     </header>

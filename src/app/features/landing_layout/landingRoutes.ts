@@ -37,13 +37,27 @@ export const landingRoutes: Routes = [
           ).then((component) => component.TestSeriesLandingPageComponent),
       },
 
-      // {
-      //   path: 'payment',
-      //   loadChildren: () => 
-      //       import(
-      //           '../payment/index'
-      //       ).then((component) => component.paymentRoutes)
-      // }
+      {
+        path: 'editorial',
+        loadComponent: () => 
+            import(
+                '../pages/daily-editorial-landing-page/daily-editorial-landing-page.component'
+            ).then((component) => component.DailyEditorialLandingPageComponent)
+      },
+      {
+        path: 'blog-details/:id',
+        loadComponent: () => 
+            import(
+                '../pages/blog-details/blog-details.component'
+            ).then((component) => component.BlogDetailsComponent)
+      },
+      {
+        path: 'blogs',
+        loadComponent: () => 
+            import(
+                '../pages/blogs-list/blogs-list.component'
+            ).then((component) => component.BlogsListComponent)
+    },
     ],
   },
  

@@ -20,7 +20,11 @@
         <section class="series-overview">
           <div class="overview-header d-flex justify-content-between mb-3">
             <h2> <b>{{testSeriesDetails && testSeriesDetails.name | uppercase}}</b></h2> 
-            <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
+            <div class="d-flex gap-10px">
+              <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
+              <button class="btn-create" id="createTestBtn" routerLink="/dash/test-series" > Back </button>
+
+            </div>
           </div>
           <div class="overview-metrics">
             <div>
@@ -89,7 +93,7 @@
               <h2><b>{{testForm && testForm.title | uppercase}}</b></h2>
               <div>
                 <button class="btn-create" id="createTestBtns" (click)="generateQues = !generateQues">{{generateQues ? 'See question': 'Add question'}}</button> &nbsp;
-                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest">Back</button>
+                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest; generateQues = false">Back</button>
 
               </div>
             </div>
@@ -490,23 +494,35 @@
    
     
   
-      <!-- Title Field -->
+      <!-- Title Field (Required) -->
       <div class="input-box">
-        <label for="title" class="form-label">Title</label>
-        <input type="text" class="form-control" id="title"
-          placeholder="Enter Title" [(ngModel)]="testForm.title" name="title" required>
+        <label for="title" class="form-label">Title
+           <!--<span class="text-danger" >*</span> [ngClass]="{'text-danger': title?.invalid && title?.touched}"-->
+        </label>
+        <input type="text" class="form-control" id="title" [ngClass]="{'mb-0': title.invalid && title.touched}"
+          placeholder="Enter Title" [(ngModel)]="testForm.title" name="title" required  #title="ngModel">
+
+        <!-- Display error message if the title is invalid and has been touched -->
+        <div *ngIf="title.invalid && title.touched" class="text-danger">
+          Title is required.
+        </div>
+          
       </div>
     
       <!-- Subtitle Field -->
       <div class="input-box">
-        <label for="subTitle" class="form-label">Sub Title</label>
+        <label for="subTitle" class="form-label">Sub Title
+          <span class="text-muted"> (Optional)</span>
+        </label>
         <input type="text" class="form-control" id="subTitle"
           placeholder="Enter Subtitle" [(ngModel)]="testForm.subTitle" name="subTitle">
       </div>
     
       <!-- Keywords Field -->
       <div class="input-box">
-        <label for="keywords" class="form-label">Keywords</label>
+        <label for="keywords" class="form-label">Keywords
+          <span class="text-muted"> (Optional)</span>
+        </label>
         <div class="chip-container  mb-10px">
           <input type="text" class="chip-input" placeholder="Type and press Enter"
             [(ngModel)]="keywordsInput" name="keywords" (keydown.enter)="addKeyWordsChip()" />
@@ -523,8 +539,10 @@
     
       <!-- Minimum Passing Score Field -->
       <div class="input-box">
-        <label for="minimumPassingScore" class="form-label">Minimum Passing Score</label>
-        <input type="number" class="form-control" id="minimumPassingScore"
+        <label for="minimumPassingScore" class="form-label">Minimum Passing Score
+          <span class="text-muted"> (Optional)</span>
+        </label>
+        <input type="text" class="form-control" id="minimumPassingScore"
           placeholder="Enter Minimum Passing Score" [(ngModel)]="testForm.minimumPassingScore" name="minimumPassingScore" required>
       </div>
     
@@ -535,7 +553,9 @@
       </div> -->
 
       <div class="input-box">
-        <label for="topics" class="form-label">Topics</label>
+        <label for="topics" class="form-label">Topics
+          <span class="text-muted"> (Optional)</span>
+        </label>
         <div class="chip-container mb-10px">
           <input type="text" class="chip-input" placeholder="Type and press Enter"
             [(ngModel)]="topicsInput" name="topics" (keydown.enter)="addTopicsChip()" />
@@ -548,7 +568,9 @@
       </div>
 
       <div class="">
-        <label for="exampleInputPassword1" class="form-label">Select Category</label>
+        <label for="exampleInputPassword1" class="form-label">Select Category
+          <span class="text-muted"> (Optional)</span>
+        </label>
         <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
 
           <!-- Input field with dropdown arrow -->
@@ -565,7 +587,7 @@
          readonly
        /> <!--(focus)="toggleDropdown()"-->
        <span class="input-group-append"  >
-         <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon><!-- Bootstrap Icon for dropdown  -->
+         <i class="fa fa-caret-down" (click)="toggleDropdown()"></i><!-- Bootstrap Icon for dropdown  -->
        </span>
      </div>
        
@@ -582,15 +604,20 @@
              (click)="$event.stopPropagation()"  
            />
        
-           <!-- Filtered options list -->
-           <a
-             *ngFor="let option of filteredOptions"
-             class="dropdown-item"
-             href="#"
-             (click)="addCategoryChip(option); $event.preventDefault()"
-           >
-             {{ option.catName}}
-           </a>
+           <div class="custom-drop-down-menu">
+             <!-- Filtered options list -->
+             <a
+               *ngFor="let option of filteredOptions"
+               class="dropdown-item"
+               href="#"
+               (click)="addCategoryChip(option); $event.preventDefault()"
+             >
+               {{ option.catName}}
+             </a>
+
+           </div>
+        
+
        
            <!-- Message for no matches -->
            <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
@@ -609,20 +636,52 @@
 
     
       <!-- Duration Field -->
-      <div class="input-box">
+      <!-- <div class="input-box">
         <label for="duration" class="form-label">Duration</label>
-        <input type="text" class="form-control" id="duration" placeholder="Enter Duration" [(ngModel)]="testForm.duration" name="duration" required>
+        <input type="time" class="form-control" id="duration" placeholder="Enter Duration" [(ngModel)]="testForm.duration" name="duration" required>
+      </div> -->
+
+      <div class="d-flex custom-gap">
+        <div class="input-box" >
+          <label for="startTime" class="form-label">Start Time</label>
+          <input type="time" [ngClass]="{'mb-0': testForm.duration === null}" class="form-control" id="startTime" [(ngModel)]="startTime" name="startTime" #startTimeControl="ngModel" (change)="calculateTimeDifference()" required>
+        </div>
+        
+        <div class="input-box">
+          <label for="endTime" class="form-label">End Time</label>
+          <input type="time" [ngClass]="{'mb-0': testForm.duration === null}" class="form-control" id="endTime" [(ngModel)]="endTime" name="endTime" #endTimeControl="ngModel" (change)="calculateTimeDifference()"  required>
+        </div>
+        
+        <div class="input-box">
+          <label for="timeDifference" class="form-label">Time (in minutes)</label>
+          <input type="text" [ngClass]="{'mb-0': testForm.duration === null}" class="form-control" id="timeDifference" [value]="testForm.duration"  readonly>
+        </div>
+
       </div>
+      <div *ngIf="testForm.duration === null" class="text-danger">
+        End time cannot be earlier than start time.
+      </div>
+      <div *ngIf="startTimeControl.invalid && startTimeControl.touched" class="text-danger">
+        Start Time is required.
+      </div>
+      <div *ngIf="endTimeControl.invalid && endTimeControl.touched" class="text-danger">
+        End Time is required.
+      </div>
+
     
       <!-- Language Field -->
       <div class="input-box">
-        <label for="language" class="form-label">Language</label>
+        <label for="language" class="form-label">Language
+          <span class="text-muted"> (Optional)</span>
+        </label>
         <input type="text" class="form-control" id="language" placeholder="Enter Language" [(ngModel)]="testForm.language" name="language" required>
       </div>
     
         <!-- Files Field -->
         <div class="input-box">
-          <label for="files" class="form-label">Files</label>
+          <label for="files" class="form-label">Files
+            <span class="text-muted"> (Optional)</span>
+          </label>
           <input type="file" class="form-control" id="files" (change)="onFileChange($event)" multiple>
         </div>
     

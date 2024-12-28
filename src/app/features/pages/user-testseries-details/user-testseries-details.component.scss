@@ -116,6 +116,15 @@
   color: white;
 }
 
+.card-label.offline {
+  background-color: #B0C4DE;
+}
+
+.card-label.upcoming {
+  background-color: #28a745;
+  color: white;
+} 
+
 /* Card Body */
 .card-body {
   padding: 25px;
@@ -162,12 +171,22 @@
 }
 
 .btn.view-details {
-  background-color: #007bff;
+  background-color: #17a589;
   color: #fff;
 }
 
 .btn.view-details:hover {
-  background-color: #0056b3;
+  background-color: #48B8A7;
+  transform: translateY(-3px);
+}
+
+.btn.offline {
+  background-color: #B0C4DE;
+}
+
+.btn.offline:hover {
+  background-color: #A1B6D8;
+  color: black;
   transform: translateY(-3px);
 }
 
@@ -276,6 +295,18 @@
 
 .test-result-card {
   margin: 0 auto;
+}
+
+.btn-outline-primary {
+  color:#4e54c8;
+  // outline: 2px solid #4e54c8;
+}
+
+
+.btn-outline-primary:hover {
+  color: white;
+  background-color: #4e54c8;
+  // outline: none;
 }
 
 

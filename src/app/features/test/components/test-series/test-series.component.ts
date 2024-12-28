@@ -150,7 +150,6 @@ export class TestSeriesComponent implements OnInit {
 
 
   handleAction(event: { action: string; row: any }) {
-    // console.log(`Action: ${event.action}, Row:`, event.row);
     switch (event.action) {
       case 'edit':
         this.onEdit(event.row);
@@ -225,13 +224,10 @@ export class TestSeriesComponent implements OnInit {
   
     this.testSeriesService.getTestSeries().pipe(
       tap((response: any) => {
-        // console.log('Test Series fetched successfully:', response);
         this.tableData = response.response; // Assign the fetched data to the list
         this.showColumns  = this.generateTableHeaders(response.response.map(({ id, ...rest }: any) => rest));
         this.tableHeaders = this.generateTableHeaders(response.response)
-        console.log(this.tableHeaders)
         
-        // console.log(this.tableHeaders, this.tableData)
       }),
       catchError((error) => {
         this.errorMessage = 'Error loading test series.'; // Handle error message
@@ -254,7 +250,6 @@ export class TestSeriesComponent implements OnInit {
       startDate: new Date(this.testSeriesForm.get('startDate')?.value),
       fee: this.testSeriesForm.get('fee')?.value
     }
-    console.log(reqBody)
 
 
     this.isCreateTestSeriesAsyncCall = true;
@@ -262,7 +257,6 @@ export class TestSeriesComponent implements OnInit {
   
     this.testSeriesService.createTestSeries(reqBody).pipe(
       tap((response: any) => {
-        console.log('Test Series created successfully:', response);
       }),
       catchError((error) => {
         this.errorMessage = 'Error creating test series.'; // Handle error message
@@ -289,7 +283,6 @@ export class TestSeriesComponent implements OnInit {
       startDate: new Date(this.testSeriesForm.get('startDate')?.value),
       fee: this.testSeriesForm.get('fee')?.value
     }
-    console.log(reqBody)
 
 
     this.isCreateTestSeriesAsyncCall = true;
@@ -297,7 +290,6 @@ export class TestSeriesComponent implements OnInit {
   
     this.testSeriesService.updateTestSeries(this.idToBeUpdated, reqBody).pipe(
       tap((response: any) => {
-        console.log('Test Series created successfully:', response);
       }),
       catchError((error) => {
         this.errorMessage = 'Error creating test series.'; // Handle error message
@@ -350,7 +342,6 @@ export class TestSeriesComponent implements OnInit {
       startDate: this.formatDate(e.startDate) // set the new value for startDate
     });
     this.idToBeUpdated = e.id
-    console.log('edit',e)
 
     this.openModel()
   }
@@ -361,7 +352,6 @@ export class TestSeriesComponent implements OnInit {
   
     this.testSeriesService.deleteTestSeries(e.id).pipe(
       tap((response: any) => {
-        console.log('Test Series created successfully:', response);
       }),
       catchError((error) => {
         this.errorMessage = 'Error creating test series.'; // Handle error message

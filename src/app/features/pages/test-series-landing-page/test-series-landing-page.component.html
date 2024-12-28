@@ -180,7 +180,7 @@
         </div>
         <div class="input-box">
             <div class="position-relative">
-                <input type="password" placeholder="Password"  formControlName="password"
+                <input [type]="hidePassword ? 'password': 'text'"  placeholder="Password"  formControlName="password"
                 [class.is-invalid]="loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
                 @if(loginFormControl['password'].value) {
                     <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >

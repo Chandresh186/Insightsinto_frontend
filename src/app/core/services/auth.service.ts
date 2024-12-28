@@ -5,18 +5,24 @@ import { HttpService } from './http.service';
 import { API_CONSTANTS } from '../constants/api.constant';
 import { registerRequest } from '../models/interface/register_request.interface';
 import { loginRequest } from '../models/interface/login_request.interface';
+import { INSIGHT_INTO_ROLE, PermissionEnum } from '../enums/roles';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private baseUrl = environment.URL
-  
+  private currentUserPermissions: any;
   constructor(private httpService: HttpService<any>) { }
 
     // Register
     register(data: registerRequest): Observable<any> {
       const url = `${this.baseUrl}${API_CONSTANTS.AUTH.REGISTER}`;
+      return this.httpService.post(url, data);
+    }
+
+    registerAndLogin(data: registerRequest): Observable<any> {
+      const url = `${this.baseUrl}${API_CONSTANTS.AUTH.REGISTER_AND_LOGIN}`;
       return this.httpService.post(url, data);
     }
   
@@ -31,5 +37,29 @@ export class AuthService {
     logout(): Observable<any> {
       const url = `${this.baseUrl}${API_CONSTANTS.AUTH.LOGOUT}`;
       return this.httpService.post(url, {});
+    }
+
+
+    checkPermission(permission: any): boolean {
+      if (!permission) return false;
+      const rolePermissionsMap: Record<any, PermissionEnum[]> = {
+        [INSIGHT_INTO_ROLE.Admin]: [PermissionEnum.Settings, PermissionEnum.Categories, PermissionEnum.Test, PermissionEnum.DailyEditorial, PermissionEnum.AdminDashboard, PermissionEnum.Blogs, PermissionEnum.PromoCode],
+        [INSIGHT_INTO_ROLE.User]: [PermissionEnum.Settings, PermissionEnum.Dashboard, PermissionEnum.UserDashboard, PermissionEnum.DailyEditorial, PermissionEnum.Blogs],
+  
+      };
+      const userRole = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.role;
+      this.currentUserPermissions = rolePermissionsMap[userRole] || [];
+      return this.currentUserPermissions.includes(permission);
+    }
+
+
+    checkRole(userRoleName: string): boolean {
+      if (!userRoleName) return false;
+  
+      // Retrieve the current user's information from localStorage
+      const currentUser = JSON.parse(localStorage.getItem('currentUser') as string)?.response;
+  
+      // Check if the provided username matches the logged-in user's username
+      return currentUser?.role.toLowerCase() === userRoleName.toLowerCase();
     }
 }

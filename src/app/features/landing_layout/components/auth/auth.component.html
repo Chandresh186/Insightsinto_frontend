@@ -1,5 +1,5 @@
 <div class="body position-relative">
-    <ion-icon class="back-icon" name="arrow-back" routerLink="/"></ion-icon>
+    <!-- <ion-icon class="back-icon" name="arrow-back" routerLink="/"></ion-icon> -->
     <div class="container" [ngClass]="{'active': isRegister}">
         <div class="form-box login">
             <form [formGroup]="loginForm">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="input-box">
                     <div class="position-relative">
-                        <input type="password" placeholder="Password"  formControlName="password"
+                        <input [type]="hidePassword ? 'password': 'text'"  placeholder="Password"  formControlName="password"
                         [class.is-invalid]="loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
                         @if(loginFormControl['password'].value) {
                             <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >

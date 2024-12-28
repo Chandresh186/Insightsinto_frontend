@@ -17,7 +17,7 @@
     <div class=" flex-end g-0 gap-3">
       <ng-container > <!--*ngIf="userDetails?.role === 'Employee' || userDetails?.role === 'Manager/HR'">-->
         <div class="search-icon" > <!--(click)="onbordingSteps()"-->
-          <img src="../../../assets/img/onboard-vector.png" width="30px" height="30px" class="mb-2 ">
+          <!-- <img src="../../../assets/img/onboard-vector.png" width="30px" height="30px" class="mb-2 "> -->
         </div>
         <div>
           <div class="search-icon" > <!--(click)="searchBar()"-->
@@ -25,29 +25,31 @@
           </div>
         </div>
         
-        <div class="pe-3">
-          <!-- <button type="button" class="btn position-relative main-notification" (click)="singleRNotification()"> 
-            <i class="bi bi-bell"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-             5
+        <div class="pe-3" >
+          <button type="button" id="notification" class="btn position-relative main-notification" (click)="isSingleRNotifationVisible = !isSingleRNotifationVisible" >  <!---->
+            <!-- <i class="bi bi-bell"></i> -->
+            <i class="far fa-bell"id="notification-bell" ></i>
+            <span *ngIf="messages && messages.length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" ><!--*ngIf="messageCount > 0"-->
+              {{messageCount}}
               <span class="visually-hidden">unread messages</span>
-            </span> -->
-            <!-- <div  class="notification-single-message d-flex flex-column" *ngIf="isSingleRNotifationVisible"> 
-              <h4 class="0">Notifications 5</h4>
+            </span>
+         
+            <div  *ngIf="isSingleRNotifationVisible" class="notification-single-message d-flex flex-column" > <!--*ngIf="isSingleRNotifationVisible"-->
+              <h4 class="0">Notifications ({{messages && messages.length}})</h4>
               <div class="message-box">
-                <p class="empty-notification" *ngIf="messages.length === 0" >No notification right now 
+                <p class="empty-notification" *ngIf="messages && messages.length === 0" >No notification right now 
                 </p>
-                <ng-container *ngIf="messages.length != 0">
+                <ng-container *ngIf="messages && messages.length !== 0">
                   <ng-container *ngFor="let message of messages" style="cursor: pointer;">
-                    <p class="m-0" (click)="message.type == 'event'?openEventNotification():'' ">{{message?.message }}
+                    <p [ngClass]="{'unread_message' : !(message && message.isRead)}" class="m-0">{{message && message.message }} <!-- (click)="message.type == 'event'?openEventNotification():'' "-->
                     </p>
                   </ng-container>
-                  <button class="btn text-primary" (click)="readAllNotification()">Make all as
-                    read</button>
                 </ng-container>
               </div>
-            </div> -->
-          <!-- </button> -->
+              <button *ngIf="messages && messages.length > 0" class="btn text-primary" (click)="readAllNotification()">Make all as
+                read</button>
+            </div>
+          </button>
         </div>
       </ng-container>
       <div class="flex-center">
@@ -56,8 +58,9 @@
             titlecase}}
           </p> -->
           <!-- <p class="status-user-role">{{userDetails?.role}}</p> -->
-           <p class="status-user-name">{{'david bekham'  | titlecase }} </p>
-           <p class="status-user-name">{{'Admin'  | titlecase}} </p>
+           <p class="status-user-name">{{userDetails && userDetails.firstName | titlecase }} {{userDetails && userDetails.lastName |
+            titlecase}}</p>
+           <p class="status-user-name">{{userDetails && userDetails.role}}</p>
         </div>
         <!-- <div class="dropdown status-icon-container" id="log_out">
             <img alt="" class="dropdown-toggle" id="logout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -88,7 +91,7 @@
             </ul>
           </div> -->
 
-          <div ngbDropdown class="d-inline-block status-icon-container"  id="log_out">
+          <div ngbDropdown class="d-inline-block status-icon-container cursor_pointer"  id="log_out">
             <img alt="" class="dropdown-toggle" id="logout" ngbDropdownToggle id="logout"
                 src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
 			

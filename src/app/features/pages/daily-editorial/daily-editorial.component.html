@@ -1,0 +1,255 @@
+<div class="container">
+    <!-- Upload Section -->
+    <section class="section" *ngIf="checkRole('admin')">
+        <h2>Upload Files</h2>
+        <form [formGroup]="dailyEditorialForm" class="upload-form d-flex justify-content-evenly gap-20px" (ngSubmit)="createEditorial()">
+            <div class="input-box">
+                <label for="files" class="form-label">File</label>
+                <input type="file" #fileInput accept="application/pdf, video/*" class="form-control" id="files" (change)="onFileChange($event)" multiple
+                [ngStyle]=" { 'color': 'white' } "
+                >
+                <br>
+                <ul>
+                    <li *ngFor="let key of objectKeys(selectedFiles)" class="d-flex align-items-center justify-content-between">
+                        {{ selectedFiles[key] ? selectedFiles[key]?.name  : '' }}   <i *ngIf="selectedFiles[key]" (click)="deleteFromUploadList(key ,selectedFiles[key])" class="far fa-trash-alt delete-icon cursor-pointer"></i>   
+                    </li>
+                    <!-- <li class="d-flex align-items-center justify-content-between">
+                        {{ selectedFiles &&  selectedFiles['video'] && selectedFiles['video']['name']}}  <i class="fas fa-trash delete-icon"></i> 
+
+                    </li> -->
+                </ul>
+
+              
+
+                  <!-- <div *ngFor="let key of objectKeys(selectedFiles)">
+                    <div>
+                      
+                    </div>
+                  </div> -->
+
+                
+                  <!-- {{objectKeys(selectedFiles) | json}} -->
+
+                <!-- [class.is-invalid]="dailyEditorialFormControl['pdf'].invalid && (dailyEditorialFormControl['pdf'].dirty || dailyEditorialFormControl['pdf'].touched)" -->
+                <!-- <div *ngIf="dailyEditorialFormControl['pdf'].errors" class="invalid-feedback"  [ngClass]="{'d-block': dailyEditorialFormControl['pdf'].invalid && (dailyEditorialFormControl['pdf'].dirty || dailyEditorialFormControl['pdf'].touched)}">
+                    {{ dailyEditorialFormControl['pdf'].errors['required'] ?
+                    'File is required' :
+                    ''}}
+                  </div> -->
+            </div>
+
+            <!-- <div class="input-box">
+                <label for="video" class="form-label">YouTube Link</label>
+                <input type="text" class="form-control" id="video" formControlName="link" placeholder="YouTube Link"
+                [class.is-invalid]="dailyEditorialFormControl['link'].invalid && (dailyEditorialFormControl['link'].dirty || dailyEditorialFormControl['link'].touched)"
+                >
+                <div *ngIf="dailyEditorialFormControl['link'].errors" class="invalid-feedback"  [ngClass]="{'d-block': dailyEditorialFormControl['link'].invalid && (dailyEditorialFormControl['link'].dirty || dailyEditorialFormControl['link'].touched)}">
+                    {{ dailyEditorialFormControl['link'].errors['required'] ?
+                    'Link is required' :
+                    ''}}
+                  </div>
+            </div> -->
+            <div class="mt-29px">
+                <button type="submit" [disabled]="dailyEditorialForm.invalid">Upload</button> 
+
+            </div>
+        </form>
+    </section>
+
+    <!-- Files List Section -->
+    <section class="section" *ngIf="checkRole('admin')" >
+        <h2>Uploaded Files</h2>
+        <ul class="file-list">
+            @for(editorial of allEditoril; track editorial) {
+
+                <li class="file-item">
+                    <a>{{editorial && editorial.fileName}}</a>
+                    <div class="action-buttons">
+                        <div class="icons">
+                            <a class="cursor-pointer" (click)="downloadFile(editorial && editorial.filePath , editorial && editorial.fileName)"><i class="fas fa-download"></i></a>  
+                            <a class="cursor-pointer" (click)="openPlayer(editorial && editorial.videoPath)"><i class="fab fa-youtube mt-1"></i></a>
+
+                        </div>
+                        <a class="delete-btn"  (click)="deleteEditorial(editorial && editorial.id)"> <i class="far fa-trash-alt"></i></a>
+                    </div>
+                </li>
+
+
+            } @empty {
+                <li >There are no items available at the moment.</li>
+                
+            }
+          
+        </ul>
+    </section>
+   
+      <div *ngIf="checkRole('user') &&  allEditoril.length > 0 && allEditoril[0].message" class="alert alert-warning alert-dismissible fade show w-100" role="alert">
+        {{allEditoril[0].message}}
+        <a href="javascript:void(0);" class="alert-link" (click)="seePlans = !seePlans">{{seePlans ? 'See editorial' : 'Click here to renew it now'}}</a>.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+    <section class="section" *ngIf="checkRole('user')" >
+        <h2>Daily Editorial</h2>
+        <body *ngIf="allEditoril.length > 0 && !seePlans">
+            <div class="calendar-wrapper">
+              <div class="calendar-container">
+                <!-- Week Names -->
+                <div class="week-names">
+                  
+                  <div>Monday</div>
+                  <div>Tuesday</div>
+                  <div>Wednesday</div>
+                  <div>Thursday</div>
+                  <div>Friday</div>
+                  <div>Saturday</div>
+                  <div>Sunday</div>
+                </div>
+          
+                <!-- Week View -->
+                <div class="week-view">
+
+                    @for(editorial of allEditoril; track editorial; let idx = $index) {
+
+
+                        <div *ngIf="editorial && editorial.videoPath === null && editorial && editorial.filePath == null" class="card cursor-pointer" >
+                            <span  class="elipse" [ngbTooltip]="editorial && editorial.fileName">
+                              {{editorial && editorial.fileName}} 
+
+                            </span>
+                        </div>
+
+
+                        <div *ngIf="editorial && editorial.videoPath === null && editorial && editorial.filePath !== null" class="card cursor-pointer" (click)="downloadFile(editorial && editorial.filePath , editorial && editorial.fileName)">
+                            <span  class="elipse" [ngbTooltip]="editorial && editorial.fileName">
+                              {{editorial && editorial.fileName}} 
+
+                            </span>
+                        </div>
+
+                        <div *ngIf="editorial && editorial.filePath === null && editorial && editorial.videoPath !== null" class="card cursor-pointer" (click)="openPlayer(editorial && editorial.videoPath)">
+                            <span  class="elipse" [ngbTooltip]="editorial && editorial.fileName">
+                              {{editorial && editorial.fileName}}
+
+                            </span>
+                        </div>
+
+                        <!-- <li class="file-item">
+                            <a>{{editorial && editorial.fileName}}</a>
+                            <div class="action-buttons">
+                                <div class="icons">
+                                    <a class="cursor-pointer" (click)="downloadFile(editorial && editorial.filePath , editorial && editorial.fileName)"><i class="fas fa-download"></i></a>  
+                                    <a class="cursor-pointer" (click)="openPlayer(editorial && editorial.videoPath)"><i class="fab fa-youtube mt-1"></i></a>
+        
+                                </div>
+                                <a class="delete-btn"  (click)="deleteEditorial(editorial && editorial.id)"> <i class="far fa-trash-alt"></i></a>
+                            </div>
+                        </li> -->
+        
+        
+                    } @empty {
+                       
+                        
+                    }
+                  <!-- <div class="card">Card 1</div>
+                  <div class="card">Card 2</div>
+                  <div class="card">Card 3</div>
+                  <div class="card">Card 4</div>
+                  <div class="card">Card 5</div>
+                  <div class="card">Card 6</div>
+                  <div class="card">Card 7</div>
+                  <div class="card">Card 8</div>
+                  <div class="card">Card 9</div>
+                  <div class="card">Card 10</div> -->
+                </div>
+              </div>
+            </div>
+          </body>
+
+
+          <div *ngIf="allEditoril.length === 0 ||  seePlans" >
+            <li *ngIf="allEditoril.length === 0">
+                <span>You have not purchased any editorials yet</span>, 
+                <span style="color: red;">or your editorials have expired.</span>
+            </li>
+
+
+            <div  class="wrapper-container">
+                <div class="d-flex justify-content-between">
+  
+                  <h1>Plans & Pricing</h1>
+                  <!-- <div>
+  
+                    <a  class="btn view-btn" (click)="pricingAndPlans = []">Back</a>
+                  </div> -->
+                </div>
+                <div class="pricing-containers">
+                    <div class="pricing-card">
+                        <h2>Monthly</h2>
+                        <p>Perfect for students looking to enhance their preparation with a monthly subscription.</p>
+  
+                        
+                        <div class="price">₹149<span>/mo</span></div>
+                        <ul class="features h-29">
+                            <li class="d-flex align-items-baseline justify-content-center">Referral : &nbsp;<div class="referral-price">₹99<span>/mo</span></div></li>
+                            <!-- <li>5GB Storage</li>
+                            <li>Email Support</li>
+                            <li>Basic Features</li> -->
+                        </ul>
+                        <button class="button" (click)="onBuy('monthly', '149')" >Purchase</button> <!---->
+                    </div>
+        
+                    <div class="pricing-card">
+                        <h2>Quarterly</h2>
+                        <p>Perfect for students looking to enhance their preparation with a quarterly subscription.</p>
+                        <div class="">
+                          <div class="price mb-0">₹399<span>/mo</span></div>
+                          <div class="price strike">₹449<span>/mo</span></div>
+  
+                        </div>
+                        <ul class="features">
+                            <li class="d-flex align-items-baseline justify-content-center">Referral : &nbsp;
+                            <div class="">
+                              <div class="referral-price">₹249<span>/mo</span></div>
+                              <div class="referral-price strike">₹299<span>/mo</span></div>
+                            </div></li>
+                            <!-- <li>50GB Storage</li>
+                            <li>Priority Support</li>
+                            <li>Advanced Features</li> -->
+                        </ul>
+                        <button class="button" (click)="onBuy('quarterly', '399')" >Purchase</button> <!---->
+                    </div>
+        
+                    <!-- <div class="pricing-card">
+                        <h2>Premium</h2>
+                        <p>Best for large teams with advanced needs.</p>
+                        <div class="price">$79<span>/mo</span></div>
+                        <ul class="features">
+                            <li>Unlimited Users</li>
+                            <li>Unlimited Storage</li>
+                            <li>24/7 Support</li>
+                            <li>All Features</li>
+                        </ul>
+                        <button class="button">Get Started</button>
+                    </div> -->
+                </div>
+            </div>
+          </div>
+    </section>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

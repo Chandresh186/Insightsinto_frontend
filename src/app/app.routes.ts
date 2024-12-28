@@ -28,6 +28,13 @@ export const routes: Routes = [
           ).then((component) => component.paymentRoutes)
     },
     {
+      path: 'pricing-and-plans',
+      loadComponent: () => 
+          import(
+              './features/pages/pricing-and-plans/pricing-and-plans.component'
+          ).then((component) => component.PricingAndPlansComponent)
+    },
+    {
         path: "**",
         redirectTo: '/'
         // pathMatch: 'full',

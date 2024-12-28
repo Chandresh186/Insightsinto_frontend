@@ -30,7 +30,7 @@ export const httpConfigInterceptor: HttpInterceptorFn = (req, next) => {
       catchError((error: HttpErrorResponse) => {
         // toastr.error(`Request failed: ${error.message}`)
         if (error.status === 500) {
-          route.navigateByUrl("/404-error");
+          // route.navigateByUrl("/404-error");
         }
         return throwError(error);
       }),

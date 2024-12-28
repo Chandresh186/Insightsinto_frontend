@@ -23,3 +23,10 @@ export const testSeriesValidationErrorMessage = {
     feeRequiredError: 'Fee is required.',
     feePatternError: 'Fee must be a valid number.'
   };
+
+  export const promoValidationMessages = {
+    promoCodeRequired: 'Promo code is required.',
+    discountRequired: 'Discount is required.',
+    validFromRequired: 'Valid From date is required.',
+    validUntilRequired: 'Valid Until date is required.',
+  };

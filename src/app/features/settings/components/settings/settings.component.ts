@@ -57,12 +57,10 @@ export class SettingsComponent implements OnInit {
     // },
     {
       heading: 'Account',
-      permission: [INSIGHT_INTO_ROLE.Admin],
+      permission: [INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.User],
       icon: 'bi bi-person',
       tabs: [
-        { id: 'v-pills-profile', 
-          permission: [INSIGHT_INTO_ROLE.Admin],
-           target: "Profile", label: 'Profile', active: false },
+        { id: 'v-pills-profile', permission: [INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.User],target: "Profile", label: 'Profile', active: true },
         // { id: 'v-pills-onboarding', 
         //   permission: [INSIGHT_INTO_ROLE.Admin],
         //    target: "Onboarding_Form", label: 'Onboarding form', active: false },
@@ -97,7 +95,6 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.userId = JSON.parse(localStorage.getItem('currentUser')!).response?.userId;
     this.userRole = JSON.parse(localStorage.getItem('currentUser')!).response?.role;
-    console.log(this.userRole)
     this.isLightMode = !!localStorage.getItem('themeColor');
 
     this.getProfile(this.userId)
@@ -195,7 +192,6 @@ export class SettingsComponent implements OnInit {
     this.loading = true;  // Set loading state to true while fetching data
     this.settingsService.getUserById(id).pipe(
       tap(response => {
-        console.log('Categories fetched successfully:', response);
         // Assign the fetched categories to the categories array
         this.accountSettingsForm.patchValue({
           firstName: response?.firstName,
@@ -251,7 +247,6 @@ export class SettingsComponent implements OnInit {
     
     this.settingsService.updateUser(this.userId, combinedData).pipe(
       tap(response => {
-        console.log('Categories fetched successfully:', response);
         // Assign the fetched categories to the categories array
       }),
       catchError(error => {

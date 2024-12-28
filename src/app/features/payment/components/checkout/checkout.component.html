@@ -1,10 +1,4 @@
-<!-- <button id="rzp-button1" (click)="payWithRazorpay()">
-    Pay Now
-</button>
-
-<button (click)="failed()">Failed</button>
-<button (click)="success()">Success</button> -->
-<div class="alert d-flex justify-content-end">
+<!-- <div class="alert d-flex justify-content-end">
     @for (alert of alerts; track alert) {
         <ngb-alert class="w-25" [type]="alert.type" (closed)="close(alert)">{{ alert.message }}</ngb-alert>
     }
@@ -16,7 +10,7 @@
     <div class="checkout">
        
 
-        <!-- Order Summary -->
+        Order Summary 
         <div class="order-summary">
             <div class="summary-box">
                 <h2 class="summary-title">Order Summary</h2>
@@ -24,7 +18,7 @@
                     <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Nike Air Max 2024">
                     <div class="product-details">
                         <h3 class="product-name">{{selectedProduct.name}}</h3>
-                        <!-- <p class="product-size">Size: US 10</p> -->
+                        <p class="product-size">Size: US 10</p>
                         <p class="product-quantity">Quantity: 1</p>
                         <p class="product-price"> INR {{selectedProduct.fee}}</p>
                     </div>
@@ -38,14 +32,14 @@
                         <span class="label">Subtotal</span>
                         <span class="value"><b>INR</b>&nbsp;{{selectedProduct.fee}}</span>
                     </div>
-                    <!-- <div class="cost-item">
+                     <div class="cost-item">
                         <span class="label">Shipping</span>
                         <span class="value green">Free</span>
-                    </div> -->
-                    <!-- <div class="cost-item">
+                    </div> 
+                    <div class="cost-item">
                         <span class="label">Tax</span>
                         <span class="value">$16.20</span>
-                    </div> -->
+                    </div> 
                 </div>
                 <div class="total">
                     <span class="total-label">Total</span>
@@ -63,7 +57,7 @@
     </div>
 </main>
 
-<!-- Trust Signals -->
+Trust Signals 
 <section class="trust-signals">
     <div class="container">
         <div class="trust-item">
@@ -82,10 +76,134 @@
             <p>We're here to assist you anytime</p>
         </div>
     </div>
-</section>
+</section> -->
 
 
 
+
+
+
+
+
+
+
+
+
+<body>
+    <div class="container">
+      <!-- Cart Section -->
+      <div class="cart-section">
+        <h2>Your Cart</h2>
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <!-- <img src="https://via.placeholder.com/70" alt="Product 1"> -->
+            <div class="cart-item-details">
+              <p class="cart-item-title">{{selectedProduct && selectedProduct.name}}</p>
+              <!-- <p class="cart-item-desc">Short description of Product 1.</p> -->
+            </div>
+          </div>
+          <span class="cart-item-price"> {{selectedProduct && selectedProduct.fee  | currency :'INR'}}</span>
+        </div>
+        <div class="cart-divider"></div>
+        <!-- <div class="cart-item">
+          <div class="cart-item-info">
+           
+            <div class="cart-item-details">
+              <p class="cart-item-title">Product 2</p>
+              <p class="cart-item-desc">Short description of Product 2.</p>
+            </div>
+          </div>
+          <span class="cart-item-price">$15.00</span>
+        </div> -->
+      </div>
+  
+      <!-- Right Section -->
+      <div class="right-section">
+        <!-- Coupon Section -->
+        <div class="coupon-section">
+          <h3>Apply Coupon</h3>
+          
+          
+          
+
+          <form [formGroup]="couponForm" >
+            <div class="coupon-input">
+                <div>
+                    <input type="text" id="couponCode" class="form-control" placeholder="Enter coupon code" formControlName="couponCode"
+                    [class.is-invalid]="couponMessage && !isValid" [class.is-valid]="couponMessage && isValid" (input)="handleInput($event)" (keydown.enter)="applyCoupon()"
+                    >
+                    <div *ngIf="couponMessage && isValid || couponMessage && !isValid" class=" m-0" [ngClass]="couponMessage && isValid ? 'valid-feedback' : 'invalid-feedback'">
+                        {{ couponMessage }}
+                    </div>
+
+                </div>
+                
+              <button type="button" [ngClass]="{'mb-4': couponMessage, 'btn-apply': !couponMessage, 'btn-cancel':couponMessage}" (click)="isValid  ? removeCoupon() :applyCoupon()">{{isValid ? 'Remove' :'Apply'}}</button>  <!-- Changed to type="button" to prevent form submission -->
+            </div>
+            
+            <!-- <p id="couponMessage" class="coupon-message" *ngIf="couponMessage">{{ couponMessage }}</p>  Use *ngIf to display the message when needed -->
+          </form>
+        
+            
+        </div>
+  
+        <!-- Summary Section -->
+        <div class="summary-section">
+          <h3>Order Summary</h3>
+          <div class="summary-item">
+            <span>Subtotal:</span>
+            <span id="subtotal"> {{Subtotal | currency :'INR'}}</span>
+          </div>
+          <div class="summary-item">
+            <span>Discount:</span>
+            <span id="discount">- {{discount | currency :'INR'}}</span>
+          </div>
+          <div class="summary-item total">
+            <span>Total:</span>
+            <span id="total">{{total | currency :'INR'}}</span>
+          </div>
+          <button class="checkout-btn" (click)="createOrder()">Complete Purchase</button> <!--(click)="payWithRazorpay()"-->
+          
+          <button (click)="cancelPayment()" class="cancel-btn" [routerLink]="isUserLoggedIn ? '/dash' : '/'" >Cancel</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- <script>
+      let subtotal = 35;
+      let discount = 0;
+  
+      function applyCoupon() {
+        const couponCode = document.getElementById("couponCode").value;
+        const couponMessage = document.getElementById("couponMessage");
+        const discountElement = document.getElementById("discount");
+        const totalElement = document.getElementById("total");
+  
+        if (couponCode === "SAVE10") {
+          discount = 10;
+          couponMessage.style.display = "block";
+          couponMessage.textContent = "Coupon applied successfully!";
+          couponMessage.classList.add("success");
+          couponMessage.classList.remove("error");
+          discountElement.textContent = `-$${discount}.00`;
+          totalElement.textContent = `$${subtotal - discount}.00`;
+        } else {
+          couponMessage.style.display = "block";
+          couponMessage.textContent = "Invalid coupon code!";
+          couponMessage.classList.add("error");
+          couponMessage.classList.remove("success");
+        }
+      }
+  
+      function completePurchase() {
+        alert("Thank you for your purchase!");
+      }
+    </script> -->
+  </body>
+
+
+
+<!-- <button (click)="redirect()">redirect</button> -->
 
 
 

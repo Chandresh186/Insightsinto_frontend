@@ -634,4 +634,22 @@ input.form-control {
   .overview-metrics {
     flex-direction: column;
   }
+
+  .custom-gap {
+    flex-direction: column;
+  }
+}
+
+
+.custom-drop-down-menu {
+  max-height: 124px;
+    overflow-y: auto;
+}
+
+.custom-gap {
+  gap: 12px;
+}
+
+.gap-10px {
+  gap: 10px;
 }

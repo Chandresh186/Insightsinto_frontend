@@ -9,6 +9,7 @@ import { passwordPatternValidator, patternValidator } from '../../../../shared/h
 import { registerRequest } from '../../../../core/models/interface/register_request.interface';
 import { loginRequest } from '../../../../core/models/interface/login_request.interface';
 import { validationErrorMessage } from '../../../../core/constants/validation.constant';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-auth',
@@ -29,10 +30,12 @@ export class AuthComponent implements OnInit{
   public signUpForm!: FormGroup;
   public loginForm!: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {}
 
 
   ngOnInit() {
+    this.isRegister = JSON.parse(localStorage.getItem('isRegister')?? 'false')  ;
+    localStorage.removeItem('isRegister');
     this.signUpForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
@@ -66,16 +69,13 @@ export class AuthComponent implements OnInit{
     const uppercaseCharCheck = /.*[A-Z].*/.test(passwd);
     const specialCharCheck = /.*[!@#$%^&?*].*/.test(passwd);
 
-    console.log(numericCharCheckMark)
 
     const minLengthCheck = passwd.length >= 8;
   
     if(numericCharCheck) {
-      console.log('yes')
       numericCharCheckMark.style.filter = 'grayscale(0)';
     }
     else {
-      console.log('no')
       numericCharCheckMark.style.filter = 'grayscale(1)';
     }
 
@@ -112,7 +112,6 @@ export class AuthComponent implements OnInit{
     this.loading = true; // Set loading state
     this.authService.register(registerData).pipe(
       tap(response => {
-        console.log('Registration successful:', response);
         this.isRegister = !this.isRegister;
         this.signUpForm.reset();
       }),
@@ -134,7 +133,6 @@ export class AuthComponent implements OnInit{
     this.loading = true; // Set loading state
     this.authService.login(loginData).pipe(
       tap(response => {
-        console.log('Login successful:', response);
         if(response.status) {
           localStorage.setItem('currentUser', JSON.stringify(response));
           this.router.navigateByUrl('/dash');
@@ -143,10 +141,15 @@ export class AuthComponent implements OnInit{
       catchError(error => {
         this.errorMessage = 'Login failed. Please check your credentials.';
         console.error('Login error:', error);
+        this.toastr.error(error.error.message, "Error", {
+          progressBar: true
+        }) ;
         return of(null); // Return a default value to continue the stream
       }),
       finalize(() => {
+
         this.loading = false; // Reset loading state
+       
       })
     ).subscribe();
   }

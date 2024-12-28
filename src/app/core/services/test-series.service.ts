@@ -55,22 +55,34 @@ export class TestSeriesService {
     
 
     createTest(testSeriesId: string, data: any) {
+
       const formData: any = new FormData();
     
       // Append scalar fields
       formData.append('Title', data.title);
-      formData.append('SubTitle', data.subTitle);
-      formData.append('MinimumPassingScore', data.minimumPassingScore);
       formData.append('Duration', data.duration);
-      formData.append('Language', data.language);
+
+      if (data.subTitle && data.subTitle.trim() !== '') {
+        formData.append('SubTitle', data.subTitle);
+      }
+
+      if (data.minimumPassingScore && data.minimumPassingScore.trim() !== '') {
+        formData.append('MinimumPassingScore', data.minimumPassingScore);
+      }
+
+      if (data.language && data.language.trim() !== '') {
+        formData.append('Language', data.language );
+      }
+
+      
     
       // Append array fields (Topics, Keywords, CategoryIds) as individual form fields
       if (data.topics && data.topics.length > 0) {
-          formData.append('Topics', JSON.stringify( data.topics)); // Append each topic individually
-      }
+        formData.append('Topics', JSON.stringify( data.topics)); // Append each topic individually
+      } 
       if (data.keyWords && data.keyWords.length > 0) {
           formData.append('Keywords', JSON.stringify( data.keyWords)); // Append each keyword individually
-      }
+      } 
       if (data.categoryIds && data.categoryIds.length > 0) {
           formData.append('CategoryIds', JSON.stringify(data.categoryIds)); // Append each categoryId individually
       }
@@ -83,7 +95,7 @@ export class TestSeriesService {
       }
     
     
-      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.CREATE_TEST(testSeriesId)}`, formData);
+      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.CREATE_TEST(testSeriesId)}`, formData); //
     }
 
     deleteTest(testSeriesId: any, testId: any): Observable<void> {
@@ -114,8 +126,12 @@ export class TestSeriesService {
       return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_BY_ID(id)}`);
     }
 
-    startTest(data: any): Observable<any> {
-      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.START_TEST}`, data);
+    startOnlineTest(data: any): Observable<any> {
+      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.START_Online_TEST}`, data);
+    }
+
+    startOfflineTest(data: any): Observable<any> {
+      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.START_Offline_TEST}`, data);
     }
 
     submitTest(userId: string, testSeriesId: string, testId: string, data: any): Observable<any> {
