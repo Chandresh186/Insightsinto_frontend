@@ -3,6 +3,7 @@ import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { API_CONSTANTS } from '../constants/api.constant';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,17 @@ export class CouponService {
   private baseUrl = environment.URL
   constructor(private httpService: HttpService<any>) { }
 
+   private getHeaders(): HttpHeaders {
+      const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+      return new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      });
+    }
+
   createCoupon(data: any): Observable<any> {
-    return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.COUPONS.CREATE_COUPON}`, data);
+    const headers = this.getHeaders();
+    return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.COUPONS.CREATE_COUPON}`, data, headers);
   }
   
   // Get all categories (GET)
@@ -27,7 +37,8 @@ export class CouponService {
 
 
   deleteCoupon(id:any): Observable<void> {
-    return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.COUPONS.DELETE_COUPON_BY_ID(id)}`);
+    const headers = this.getHeaders();
+    return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.COUPONS.DELETE_COUPON_BY_ID(id)}`,headers);
   }
 }
 

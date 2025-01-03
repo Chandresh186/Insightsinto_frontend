@@ -11,11 +11,17 @@ import { API_CONSTANTS } from '../constants/api.constant';
 export class EditorialService {
   private baseUrl = environment.URL
   constructor(private httpService: HttpService<any>, private http: HttpClient) { }
-
+  private getHeaders(): HttpHeaders {
+    const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+  }
   
 
   createDailyEditorial(data: any) {
-    console.log(data)
+    const headers = this.getHeaders();
     const formData: any = new FormData();
     // Append scalar fields
    
@@ -30,11 +36,12 @@ export class EditorialService {
     }
   
   
-    return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.DAILY_EDITORIAL.CREATE_DAILY_EDITORIAL}`, formData);
+    return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.DAILY_EDITORIAL.CREATE_DAILY_EDITORIAL}`, formData, headers);
   }
 
   deleteEditorial(id: any): Observable<void> {
-    return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.DAILY_EDITORIAL.DELETE_EDITORIAL(id)}`);
+    const headers = this.getHeaders();
+    return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.DAILY_EDITORIAL.DELETE_EDITORIAL(id)}`, headers);
   }
 
 
@@ -43,11 +50,13 @@ export class EditorialService {
   }
 
   getAllEditorials(): Observable<any[]> {
-    return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.DAILY_EDITORIAL.GET_ALL_EDITORIAL}`);
+    const headers = this.getHeaders();
+    return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.DAILY_EDITORIAL.GET_ALL_EDITORIAL}`, headers);
   }
 
   getAllEditorialsUser(id: any): Observable<any[]> {
-    return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.DAILY_EDITORIAL.GET_ALL_EDITORIAL_By_UserId(id)}`);
+    const headers = this.getHeaders();
+    return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.DAILY_EDITORIAL.GET_ALL_EDITORIAL_By_UserId(id)}`,headers);
   }
 
 

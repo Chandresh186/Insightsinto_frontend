@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment.development';
 import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
 import { API_CONSTANTS } from '../constants/api.constant';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,17 @@ export class BlogService {
 private baseUrl = environment.URL
   constructor(private httpService: HttpService<any>) { }
 
+  private getHeaders(): HttpHeaders {
+          const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+          return new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          });
+        }
+
    // Create a new category (POST)
    createBlog(data: any): Observable<any> {
-
+    const headers = this.getHeaders();
     const formData: any = new FormData();
 
     formData.append('Title', data.title);
@@ -31,7 +40,7 @@ private baseUrl = environment.URL
       });
     }
 
-    return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.Blogs.CREATE_BLOG}`, formData);
+    return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.Blogs.CREATE_BLOG}`, formData, headers);
   }
 
   // Get all categories (GET)
@@ -46,6 +55,7 @@ private baseUrl = environment.URL
 
   // Update a category (PUT)
   updateBlog(id: any, data: any): Observable<any> {
+    const headers = this.getHeaders();
     const formData: any = new FormData();
 
     formData.append('Title', data.title);
@@ -64,11 +74,12 @@ private baseUrl = environment.URL
     }
 
    
-    return this.httpService.update(`${this.baseUrl}${API_CONSTANTS.Blogs.UPDATE_BLOG_BY_ID(id)}`, formData);
+    return this.httpService.update(`${this.baseUrl}${API_CONSTANTS.Blogs.UPDATE_BLOG_BY_ID(id)}`, formData, headers);
   }
 
   // Delete a category (DELETE)
   deleteBlog(id:any): Observable<void> {
-    return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.Blogs.DELETE_BLOG_BY_ID(id)}`);
+    const headers = this.getHeaders();
+    return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.Blogs.DELETE_BLOG_BY_ID(id)}`,headers);
   }
 }

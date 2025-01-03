@@ -6,18 +6,18 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, finalize, map, throwError } from 'rxjs';
 
 export const httpConfigInterceptor: HttpInterceptorFn = (req, next) => {
-  const route = inject(Router);
+  // const route = inject(Router);
   const spinner = inject(NgxSpinnerService);
-  const toastr = inject(ToastrService)
-  const token: string =JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+  // const toastr = inject(ToastrService)
+  // const token: string =JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
   spinner.show();
   // toastr.info('Request initiated');
-  if (token)
-    req= req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  // if (token)
+  //   req= req.clone({
+  //     setHeaders: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
 
 
     return next(req).pipe(

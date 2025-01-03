@@ -6,6 +6,7 @@ import { API_CONSTANTS } from '../constants/api.constant';
 import { registerRequest } from '../models/interface/register_request.interface';
 import { loginRequest } from '../models/interface/login_request.interface';
 import { INSIGHT_INTO_ROLE, PermissionEnum } from '../enums/roles';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,14 @@ export class AuthService {
   private baseUrl = environment.URL
   private currentUserPermissions: any;
   constructor(private httpService: HttpService<any>) { }
+
+  private getHeaders(): HttpHeaders {
+    const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+  }
 
     // Register
     register(data: registerRequest): Observable<any> {
@@ -35,8 +44,9 @@ export class AuthService {
 
     // Logout method
     logout(): Observable<any> {
+      const headers = this.getHeaders();
       const url = `${this.baseUrl}${API_CONSTANTS.AUTH.LOGOUT}`;
-      return this.httpService.post(url, {});
+      return this.httpService.post(url, {}, headers);
     }
 
 

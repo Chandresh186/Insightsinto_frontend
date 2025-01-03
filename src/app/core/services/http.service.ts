@@ -15,44 +15,44 @@ export class HttpService<T> {
     //   return this.http.post<T>(url, data, { headers: this.headers });
     // }
 
-    post<T>(url: string, data: T): Observable<T> {
+    post<T>(url: string, data: T , headers?: HttpHeaders): Observable<T> {
       // Check if the data is an instance of FormData
       if (data instanceof FormData) {
         // If it is FormData, don't set 'Content-Type' header because browser will handle it
-        return this.http.post<T>(url, data);
+        return this.http.post<T>(url, data, {headers});
       } else {
         // If it's not FormData, use the existing headers for regular JSON payload
-        return this.http.post<T>(url, data, { headers: this.headers });
+        return this.http.post<T>(url, data, { headers});
       }
     }
     
   
     // Read (GET)
-    get(url: string): Observable<T[]> {
-      return this.http.get<T[]>(url);
+    get(url: string, headers?: HttpHeaders): Observable<T[]> {
+      return this.http.get<T[]>(url, {headers});
     }
   
     // Read Single Item by ID (GET)
-    getById(url: string): Observable<T> {
-      return this.http.get<T>(`${url}`);
+    getById(url: string, headers?: HttpHeaders): Observable<T> {
+      return this.http.get<T>(`${url}`, {headers});
     }
   
     // Update (PUT)
-    update(url: string, data: T): Observable<T> {
+    update(url: string, data: T, headers?: HttpHeaders): Observable<T> {
        // Check if the data is an instance of FormData
        if (data instanceof FormData) {
         // If it is FormData, don't set 'Content-Type' header because browser will handle it
-        return this.http.put<T>(url, data);
+        return this.http.put<T>(url, data, {headers});
       } else {
         // If it's not FormData, use the existing headers for regular JSON payload
-        return this.http.put<T>(`${url}`, data, { headers: this.headers });
+        return this.http.put<T>(`${url}`, data, { headers });
       }
       
     }
   
     // Delete (DELETE)
-    delete(url: string): Observable<void> {
-      return this.http.delete<void>(`${url}`);
+    delete(url: string, headers?: HttpHeaders): Observable<void> {
+      return this.http.delete<void>(`${url}`, {headers});
     }
 
 }
