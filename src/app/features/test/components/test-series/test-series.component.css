@@ -139,7 +139,7 @@ body {
     top: 1rem;   /* Adjust as needed */
     right: 1rem;  /* Adjust as needed */
     padding: 0.5rem 1rem;
-    background-color: #4e54c8;
+    background-color: #1A1F35;
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -150,7 +150,7 @@ body {
 
 /* Hover effect for the button */
 .add-button:hover {
-    background-color: #667fea;
+    background-color: #3C4258;
 }
 
 
@@ -192,7 +192,7 @@ body {
   
   .enterprise-header h1 {
     font-size: 2.5rem;
-    color: #0055cc;
+    color: #1A1F35;
   }
   
   .enterprise-header p {

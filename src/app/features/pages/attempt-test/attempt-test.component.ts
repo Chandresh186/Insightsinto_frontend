@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestSeriesService } from '../../../core/services/test-series.service';
-import { catchError, finalize, interval, of, Subscription, take, tap } from 'rxjs';
+import { catchError, finalize, forkJoin, interval, of, Subscription, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Test } from '../../../core/models/interface/test.interface';
 import { ToastrService } from 'ngx-toastr';
+import Quill from 'quill';
 
 @Component({
   selector: 'app-attempt-test',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ],
   templateUrl: './attempt-test.component.html',
-  styleUrl: './attempt-test.component.scss'
+  styleUrl: './attempt-test.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AttemptTestComponent implements OnInit {
   public loading = false; // To track loading state
@@ -22,7 +24,9 @@ export class AttemptTestComponent implements OnInit {
   public selectedAnswer: string | null = null;
   public answeredArray: any = [];
   public reviewArray: any = [];
-  public testDetails!: Test
+  public testDetails!: Test;
+  public quillEditor: Quill[] | undefined;
+
 
   questions:any = [
     // {
@@ -1259,28 +1263,125 @@ export class AttemptTestComponent implements OnInit {
   private totalTimeInSeconds: number = 0; // Total test time in seconds
   private timerSubscription: Subscription | null = null;
 
-  constructor(private route : ActivatedRoute,private testSeriesService: TestSeriesService, private router: Router, private toastr: ToastrService) {
+  constructor(private cdr: ChangeDetectorRef, private route : ActivatedRoute,private testSeriesService: TestSeriesService, private router: Router, private toastr: ToastrService) {
+    
   }
 
 
   ngOnInit(): void {
+    this.initilizeEditor();
     window.onload = function() {
       if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
           // Redirect to the homepage if the page was reloaded
           window.location.href = '/dash'; // Or the path to your homepage
       }
   };
+  
+  
 
-    this.getTest();
+    // this.getTest();
     this.getTestPaper();
 
+    // this.quillEditor = new Quill('#editor', {
+    //   theme: 'snow',
+    //   readOnly: false,
+    //   // placeholder: 'Write your blog content here...',
+    //   modules: {
+    //     toolbar: [
+    //     //   // Font family
+    //     //   [{ font: [] }],
+  
+    //     //   // Font size
+    //     //   [{ size: [] }],
+  
+    //     //   // Text formatting
+    //     //   ['bold', 'italic', 'underline', 'strike'], // Bold, italic, underline, strike
+    //     //   [{ script: 'sub' }, { script: 'super' }], // Subscript, superscript
+    //     //   [{ color: [] }, { background: [] }], // Text and background colors
+  
+    //     //   // Headers and block styles
+    //     //   [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers (H1-H6)
+    //     //   ['blockquote', 'code-block'], // Blockquote and code block
+  
+    //     //   // Lists and Indentation
+    //     //   [{ list: 'ordered' }, { list: 'bullet' }], // Ordered and unordered lists
+    //     //   [{ indent: '-1' }, { indent: '+1' }], // Indentation
+  
+    //     //   // Alignment and Direction
+    //     //   [{ align: [] }], // Align left, center, right, justify
+    //     //   [{ direction: 'rtl' }], // RTL text direction
+  
+    //     //   // Links, media, and more
+    //     //   ['link', 'image', 'video', 'formula'], // Links, images, videos, formulas
+  
+    //     //   ['table'], // Table operations
+  
+    //     //   // Clear formatting
+    //     //   ['clean'], // Clear formatting
+    //     ],
+    //     // table: true, // Enable table module
+    //   },
+    // });
+
+   
+
   }
+
+
+  initilizeEditor() {
+    // Initialize Quill Editor
+    const editors = [{id: '#questionEditor', placeholder: 'Write question content here...'}, {id:'#optionAEditor', placeholder: 'Write option A content here...'}, {id:'#optionBEditor', placeholder: 'Write option B content here...'}, {id:'#optionCEditor', placeholder: 'Write option C content here...'}, {id:'#optionDEditor', placeholder: 'Write option D content here...'}]
+    this.quillEditor =  editors.map((obj) => {
+     return  new Quill(obj.id, {
+       theme: 'snow',
+       readOnly: true,
+      //  placeholder: obj.placeholder,
+       modules: {
+         toolbar: [
+          //  // Font family
+          //  [{ font: [] }],
+ 
+          //  // Font size
+          //  [{ size: [] }],
+ 
+          //  // Text formatting
+          //  ['bold', 'italic', 'underline', 'strike'], // Bold, italic, underline, strike
+          //  [{ script: 'sub' }, { script: 'super' }], // Subscript, superscript
+          //  [{ color: [] }, { background: [] }], // Text and background colors
+ 
+          //  // Headers and block styles
+          //  [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers (H1-H6)
+          //  ['blockquote', 'code-block'], // Blockquote and code block
+ 
+          //  // Lists and Indentation
+          //  [{ list: 'ordered' }, { list: 'bullet' }], // Ordered and unordered lists
+          //  [{ indent: '-1' }, { indent: '+1' }], // Indentation
+ 
+          //  // Alignment and Direction
+          //  [{ align: [] }], // Align left, center, right, justify
+          //  [{ direction: 'rtl' }], // RTL text direction
+ 
+          //  // Links, media, and more
+          //  ['link', 'image', 'video', 'formula'], // Links, images, videos, formulas
+ 
+          //  ['table'], // Table operations
+ 
+          //  // Clear formatting
+          //  ['clean'], // Clear formatting
+         ],
+        //  table: true, // Enable table module
+       },
+     });
+
+    })
+ }
 
 
 
 
 
   startTestTimer(): void {
+    console.log("entered");
     // Convert total time to seconds
     this.totalTimeInSeconds = this.totalTimeInMinutes * 60;
 
@@ -1389,6 +1490,19 @@ export class AttemptTestComponent implements OnInit {
   if (currentIndex < this.questions.length - 1) {
     // Move to the next question
     this.currentQuestion = this.questions[currentIndex + 1];
+
+    if (this.quillEditor && this.quillEditor.length > 0) {
+      this.quillEditor[0].root.innerHTML = this.currentQuestion.question;
+      this.quillEditor[1].root.innerHTML = this.currentQuestion.a;
+      this.quillEditor[2].root.innerHTML = this.currentQuestion.b;
+      this.quillEditor[3].root.innerHTML = this.currentQuestion.c;
+      this.quillEditor[4].root.innerHTML = this.currentQuestion.d;
+  
+
+    }
+    this.cdr.detectChanges();
+
+
     this.getActiveQuestion(this.currentQuestion.id);
     
     // Check if the next question has an 'ans' property and set selectedAnswer
@@ -1405,6 +1519,16 @@ export class AttemptTestComponent implements OnInit {
   gotToQuestion(ques: any) {
     this.getActiveQuestion(ques.id)
     this.currentQuestion = ques;
+    if (this.quillEditor && this.quillEditor.length > 0) {
+      this.quillEditor[0].root.innerHTML = this.currentQuestion.question;
+      this.quillEditor[1].root.innerHTML = this.currentQuestion.a;
+      this.quillEditor[2].root.innerHTML = this.currentQuestion.b;
+      this.quillEditor[3].root.innerHTML = this.currentQuestion.c;
+      this.quillEditor[4].root.innerHTML = this.currentQuestion.d;
+  
+
+    }
+    this.cdr.detectChanges();
     this.selectedAnswer = ques.ans
   }
 
@@ -1457,67 +1581,147 @@ export class AttemptTestComponent implements OnInit {
       .subscribe();
   }
 
-  getTest() {
-    this.loading = true; // Start loading
+  // getTest() {
+  //   this.loading = true; // Start loading
    
 
-    this.testSeriesService
-      .getTestById(this.getTestId())
-      .pipe(
-        tap((response) => {
-          if(response) {
-            const timer = this.convertTimeToRemainingFormat(response.duration);
-            this.totalTimeInMinutes = timer.totalTimeInMinutes; // Total test time in minutes
-            this.remainingTime = timer.remainingTime; // Remaining time in mm:ss format
+  //   this.testSeriesService
+  //     .getTestById(this.getTestId())
+  //     .pipe(
+  //       tap((response) => {
+  //         if(response) {
+  //           const timer = this.convertTimeToRemainingFormat(response.duration);
+  //           this.totalTimeInMinutes = timer.totalTimeInMinutes; // Total test time in minutes
+  //           this.remainingTime = timer.remainingTime; // Remaining time in mm:ss format
     
-            this.testDetails = response
-          }
+  //           this.testDetails = response
+  //         }
           
-        }),
-        catchError((error) => {
-          console.error('Error:', error);
-          return of(error); // Return an observable to handle the error
-        }),
-        finalize(() => {
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error:', error);
+  //         return of(error); // Return an observable to handle the error
+  //       }),
+  //       finalize(() => {
           
         
-          this.loading = false; // Stop loading
+  //         this.loading = false; // Stop loading
          
        
-          this.startTestTimer();
+  //         this.startTestTimer();
 
           
-        })
-      )
-      .subscribe();
-  }
+  //       })
+  //     )
+  //     .subscribe();
+  // }
+
+
+  // getTestPaper() {
+  //   this.loading = true; // Start loading
+   
+
+  //   this.testSeriesService
+  //     .getTestPaperById(this.getTestId())
+  //     .pipe(
+  //       tap((response) => {
+  //         this.questions = response;
+  //         this.getActiveQuestion(this.questions[0].id)
+  //         this.currentQuestion = this.questions[0];
+  //         // console.log(this.quillEditor)
+  //         if (this.quillEditor && this.quillEditor.length > 0) {
+  //           this.quillEditor[0].root.innerHTML = this.currentQuestion.question;
+  //           this.quillEditor[1].root.innerHTML = this.currentQuestion.a;
+  //           this.quillEditor[2].root.innerHTML = this.currentQuestion.b;
+  //           this.quillEditor[3].root.innerHTML = this.currentQuestion.c;
+  //           this.quillEditor[4].root.innerHTML = this.currentQuestion.d;
+        
+    
+  //         }
+  //         this.cdr.detectChanges();
+
+  //         // if (this.quillEditor && this.quillEditor.root) {
+
+  //         //   this.quillEditor.root.innerHTML = response.blogContent
+  //         // }
+  //         // this.cdr.detectChanges();
+          
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error:', error);
+  //         return of(error); // Return an observable to handle the error
+  //       }),
+  //       finalize(() => {
+          
+        
+  //         this.loading = false; // Stop loading
+         
+  //         console.log("hello")
+  //         this.startTestTimer();
+
+          
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
 
   getTestPaper() {
     this.loading = true; // Start loading
-   
-
-    this.testSeriesService
-      .getTestPaperById(this.getTestId())
+  
+    // Define the two API calls
+    const getTest$ = this.testSeriesService.getTestById(this.getTestId()).pipe(
+      catchError((error) => {
+        console.error('Error in getTestById:', error);
+        return of(null); // Handle error and return a fallback value
+      })
+    );
+  
+    const getTestPaper$ = this.testSeriesService.getTestPaperById(this.getTestId()).pipe(
+      catchError((error) => {
+        console.error('Error in getTestPaperById:', error);
+        return of(null); // Handle error and return a fallback value
+      })
+    );
+  
+    // Use forkJoin to combine the API calls
+    forkJoin([getTest$, getTestPaper$])
       .pipe(
-        tap((response) => {
-          this.questions = response;
+        tap(([testResponse, TestPaperResponse]) => {
+          // Process the response of both APIs
+          // console.log('Test Paper Response:', TestPaperResponse);
+          // console.log('Test  Response:', testResponse);
+
+          if(testResponse) {
+            const timer = this.convertTimeToRemainingFormat(testResponse.duration);
+            this.totalTimeInMinutes = timer.totalTimeInMinutes; // Total test time in minutes
+            this.remainingTime = timer.remainingTime; // Remaining time in mm:ss format
+    
+            this.testDetails = testResponse
+          }
+
+  
+          if (TestPaperResponse) {
+            this.questions = TestPaperResponse;
+            this.getActiveQuestion(this.questions[0].id);
+            this.currentQuestion = this.questions[0];
+  
+            if (this.quillEditor && this.quillEditor.length > 0) {
+              this.quillEditor[0].root.innerHTML = this.currentQuestion.question;
+              this.quillEditor[1].root.innerHTML = this.currentQuestion.a;
+              this.quillEditor[2].root.innerHTML = this.currentQuestion.b;
+              this.quillEditor[3].root.innerHTML = this.currentQuestion.c;
+              this.quillEditor[4].root.innerHTML = this.currentQuestion.d;
+            }
+          }
+  
           
-        }),
-        catchError((error) => {
-          console.error('Error:', error);
-          return of(error); // Return an observable to handle the error
+  
+          this.cdr.detectChanges(); // Trigger change detection
         }),
         finalize(() => {
-          
-        
-          this.loading = false; // Stop loading
-         
-          this.getActiveQuestion(this.questions[0].id)
-          this.currentQuestion = this.questions[0];
-          // this.startTestTimer();
-
-          
+          this.loading = false; // Stop loading once both APIs complete
+          this.startTestTimer(); // Start the timer after APIs complete
         })
       )
       .subscribe();

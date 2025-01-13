@@ -8,9 +8,9 @@
                 <input type="file" #fileInput accept="application/pdf, video/*" class="form-control" id="files" (change)="onFileChange($event)" multiple
                 [ngStyle]=" { 'color': 'white' } "
                 >
-                <br>
-                <ul>
-                    <li *ngFor="let key of objectKeys(selectedFiles)" class="d-flex align-items-center justify-content-between">
+                <ul class="mb-0 p-0" >
+              
+                    <li *ngFor="let key of objectKeys(selectedFiles)" class="d-flex align-items-center justify-content-between" [ngClass]="{'mt-2' : selectedFiles['pdf'] !== null || selectedFiles['video'] !== null}">
                         {{ selectedFiles[key] ? selectedFiles[key]?.name  : '' }}   <i *ngIf="selectedFiles[key]" (click)="deleteFromUploadList(key ,selectedFiles[key])" class="far fa-trash-alt delete-icon cursor-pointer"></i>   
                     </li>
                     <!-- <li class="d-flex align-items-center justify-content-between">
@@ -38,19 +38,32 @@
                   </div> -->
             </div>
 
-            <!-- <div class="input-box">
-                <label for="video" class="form-label">YouTube Link</label>
-                <input type="text" class="form-control" id="video" formControlName="link" placeholder="YouTube Link"
-                [class.is-invalid]="dailyEditorialFormControl['link'].invalid && (dailyEditorialFormControl['link'].dirty || dailyEditorialFormControl['link'].touched)"
+            <div class="input-box">
+                <label for="fileName" class="form-label">File name</label>
+                <input type="text" class="form-control" id="fileName" formControlName="fileName" placeholder="Enter File Name ..."
+                [class.is-invalid]="dailyEditorialFormControl['fileName'].invalid && (dailyEditorialFormControl['fileName'].dirty || dailyEditorialFormControl['fileName'].touched)"
                 >
-                <div *ngIf="dailyEditorialFormControl['link'].errors" class="invalid-feedback"  [ngClass]="{'d-block': dailyEditorialFormControl['link'].invalid && (dailyEditorialFormControl['link'].dirty || dailyEditorialFormControl['link'].touched)}">
-                    {{ dailyEditorialFormControl['link'].errors['required'] ?
-                    'Link is required' :
+                <div *ngIf="dailyEditorialFormControl['fileName'].errors" class="invalid-feedback"  [ngClass]="{'d-block': dailyEditorialFormControl['fileName'].invalid && (dailyEditorialFormControl['fileName'].dirty || dailyEditorialFormControl['fileName'].touched)}">
+                    {{ dailyEditorialFormControl['fileName'].errors['required'] ?
+                    'file name is required' :
                     ''}}
                   </div>
-            </div> -->
+            </div>
+
+            <div class="input-box">
+              <label for="date" class="form-label">Select Date (Optional)</label>
+              <input type="date" class="form-control" id="date" formControlName="date"
+              >
+              <!-- [class.is-invalid]="dailyEditorialFormControl['date'].invalid && (dailyEditorialFormControl['date'].dirty || dailyEditorialFormControl['date'].touched)" -->
+              <!-- <div *ngIf="dailyEditorialFormControl['fileName'].errors" class="invalid-feedback"  [ngClass]="{'d-block': dailyEditorialFormControl['fileName'].invalid && (dailyEditorialFormControl['fileName'].dirty || dailyEditorialFormControl['fileName'].touched)}">
+                  {{ dailyEditorialFormControl['fileName'].errors['required'] ?
+                  'file name is required' :
+                  ''}}
+                </div> -->
+          </div>
+
             <div class="mt-29px">
-                <button type="submit" [disabled]="dailyEditorialForm.invalid">Upload</button> 
+                <button type="submit" [disabled]=" dailyEditorialForm.invalid">Upload</button> <!--selectedFiles['pdf'] == null && selectedFiles['video'] == null &&-->
 
             </div>
         </form>
@@ -63,11 +76,11 @@
             @for(editorial of allEditoril; track editorial) {
 
                 <li class="file-item">
-                    <a>{{editorial && editorial.fileName}}</a>
+                    <a>{{editorial && editorial.uploadDate | date: 'MMMM d, yyyy' : 'UTC'}} &nbsp;&nbsp; {{editorial && editorial.fileName}}</a>
                     <div class="action-buttons">
                         <div class="icons">
-                            <a class="cursor-pointer" (click)="downloadFile(editorial && editorial.filePath , editorial && editorial.fileName)"><i class="fas fa-download"></i></a>  
-                            <a class="cursor-pointer" (click)="openPlayer(editorial && editorial.videoPath)"><i class="fab fa-youtube mt-1"></i></a>
+                            <a *ngIf="editorial && editorial.videoPath === null && editorial && editorial.filePath !== null" class="cursor-pointer" (click)="downloadFile(editorial && editorial.filePath , editorial && editorial.fileName)"><i class="fas fa-download"></i></a>  
+                            <a *ngIf="editorial && editorial.filePath === null && editorial && editorial.videoPath !== null" class="cursor-pointer" (click)="openPlayer(editorial && editorial.videoPath)"><i class="fab fa-youtube mt-1"></i></a>
 
                         </div>
                         <a class="delete-btn"  (click)="deleteEditorial(editorial && editorial.id)"> <i class="far fa-trash-alt"></i></a>

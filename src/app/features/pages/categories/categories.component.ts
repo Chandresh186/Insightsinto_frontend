@@ -6,11 +6,12 @@ import { CategoriesService } from '../../../core/services/categories.service';
 import { catchError, debounceTime, finalize, of, Subject, tap } from 'rxjs';
 import { apiResponse, Category, CategoryList } from '../../../core/models/interface/categories.interface';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AsyncButtonComponent } from '../../../shared/resusable_components/async-button/async-button.component';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, FormsModule, ngbootstrapModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ngbootstrapModule, FormsModule, ReactiveFormsModule, AsyncButtonComponent],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

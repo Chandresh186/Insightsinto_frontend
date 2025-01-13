@@ -46,7 +46,7 @@
   }
   
   .btn-create {
-    background: #4e54c8;
+    background: #1A1F35;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -56,7 +56,7 @@
   }
   
   .btn-create:hover {
-    background: #667fea;
+    background: #3C4258;
   }
   
   .tests-list h2 {
@@ -282,6 +282,8 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    background-color: #1A1F35;
+    border-color: #1A1F35
 }
 
 // .createContainer .create {
@@ -304,7 +306,7 @@ ion-icon {
 // }
 
 .input-group > .form-control:focus {
-    z-index: -1;
+    z-index: 1;
 }
 
 
@@ -526,8 +528,8 @@ input.form-control {
 .chip {
   display: inline-flex;
   align-items: center;
-  background-color: #e0f7fa;
-  color: #00796b;
+  background-color: #1A1F35;
+  color: #fff;
   border-radius: 16px;
   padding: 4px 8px;
   font-size: 14px;
@@ -538,7 +540,7 @@ input.form-control {
   margin-left: 8px;
   background: none;
   border: none;
-  color: #00796b;
+  color: #fff;
   font-size: 16px;
   line-height: 16px;
   cursor: pointer;
@@ -578,7 +580,7 @@ input.form-control {
 
 .enterprise-header h1 {
   font-size: 2.5rem;
-  color: #0055cc;
+  color: #1A1F35;
 }
 
 .enterprise-header p {
@@ -606,7 +608,7 @@ input.form-control {
 
 .overview-header h2 {
   font-size: 1.75rem;
-  color: #0055cc;
+  color: #1A1F35;
   margin-bottom: 0.5rem;
 }
 
@@ -652,4 +654,15 @@ input.form-control {
 
 .gap-10px {
   gap: 10px;
+}
+
+.text-primary {
+  color: #1A1F35 !important;
+}
+
+
+.dropdown-item.active, .dropdown-item:active {
+  color: var(--bs-dropdown-link-active-color);
+  text-decoration: none;
+  background-color: #1A1F35;
 }

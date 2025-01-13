@@ -4,6 +4,7 @@ import { BlogService } from '../../../core/services/blog.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-blogs-list',
@@ -18,6 +19,7 @@ export class BlogsListComponent implements OnInit {
   public blogs: any = [];
   public searchQuery!: string ; // Holds the search query
   public filteredBlogs: any = [];
+  public staticBaseUrl = environment.staticBaseUrl;
 
   constructor(private blogService : BlogService, private router: Router, private _authService : AuthService){}
 

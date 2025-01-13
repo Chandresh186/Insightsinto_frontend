@@ -341,3 +341,49 @@ input[type=time]::-webkit-calendar-picker-indicator {
 .cursor_pointer {
     cursor: pointer;
 }
+
+
+.active {
+    background-color: #667fea;
+}
+
+
+.sidebar-links li a:hover {
+    background-color: #667fea !important;
+}
+
+
+.dashboard-sidebar {
+    background: #1A1F35 !important;
+}
+
+.active {
+    background-color: #3C4258;
+    
+}
+
+.sidebar {
+    width: 250px;
+}
+
+.expand-btn {
+    background-color: #3C4258;
+}
+
+.sidebar-links li a:hover {
+    background-color: #3C4258 !important;
+}
+
+
+.logo-small {
+    border-radius: 50%;
+}
+
+.home-section {
+   overflow-x: hidden;
+}
+
+.mobile-header .nav-link img {
+    filter: grayscale(1) invert(0);
+    width: 23px;
+}

@@ -7,11 +7,13 @@ import { TestSeriesService } from '../../../../core/services/test-series.service
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { testSeriesValidationErrorMessage } from '../../../../core/constants/validation.constant';
+import { HttpHeaders } from '@angular/common/http';
+import { AsyncButtonComponent } from '../../../../shared/resusable_components/async-button/async-button.component';
 
 @Component({
   selector: 'app-test-series',
   standalone: true,
-  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule, AsyncButtonComponent],
   templateUrl: './test-series.component.html',
   styleUrls: ['./test-series.component.css'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -112,40 +114,17 @@ export class TestSeriesComponent implements OnInit {
   ];
 
 
-  tableHeaders:any = [
-    // { key: 'id', displayName: 'ID' },
-    // { key: 'name', displayName: 'Name' },
-    // { key: 'medium', displayName: 'Medium' },
-    // { key: 'details', displayName: 'Details' },
-    // { key: 'startDate', displayName: 'Start Date' },
-    // { key: 'fee', displayName: 'Fee' }
-  ];
+  tableHeaders:any = [];
 
 
-  tableData:any = [
-    // {
-    //   id: '1',
-    //   name: 'Test Series 1',
-    //   medium: 'Online',
-    //   details: 'Details about Test Series 1',
-    //   startDate: '2024-11-12',
-    //   fee: '1000'
-    // },
-    // {
-    //   id: '2',
-    //   name: 'Test Series 2',
-    //   medium: 'Offline',
-    //   details: 'Details about Test Series 2',
-    //   startDate: '2024-11-15',
-    //   fee: '1500'
-    // }
-  ];
+  tableData:any = [];
 
 
   actionsConfig = [
     { key: 'edit', label: 'Edit', class: 'btn btn-outline-primary', visible: true },
     { key: 'delete', label: 'Delete', class: 'btn btn-outline-danger', visible: true },
     { key: 'detail', label: 'Details', class: 'btn btn-outline-info', visible: true }, // Hidden action
+    // { key: 'publish', label: 'Publish', class: 'btn btn-outline-success', visible: true }, // Hidden action
   ];
 
 
@@ -217,14 +196,21 @@ export class TestSeriesComponent implements OnInit {
     });
   }
   
-  
+   private getHeaders(): HttpHeaders {
+        const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+        return new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        });
+      }
 
   private loadTestSeries(): void {
     this.loading = true; // Set loading state to true while fetching data
-  
-    this.testSeriesService.getTestSeries().pipe(
+    const headers = this.getHeaders();
+    this.testSeriesService.getTestSeries(headers).pipe(
       tap((response: any) => {
         this.tableData = response.response; // Assign the fetched data to the list
+        
         this.showColumns  = this.generateTableHeaders(response.response.map(({ id, ...rest }: any) => rest));
         this.tableHeaders = this.generateTableHeaders(response.response)
         

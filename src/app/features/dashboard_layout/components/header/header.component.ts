@@ -88,6 +88,7 @@ export class HeaderComponent {
       tap((response: any) => {
         localStorage.removeItem("currentUser");
         localStorage.removeItem("messageCount");
+        localStorage.removeItem("activeRoute")
 
      
       }),

@@ -34,9 +34,14 @@ export const routes: Routes = [
               './features/pages/pricing-and-plans/pricing-and-plans.component'
           ).then((component) => component.PricingAndPlansComponent)
     },
+    // {
+    //     path: "**",
+    //     redirectTo: '/'
+    //     // pathMatch: 'full',
+    // }
     {
-        path: "**",
-        redirectTo: '/'
-        // pathMatch: 'full',
+      path: '**',
+      redirectTo: '',
+      pathMatch: 'full',
     }
 ];

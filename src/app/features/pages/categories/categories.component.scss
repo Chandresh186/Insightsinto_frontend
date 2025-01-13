@@ -80,6 +80,10 @@ ion-icon {
     padding: 3px;
     display: flex;
     align-items: center;
+    background-color: #1A1F35;
+    border-color: #1A1F35;
+    outline-color: #1A1F35;
+  
 }
 
 // .select_input {
@@ -144,7 +148,7 @@ ion-icon {
 
 /* When checked, move the circle to the right */
 input:checked + .slider {
-  background-color: #667fea; /* Active color */
+  background-color: #1A1F35; /* Active color */
 }
 
 input:checked + .slider:before {
@@ -193,4 +197,63 @@ input:checked + .slider:before {
 
 .move-modal {
   height: 20vm;
+  overflow-y: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.custom-button {
+  background-color: #1A1F35; /* Primary color */
+  color: #fff; /* White text for contrast */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 12px 20px; /* Add padding for a better look */
+  font-size: 16px; /* Adjust font size */
+  font-weight: bold; /* Make the text bold */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.custom-button:hover {
+  background-color: #3C4258; /* Slightly darker shade on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* More prominent shadow */
+  // transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.custom-button:active {
+  background-color: #3C4258; /* Even darker shade when clicked */
+  // transform: scale(0.98); /* Slightly shrink to mimic a button press */
+}
+
+
+.remove-default-css {
+  background: #1A1F35;
+    border: none;
+    outline: none;
+}
+
+
+.list-wrapper {
+  max-height: 129px;
+  overflow: auto;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: var(--bs-dropdown-link-active-color);
+  text-decoration: none;
+  background-color: #1A1F35;
 }

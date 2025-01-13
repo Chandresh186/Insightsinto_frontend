@@ -7,6 +7,7 @@ import { CategoriesService } from '../../../core/services/categories.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { BlogService } from '../../../core/services/blog.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-create-blog',
@@ -35,6 +36,7 @@ export class CreateBlogComponent implements OnInit  {
    public searchQuery: string = ''; // Current search input value
    public categories: Category[] | null = [];  // To hold categories
    public filteredOptions: Category[] | null = []; // Filtered options for search
+   public staticBaseUrl = environment.staticBaseUrl
 
   //  public chipInput: string = '';
    public chips: Category[] = [];
@@ -143,9 +145,27 @@ export class CreateBlogComponent implements OnInit  {
     }
   }
 
+  // public checkIfHttpOrHttps(url: any): boolean {
+  //   const regex = /^(http:\/\/|https:\/\/)/;
+  //   return regex.test(this.staticBaseUrl+url);
+  // }
+
   public checkIfHttpOrHttps(url: any): boolean {
+    // Ensure the input is a string
+    if (typeof url !== 'string') {
+      return false; // Not a valid string
+    }
+  
+    // Regular expression to check if the string is a URL starting with http:// or https://
     const regex = /^(http:\/\/|https:\/\/)/;
-    return regex.test(url);
+  
+    // If it matches the regex, it is a URL
+    if (regex.test(this.staticBaseUrl + url)) {
+      return true;
+    }
+  
+    // Otherwise, assume it's a file
+    return false;
   }
 
   public onSubmit(form: any): void {

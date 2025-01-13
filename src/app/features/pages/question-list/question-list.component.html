@@ -1,0 +1,22 @@
+<div class="container-fluid">
+    <div class="d-flex justify-content-between p-3">
+        <h2>All Questions</h2>
+        <button class="btn btn-primary" routerLink="/dash/create-question">Add new</button>
+    </div>
+    <div id="question" class="table-wrapper">
+        <app-table  
+            [tableHeaders]="tableHeaders"
+            [tableData]="tableData"
+            [itemsPerPage]="50"
+            [actionsConfig]="actionConfig"
+            (actionTriggered)="handleAction($event)"
+            [tableName]="''"
+            [showTableName]="true"
+            [showSeriaNumber]="true"
+            [showSearchBar]="true"
+            [showColumns]="showColumns">
+          </app-table>
+    
+    </div>
+
+</div>

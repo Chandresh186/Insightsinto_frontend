@@ -91,7 +91,7 @@ export class SignalRService {
   public readUserNotification() {
     const email = JSON.parse(localStorage.getItem('currentUser')!).response?.email;
     const headers = this.getHeaders();
-    return this._http.post<any>(`${this._base}Notification/update_notification_status?email=${email}`, { headers });
+    return this._http.post<any>(`${this._base}Notification/update_notification_status?email=${email}`, null, { headers });
   }
 
 }

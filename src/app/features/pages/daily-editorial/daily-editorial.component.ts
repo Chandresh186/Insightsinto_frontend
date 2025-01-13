@@ -11,6 +11,8 @@ import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { PaymentService } from '../../../core/services/payment.service';
 import { Router } from '@angular/router';
 import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
+import { environment } from '../../../../environments/environment.development';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-daily-editorial',
@@ -25,7 +27,8 @@ export class DailyEditorialComponent implements OnInit{
   public loading = false;
   private errorMessage: string | null = null;
   public allEditoril: any = []
-  seePlans : boolean = false;
+  public seePlans : boolean = false;
+  public staticBaseUrl = environment.staticBaseUrl;
  //User's subscription is about to expire in {daysUntilExpiration} days.
   // public selectedFiles = {
   //   pdf: null as File | null,
@@ -38,28 +41,30 @@ export class DailyEditorialComponent implements OnInit{
   };
 
 
-  constructor(private router : Router, private paymentService: PaymentService, private editorialService : EditorialService, private _authService : AuthService, private pdfWatermarkService: PdfWatermarkService, private modalService : NgbModal) {}
+  constructor(private toastr: ToastrService, private router : Router, private paymentService: PaymentService, private editorialService : EditorialService, private _authService : AuthService, private pdfWatermarkService: PdfWatermarkService, private modalService : NgbModal) {}
 
   ngOnInit(): void {
     // Initialize the form with validation
     this.dailyEditorialForm = new FormGroup({
+      fileName : new FormControl('',Validators.required),
       pdf: new FormControl(null), // File is required
       video: new FormControl(null), // YouTube link validation
+      date: new FormControl(null)
     });
 
     if(this.getUserRole() == 'User') {
-      console.log('user')
+      
       this.loadAllEditorialForUser(this.getUserId());
     } else {
-      console.log('admin')
+      
       this.loadAllEditorial();
     }
 
   }
 
-  // get dailyEditorialFormControl() {
-  //   return this.dailyEditorialForm.controls;
-  // }
+  get dailyEditorialFormControl() {
+    return this.dailyEditorialForm.controls;
+  }
 
   getUserRole() {
     return JSON.parse(localStorage.getItem('currentUser') || 'null').response.role
@@ -79,6 +84,13 @@ export class DailyEditorialComponent implements OnInit{
   
     if (files.length === 0) {
       alert('Please select a file.');
+      return;
+    }
+
+     // If more than one file is selected, reset the input field and show alert
+     if (files.length > 1) {
+      alert('You can only upload one file at a time.');
+      event.target.value = ''; // Reset the input field
       return;
     }
   
@@ -160,10 +172,16 @@ export class DailyEditorialComponent implements OnInit{
 
     // Method to submit the form
     createEditorial() {
-      const reqBody = {
-        files: [this.dailyEditorialForm.get('pdf')?.value, this.dailyEditorialForm.get('video')?.value],
+      const reqBody:any = {
+        files: [this.dailyEditorialForm.get('pdf')?.value, this.dailyEditorialForm.get('video')?.value].filter(file => file !== null) ,
+        fileName: this.dailyEditorialForm.get('fileName')?.value,
       }
-
+      // If a date is provided, add it to the request body in UTC format
+      const date = this.dailyEditorialForm.get('date')?.value;
+      if (date) {
+        reqBody.uploadDate = new Date(date).toISOString();
+      }
+      
     this.loading = true; // Set loading state to true while fetching data
   
     this.editorialService.createDailyEditorial(reqBody).pipe(
@@ -172,6 +190,9 @@ export class DailyEditorialComponent implements OnInit{
       catchError((error) => {
         this.errorMessage = 'Error creating Daily editorial.'; // Handle error message
         console.error('Error creating Daily editorial:', error);
+        this.toastr.warning(error.error, "Warning", {
+          progressBar: true
+        }) ;
         return of([]); // Return an empty array in case of an error
       }),
       finalize(() => {
@@ -216,7 +237,7 @@ export class DailyEditorialComponent implements OnInit{
       try {
         // Fetch the original PDF (replace with your PDF path or bytes)
         
-        const response = await fetch(filePath);
+        const response = await fetch(this.staticBaseUrl+filePath);
         if (!response.ok) {
           console.error('Failed to fetch PDF:', response.statusText);
           return;
@@ -279,7 +300,7 @@ export class DailyEditorialComponent implements OnInit{
         tap((response: any) => {
           // response.sort((a: any, b: any) => a.uploadDate - b.uploadDate);
           response.sort((a: any, b: any) => new Date(a.uploadDate).getTime() - new Date(b.uploadDate).getTime());
-          console.log(response)
+          
           this.allEditoril = response
           
         }),
@@ -323,7 +344,7 @@ export class DailyEditorialComponent implements OnInit{
 
     openPlayer(link: any) {
       const modalRef = this.modalService.open(VideoPlayerComponent);
-      modalRef.componentInstance.link = link;
+      modalRef.componentInstance.link = this.staticBaseUrl+link;
     }
 
 
@@ -337,7 +358,7 @@ export class DailyEditorialComponent implements OnInit{
 
       };
       
-      console.log(row)
+      
       this.paymentService.setSelectedProductForCheckout(row);
 
       const userId = JSON.parse(localStorage.getItem('currentUser') || 'null').response.userId;

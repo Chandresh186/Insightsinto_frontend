@@ -58,7 +58,7 @@
     
    
     padding: 0.5rem 1rem;
-    background-color: #4e54c8;
+    background-color: #1A1F35;
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -68,7 +68,7 @@
 }
 
 .upload-form button:hover {
-    background-color: #667fea;
+    background-color: #3C4258;
 }
 
 .upload-form button:disabled {
@@ -108,7 +108,7 @@
 }
 
 .file-item a:hover {
-    color: #0056b3;
+    color: #3C4258;
 }
 
 .file-item a i {
@@ -174,7 +174,7 @@
 }
 
 .file-item a {
-    color: #4e54c8;
+    color: #1A1F35;
 }
 
 /* Responsive Design */
@@ -255,7 +255,7 @@
   
   .wrapper-container h1 {
     font-size: 2.5em;
-    color: #4e54c8;
+    color: #1A1F35;
     margin-bottom: 40px;
   }
   
@@ -285,7 +285,7 @@
   
   .pricing-card h2 {
     font-size: 2em;
-    color: #4e54c8;
+    color: #1A1F35;
     margin-bottom: 10px;
     font-weight: bold;
   }
@@ -299,14 +299,14 @@
   .price {
     font-size: 2.5em;
     font-weight: bold;
-    color: #4e54c8;
+    color: #1A1F35;
     margin-bottom: 20px;
   }
   
   .referral-price {
     font-size: 20px;
     font-weight: bold;
-    color: #4e54c8;
+    color: #1A1F35;
   }
   
   .referral-price span {
@@ -331,7 +331,7 @@
   }
   
   .button {
-    background: linear-gradient(45deg, #4e54c8, #8f94fb);
+    background: linear-gradient(45deg, #1A1F35, #3C4258);
     color: white;
     padding: 15px 30px;
     border: none;
@@ -343,7 +343,7 @@
   }
   
   .button:hover {
-    background: linear-gradient(45deg, #8f94fb, #4e54c8);
+    background: linear-gradient(45deg, #3C4258, #1A1F35);
     transform: translateY(-3px);
   }
   
@@ -531,7 +531,7 @@
   .week-view .card {
     border: 1px solid #ddd; /* Border for each card */
     background-color: #fff; /* Set card background to white */
-    color: #4e54c8; /* Text color */
+    color: #1A1F35; /* Text color */
     padding: 10px;
     border-radius: 0; /* Remove rounded corners */
     text-align: center;
@@ -546,6 +546,9 @@
   @media (max-width: 768px) {
     body {
       overflow-x: hidden;
+    }
+    .upload-form {
+      flex-direction: column;
     }
 
     .calendar-container {
@@ -563,7 +566,7 @@
 
 
   .elipse {
-    max-width: 80px;
+    max-width: 96px;
     display: inline-block;
     white-space: nowrap;        /* Prevents text from wrapping */
     overflow: hidden;           /* Hides any text that overflows */

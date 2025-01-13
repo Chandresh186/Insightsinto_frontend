@@ -142,14 +142,22 @@
             <strong>User:</strong>
             {{ testResultDetails && testResultDetails.userName }}
           </p>
-          <p>
+          <p class="d-flex align-items-center justify-content-between">
+            <span>
             <strong>Subitted:</strong>
             {{
               testResultDetails && testResultDetails.createdAt
                 | date : "d MMM, y"
             }}
+
+            </span>
+            <button  type="button" class="btn btn-outline-primary" (click)="goToAnalysis(testResultDetails && testResultDetails.testId)">See Analysis</button>
           </p>
         </div>
+        <!-- <div class="button-wrapper">
+          
+          
+        </div> -->
       </div>
     </div>
   </div>
@@ -162,7 +170,7 @@
 
 
 <ng-template #instruction let-modal>
-	<div class="modal-header" style="background-color: #4e54c8; color: white">
+	<div class="modal-header" style="background:linear-gradient(135deg, #1A1F35, #3C4258); color: white">
 		<h4 class="modal-title" id="modal-basic-title">Paper Instructions: Online & Offline</h4>
 		
 
@@ -176,7 +184,7 @@
       <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
         
         <div style="margin-bottom: 40px; padding-bottom: 10px; border-bottom: 2px solid #ececec;">
-          <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #4e54c8;">Online Paper Instructions</h2>
+          <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #1A1F35;">Online Paper Instructions</h2>
           <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
             The online test provides an easy-to-use platform for conducting exams. To ensure a smooth experience, please follow these guidelines:
           </p>
@@ -193,7 +201,7 @@
         </div>
     
         <div style="padding-bottom: 10px;">
-          <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #4e54c8;">Offline Paper Instructions</h2>
+          <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #1A1F35;">Offline Paper Instructions</h2>
           <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
             For offline exams, the test will be conducted in a traditional format on paper. Follow the guidelines below:
           </p>
@@ -219,8 +227,11 @@
 	</div>
 	<div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary"  (click)="modal.dismiss('Cross click')">Cancel</button>
+    <a href="assets/AnswerSheet.jpeg" download>
+      <button class="btn btn-outline-primary">Get answer sheet</button>
+    </a>
 		<button type="button" class="btn btn-outline-primary" (click)="onlineStart(selectedTest)">Attempt Online</button>
-		<button type="button" class="btn btn-outline-primary" (click)="offlineStart(selectedTest) ; startCountdown(selectedTest.id, selectedTest.duration)">Attempt Offline</button>
+		<button type="button" class="btn btn-outline-primary" (click)="offlineStart(selectedTest)">Attempt Offline</button>
 	</div>
 </ng-template>
 
@@ -307,11 +318,12 @@
               <button
               *ngIf="test.status === 'Offline'"
               class="btn  offline"
-              (click)="fileInput.click()"
+              (click)="offlineStart(test)"
             >
-              Submit Answer Sheet
+            Continue
             </button>
-            <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput hidden />
+            <!-- (click)="fileInput.click()"
+            <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput hidden /> -->
               
               <!-- <div ngbDropdown *ngIf="test.status === 'Ready'">
                 <button type="button" class="btn start-now w-100" [id]="test.title+test.id" ngbDropdownToggle>

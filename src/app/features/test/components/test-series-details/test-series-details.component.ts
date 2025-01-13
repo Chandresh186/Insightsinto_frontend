@@ -68,66 +68,7 @@ export class TestSeriesDetailsComponent implements OnInit {
   ];
 
   tableData: any = [
-    // {
-    //   id: '1',
-    //   name: 'Math Test 1',
-    //   date: '2024-11-12',
-    //   duration: '60 mins',
-    // },
-    // {
-    //   id: '2',
-    //   name: 'Science Quiz',
-    //   date: '2024-11-14',
-    //   duration: '45 mins',
-    // },
-    // {
-    //   id: '3',
-    //   name: 'History Test',
-    //   date: '2024-11-16',
-    //   duration: '90 mins',
-    // },
-    // {
-    //   id: '4',
-    //   name: 'English Literature',
-    //   date: '2024-11-18',
-    //   duration: '60 mins',
-    // },
-    // {
-    //   id: '5',
-    //   name: 'General Knowledge',
-    //   date: '2024-11-20',
-    //   duration: '30 mins',
-    // },
-    // {
-    //   id: '6',
-    //   name: 'Physics Test',
-    //   date: '2024-11-22',
-    //   duration: '120 mins',
-    // },
-    // {
-    //   id: '7',
-    //   name: 'Chemistry Quiz',
-    //   date: '2024-11-24',
-    //   duration: '75 mins',
-    // },
-    // {
-    //   id: '8',
-    //   name: 'Biology Test',
-    //   date: '2024-11-26',
-    //   duration: '60 mins',
-    // },
-    // {
-    //   id: '9',
-    //   name: 'Economics Test',
-    //   date: '2024-11-28',
-    //   duration: '90 mins',
-    // },
-    // {
-    //   id: '10',
-    //   name: 'Geography Test',
-    //   date: '2024-11-30',
-    //   duration: '60 mins',
-    // },
+    
   ];
 
   actionsConfig = [
@@ -153,154 +94,7 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   // JSON Data
   AccordionData: any = [
-    // {
-    //   id: '1',
-    //   question: 'What does the law of demand state?',
-    //   a: 'As the price increases, demand decreases',
-    //   b: 'As the price increases, demand increases',
-    //   c: 'As the price decreases, demand decreases',
-    //   d: 'Demand is independent of price',
-    //   complexity: 'Easy',
-    //   categoryId: 'cat1',
-    //   categoryName: 'Microeconomics',
-    //   description:
-    //     'The law of demand states that as the price of a good increases, the quantity demanded decreases, and vice versa.'
-    // },
-    // {
-    //   id: '2',
-    //   question: 'What is the basic economic problem?',
-    //   a: 'Unlimited wants and limited resources',
-    //   b: 'Limited wants and unlimited resources',
-    //   c: 'Balanced supply and demand',
-    //   d: 'Efficient resource allocation',
-    //   complexity: 'Medium',
-    //   categoryId: 'cat1',
-    //   categoryName: 'Microeconomics',
-    //   description:
-    //     'The basic economic problem arises due to unlimited human wants and limited resources to fulfill those wants.'
-    // },
-    // {
-    //   id: '3',
-    //   question: 'What is the capital of France?',
-    //   a: 'Berlin',
-    //   b: 'Madrid',
-    //   c: 'Paris',
-    //   d: 'Rome',
-    //   complexity: 'Easy',
-    //   categoryId: 'cat2',
-    //   categoryName: 'Geography',
-    //   description: 'Paris is the capital city of France.'
-    // },
-    // {
-    //   id: '4',
-    //   question: 'Which river is the longest in the world?',
-    //   a: 'Amazon',
-    //   b: 'Nile',
-    //   c: 'Yangtze',
-    //   d: 'Mississippi',
-    //   complexity: 'Medium',
-    //   categoryId: 'cat2',
-    //   categoryName: 'Geography',
-    //   description: 'The Nile River is considered the longest river in the world.'
-    // },
-    // {
-    //   id: '5',
-    //   question: 'What is 2 + 2?',
-    //   a: '3',
-    //   b: '4',
-    //   c: '5',
-    //   d: '6',
-    //   complexity: 'Easy',
-    //   categoryId: 'cat3',
-    //   categoryName: 'Mathematics',
-    //   description: '2 + 2 equals 4.'
-    // },
-    // {
-    //   id: '6',
-    //   question: 'What is the square root of 16?',
-    //   a: '2',
-    //   b: '3',
-    //   c: '4',
-    //   d: '5',
-    //   complexity: 'Medium',
-    //   categoryId: 'cat3',
-    //   categoryName: 'Mathematics',
-    //   description: 'The square root of 16 is 4.'
-    // },
-    // {
-    //   id: '7',
-    //   question: 'Who wrote "Hamlet"?',
-    //   a: 'Charles Dickens',
-    //   b: 'William Shakespeare',
-    //   c: 'Jane Austen',
-    //   d: 'Leo Tolstoy',
-    //   complexity: 'Easy',
-    //   categoryId: 'cat4',
-    //   categoryName: 'Literature',
-    //   description: 'William Shakespeare is the author of "Hamlet".'
-    // },
-    // {
-    //   id: '8',
-    //   question: 'What is the genre of "1984"?',
-    //   a: 'Romance',
-    //   b: 'Science Fiction',
-    //   c: 'Dystopian',
-    //   d: 'Fantasy',
-    //   complexity: 'Medium',
-    //   categoryId: 'cat4',
-    //   categoryName: 'Literature',
-    //   description: 'George Orwell’s "1984" is a dystopian novel.'
-    // },
-    // {
-    //   id: '9',
-    //   question: 'What is the powerhouse of the cell?',
-    //   a: 'Nucleus',
-    //   b: 'Ribosome',
-    //   c: 'Mitochondria',
-    //   d: 'Chloroplast',
-    //   complexity: 'Easy',
-    //   categoryId: 'cat5',
-    //   categoryName: 'Biology',
-    //   description: 'Mitochondria is known as the powerhouse of the cell.'
-    // },
-    // {
-    //   id: '10',
-    //   question: 'Which organ is responsible for filtering blood?',
-    //   a: 'Heart',
-    //   b: 'Liver',
-    //   c: 'Kidney',
-    //   d: 'Lungs',
-    //   complexity: 'Medium',
-    //   categoryId: 'cat5',
-    //   categoryName: 'Biology',
-    //   description: 'Kidneys filter the blood in the human body.'
-    // },
-    // {
-    //   id: '11',
-    //   question: 'What is Newton’s First Law of Motion?',
-    //   a: 'Force equals mass times acceleration',
-    //   b: 'Every action has an equal and opposite reaction',
-    //   c: 'An object in motion stays in motion unless acted on by an external force',
-    //   d: 'The force of gravity is constant',
-    //   complexity: 'Easy',
-    //   categoryId: 'cat6',
-    //   categoryName: 'Physics',
-    //   description:
-    //     'Newton’s First Law states that an object will remain at rest or in uniform motion unless acted upon by an external force.'
-    // },
-    // {
-    //   id: '12',
-    //   question: 'What is the speed of light?',
-    //   a: '299,792 km/s',
-    //   b: '299,792 m/s',
-    //   c: '3,000 km/s',
-    //   d: '3,000 m/s',
-    //   complexity: 'Medium',
-    //   categoryId: 'cat6',
-    //   categoryName: 'Physics',
-    //   description: 'The speed of light in a vacuum is approximately 299,792 km/s.'
-    // },
-    // Add more categories and MCQs as needed
+    
   ];
 
 
@@ -1025,6 +819,35 @@ export class TestSeriesDetailsComponent implements OnInit {
   }
 
 
+  EditTestseries() {
+      
+      const reqBody = {
+        name: this.testSeriesDetails.name,
+        medium: this.testSeriesDetails.medium,
+        details: this.testSeriesDetails.details,
+        startDate: this.testSeriesDetails.startDate,
+        fee: this.testSeriesDetails.fee,
+        isActive : true
+      }
+  
+  
+      this.loading = true; // Set loading state to true while fetching data
+    
+      this.testSeriesService.updateTestSeries(this.testSeriesDetails.id, reqBody).pipe(
+        tap((response: any) => {
+        }),
+        catchError((error) => {
+          this.errorMessage = 'Error creating test series.'; // Handle error message
+          console.error('Error creating test series:', error);
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+        })
+      ).subscribe();
+    }
+
+
   getTestseries(id: any) {
 
 
@@ -1209,7 +1032,7 @@ export class TestSeriesDetailsComponent implements OnInit {
   // Detect clicks outside the component to close the dropdown
   @HostListener('document:click', ['$event.target'])
   onClickOutside(targetElement: HTMLElement): void {
-    if (targetElement.id !== 'target_Dropdown') {
+    if (targetElement.id !== 'dropdownOpen') {
       this.dropdownOpen = false;
     }
   }

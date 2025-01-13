@@ -57,7 +57,36 @@ export const landingRoutes: Routes = [
             import(
                 '../pages/blogs-list/blogs-list.component'
             ).then((component) => component.BlogsListComponent)
-    },
+      },
+      {
+        path: 'terms-and-conditions',
+        loadComponent: () => 
+            import(
+                '../pages/terms-and-conditions/terms-and-conditions.component'
+            ).then((component) => component.TermsAndConditionsComponent)
+            
+      },
+      {
+        path: 'privacy-policy',
+        loadComponent: () => 
+            import(
+                '../pages/privacy-policy/privacy-policy.component'
+            ).then((component) => component.PrivacyPolicyComponent)
+      },
+      {
+        path: 'refund-policy',
+        loadComponent: () => 
+            import(
+                '../pages/refund-policy/refund-policy.component'
+            ).then((component) => component.RefundPolicyComponent)
+      },
+      {
+        path: 'contactus',
+        loadComponent: () => 
+            import(
+                '../pages/contact-us/contact-us.component'
+            ).then((component) => component.ContactUsComponent)
+      }
     ],
   },
  

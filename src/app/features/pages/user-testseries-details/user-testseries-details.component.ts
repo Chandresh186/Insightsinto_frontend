@@ -19,7 +19,7 @@ import {
 import { testSeriesValidationErrorMessage } from '../../../core/constants/validation.constant';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TestSeriesService } from '../../../core/services/test-series.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   catchError,
   debounceTime,
@@ -38,12 +38,12 @@ import { CategoriesService } from '../../../core/services/categories.service';
 import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
 import { PdfGeneratorService } from '../../../core/services/pdf-generator.service';
 import { PdfWatermarkService } from '../../../core/services/pdf-watermark.service';
-import { CountdownTimerService } from '../../../core/services/count-down-timer.service';
+// import { CountdownTimerService } from '../../../core/services/count-down-timer.service';
 
 @Component({
   selector: 'app-user-testseries-details',
   standalone: true,
-  imports: [CommonModule, ngbootstrapModule],
+  imports: [CommonModule, ngbootstrapModule, RouterModule],
   templateUrl: './user-testseries-details.component.html',
   styleUrl: './user-testseries-details.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -70,23 +70,23 @@ export class UserTestseriesDetailsComponent implements OnInit {
     private router: Router,
     private pdfService: PdfGeneratorService,
     private pdfWatermarkService: PdfWatermarkService,
-    private countdownTimerService: CountdownTimerService
+    // private countdownTimerService: CountdownTimerService
   ) {}
 
   ngOnInit(): void {
     const testSeriesId = this.getTestSeriesId();
     this.getTestseries(testSeriesId);
     this.getTestsByTestSeries(testSeriesId);
-           // Subscribe to each card's remaining time from the service
-           this.testData.forEach((card: any) => {
-            console.log(card)
-            const remainingTime$ = this.countdownTimerService.getRemainingTime(card.id);
-            if (remainingTime$) {
-              remainingTime$.subscribe((remainingTime) => {
-                card.remainingTime = remainingTime;
-              });
-            }
-          });
+          //  // Subscribe to each card's remaining time from the service
+          //  this.testData.forEach((card: any) => {
+          
+          //   const remainingTime$ = this.countdownTimerService.getRemainingTime(card.id);
+          //   if (remainingTime$) {
+          //     remainingTime$.subscribe((remainingTime) => {
+          //       card.remainingTime = remainingTime;
+          //     });
+          //   }
+          // });
 
    
   }
@@ -101,17 +101,23 @@ export class UserTestseriesDetailsComponent implements OnInit {
   }
 
 
-  startCountdown(cardId: number, minutes: number): void {
-    this.countdownTimerService.startCountdown(cardId, minutes);
-    //  Subscribe to each card's remaining time from the service
-     this.testData.forEach((card: any) => {
-      const remainingTime$ = this.countdownTimerService.getRemainingTime(card.id);
-      if (remainingTime$) {
-        remainingTime$.subscribe((remainingTime) => {
-          card.remainingTime = remainingTime;
-        });
-      }
-    });
+  // startCountdown(cardId: number, minutes: number): void {
+  //   this.countdownTimerService.startCountdown(cardId, minutes);
+  //   //  Subscribe to each card's remaining time from the service
+  //    this.testData.forEach((card: any) => {
+  //     const remainingTime$ = this.countdownTimerService.getRemainingTime(card.id);
+  //     if (remainingTime$) {
+  //       remainingTime$.subscribe((remainingTime) => {
+  //         card.remainingTime = remainingTime;
+  //       });
+  //     }
+  //   });
+  // }
+
+  goToAnalysis(testId:any) {
+    this.router.navigateByUrl(`/dash/result-analysis/${testId}`);
+    this.closeModal();
+    // [routerLink]="['/dash/result-analysis', testResultDetails && testResultDetails.testId]"
   }
 
 
@@ -147,7 +153,7 @@ export class UserTestseriesDetailsComponent implements OnInit {
   }
 
   offlineStart(val: any) {
-    console.log(val)
+    
     const payload = {
       userId: this.getUserId(),
       testSeriesId: this.getTestSeriesId(),
@@ -161,7 +167,7 @@ export class UserTestseriesDetailsComponent implements OnInit {
       .startOfflineTest(payload)
       .pipe(
         tap((res) => {
-          console.log(res)
+      
         
 
           const headerVal = {
@@ -200,7 +206,10 @@ export class UserTestseriesDetailsComponent implements OnInit {
         }),
         finalize(() => {
           this.loading = false; // Stop loading
-          this.getTestsByTestSeries(this.getTestSeriesId());
+          // this.getTestsByTestSeries(this.getTestSeriesId());
+          this.router.navigateByUrl(
+            `dash/test-offline/${val.id}/${this.getTestSeriesId()}`
+          );
 
        
         })
@@ -211,9 +220,9 @@ export class UserTestseriesDetailsComponent implements OnInit {
   seeResult(val: any) {
 
     this.modalRef = this.modalService.open(this.Result, {
-      // size: 'sm',
+      // size: 'lg',
       windowClass: 'custom-modal-container',
-      scrollable: false,
+      scrollable: true,
       ariaLabelledBy: 'modal-basic-title',
     });
 
@@ -319,7 +328,7 @@ export class UserTestseriesDetailsComponent implements OnInit {
     //     this.selectedTest = '';
 		// 	},
 		// );
-    console.log(test)
+    
     this.selectedTest  = test;
 	}
 }

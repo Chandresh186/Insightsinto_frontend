@@ -21,6 +21,7 @@
           <div class="overview-header d-flex justify-content-between mb-3">
             <h2> <b>{{testSeriesDetails && testSeriesDetails.name | uppercase}}</b></h2> 
             <div class="d-flex gap-10px">
+              <button *ngIf="testSeriesDetails && testSeriesDetails.isActive === false" class="btn-create" id="createTestBtn" (click)="EditTestseries()"> Publish test series</button>
               <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
               <button class="btn-create" id="createTestBtn" routerLink="/dash/test-series" > Back </button>
 
@@ -200,7 +201,8 @@
                              readonly
                            /> <!--(focus)="toggleDropdown()"-->
                            <span class="input-group-append"  >
-                             <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon><!-- Bootstrap Icon for dropdown  -->
+                             <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
+                             <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
                            </span>
                          </div>
                            
@@ -217,15 +219,18 @@
                                  (click)="$event.stopPropagation()"  
                                />
                            
-                               <!-- Filtered options list -->
-                               <a
-                                 *ngFor="let option of filteredOptions"
-                                 class="dropdown-item"
-                                 href="#"
-                                 (click)="selectOption(option); $event.preventDefault()"
-                               >
-                                 {{ option.catName}}
-                               </a>
+                               <div class="custom-drop-down-menu">
+                                 <!-- Filtered options list -->
+                                 <a
+                                   *ngFor="let option of filteredOptions"
+                                   class="dropdown-item"
+                                   href="#"
+                                   (click)="selectOption(option); $event.preventDefault()"
+                                 >
+                                   {{ option.catName}}
+                                 </a>
+
+                               </div>
                            
                                <!-- Message for no matches -->
                                <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
@@ -581,9 +586,10 @@
          placeholder="Select Category"
          [value]="selectedOption && selectedOption.catName  || 'Select an option'"
          (click)="toggleDropdown()"
-         (focus)="toggleDropdown()"
+
          name="selectInput"
          aria-expanded="dropdownOpen"
+         id="dropdownOpen"
          readonly
        /> <!--(focus)="toggleDropdown()"-->
        <span class="input-group-append"  >
@@ -627,7 +633,7 @@
          <div class="chip-container mb-10px" *ngIf="testForm.categoryIds.length > 0">
           <div class="chips">
             <span *ngFor="let chip of testForm.categoryIds; let i = index" class="chip">
-              {{ chip.catName }} <button class="remove-chip" (click)="removeTopicsChip(i)">×</button>
+              {{ chip.catName }} <button class="remove-chip" (click)="removeCategoryChip(i)">×</button>
             </span>
           </div>
          </div>

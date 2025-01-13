@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BlogService } from '../../../../core/services/blog.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { DailyEditorialLandingPageComponent } from '../../../pages/daily-editorial-landing-page/daily-editorial-landing-page.component';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-landing-page',
@@ -22,6 +23,7 @@ export class LandingPageComponent implements OnInit{
   private errorMessage: string | null = null; // To store error messages
   public blogs: any = [];
   public tags:  any = [];
+  public staticBaseUrl = environment.staticBaseUrl;
 
   constructor(private blogService : BlogService) {}
 

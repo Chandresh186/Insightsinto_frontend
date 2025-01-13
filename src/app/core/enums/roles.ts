@@ -15,6 +15,7 @@ export enum PermissionEnum {
   DailyEditorial = 'Daily Editorial',
   Blogs = 'Blogs',
   PromoCode = 'Promo Code',
+  Question = 'Questions',
 
   // Users = 'Users',
   // ManagerDashboard = 'ManagerDashboard',

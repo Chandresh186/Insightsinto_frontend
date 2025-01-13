@@ -18,15 +18,28 @@ export class EditorialService {
       Authorization: `Bearer ${token}`
     });
   }
+
+
+  private getHeadersFormData(): HttpHeaders {
+    const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  }
+
   
 
   createDailyEditorial(data: any) {
-    const headers = this.getHeaders();
+    const headers = this.getHeadersFormData();
     const formData: any = new FormData();
     // Append scalar fields
    
+    // Append upload date if provided
+    if (data.uploadDate) {
+      formData.append('UploadDate', data.uploadDate);
+    }
   
-  
+    formData.append('FileName', data.fileName);
   
       // Append files
     if (data.files && data.files.length > 0) {

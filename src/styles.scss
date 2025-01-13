@@ -58,6 +58,9 @@
 
 $font-main: "Poppins" !default;
 
+@import 'ngx-sharebuttons/themes/default';
+
+
 * {
   margin: 0;
   padding: 0;

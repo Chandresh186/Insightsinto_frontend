@@ -147,18 +147,18 @@ export class CheckoutComponent {
   applyCoupon() {
     // this.couponCode.valueChanges.subscribe(value => {
     //   // do something with value here
-    //   console.log(value)
+    
     // });
 
-    console.log(this.couponForm.value)
-    console.log(this.couponForm.get('couponCode')?.value)
+    
+    
 
 
      this.loading = true; // Set loading state
         this.couponService.getCouponByCode(this.couponForm.get('couponCode')?.value).pipe(
           tap(response => {
     
-           console.log(response)
+           
            this.discountPercentage = response.data.discountPercentage
            this.calculate(this.selectedProduct.fee)
 
@@ -191,7 +191,7 @@ export class CheckoutComponent {
   //   this.router.navigate(['/payment/checkout/order_Pbrdh0QHB0TabM'])
   //   setTimeout(()=> {
   
-  //     console.log( this.getOrderId() )
+  
   //   },2000)
   // }
 
@@ -216,7 +216,7 @@ export class CheckoutComponent {
   
     this.paymentService.createOrder(paymentOrderData).pipe(
       tap((response: any) => {
-        console.log(response)
+        
 
         this.payWithRazorpay(response.data.orderId);
         
@@ -244,11 +244,11 @@ export class CheckoutComponent {
   listenSelectedProduct() {
     this.selectedProduct = this.paymentService.getSelectedProductForCheckout();
     this.calculate(this.selectedProduct && this.selectedProduct.fee)
-    console.log(this.selectedProduct)
+    
   }
 
   payWithRazorpay(paymentOrderId: any) {
-    console.log(this.total )
+    
     // const paymentOrderId = this.getOrderId();
     const options: any = {
       key: this.razorPayKey,
@@ -256,7 +256,7 @@ export class CheckoutComponent {
       currency: 'INR',
       name: 'InsightInto', // company name or product name
       description: 'Online Coaching', // product description
-      image: '../../../assets/sidebar-restore-icon.svg', // company logo or product image
+      image: '../../../assets/icons/icon-logo.jpeg', // company logo or product image
       order_id: paymentOrderId, // order_id created by you in backend
       modal: {
         // We should prevent closing of the form when esc key is pressed.

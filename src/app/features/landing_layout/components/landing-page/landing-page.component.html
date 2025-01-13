@@ -14,7 +14,7 @@
                 <!-- </div> -->
                  <div class="d-flex justify-content-center flex-column align-items-center position-relative">
 
-                     <img src="assets/icons/logo.png" alt="image" class="hero-img w-100">
+                     <img src="assets/icons/logo.png" alt="image" class="hero-img w-75">
                      <div class="btn-groups">
                          <a routerLink="/test_series" class="btn btn-primary">Test Series</a>
                          <a routerLink="/editorial" class="btn btn-secondary">Editorial</a>
@@ -44,7 +44,7 @@
                         @for(blog of blogs; track $index) {
                             <div class="blog-card">
                                 <div class="blog-card-banner">
-                                    <img [src]="blog && blog.coverImage" alt="blog image" class="blog-banner-img" width="200">
+                                    <img [src]="blog && staticBaseUrl+blog.coverImage" alt="blog image" class="blog-banner-img" width="200" loading="lazy">
                                 </div>
     
                                 <div class="blog-content-wrapper">
@@ -67,7 +67,7 @@
                                             <a href="#" class="h4">Admin</a>
     
                                             <p class="text-small">
-                                                <time datetime="2024-01-11">{{blog && blog.createdAt |  date:'MMM dd, yyyy' }} </time>
+                                                <time datetime="2024-01-11">{{blog && blog.createdAt |  date:'MMM dd, yyyy' :'UTC' }} </time>
                                                 <span class="separator"></span>
                                                 <ion-icon name="time-outline"></ion-icon>
                                                 <time datetime="PT3M">{{getTimeAgo(blog && blog.createdAt)}}</time>
@@ -354,7 +354,7 @@
                         
                     </div>
 
-                    <button class="btn load-more" [routerLink]="['/blogs']" blogs>Load More</button>
+                    <button class="btn load-more" [routerLink]="['/blogs']" blogs>More blogs</button>
                 </div>
 
                 <div class="aside">
@@ -455,13 +455,13 @@
         </div>
     </main>
 
-    <footer>
+    <!-- <footer>
         <div class="container">
             <div class="wrapper">
-                <!-- <a href="#" class="footer-logo">
+                <a href="#" class="footer-logo">
                     <img src="https://i.postimg.cc/nrDzPQGL/logo-light.png" alt="logo" width="150" class="logo-light">
                     <img src="https://i.postimg.cc/zGS7VxRq/logo-dark.png" alt="logo" width="150" class="logo-dark">
-                </a> -->
+                </a>
 
                 
 
@@ -482,15 +482,16 @@
                 <p class="footer-title">Legal Stuff</p>
 
                 <ul>
-                    <li><a href="#" class="footer-link">Privacy Notice</a></li>
-                    <li><a href="#" class="footer-link">Cookie Policy</a></li>
-                    <li><a href="#" class="footer-link">Terms of use</a></li>
+                    <li><a href="javascript:void(0);" class="footer-link" routerLink="/privacy-policy">Privacy Policy</a></li>
+                    <li><a href="javascript:void(0);" routerLink="/terms-and-conditions" class="footer-link">Terms And Conditions</a></li>
+                    <li><a href="javascript:void(0);" class="footer-link" routerLink="/refund-policy">Refund Policy</a></li>
                 </ul>
             </div>
         </div>
 
-        <!-- <p class="copyright">&copy; Copyright 2024 <a href="#">DevBlog</a></p> -->
-    </footer>
+        <p class="copyright">&copy; Copyright {{getCurrentYear()}} <a href="#">DevBlog</a></p>
+         <div class="copyright"> &copy; {{getCurrentYear()}} Insightsinto | K-A Softech. All rights reserved</div>
+    </footer> -->
 
 </div>
 

@@ -5,68 +5,80 @@
           <h1>{{testDetails && testDetails.title | uppercase}}     </h1>
        
            <div class="test-timer">
-              <i class="far fa-clock"></i> Time Remaining: {{ remainingTime }}
+              <i class="far fa-clock"></i> Time: {{ remainingTime }}
             </div>
   
       </div>
     </header>
     <div class="container-question">
-      <div class="question-panel position-relative">
-        <h2 class="mb-0">Q &nbsp; 
-          <ng-container *ngIf="currentQuestion?.question?.includes('http'); else textQuestion">
+      <div class="question-panel position-relative" >
+        <h2 class="mb-0 d-flex"><span class="pl-3 py-2">Q</span> 
+          <!-- <ng-container *ngIf="currentQuestion?.question?.includes('http'); else textQuestion">
               <img [src]="currentQuestion?.question" alt="Question Image" class="question-image" />
             </ng-container>
-            <ng-template #textQuestion>
-              {{ currentQuestion?.question }}
-            </ng-template>
+            <ng-template #textQuestion> -->
+             <div id="questionEditor" ></div> <!--{{ currentQuestion?.question}}  [innerHTML]="currentQuestion?.question"--> 
+            <!-- </ng-template> -->
         </h2>
         <div class="wrapper">
             <div class="options">
               <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'A'}">
                   <span class="option-label">A</span>
-                  <ng-container *ngIf="currentQuestion?.a?.includes('http'); else textOptionA">
+                  <!-- <ng-container *ngIf="currentQuestion?.a?.includes('http'); else textOptionA">
                       <img [src]="currentQuestion?.a" alt="Option A Image" class="option-image" />
                     </ng-container>
-                    <ng-template #textOptionA>
-                      {{ currentQuestion?.a }}
-                    </ng-template>
-                  <input type="radio" name="answer" [(ngModel)]="selectedAnswer" value="A" [attr.aria-label]="currentQuestion?.a">
+                    <ng-template #textOptionA> -->
+                  <span class="w-100 d-flex align-items-center justify-content-between" (click)="optionA.click()">
+                    <div id="optionAEditor" ></div> <!--{{ currentQuestion?.a }} [innerHTML]="currentQuestion?.a"--> 
+                      <!-- </ng-template> -->
+                    <input type="radio" name="answer" #optionA [(ngModel)]="selectedAnswer" value="A" [attr.aria-label]="currentQuestion?.a">
+
+                  </span>
               </label>
               <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'B'}"> 
                   <span class="option-label">B</span>
-                  <ng-container *ngIf="currentQuestion?.b?.includes('http'); else textOptionB">
+                  <!-- <ng-container *ngIf="currentQuestion?.b?.includes('http'); else textOptionB">
                       <img [src]="currentQuestion?.b" alt="Option B Image" class="option-image" />
                     </ng-container>
-                    <ng-template #textOptionB>
-                      {{ currentQuestion?.b }}
-                    </ng-template>
-                  <input type="radio" name="answer" [(ngModel)]="selectedAnswer" value="B" [attr.aria-label]="currentQuestion?.b">
+                    <ng-template #textOptionB> -->
+                      <span class="w-100 d-flex align-items-center justify-content-between" (click)="optionB.click()">
+                        <div id="optionBEditor" ></div> <!--{{ currentQuestion?.b }} [innerHTML]="currentQuestion?.b"--> 
+                      <!-- </ng-template> -->
+                    <input type="radio" name="answer" #optionB [(ngModel)]="selectedAnswer" value="B" [attr.aria-label]="currentQuestion?.b">
+
+                      </span>
               </label>
               <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'C'}">
                   <span class="option-label">C</span>
-                  <ng-container *ngIf="currentQuestion?.c?.includes('http'); else textOptionC">
+                  <!-- <ng-container *ngIf="currentQuestion?.c?.includes('http'); else textOptionC">
                       <img [src]="currentQuestion?.c" alt="Option C Image" class="option-image" />
                     </ng-container>
-                    <ng-template #textOptionC>
-                      {{ currentQuestion?.c }}
-                    </ng-template>
-                  <input type="radio" name="answer" [(ngModel)]="selectedAnswer" value="C" [attr.aria-label]="currentQuestion?.c">
+                    <ng-template #textOptionC> -->
+                      <span class="w-100 d-flex align-items-center justify-content-between" (click)="optionC.click()">
+                        <div id="optionCEditor" ></div> <!--{{ currentQuestion?.c }} [innerHTML]="currentQuestion?.c"-->
+                       <!-- </ng-template> -->
+                     <input type="radio" name="answer" #optionC [(ngModel)]="selectedAnswer" value="C" [attr.aria-label]="currentQuestion?.c">
+
+                      </span>
               </label>
               <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'D'}">
                   <span class="option-label">D</span>
-                  <ng-container *ngIf="currentQuestion?.d?.includes('http'); else textOptionD">
+                  <!-- <ng-container *ngIf="currentQuestion?.d?.includes('http'); else textOptionD">
                       <img [src]="currentQuestion?.d" alt="Option D Image" class="option-image" />
                     </ng-container>
-                    <ng-template #textOptionD>
-                      {{ currentQuestion?.d }}
-                    </ng-template>
-                  <input type="radio" name="answer" [(ngModel)]="selectedAnswer" value="D" [attr.aria-label]="currentQuestion?.d">
+                    <ng-template #textOptionD> -->
+                      <span class="w-100 d-flex align-items-center justify-content-between" (click)="optionD.click()">
+                        <div id="optionDEditor" ></div>  <!--{{ currentQuestion?.d }} [innerHTML]="currentQuestion?.d"--> 
+                      <!-- </ng-template> -->
+                    <input type="radio" name="answer" #optionD [(ngModel)]="selectedAnswer" value="D" [attr.aria-label]="currentQuestion?.d">
+
+                      </span>
               </label>
             </div>
       
-            <div class="desc">
+            <!-- <div class="desc">
               {{currentQuestion?.description}}
-            </div>
+            </div> -->
   
         </div>
      
@@ -86,7 +98,7 @@
     
       <div class="question-sidebar position-relative">
         <h3>Questions</h3>
-        <div class="">
+        <div class="question-panel-list">
             <div class="question-list">
               @for( q of questions; track q;let id = $index) {
   

@@ -6,13 +6,14 @@ import { catchError, finalize, of, tap } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaymentOrder } from '../../../core/models/interface/payment.interface';
 import { PaymentService } from '../../../core/services/payment.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
+import { UserDashboardService } from '../../../core/services/user-dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
  
@@ -26,9 +27,56 @@ export class DashboardComponent {
 
   public tableData:any = [];
   private orderId: string = '';
+
+
+  public dashboardData : any;
+  
+
+  resultShowColumns: any;
+
+  resultTableHeaders: any = [
+    
+  ]
+
+  resultTableData: any = [
+    // {
+    //   test: "Math Test 1",
+    //   testSeries: "Series A",
+    //   score: 85
+    // },
+    // {
+    //   test: "Science Test 1",
+    //   testSeries: "Series B",
+    //   score: 90
+    // },
+    // {
+    //   test: "English Test 1",
+    //   testSeries: "Series C",
+    //   score: 78
+    // },
+    // {
+    //   test: "History Test 1",
+    //   testSeries: "Series A",
+    //   score: 92
+    // },
+    // {
+    //   test: "Geography Test 1",
+    //   testSeries: "Series B",
+    //   score: 88
+    // }
+  ]
+
+
+
+
+
   @ViewChild('testSeries', { static: false }) testSeriesSection!: ElementRef;
   @ViewChild('yourtestSeries', { static: false }) yourtestSeries!: ElementRef;
 
+
+  resultActionConfig = [
+    { key: 'analysis', label: 'View Analysis', class: 'btn btn-outline-info', visible: false },
+  ];
 
     // Dynamic Actions Config
     actionsConfig = [
@@ -121,7 +169,7 @@ export class DashboardComponent {
     ];
 
 
-    constructor(private testSeriesService: TestSeriesService,private paymentService: PaymentService, private router : Router) {}
+    constructor(private userDashboardService : UserDashboardService,private testSeriesService: TestSeriesService,private paymentService: PaymentService, private router : Router) {}
 
 
     handleAction(event: { action: string; row: any }) {
@@ -133,6 +181,24 @@ export class DashboardComponent {
         default:
           console.error('Unknown action:', event.action);
       }
+    }
+
+    resultHandleAction(event: { action: string; row: any }) {
+      switch (event.action) {
+       
+        case 'analysis':
+          this.onAnalysis(event.row);
+          break;
+        
+      
+        default:
+          console.error('Unknown action:', event.action);
+      }
+    }
+
+    onAnalysis(val:any) {
+
+      console.log(val)
     }
 
 
@@ -174,7 +240,8 @@ export class DashboardComponent {
   ngOnInit() {
     const userId = JSON.parse(localStorage.getItem('currentUser') || 'null').response.userId
     this.loadTestSeries();
-    this.loadUserTestSeries(userId)
+    this.loadUserTestSeries(userId);
+    this.getUserDashboardDetails(userId);
    
   }
 
@@ -186,6 +253,40 @@ export class DashboardComponent {
 
   scrollToYourTestSeries() {
     this.yourtestSeries.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  getUserDashboardDetails(userId: string) {
+    this.loading = true; // Set loading state to true while fetching data
+    
+    this.userDashboardService.getUserDashboard(userId).pipe(
+      tap((response: any) => {
+        // this.allEditoril = response
+        this.dashboardData = response;
+
+        this.resultTableData = this.dashboardData && this.dashboardData.completedTestsDetails
+        this.resultShowColumns  = this.generateTableHeaders(this.dashboardData && this.dashboardData.completedTestsDetails);
+        this.resultTableHeaders = this.generateTableHeaders(this.dashboardData && this.dashboardData.completedTestsDetails)
+
+        // this.testData = response && response.tests
+        // this.testShowColumns  = this.generateTableHeaders(this.testData.map(({ id,files,topics,categories,minimumPassingScore,testSeriesId,testSeriesName, ...rest }: any) => rest));
+        // this.testTableHeaders = this.generateTableHeaders(this.testData)
+
+
+
+       
+
+        
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error loading admin dashboard.'; // Handle error message
+        console.error('Error loading admin dashboard:', error);
+        // this.allEditoril = []; 
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+      })
+    ).subscribe();
   }
 
     onBuy(row: any) {

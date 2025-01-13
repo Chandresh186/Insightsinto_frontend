@@ -8,8 +8,8 @@
             <div class="sidebar-top-wrapper">
                 <div class="sidebar-top">
                     <a routerLink="/" class="logo__wrapper">
-                        <img src="assets/sidebar-restore-icon.svg" alt="Logo" class="logo-small">
-                        <span class="hide company-name">RESTORE</span>
+                        <img src="assets/icons/icon-logo.jpeg" alt="Logo" class="logo-small">
+                        <span class="hide company-name">Insight_Into</span>
                     </a>
                 </div>
                 <button class="expand-btn" type="button" (click)="toggleSidebar()"><ion-icon class="i" name="chevron-back-outline"></ion-icon>
@@ -21,7 +21,7 @@
                       
                         <ng-container *ngIf="checkPermission(menu.title)">
                             <li>
-                                <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="tooltip" placement="right" [ngbTooltip]="menu?.title">
+                                <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="tooltip " [ngClass]="{'active' : this.lastSegment === menu.routeURL }" placement="right" [ngbTooltip]="menu?.title">
                                     <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}"
                                         width="23px">
                                     <span class="link hide">
@@ -44,9 +44,9 @@
                 </ul>
             </div>
         </nav>
-        <section class="home-section">
+        <section class="home-section"> <!-- [ngStyle]="currentRoute === 'question-list' ? { 'overflow-x': 'hidden' } : {}"-->
             <app-header></app-header>
-            <router-outlet></router-outlet>
+            <router-outlet (activate)="detectRoutes($event)" ></router-outlet>
         </section>
     </div>
 
@@ -55,7 +55,7 @@
     <header class="mobile-header">
         <nav class="navbar d-lg-none d-xl-none d-xxl-none fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" routerLink="/">RESTORE</a>
+                <a class="navbar-brand" routerLink="/">Insight_Into</a>
 <!-- 
                 <div class="col-8 g-0 MobilerestoreScore" style="width: calc(46.67% - 10px);">
                     <div class="row g-0" id="high-low-activity" >
@@ -116,7 +116,7 @@
                         aria-labelledby="offcanvasNavbarLabel">
                         <div class="offcanvas-header">
                             <div class="offcanvas-header_child">
-                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">RESTORE</h5>
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Insight_Into</h5>
     
                             <div class="flex-center">
                                 <div>
@@ -140,10 +140,11 @@
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                            <div class="d-flex mb-3">
+                            <!-- <div class="d-flex mb-3">
                                 <input type="text" id="search" class="form-control" placeholder="Search"
-                                    > <!--[ngbTypeahead]="search" (selectItem)="onSelect($event)"-->
-                            </div>
+                                    >
+                                     [ngbTypeahead]="search" (selectItem)="onSelect($event)"
+                            </div> -->
                        
                                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                                     <ng-container *ngFor="let menu of menuItems">
@@ -164,7 +165,7 @@
                             <ul class="navbar-nav justify-content-end flex-grow-1 position-absolute bottom-0">
                                 <li class="nav-item cursor-pointer">
                                     <a class="nav-link" id="log_out" aria-current="page" data-bs-toggle="offcanvas"
-                                        >
+                                      (click)="logOut()"  >
                                         <i class="bi bi-box-arrow-right"></i>
                                         <span>Logout</span>
                                     </a>

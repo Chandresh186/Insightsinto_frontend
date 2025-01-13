@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="question-panel position-relative">
+        <ng-container *ngFor="let ques of questions;let i = index">
+          <h2 class="mb-0">Q  {{i+1}}&nbsp; 
+            <ng-container *ngIf="ques.question.includes('http'); else textQuestion">
+                <img [src]="ques.question" alt="Question Image" class="question-image" />
+              </ng-container>
+              <ng-template #textQuestion>
+                {{ ques.question }}
+              </ng-template>
+          </h2>
+  
+          <div class="wrapper">
+              <div class="options">
+                <label class="option" tabindex="0" [ngClass]="{
+                    'correct': (ques.ans === 'A' && ques.user_ans === 'A') || ques.ans === 'A',
+                    'wrong': ques.user_ans === 'A' && ques.ans !== 'A'
+                }"> <!-- -->
+                    <span class="option-label">A</span>
+                    <ng-container *ngIf="ques.a.includes('http'); else textOptionA">
+                        <img [src]="ques.a" alt="Option A Image" class="option-image" />
+                      </ng-container>
+                      <ng-template #textOptionA>
+                        {{ ques.a }}
+                      </ng-template>
+                    <input type="radio" [name]="'answer-' + i"  value="A" [attr.aria-label]="ques?.a" [checked]="ques.user_ans === 'A'" disabled> <!--[(ngModel)]="selectedAnswer"-->
+                </label>
+                <label class="option" tabindex="0" [ngClass]="{
+                    'correct': (ques.ans === 'B' && ques.user_ans === 'B') || ques.ans === 'B',
+                    'wrong': ques.user_ans === 'B' && ques.ans !== 'B'
+                }">  <!---->
+                    <span class="option-label">B</span>
+                    <ng-container *ngIf="ques.b.includes('http'); else textOptionB">
+                        <img [src]="ques.b" alt="Option B Image" class="option-image" />
+                      </ng-container>
+                      <ng-template #textOptionB>
+                        {{ ques.b }}
+                      </ng-template>
+                    <input type="radio" [name]="'answer-' + i"  value="B" [attr.aria-label]="ques.b" [checked]="ques.user_ans === 'B'" disabled> <!--[(ngModel)]="selectedAnswer"-->
+                </label>
+                <label class="option" tabindex="0" [ngClass]="{
+                    'correct': (ques.ans === 'C' && ques.user_ans === 'C') || ques.ans === 'C',
+                    'wrong': ques.user_ans === 'C' && ques.ans !== 'C'
+                }"> <!--"-->
+                    <span class="option-label">C</span>
+                    <ng-container *ngIf="ques.c?.includes('http'); else textOptionC">
+                        <img [src]="ques.c" alt="Option C Image" class="option-image" />
+                      </ng-container>
+                      <ng-template #textOptionC>
+                        {{ ques.c }}
+                      </ng-template>
+                    <input type="radio" [name]="'answer-' + i"  value="C" [attr.aria-label]="ques.c" [checked]="ques.user_ans === 'C'" disabled> <!--[(ngModel)]="selectedAnswer"-->
+                </label>
+                <label class="option" tabindex="0" [ngClass]="{
+                    'correct': (ques.ans === 'D' && ques.user_ans === 'D') || ques.ans === 'D',
+                    'wrong': ques.user_ans === 'D' && ques.ans !== 'D'
+                }"> <!---->
+                    <span class="option-label">D</span>
+                    <ng-container *ngIf="ques.d.includes('http'); else textOptionD">
+                        <img [src]="ques.d" alt="Option D Image" class="option-image" />
+                      </ng-container>
+                      <ng-template #textOptionD>
+                        {{ ques.d }}
+                      </ng-template>
+                    <input type="radio" [name]="'answer-' + i"  value="D" [attr.aria-label]="ques.d" [checked]="ques.user_ans === 'D'" disabled > <!--[(ngModel)]="selectedAnswer"-->
+                </label>
+              </div>
+        
+              <div class="desc">
+                {{ques.description}}
+              </div>
+    
+          </div>
+        </ng-container>
+     
+       
+  
+        <!-- <div class="actions justify-content-between">
+             <div>
+               <button class="button save-next" (click)="saveAnswer()">SAVE AND NEXT</button> &nbsp;
+               <button class="button review-next" (click)="review()">REVIEW AND NEXT</button>
+  
+             </div>
+         
+        </div> -->
+      </div>
+</div>

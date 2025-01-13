@@ -68,6 +68,24 @@ export const dashboardRoutes: Routes = [
             ),
     },
     {
+        path: 'test-offline/:id/:testSeriesId',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['User'] }, 
+        loadComponent: () =>
+            import('../pages/attempt-test-offline/attempt-test-offline.component').then(
+                (component) => component.AttemptTestOfflineComponent
+            ),
+    },
+    {
+        path: 'result-analysis/:id',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['User'] }, 
+        loadComponent: () =>
+            import('../pages/view-analysis/view-analysis.component').then(
+                (component) => component.ViewAnalysisComponent
+            ),
+    },
+    {
         path: 'dashboard',
         canActivate: [permissionGuard], 
         data: { requiredRoles: ['Admin'] }, 
@@ -141,7 +159,34 @@ export const dashboardRoutes: Routes = [
             import(
                 '../../features/payment/index'
             ).then((component) => component.paymentRoutes)
-      },
+    },
+    {
+        path: 'question-list',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Admin'] },
+        loadComponent:() =>
+            import (
+                '../../features/pages/question-list/question-list.component'
+            ).then((component) => component.QuestionListComponent)
+    },
+    {
+        path: 'create-question',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Admin'] },
+        loadComponent:() =>
+            import (
+                '../../features/pages/create-question/create-question.component'
+            ).then((component) => component.CreateQuestionComponent)
+    },
+    {
+        path: 'edit-question/:id',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Admin'] },
+        loadComponent:() =>
+            import (
+                '../../features/pages/create-question/create-question.component'
+            ).then((component) => component.CreateQuestionComponent)
+    },
     {
         path: '**',
         redirectTo: '',

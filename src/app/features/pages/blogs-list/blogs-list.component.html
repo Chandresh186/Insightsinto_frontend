@@ -16,7 +16,7 @@
             <ng-container >
                 <div class="blog-card">
                  <div class="position-relative">
-                     <img [src]="blog && blog.coverImage" alt="Core Web Vitals" class="blog-img">
+                     <img [src]="blog && staticBaseUrl+blog.coverImage" alt="Core Web Vitals" class="blog-img" loading="lazy">
                      <div class="card-actions" *ngIf="checkRole('admin')">
                          <i class="far fa-edit edit" [routerLink]="['../edit-blog', blog.id]" ></i> 
                          <i class="far fa-trash-alt trash" (click)="deleteBlog(blog.id)"></i>

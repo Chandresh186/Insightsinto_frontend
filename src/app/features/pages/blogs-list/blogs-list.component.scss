@@ -14,7 +14,7 @@
   
   .header {
     // background-color: #4e54c8;
-    color: #4e54c8;
+    color: #1A1F35;
     text-align: center;
     padding: 1rem;
   }
@@ -61,14 +61,15 @@
   .blog-img {
     width: 100%;
     height: 180px;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 8px 8px 0 0;
+    aspect-ratio: auto;
   }
   
   .blog-card h2 {
     font-size: 1.5rem;
     margin: 1rem 0 0.5rem;
-    color: #4e54c8;
+    color: #1A1F35;
   }
   
   .blog-card p {
@@ -81,7 +82,7 @@
   .read-more {
     align-self: flex-end;
     display: inline-block;
-    background-color: #4e54c8;
+    background-color: #1A1F35;
     color: #fff;
     text-decoration: none;
     padding: 0.5rem 1rem;
@@ -91,7 +92,7 @@
   }
   
   .read-more:hover {
-    background-color: #3b3fa6;
+    background-color: #3C4258;
   }
   
   .footer {
@@ -130,12 +131,12 @@
     width: 300px;
     padding: 10px;
     border: none;
-    border-bottom: 2px solid var(--color-default);
+    border-bottom: 2px solid #1A1F35;
   }
   
   .search input:focus {
     outline: none;
-    border-bottom: 4px solid var(--color-default);
+    border-bottom: 4px solid #1A1F35;
   }
 
 
@@ -168,7 +169,7 @@
   
 
   .edit {
-   color: #4e54c8;
+   color: #1A1F35;
   }
 
   .trash {

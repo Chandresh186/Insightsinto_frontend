@@ -71,19 +71,21 @@
     </header>
   
     <section class="editorial-list">
-      <ng-container *ngFor="let editorial of allEditoril">
-        <!-- Editorial Item 1 -->
-        <div class="editorial-item">
+      <!-- <ng-container *ngFor="let editorial of allEditoril"> -->
+        @for(editorial of allEditoril; track $index) {
+            <!-- Editorial Item 1 -->
+        <!--  -->
+        <div  class="editorial-item">
           <div class="editorial-info">
             <span class="editorial-title">Editorial: {{editorial.fileName}}</span>
             <span class="editorial-date"> {{editorial.uploadDate | date: 'MMMM d, y'}}</span>
           </div>
           <div *ngIf="!pricingAndPlans.includes(editorial.id)" class="editorial-preview">
             <div class="pdf-preview position-relative" [id]="'collapse' + editorial.id">
-              <div class="pdf-container w-100">
+              <div  *ngIf="editorial && editorial.videoPath === null && editorial && editorial.filePath !== null" class="pdf-container w-100">
                 <pdf-viewer
                   id="outerContainer"
-                  [src]="editorial.filePath"
+                  [src]="staticBaseUrl+editorial.filePath"
                   [rotation]="0"
                   [original-size]="false"
                   [show-all]="true"
@@ -109,6 +111,7 @@
                 
                 </div>
               </div>
+              <app-video-player *ngIf="editorial && editorial.filePath === null && editorial && editorial.videoPath !== null" class="w-100 h-100" [link]="staticBaseUrl+editorial && staticBaseUrl+editorial.videoPath"></app-video-player>
             </div>
             <div class="pdf-actions">
               <!-- <a  class="btn view-btn" routerLink="/auth">Login</a> -->
@@ -239,7 +242,18 @@
           </div>
         </div>
 
-      </ng-container>
+        } @empty {
+          <div  class="editorial-item">
+
+            <div class="message-card">
+              <h1>Editorial not uploaded</h1>
+              <p>The editorial you are looking for is not uploaded yet. Please check back later.</p>
+              <!-- <button onclick="window.location.reload();">Refresh</button> -->
+          </div>
+          </div>
+        }
+      
+      <!-- </ng-container> -->
   
      
   

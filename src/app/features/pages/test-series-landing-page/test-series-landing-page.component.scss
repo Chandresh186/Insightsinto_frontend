@@ -14,7 +14,7 @@ body {
   }
   
   h1, h2 {
-    color: #222;
+    // color: #222;
     text-align: center;
     margin-bottom: 20px;
   }
@@ -35,11 +35,15 @@ body {
   
   /* Hero Section */
   .hero-section {
-    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    background: linear-gradient(135deg, #1A1F35, #3C4258);
     color: #fff;
     text-align: center;
     padding: 80px 20px;
     clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  }
+
+  .hero-section:hover {
+    background: linear-gradient(135deg, #3C4258 , #1A1F35);
   }
   
   .hero-content h1 {
@@ -58,7 +62,7 @@ body {
   .cta-button {
     display: inline-block;
     padding: 15px 30px;
-    background: #ff5722;
+    background: linear-gradient(45deg, #1A1F35, #3C4258);
     color: #fff;
     font-size: 1.1rem;
     font-weight: bold;
@@ -67,7 +71,7 @@ body {
   }
   
   .cta-button:hover {
-    background: #e64a19;
+    background: linear-gradient(45deg, #3C4258, #1A1F35);
     transform: translateY(-3px);
   }
   

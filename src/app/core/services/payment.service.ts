@@ -50,9 +50,9 @@ export class PaymentService {
   }
 
     // Clear the selected product from localStorage
-    clearSelectedProduct(): void {
-      localStorage.removeItem('selectedProductForCheckout');
-    }
+  clearSelectedProduct(): void {
+    localStorage.removeItem('selectedProductForCheckout');
+  }
 
   get nativeWindow(): any {
     if (isPlatformBrowser(this.platformId)) {

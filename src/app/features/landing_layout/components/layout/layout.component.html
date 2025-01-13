@@ -1,4 +1,4 @@
-<header >
+<header  [ngClass]="{'scrolled': isScrolled}">
     <div class="container">
         <nav class="navbar">
             <a href="#">
@@ -22,7 +22,19 @@
                     <li><a routerLink="/" routerLinkActive="router-link-active"  class="nav-link">Home</a></li>
                     <li><a routerLink="/test_series" class="nav-link">Test Series</a></li>
                     <li><a routerLink="/editorial" class="nav-link">Editorial</a></li>
-                    <li><a routerLink="/auth" class="nav-link">Login</a></li>
+                    <li *ngIf="!isLoggedIn()"><a routerLink="/auth" class="nav-link">Login</a></li>
+                    <li *ngIf="isLoggedIn()">
+                        <div ngbDropdown class="d-inline-block status-icon-container cursor_pointer"  id="log_out">
+                            <img alt="" class="dropdown-toggle" id="logout" ngbDropdownToggle id="logout"
+                                src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
+                            
+                            <div ngbDropdownMenu aria-labelledby="logout" class="log">
+                                <button ngbDropdownItem class="d-flex align-items-center" routerLink="/dash"><i class="fas fa-th-large mx-2"></i> <span>Dashboard</span> </button>
+                                <button ngbDropdownItem class="d-flex align-items-center" (click)="logOut()"><i class="fas fa-sign-out-alt mx-2"></i> <span>Logout</span></button>
+                                
+                            </div>
+                        </div>
+                    </li>
 
                     <!-- <button class="theme-btn theme-btn-desktop light" [class.light]="isLightTheme" [class.dark]="!isLightTheme" (click)="toggleTheme()">
                         <ion-icon name="moon" class="moon"></ion-icon>
@@ -44,7 +56,21 @@
                         <li (click)="toggleNav()" class="nav-item"><a routerLink="/" routerLinkActive="router-link-active" class="nav-link">Home</a></li>
                         <li (click)="toggleNav()" class="nav-item"><a routerLink="/test_series" class="nav-link">Test Series </a></li>
                         <li (click)="toggleNav()" class="nav-item"><a routerLink="/editorial" class="nav-link">Editorial</a></li>
-                        <li (click)="toggleNav()" class="nav-item"><a routerLink="/auth" class="nav-link">Login</a></li>
+                        <li *ngIf="!isLoggedIn()" (click)="toggleNav()" class="nav-item"><a routerLink="/auth" class="nav-link">Login</a></li>
+                        <!-- <li ><a routerLink="/auth" class="nav-link">Login</a></li> -->
+                        <li *ngIf="isLoggedIn()">
+                        <div ngbDropdown class="d-inline-block status-icon-container cursor_pointer"  id="log_out">
+                            <img alt="" class="dropdown-toggle" id="logout" ngbDropdownToggle id="logout"
+                                src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
+                            
+                            <div ngbDropdownMenu aria-labelledby="logout" class="log">
+                                <button ngbDropdownItem class="d-flex align-items-center" routerLink="/dash" (click)="toggleNav()"><i class="fas fa-th-large mx-2"></i> <span>Dashboard</span> </button>
+                                <button ngbDropdownItem class="d-flex align-items-center" (click)="logOut();toggleNav()"><i class="fas fa-sign-out-alt mx-2"></i> <span>Logout</span></button>
+                                
+                            </div>
+                        </div>
+                    </li>
+                        
                     </ul>
                 </div>
 
@@ -64,6 +90,50 @@
 </header>
 <div [ngClass]="isLightTheme ? 'light-theme' : 'dark-theme'">
 
-    <router-outlet ></router-outlet>
+    <router-outlet (activate)="detectRoutes($event)"></router-outlet>
    
 </div>
+
+<footer *ngIf="lastSegment !== 'auth'">
+    <div class="container">
+        <div class="wrapper">
+            <a href="#" class="footer-logo">
+                <img src="assets/icons/logo.png" alt="logo" width="150" >
+                <!-- <img src="https://i.postimg.cc/zGS7VxRq/logo-dark.png" alt="logo" width="150" class="logo-dark"> -->
+            </a>
+
+            
+
+            <p class="footer-text">Empower your preparation with a platform built for success!</p>
+        </div>
+
+        <div class="wrapper">
+            <p class="footer-title">Quick Links</p>
+
+            <ul>
+                <!-- <li><a href="#" class="footer-link">Advertise with us</a></li>
+                <li><a href="#" class="footer-link">About us</a></li>
+                <li><a href="#" class="footer-link">Contact us</a></li> -->
+                <li><a routerLink="/" routerLinkActive="router-link-active"  class="footer-link">Home</a></li>
+                    <li><a routerLink="/test_series" class="footer-link">Test Series</a></li>
+                    <li><a routerLink="/editorial" class="footer-link">Editorial</a></li>
+                    <li><a routerLink="/auth" class="footer-link">Login</a></li>
+                    
+            </ul>
+        </div>
+
+        <div class="wrapper">
+            <p class="footer-title">Legal Stuff</p>
+
+            <ul>
+                <li><a href="javascript:void(0);" class="footer-link" routerLink="/privacy-policy">Privacy Policy</a></li>
+                <li><a href="javascript:void(0);" class="footer-link" routerLink="/refund-policy">Refund Policy</a></li>
+                <li><a href="javascript:void(0);" class="footer-link" routerLink="/contactus">Contact Us</a></li>
+                <li><a href="javascript:void(0);" class="footer-link" routerLink="/terms-and-conditions">Terms And Conditions</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- <p class="copyright">&copy; Copyright {{getCurrentYear()}} <a href="#">DevBlog</a></p> -->
+     <div class="copyright"> &copy; {{getCurrentYear()}} Insightsinto | K-A Softech. All rights reserved</div>
+</footer>

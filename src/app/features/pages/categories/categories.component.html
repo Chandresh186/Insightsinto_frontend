@@ -8,9 +8,9 @@
         placeholder="Search"
         (input)="onSearchChange($event)"
       />
-      <button  ngbTooltip="Search"  class="btn btn-primary add-more" type="button" ><ion-icon name="search-outline"></ion-icon></button>
+      <button  ngbTooltip="Search"  class="btn btn-primary add-more remove-default-css" type="button" ><ion-icon name="search-outline"></ion-icon></button>
     </div>
-      <button class="btn btn-primary" placement="bottom" ngbTooltip="Create Category" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      <button class="btn btn-primary custom-button" placement="bottom" ngbTooltip="Create Category" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
           <ion-icon class="create" name="add-outline"></ion-icon> Create Category
       </button>
   
@@ -45,7 +45,8 @@
                    readonly
                  /> <!--(focus)="toggleDropdown()"-->
                  <span class="input-group-append"  >
-                   <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon><!-- Bootstrap Icon for dropdown  -->
+                   <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
+                   <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
                  </span>
                </div>
                  
@@ -63,15 +64,16 @@
                      />
                  
                      <!-- Filtered options list -->
-                     <a
-                       *ngFor="let option of filteredOptions"
-                       class="dropdown-item"
-                       href="#"
-                       (click)="selectOption(option); $event.preventDefault()"
-                     >
-                       {{ option.catName}}
-                     </a>
-                 
+                     <div class="list-wrapper">
+                      <a
+                        *ngFor="let option of filteredOptions"
+                        class="dropdown-item"
+                        href="#"
+                        (click)="selectOption(option); $event.preventDefault()"
+                      >
+                        {{ option.catName}}
+                      </a>
+                    </div>
                      <!-- Message for no matches -->
                      <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
                        No options found
@@ -112,7 +114,7 @@
               </div>
              
             
-              <button type="button" class="btn btn-primary" (click)="isCreateNewCategory ? createNewCategory(): createSubCategory() ">Submit</button>
+              <button type="button" class="btn btn-primary custom-button" (click)="isCreateNewCategory ? createNewCategory(): createSubCategory() ">Submit</button>
             </form>
       </div>
     </div>
@@ -338,7 +340,8 @@
          readonly
        /> <!--(focus)="toggleDropdown()"-->
        <span class="input-group-append"  >
-         <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon><!-- Bootstrap Icon for dropdown  -->
+         <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
+          <i class="fa fa-caret-down" (click)="toggleDropdown()" ></i>
        </span>
      </div>
        
@@ -354,16 +357,18 @@
              (input)="filterOptions()"
              (click)="$event.stopPropagation()"  
            />
-       
-           <!-- Filtered options list -->
-           <a
-             *ngFor="let option of filteredOptions"
-             class="dropdown-item"
-             href="#"
-             (click)="mapParentId(option); $event.preventDefault()"
-           >
-             {{ option.catName}}
-           </a>
+           <div class="list-wrapper">
+              <!-- Filtered options list -->
+              <a
+                *ngFor="let option of filteredOptions"
+                class="dropdown-item"
+                href="#"
+                (click)="mapParentId(option); $event.preventDefault()"
+              >
+                {{ option.catName}}
+              </a>
+
+           </div>
        
            <!-- Message for no matches -->
            <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">

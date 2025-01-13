@@ -1,23 +1,116 @@
 
 
 <div class="container">
-  <section class=" mb-5">
+
+  <section class="row g-6 mb-5 ">
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card shadow border-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <span class="h6 font-semibold text-muted text-sm d-block mb-2">Overview</span>
+              <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.purchasedTestSeriesCount}}</span>
+              
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                <!-- <i class="bi bi-credit-card"></i> -->
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-0 text-sm">
+            <span class="badge badge-pill bg-soft-success text-success me-2">
+              <i class="bi bi-arrow-up me-1"></i>
+            </span>
+            <span class="text-nowrap text-xs text-muted">Purchased Test Series</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card shadow border-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <span class="h6 font-semibold text-muted text-sm d-block mb-2">Overview</span>
+              <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.recentScore.toFixed(2)}}%</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-0 text-sm">
+            <span class="badge badge-pill bg-soft-success text-success me-2">
+              <i class="bi bi-arrow-up me-1"></i>
+            </span>
+            <span class="text-nowrap text-xs text-muted">Recent Scores</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card shadow border-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <span class="h6 font-semibold text-muted text-sm d-block mb-2">Progress Tracking</span>
+              <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.completedTests}}</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
+                <i class="fas fa-flag-checkered"></i>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-0 text-sm">
+            <span class="badge badge-pill bg-soft-success text-success me-2">
+              <i class="bi bi-arrow-up me-1"></i>
+            </span>
+            <span class="text-nowrap text-xs text-muted">
+              Tests Completed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card shadow border-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <span class="h6 font-semibold text-muted text-sm d-block mb-2">Progress Tracking</span>
+              <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.pendingTests}}</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                <i class="fas fa-hourglass-half"></i>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-0 text-sm">
+            <span class="badge badge-pill bg-soft-success text-success me-2">
+              <i class="bi bi-arrow-up me-1"></i>
+            </span>
+            <span class="text-nowrap text-xs text-muted">Tests Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+
+  <!-- <section class=" mb-5">
     <header id="intro" class="rounded ">
       <div class="content">
         <h1>Welcome to Our Test Series Platform</h1>
         <p>Prepare for success with expertly designed online test series.</p>
-        <div class="button-group">
-          <a href="javascript:void(0)" (click)="scrollToTestSeries()" class="cta-button">
-            Explore Test Series
-          </a>
-          <a href="javascript:void(0)" (click)="scrollToYourTestSeries()" class="cta-button secondary">
-            Explore Your Test Series
-          </a>
-        </div>
+       
       </div>
     </header>
   </section>
-     <hr>
+     <hr> -->
   
   <section id="your-test-series" #yourtestSeries class=" my-0 py-0">
     <h1 class="mb-5">Your Test Series</h1>
@@ -65,7 +158,7 @@
     
   <div class="cards-container mb-5">
     <ng-container *ngIf="testSeriesData.length > 0; else noTestSeries">
-    <div class="card" *ngFor="let series of testSeriesData">
+    <div class="card shadow border-0" *ngFor="let series of testSeriesData">
       <div class="card-label"  [ngClass]="{
         active: series.status === 'Active',
         completed: series.status === 'Completed',
@@ -94,6 +187,38 @@
   
   </div>
 </section>
+<hr>
+
+<div class="section">
+  
+  <h1 class="mb-5">Active Tests</h1>
+  <ul class="active-tests">
+      <ng-container *ngFor="let test of dashboardData && dashboardData.activeTests">
+        <li class="d-flex justify-content-between align-items-center"> {{test.title | uppercase}} <button class="btn btn-sm btn-primary rounded" [routerLink]="['/dash/series-details',  test.testSeriesId]" >Start</button></li>
+
+      </ng-container>
+      <!-- <li><a href="#" class="btn">Test 2</a></li> -->
+  </ul>
+  <hr>
+  <h1 class="mb-5">Completed Tests</h1>
+ 
+  <div id="test-series" class="table-wrapper">
+      <app-table  
+          [tableHeaders]="resultTableHeaders"
+          [tableData]="resultTableData"
+          [itemsPerPage]="5"
+          [actionsConfig]="resultActionConfig"
+          (actionTriggered)="resultHandleAction($event)"
+          [tableName]="''"
+          [showTableName]="true"
+          [showSearchBar]="true"
+          [showColumns]="resultShowColumns">
+        </app-table>
+
+  </div>
+ 
+</div>
+
 <hr>
     
     <section id="test-series" #testSeries class=" my-0 py-0">

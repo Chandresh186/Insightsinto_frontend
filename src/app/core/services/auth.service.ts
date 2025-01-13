@@ -53,7 +53,7 @@ export class AuthService {
     checkPermission(permission: any): boolean {
       if (!permission) return false;
       const rolePermissionsMap: Record<any, PermissionEnum[]> = {
-        [INSIGHT_INTO_ROLE.Admin]: [PermissionEnum.Settings, PermissionEnum.Categories, PermissionEnum.Test, PermissionEnum.DailyEditorial, PermissionEnum.AdminDashboard, PermissionEnum.Blogs, PermissionEnum.PromoCode],
+        [INSIGHT_INTO_ROLE.Admin]: [PermissionEnum.Settings, PermissionEnum.Categories, PermissionEnum.Test, PermissionEnum.DailyEditorial, PermissionEnum.AdminDashboard, PermissionEnum.Blogs, PermissionEnum.PromoCode, PermissionEnum.Question],
         [INSIGHT_INTO_ROLE.User]: [PermissionEnum.Settings, PermissionEnum.Dashboard, PermissionEnum.UserDashboard, PermissionEnum.DailyEditorial, PermissionEnum.Blogs],
   
       };

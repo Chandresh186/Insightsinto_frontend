@@ -1,13 +1,13 @@
 // Use for common css 
 .restore-button {
-    background-color: var(--color-default) !important;
+    background-color: #1A1F35 !important;
     color: var(--color-white) !important;
     transition: 0.5s;
     border: none !important;
     font-weight: 600;
 
     &:hover {
-        background-color: var(--color-primary) !important;
+        background-color: #3C4258 !important;
         color: var(--fixed-black-color) !important;
     }
 }

@@ -1,0 +1,50 @@
+::ng-deep #question .test-series-table table td {
+    // width: 100vw;
+    // overflow-x: auto;
+    white-space: nowrap;
+    max-width: 250px;
+}
+
+::ng-deep #question .test-series-table table thead th {
+    position: sticky;
+    top: 0; /* Stick to the top */
+    // background-color: #fff; /* Set background to avoid transparency */
+    z-index: 10; /* Ensure it stays above other content */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+  }
+
+
+::ng-deep #question .test-series-section {
+    padding: 20px 20px 10px;
+}
+
+.btn-primary {
+    background-color: #1A1F35;
+    border-color: #1A1F35 !important;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #3C4258;
+    border-color: #3C4258 !important;
+}
+
+
+::ng-deep #question .test-series-section .main-row {
+    display: flex;
+    gap: 15px;
+}
+
+::ng-deep #question .test-series-section .main-row img {
+    width: 25px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+::ng-deep #question .test-series-section .main-row p {
+    margin: 0;
+}
+
+::ng-deep #question .test-series-section .main-row blockquote {
+    margin: 0;
+}

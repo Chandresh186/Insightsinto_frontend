@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { ngbootstrapModule } from '../../modules/ng-bootstrap.modules';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ngbootstrapModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -22,6 +23,7 @@ export class TableComponent implements OnChanges {
   @Input() showTableName: boolean = true;  // To toggle the visibility of table name
   @Input() showSearchBar: boolean = true;  // To toggle the visibility of search bar
   @Input() showColumns: string[] = [];     // To toggle visibility of specific columns based on header keys
+  @Input() showSeriaNumber?: boolean = false; 
 
     // Actions Configuration
   @Input() actionsConfig: {

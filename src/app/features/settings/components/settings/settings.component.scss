@@ -26,7 +26,7 @@
 
     .nav-pills .nav-link.active,
     .nav-pills .show>.nav-link {
-        background-color: var(--color-default);
+        background-color: #1A1F35;
         color: var(--color-white);
     }
 }
@@ -311,3 +311,11 @@
   
 
   
+  .restore-button {
+    background-color: #1A1F35 !important;
+    transition: all 0.3s ease;
+  }
+
+  .restore-button:hover {
+    background-color: #3C4258 !important;
+  }

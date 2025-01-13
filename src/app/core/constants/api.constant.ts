@@ -35,6 +35,14 @@ export const API_CONSTANTS = {
 
     },
 
+    Questions: {
+      GET_ALL_QUESTIONS: 'Question',
+      CREATE_QUESTION: 'Question',
+      GET_QUESTION_BY_ID: (id: string) => `Question/${id}`,
+      UPDATE_QUESTION_BY_ID: (id: string) => `Question/${id}`,
+      DELETE_QUESTION_BY_ID: (id: string) => `Question/${id}`
+    },
+
     COUPONS: {
       CREATE_COUPON : 'PromoCode',
       GET_ALL_COUPON :  'PromoCode/all',
@@ -46,6 +54,7 @@ export const API_CONSTANTS = {
     // Add more API endpoints as needed
     TESTSERIES: {
       GET_ALL_TEST_SERIES: 'TestSeries',
+      
       GET_TEST_SERIES_BY_ID: (id: string) => `TestSeries/${id}`,
       GET_TEST_SERIES_BY_USER_ID: (id: string) => `TestSeries/GetTestSeriesByUserId/${id}`,
       CREATE_TEST_SERIES: 'TestSeries',
@@ -73,7 +82,8 @@ export const API_CONSTANTS = {
 
       START_Online_TEST: 'Test/start',
       START_Offline_TEST: 'Test/offlineTest',
-      SUMBIT_TEST: 'Test/submitTest'
+      SUMBIT_TEST: 'Test/submitTest',
+      GET_ANALYSIS: (userId: string, testId: string)  => `Test/questions/${userId}/${testId}`,
 
 
     },

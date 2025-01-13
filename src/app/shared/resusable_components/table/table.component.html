@@ -16,8 +16,12 @@
         <thead>
           <tr>
             <!-- Header Rows (for sorting) -->
+            <th *ngIf="showSeriaNumber">
+              S.No
+            </th>
              <ng-container *ngFor="let header of tableHeaders">
                @if(isColumnVisible(header.key)) {
+                
                
                <th  (click)="onSort(header.key)" >
    
@@ -32,25 +36,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of paginatedData">
+          <tr *ngFor="let row of paginatedData; let i = index;">
             <!-- Data Rows -->
+            <td *ngIf="showSeriaNumber">{{i+1}}</td>
              <ng-container *ngFor="let header of tableHeaders">
               @if(isColumnVisible(header.key)) {
-                <td  >
+                
+                <td >
                 <ng-container *ngIf="header.pipe; else noPipe">
                       <!-- {{ row[header.key]  }} -->
-                      <span *ngIf="header.pipe === 'currency'">
-                        {{ row[header.key] | currency: header.pipeFormat }}
+                      <span *ngIf="header.pipe === 'currency'" [innerHtml]="row[header.key] | currency: header.pipeFormat">
+                        <!-- {{ row[header.key] | currency: header.pipeFormat }} -->
                       </span>
                 
                       <!-- Apply date pipe dynamically -->
-                      <span *ngIf="header.pipe === 'date'">
-                        {{ row[header.key] | date: header.pipeFormat }}
+                      <span *ngIf="header.pipe === 'date'" [innerHtml]="row[header.key] | date: header.pipeFormat">
+                        <!-- {{ row[header.key] | date: header.pipeFormat }} -->
                       </span>
                     </ng-container>
                     <ng-template #noPipe>
                       <!-- No pipe, just display the raw value -->
-                      {{ row[header.key] }}
+                     <span class="main-row"  [ngbTooltip]="row[header.key]" [openDelay]="3000" [innerHTML]="row[header.key]"></span>   <!--{{ row[header.key] }}--> 
                     </ng-template>
                   </td>
               

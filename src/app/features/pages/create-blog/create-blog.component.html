@@ -41,9 +41,9 @@
           (change)="onFileChange($event)"
         />
       </div>
-
+     
       <div *ngIf="getBlogId() && checkIfHttpOrHttps(this.blogData.coverImage)" class="d-flex justify-content-center">
-        <img [src]="blogData.coverImage" alt="cover img" width="150">
+        <img [src]="staticBaseUrl+blogData.coverImage" alt="cover img" width="150">
     </div>
 
       <div>
@@ -116,7 +116,7 @@
                 {{ chip.catName }}
                 <button
                   type="button"
-                  class=""
+                  class="bg-transparent"
                   aria-label="Remove"
                   (click)="removeChip(i)">
                   <i class="fas fa-times"></i>

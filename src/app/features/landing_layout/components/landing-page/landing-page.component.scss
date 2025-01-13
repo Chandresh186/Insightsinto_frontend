@@ -8,10 +8,10 @@
     --action-secondary: hsl(210, 38%, 95%);
 
     --foreground-primary: hsl(218, 23%, 23%);
-    --foreground-secondary: hsl(216, 15%, 52%);
-    --foreground-tertiary: hsl(214, 20%, 69%);
+    --foreground-secondary: #3C4258;
+    --foreground-tertiary: #3C4258;
 
-    --accent: hsl(229, 76%, 66%);
+    --accent: #1A1F35;
 }
 
 .dark-theme{
@@ -22,10 +22,10 @@
     --action-secondary: hsl(218, 23%, 23%);
 
     --foreground-primary: hsl(210, 38%, 95%);
-    --foreground-secondary: hsl(211, 25%, 84%);
-    --foreground-tertiary: hsl(214, 20%, 69%);
+    --foreground-secondary: #3C4258;
+    --foreground-tertiary: #3C4258;
 
-    --accent: hsl(229, 76%, 66%);
+    --accent: #1A1F35;
 }
 
 :host{

@@ -15,14 +15,11 @@ import { UserDashboardService } from '../../../core/services/user-dashboard.serv
   styleUrl: './user-dashboard.component.scss'
 })
 export class UserDashboardComponent {
-  public testSereisShowColumns: any ;
-  public testShowColumns: any ;
+  
   public loading : boolean = false;
   private errorMessage: string | null = null;
   public dashboardData : any;
-  testSeriesTableHeaders:any = [];
-
-  testTableHeaders: any = [];
+  
 
   ShowColumns: any;
 
@@ -59,10 +56,7 @@ export class UserDashboardComponent {
   ]
   
 
-  testSeriesData:any = [];
-
-
-  testData: any = [];
+  
   
 
 

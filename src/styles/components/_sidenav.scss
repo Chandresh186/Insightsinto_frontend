@@ -441,9 +441,9 @@ ngx-guided-tour .tour-step .tour-buttons {
     background-color: var(--sidebar-links-li-a-hover);
     color: var(--color-white);
 
-    img {
-        filter: grayscale(0) invert(0);
-    }
+    // img {
+    //     filter: grayscale(0) invert(0);
+    // }
 }
 
 .sidebar-links li a {

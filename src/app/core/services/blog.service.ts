@@ -20,9 +20,16 @@ private baseUrl = environment.URL
           });
         }
 
+  private getHeadersFormData(): HttpHeaders {
+    const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  }
+
    // Create a new category (POST)
    createBlog(data: any): Observable<any> {
-    const headers = this.getHeaders();
+    const headers = this.getHeadersFormData();
     const formData: any = new FormData();
 
     formData.append('Title', data.title);
@@ -55,7 +62,7 @@ private baseUrl = environment.URL
 
   // Update a category (PUT)
   updateBlog(id: any, data: any): Observable<any> {
-    const headers = this.getHeaders();
+    const headers = this.getHeadersFormData();
     const formData: any = new FormData();
 
     formData.append('Title', data.title);

@@ -37,7 +37,7 @@ export const httpConfigInterceptor: HttpInterceptorFn = (req, next) => {
       finalize(()=> {
         setTimeout(() => {
           spinner.hide()
-        }, 1000);
+        }, 2000);
       })
     );
 

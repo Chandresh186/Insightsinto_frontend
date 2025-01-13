@@ -1,0 +1,89 @@
+  /* General Styles */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #4e54c8;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+header p {
+    margin: 5px 0 0;
+    font-size: 1rem;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+section h2 {
+    color: #4e54c8;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #4e54c8;
+    padding-bottom: 5px;
+}
+
+section h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+section p {
+    margin-bottom: 15px;
+}
+
+footer {
+    text-align: center;
+    padding: 15px 0;
+    background-color: #4e54c8;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+a {
+    color: #4e54c8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    section h2 {
+        font-size: 1.5rem;
+    }
+}

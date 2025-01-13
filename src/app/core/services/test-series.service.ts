@@ -20,6 +20,13 @@ export class TestSeriesService {
       });
     }
 
+    private getHeadersFormData(): HttpHeaders {
+      const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
+      return new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      });
+    }
+
     // Create Test Series
     createTestSeries(testSeries: any): Observable<any> {
       const headers = this.getHeaders();
@@ -27,8 +34,13 @@ export class TestSeriesService {
     }
   
     // Get All Test Series
-    getTestSeries(): Observable<any[]> {
-      return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_ALL_TEST_SERIES}`);
+    getTestSeries(headers?: HttpHeaders): Observable<any[]> {
+      return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_ALL_TEST_SERIES}`,headers);
+    }
+
+    getAnalysis(userId: any, testId: any): Observable<any[]> {
+      const headers = this.getHeaders();
+      return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_ANALYSIS(userId, testId)}`,headers);
     }
   
     // Get Test Series by ID
@@ -70,7 +82,7 @@ export class TestSeriesService {
     
 
     createTest(testSeriesId: string, data: any) {
-      const headers = this.getHeaders();
+      const headers = this.getHeadersFormData();
       const formData: any = new FormData();
     
       // Append scalar fields
@@ -151,6 +163,7 @@ export class TestSeriesService {
       const headers = this.getHeaders();
       return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.START_Online_TEST}`, data, headers);
     }
+    
 
     startOfflineTest(data: any): Observable<any> {
       const headers = this.getHeaders();

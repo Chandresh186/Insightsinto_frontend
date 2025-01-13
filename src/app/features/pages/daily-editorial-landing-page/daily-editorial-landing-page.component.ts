@@ -16,11 +16,14 @@ import { AuthService } from '../../../core/services/auth.service';
 import { registerRequest } from '../../../core/models/interface/register_request.interface';
 import { PaymentOrder } from '../../../core/models/interface/payment.interface';
 import { loginRequest } from '../../../core/models/interface/login_request.interface';
+import { environment } from '../../../../environments/environment.development';
+import { VideoPlayerComponent } from '../../../shared/resusable_components/video-player/video-player.component';
+import { EncryptionService } from '../../../core/services/encryption.service';
 
 @Component({
   selector: 'app-daily-editorial-landing-page',
   standalone: true,
-  imports: [PdfViewerModule, CommonModule, NgbCollapseModule, AsyncButtonComponent, ReactiveFormsModule],
+  imports: [PdfViewerModule, CommonModule, NgbCollapseModule, AsyncButtonComponent, ReactiveFormsModule, VideoPlayerComponent],
   templateUrl: './daily-editorial-landing-page.component.html',
   styleUrl: './daily-editorial-landing-page.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -41,7 +44,7 @@ export class DailyEditorialLandingPageComponent  {
   private orderId: string = '';
   private modalRef!: NgbModalRef;
   public isLogin: boolean = false;
-
+  public staticBaseUrl = environment.staticBaseUrl;
   public pricingAndPlans: any = [];
 
   // isCollapsed = true;
@@ -49,7 +52,7 @@ export class DailyEditorialLandingPageComponent  {
   currentId:any
 
   pdfSrc :any;
-  maxPages = 2;  // Allow only 2 pages before prompting for registration
+  maxPages = 5;  // Allow only 2 pages before prompting for registration
   showOverlay = false;
 
   currentPage: number = 1;
@@ -57,7 +60,7 @@ export class DailyEditorialLandingPageComponent  {
 
   @ViewChild('content') content!: TemplateRef<any>;
 
-  constructor(private authService: AuthService, private editorialService : EditorialService, private router : Router, private paymentService: PaymentService, private modalService: NgbModal) {}
+  constructor(private encryptionService: EncryptionService, private authService: AuthService, private editorialService : EditorialService, private router : Router, private paymentService: PaymentService, private modalService: NgbModal) {}
 
   ngOnInit() {
 
@@ -145,7 +148,7 @@ export class DailyEditorialLandingPageComponent  {
     row.planType = planType;
     row.name = 'Editorials'
     this.selectedEditorial = row;
-    console.log(row)
+    
     this.paymentService.setSelectedProductForCheckout(this.selectedEditorial);
     this.modalRef = this.modalService.open(this.content,  { scrollable: true , ariaLabelledBy: 'modal-basic-title'});
   }
@@ -315,7 +318,10 @@ export class DailyEditorialLandingPageComponent  {
       }
  
 
- 
+      decryptData(encryptedData: any) {
+        return this.encryptionService.encrypt(encryptedData);
+       
+      }
 
  
 
@@ -326,6 +332,22 @@ export class DailyEditorialLandingPageComponent  {
         const currentDateTimeUTC = new Date().toISOString();
         this.editorialService.getEditorialBycurrentDate(currentDateTimeUTC).pipe(
           tap((response: any) => {
+            
+            for (let editorial of response)
+            {
+                if (editorial.filePath && editorial.filePath.trim() !== "" )
+                {
+                    editorial.filePath = this.encryptionService.decrypt(editorial.filePath);
+                }
+
+                if (editorial.videoPath && editorial.videoPath.trim() !== "")
+                {
+                    editorial.videoPath = this.encryptionService.decrypt(editorial.videoPath);
+                }
+            }
+
+            
+
             this.allEditoril = response
             // this.showPdf(this.allEditoril[0].filePath, this.allEditoril[0].id)
             

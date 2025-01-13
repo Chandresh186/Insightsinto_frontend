@@ -1,0 +1,32 @@
+<body>
+    <div class="test-container">
+      <h1>Test in Progress</h1>
+      <p>Your test has already started. Please proceed with answering the questions.</p>
+      <p class="timer">Time Remaining: <span id="timer">60:00</span></p>
+      <a href="start-over.html" class="start-over-btn">Start Over</a>
+    </div>
+  
+    <script>
+      // Timer Logic
+      const timerElement = document.getElementById("timer");
+      let timeLeft = 60 * 60; // 60 minutes in seconds
+  
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      }
+  
+      function updateTimer() {
+        if (timeLeft > 0) {
+          timeLeft -= 1;
+          timerElement.textContent = formatTime(timeLeft);
+        } else {
+          clearInterval(timerInterval);
+          alert("Time's up! Please submit your test.");
+        }
+      }
+  
+      const timerInterval = setInterval(updateTimer, 1000);
+    </script>
+  </body>
