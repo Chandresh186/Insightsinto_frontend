@@ -1,4 +1,5 @@
 export enum INSIGHT_INTO_ROLE {
+    SupperAdmin = 'Super Admin',
     Admin = 'Admin',
     User = 'User',
 }
@@ -10,12 +11,15 @@ export enum PermissionEnum {
   AdminDashboard = 'Admin Dashboard',
   Dashboard = 'Dashboard',
   Categories = 'Categories',
-  Test = 'Test',
+  TestSeries  = 'Test Series',
+  Test  = 'Test',
   Settings = 'Settings',
-  DailyEditorial = 'Daily Editorial',
+  DailyEditorial = 'Editorial',
   Blogs = 'Blogs',
   PromoCode = 'Promo Code',
   Question = 'Questions',
+  Courses = "Courses",
+  Users = "Users"
 
   // Users = 'Users',
   // ManagerDashboard = 'ManagerDashboard',

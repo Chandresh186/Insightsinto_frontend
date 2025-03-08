@@ -26,7 +26,7 @@ export interface NavItem {
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SidebarComponent {
-public isSidebarOpen: boolean = false;
+public isSidebarOpen: boolean = true;
 public messages: any[] = [];
 public messageCount = 0;
 public isSingleRNotifationVisible = false;
@@ -39,11 +39,15 @@ public menuItems: NavItem[] = [
   // { title: 'User Dashboard', routeURL: 'user-dashboard', icon: 'assets/icons/dashboard.png'},
   { title: 'Admin Dashboard', routeURL: 'dashboard', icon: 'assets/icons/dashboard.png'},
   { title: 'Categories', routeURL: 'categories', icon: 'assets/icons/category.png'},
-  { title: 'Test', routeURL: 'test-series', icon: 'assets/icons/test.png' },
-  { title: 'Daily Editorial', routeURL: 'daily-editorial', icon: 'assets/icons/pen-tool (1).png' },
+  { title: 'Test Series', routeURL: 'test-series', icon: 'assets/icons/test-series.png' },
+  { title: 'Test', routeURL: 'test-list', icon: 'assets/icons/test.png' },
+  { title: 'Editorial', routeURL: 'daily-editorial', icon: 'assets/icons/pen-tool (1).png' },
   { title: 'Blogs', routeURL: 'blogs', icon: 'assets/icons/blog.png' },
   { title: 'Promo Code', routeURL: 'promocode', icon: 'assets/icons/coupon.png' },
   { title: 'Questions', routeURL: 'question-list', icon: 'assets/icons/questions.png' },
+  { title: 'Courses', routeURL: 'course-list', icon: 'assets/icons/course.png' },
+  { title: 'Users', routeURL: 'user-list', icon: 'assets/icons/user.png' },
+
   // { title: 'Employees', routeURL: 'employess_list', icon: 'assets/icons/employees.svg' },
   // { title: 'Manager Assigned To Employee', routeURL: 'user-manager-mapping', icon: 'assets/icons/employees.svg' },
   // { title: 'Employee Assigned To Group', routeURL: 'user-group-mapping', icon: 'assets/icons/employees.svg' },
@@ -58,6 +62,10 @@ public  toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }
 
+public checkRole(role: string): boolean {
+  return this._authService.checkRole(role);
+}
+
 ngOnInit() {
   
   this.userDetails = JSON.parse(localStorage.getItem('currentUser')!).response;
@@ -70,7 +78,7 @@ detectRoutes(e: any) {
   var currentPath = this.router.url.split('/');
   const isRouteIncluded = this.menuItems.some((item : any) => item.routeURL.includes(currentPath[currentPath.length - 1]));
   this.currentRoute = currentPath[currentPath.length - 1]
-  console.log(currentPath[currentPath.length - 1])
+  // console.log(currentPath[currentPath.length - 1])
   if (isRouteIncluded) {
     this.lastSegment = currentPath[currentPath.length - 1];
     localStorage.setItem('activeRoute', this.lastSegment)
@@ -147,7 +155,8 @@ signOut() {
       }),
       finalize(() => {
         this.loading = false; // Reset loading state when the request is completed
-        this.router.navigateByUrl('/')
+        // this.router.navigateByUrl('/')
+        window.location.reload();
       })
     ).subscribe();
   }

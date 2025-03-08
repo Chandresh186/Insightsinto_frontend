@@ -88,7 +88,7 @@ export class AdminDashboardComponent {
         this.testSeriesTableHeaders = this.generateTableHeaders(this.testSeriesData)
 
         this.testData = response && response.tests
-        this.testShowColumns  = this.generateTableHeaders(this.testData.map(({ id,files,topics,categories,minimumPassingScore,testSeriesId,testSeriesName, ...rest }: any) => rest));
+        this.testShowColumns  = this.generateTableHeaders(this.testData.map(({ id,files,topics,categories,minimumPassingScore,testSeriesId,testSeriesName,keywords, ...rest }: any) => rest));
         this.testTableHeaders = this.generateTableHeaders(this.testData)
 
       }),
@@ -167,7 +167,7 @@ export class AdminDashboardComponent {
   onTestDelete(val: any) {
     this.loading = true;
     this.testSeriesService
-    .deleteTest(val.testSeriesId , val.id)
+    .deleteTestFromTestSeries(val.testSeriesId , val.id)
     .pipe(
       tap((response) => {
       }),

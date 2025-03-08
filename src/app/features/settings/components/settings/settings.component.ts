@@ -57,10 +57,10 @@ export class SettingsComponent implements OnInit {
     // },
     {
       heading: 'Account',
-      permission: [INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.User],
+      permission: [INSIGHT_INTO_ROLE.SupperAdmin, INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.User],
       icon: 'bi bi-person',
       tabs: [
-        { id: 'v-pills-profile', permission: [INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.User],target: "Profile", label: 'Profile', active: true },
+        { id: 'v-pills-profile', permission: [INSIGHT_INTO_ROLE.SupperAdmin, INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.User],target: "Profile", label: 'Profile', active: true },
         // { id: 'v-pills-onboarding', 
         //   permission: [INSIGHT_INTO_ROLE.Admin],
         //    target: "Onboarding_Form", label: 'Onboarding form', active: false },

@@ -31,86 +31,86 @@ export class TestSeriesComponent implements OnInit {
 
   @ViewChild('content') content!: TemplateRef<any>;
   testSeries = [
-    {
-      title: 'Test Series 1',
-      status: 'Active',
-      tests: 10,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'View Details'
-    },
-    {
-      title: 'Test Series 2',
-      status: 'Completed',
-      tests: 15,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'View Results'
-    },
-    {
-      title: 'Test Series 3',
-      status: 'Upcoming',
-      tests: 8,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'Start Now'
-    },
-    {
-      title: 'Test Series 4',
-      status: 'Upcoming',
-      tests: 8,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'Start Now'
-    },
-    {
-      title: 'Test Series 5',
-      status: 'Upcoming',
-      tests: 8,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'Start Now'
-    },
-    {
-      title: 'Test Series 6',
-      status: 'Upcoming',
-      tests: 8,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'Start Now'
-    },
-    {
-      title: 'Test Series 7',
-      status: 'Upcoming',
-      tests: 8,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'Start Now'
-    },
-    {
-      title: 'Test Series 8',
-      status: 'Upcoming',
-      tests: 8,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'Start Now'
-    },
-    {
-      title: 'Test Series 9',
-      status: 'Upcoming',
-      tests: 8,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'Start Now'
-    },
-    {
-      title: 'Test Series 10',
-      status: 'Upcoming',
-      tests: 8,
-      medium: 'English',
-      startDate: '2024-11-25',
-      buttonLabel: 'Start Now'
-    }
+    // {
+    //   title: 'Test Series 1',
+    //   status: 'Active',
+    //   tests: 10,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'View Details'
+    // },
+    // {
+    //   title: 'Test Series 2',
+    //   status: 'Completed',
+    //   tests: 15,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'View Results'
+    // },
+    // {
+    //   title: 'Test Series 3',
+    //   status: 'Upcoming',
+    //   tests: 8,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'Start Now'
+    // },
+    // {
+    //   title: 'Test Series 4',
+    //   status: 'Upcoming',
+    //   tests: 8,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'Start Now'
+    // },
+    // {
+    //   title: 'Test Series 5',
+    //   status: 'Upcoming',
+    //   tests: 8,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'Start Now'
+    // },
+    // {
+    //   title: 'Test Series 6',
+    //   status: 'Upcoming',
+    //   tests: 8,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'Start Now'
+    // },
+    // {
+    //   title: 'Test Series 7',
+    //   status: 'Upcoming',
+    //   tests: 8,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'Start Now'
+    // },
+    // {
+    //   title: 'Test Series 8',
+    //   status: 'Upcoming',
+    //   tests: 8,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'Start Now'
+    // },
+    // {
+    //   title: 'Test Series 9',
+    //   status: 'Upcoming',
+    //   tests: 8,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'Start Now'
+    // },
+    // {
+    //   title: 'Test Series 10',
+    //   status: 'Upcoming',
+    //   tests: 8,
+    //   medium: 'English',
+    //   startDate: '2024-11-25',
+    //   buttonLabel: 'Start Now'
+    // }
   ];
 
 

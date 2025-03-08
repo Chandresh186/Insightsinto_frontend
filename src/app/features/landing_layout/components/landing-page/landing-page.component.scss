@@ -39,7 +39,7 @@
     --fs-4: .875rem;
     --fs-5: .75rem;
 
-    --padding-y: 5rem
+    --padding-y: 3rem
 }
 
 *, ::before, ::after{
@@ -511,12 +511,46 @@ footer{ background: var(--background-primary);}
     .footer-text{ margin: 0; }
 }
 
-@media (min-width: 768px){
+@media (min-width: 768px) {
 
     .container{ max-width: 800px; }
+    
+}
+
+@media (max-width: 768px) {
+    .hero-img {
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 368px) {
+    .btn {
+        min-width: inherit;
+    }
+
+    .custom-flex {
+        display: flex;
+        gap: 7px;
+        overflow: auto;
+        -ms-overflow-style: none;
+         scrollbar-width: none;
+    }
+
+
+    .custom-flex::-webkit-scrollbar {
+        display: none;  /* For Chrome, Safari, and Opera */
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero .btn-groups{
+        bottom: -30px;
+    }
 }
 
 @media (min-width: 1024px){
+
+
 
     .container{ max-width: 1150px; }
 
@@ -753,7 +787,7 @@ footer{ background: var(--background-primary);}
                 color: var(--white);
             }
 
-        .social-link .discord{ color: hsl(235, 86%, 65%); }
+        .social-link .discord{ color: hsl(137.9deg 90.05% 39.41%); }
         .social-link .twitter{ color: hsl(203, 89%, 53%); }
         .social-link .facebook{ color: hsl(220, 46%, 48%); }
 
@@ -822,4 +856,35 @@ footer{ background: var(--background-primary);}
     max-width: 100% !important; 
         width: 100% !important;
 
+}
+
+
+.courses {
+    max-width: 800px;
+}
+
+
+.div-courses-min-height {
+    min-height: 45px;
+    margin-bottom: 8px;
+}
+
+.card-body {
+  padding: 8px;
+}
+
+.owl-carousel .owl-item img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+::ng-deep .owl-theme .owl-dots .owl-dot.active span{
+  background: #1a1f35;
+  width: 30px;
+}
+
+.course-card {
+  width: 98%;
+//   max-width: 19rem;
 }

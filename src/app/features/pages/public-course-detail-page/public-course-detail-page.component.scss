@@ -1,0 +1,290 @@
+
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    background-color: #f4f4f4;
+    padding: 20px;
+    justify-content: center; /* Center content horizontally */
+  }
+
+  .course-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px; /* Limit max width */
+    gap: 20px;
+  }
+
+  /* Left side: Course Details */
+  .course-details {
+    flex: 2;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .course-details h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .course-details p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  .course-details ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .course-details .additional-content {
+    margin-top: 40px;
+  }
+
+  .course-details .long-section {
+    margin-top: 50px;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  /* Right side: Cards (Sticky to Top) */
+  .course-cards {
+    flex: 1;
+    // position: sticky;
+    top: 20px; /* Sticky effect */
+    // max-height: calc(100vh - 200px); /* Limit height to viewport minus top margin */
+    // overflow-y: auto; /* Enable scrolling within this section if the content overflows */
+  }
+
+  .card {
+    background-color: #fff;
+    // padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: #555;
+  }
+
+  /* Add responsiveness for smaller screens */
+  @media (max-width: 1024px) {
+    .course-container {
+      flex-direction: column; /* Stack course details and cards vertically */
+      gap: 15px;
+    }
+
+    .course-cards {
+      position: relative; /* Disable sticky for smaller screens */
+      height: auto;
+    }
+
+    .card {
+      margin-bottom: 15px; /* Adjust margin for smaller screens */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .course-details h2 {
+      font-size: 24px; /* Reduce font size for smaller screens */
+    }
+
+    .course-details p,
+    .course-details ul li {
+      font-size: 14px; /* Reduce font size for readability on mobile */
+    }
+
+    .card h3 {
+      font-size: 18px; /* Reduce card title font size */
+    }
+
+    .card p {
+      font-size: 13px; /* Adjust card content font size */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .course-details {
+      padding: 15px; /* Reduce padding on smaller screens */
+    }
+
+    .card {
+      padding: 15px; /* Reduce card padding */
+    }
+  }
+
+
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+
+  .card-title {
+    height: 50px;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    padding: 6px;
+    background-color: whitesmoke;
+  }
+
+
+  .input-box {
+    position: relative;
+    margin: 30px 0;
+  }
+  
+  .input-box input {
+    width: 100%;
+    padding: 13px 50px 13px 20px;
+    background: #eee;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .input-box input::placeholder {
+    color: #888;
+    font-weight: 400;
+  }
+  
+  .input-box ion-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+  }
+
+
+  .btn-outline-primary {
+    --bs-btn-color: #1A1F35;
+    --bs-btn-border-color: #1A1F35;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #1A1F35;
+    --bs-btn-hover-border-color: #1A1F35;
+    --bs-btn-focus-shadow-rgb: 13, 110, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #1A1F35;
+    --bs-btn-active-border-color: #1A1F35;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #1A1F35;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #1A1F35;
+    --bs-gradient: none;
+}
+
+
+.card {
+  background-color: #fff;
+  // padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Card Body */
+.card-body {
+  text-align: center;
+}
+
+/* Heading */
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Paragraph */
+p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* OTP Input Styling */
+.otp-input {
+  font-size: 24px;
+  text-align: center;
+  padding: 12px;
+  width: 80%;
+  margin-bottom: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.otp-input:focus {
+  border-color: #1a1f35;
+  outline: none;
+}
+
+/* Button Styling */
+.otp-button {
+  padding: 12px 25px;
+  background-color: #1a1f35;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 80%;
+  transition: background-color 0.3s;
+}
+
+.otp-button:hover {
+  background-color: #3c4258;
+}
+
+/* Resend Text Styling */
+.resend-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.resend-text a {
+  color: #1a1f35;
+  text-decoration: none;
+}
+
+.resend-text a:hover {
+  text-decoration: underline;
+}
+
+.disabled-link {
+  pointer-events: none;
+  color: gray;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+
+.otp-button:disabled {
+  background-color: #ccc; /* Light gray background */
+  color: #666; /* Gray text */
+  cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+  border: 1px solid #ddd; /* Light border color */
+  pointer-events: none; /* Prevent clicking */
+}
+

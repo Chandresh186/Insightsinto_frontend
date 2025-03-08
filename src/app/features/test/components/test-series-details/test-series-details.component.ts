@@ -10,6 +10,7 @@ import { CategoriesService } from '../../../../core/services/categories.service'
 import { TestSeriesService } from '../../../../core/services/test-series.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ngbootstrapModule } from '../../../../shared/modules/ng-bootstrap.modules';
+import { TestSeriesTestMappingService } from '../../../../core/services/test-series-test-mapping.service';
 
 @Component({
   selector: 'app-test-series-details',
@@ -88,7 +89,7 @@ export class TestSeriesDetailsComponent implements OnInit {
       key: 'details',
       label: 'Details',
       class: 'btn btn-outline-info',
-      visible: true,
+      visible: false,
     },
   ];
 
@@ -190,8 +191,8 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     // this.showColumns = this.tableHeaders;
-    this.getCategories();
-    this.getAllMappedCategories();
+   
+    // this.getAllMappedCategories();
 
     this.categoryForm = new FormGroup({
       id: new FormControl(''),
@@ -427,7 +428,7 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   public loading = false; // To track loading state
   private errorMessage: string | null = null; // To store error messages
-  public categories: Category[] | null = []; // To hold categories
+  public allTest: any[] = []; // To hold categories
 
   public isCreateNewCategory: boolean = true;
 
@@ -435,12 +436,12 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   // Options available in the dropdown
   // public options: string[] = ['Apple', 'Banana', 'Cherry', 'Date', 'Grape', 'Lemon', 'Mango'];
-  public filteredOptions: Category[] | null = []; // Filtered options for search
+  public filteredOptions: any[] = []; // Filtered options for search
   public searchQuery: string = ''; // Current search input value
   public searchCategory: string = '';
   public searchCatSubject: Subject<string> = new Subject<string>();
 
-  public selectedOption: Category | null = null; // Holds the selected option
+  public selectedOption: any; // Holds the selected option
   public dropdownOpen: boolean = false; // Controls dropdown visibility
   public categoryForm!: FormGroup;
 
@@ -458,7 +459,8 @@ export class TestSeriesDetailsComponent implements OnInit {
     private categoriesService: CategoriesService,
     private testSeriesService: TestSeriesService,
     private modalService: NgbModal,
-    private route : ActivatedRoute
+    private route : ActivatedRoute,
+    private testSeriesTestMapping : TestSeriesTestMappingService
   ) {
     this.searchCatSubject.pipe(debounceTime(300)).subscribe((query) => {
       this.searchCategory = query; // Assign the value to searchQuery
@@ -489,16 +491,16 @@ export class TestSeriesDetailsComponent implements OnInit {
   filterOptions() {
     if (
       this.searchQuery.trim() &&
-      this.categories &&
-      this.categories.length > 0
+      this.allTest &&
+      this.allTest.length > 0
     ) {
       // Filter categories based on catName, case insensitive
-      this.filteredOptions = this.categories.filter((category) =>
-        category.catName.toLowerCase().includes(this.searchQuery.toLowerCase())
+      this.filteredOptions = this.allTest.filter((test) =>
+        test.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     } else {
       // If searchQuery is empty, reset to all categories
-      this.filteredOptions = this.categories ? [...this.categories] : [];
+      this.filteredOptions = this.allTest ? [...this.allTest] : [];
     }
   }
 
@@ -506,7 +508,7 @@ export class TestSeriesDetailsComponent implements OnInit {
     this.selectedOption = option; // Set the selected option
     this.dropdownOpen = false; // Close dropdown
     this.searchQuery = ''; // Reset search input
-    this.filteredOptions = this.categories ? [...this.categories] : []; // Reset filtered list
+    this.filteredOptions = this.allTest ? [...this.allTest] : []; // Reset filtered list
   }
 
   onMove(val: any) {
@@ -556,8 +558,8 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   createTestModel() {
     this.modalRef = this.modalService.open(this.content, {
-      scrollable: true,
-      ariaLabelledBy: 'modal-basic-title',
+      // scrollable: true,
+      ariaLabelledBy: 'add-test',
     });
   }
 
@@ -614,15 +616,17 @@ export class TestSeriesDetailsComponent implements OnInit {
   }
 
   // Method to get all categories (GET)
-  getCategories(): void {
+  getAllTests(): void {
     this.loading = true; // Set loading state to true while fetching data
-    this.categoriesService
-      .getCategories()
+    this.testSeriesService
+      .getAllTest()
       .pipe(
         tap((response) => {
-          var res: apiResponse = response;
-          this.categories = res.response; // Assign the fetched categories to the categories array
-          this.setFilteration(this.categories);
+          
+          const tableData = this.tableData.map((item: any) => item.id);
+          this.allTest = response.filter((item : any) => !tableData.includes(item.id))
+        //  // Assign the fetched categories to the categories array
+          this.setFilteration(this.allTest);
         }),
         catchError((error) => {
           this.errorMessage = 'Failed to load categories.';
@@ -636,39 +640,39 @@ export class TestSeriesDetailsComponent implements OnInit {
       .subscribe();
   }
 
-  getAllMappedCategories(): void {
-    this.loading = true; // Set loading state to true while fetching data
-    this.categoriesService
-      .getallmappedCategories()
-      .pipe(
-        tap((response) => {
+  // getAllMappedCategories(): void {
+  //   this.loading = true; // Set loading state to true while fetching data
+  //   this.categoriesService
+  //     .getallmappedCategories()
+  //     .pipe(
+  //       tap((response) => {
 
-          this.addIsOpenProperty(response);
-          this.AllMappedCat = response; // Assign the fetched categories to the categories array
-          this.setFilteration(this.categories);
-        }),
-        catchError((error) => {
-          this.errorMessage = 'Failed to load categories.';
-          console.error('Error fetching categories:', error);
-          return of([]); // Return an empty array if there's an error
-        }),
-        finalize(() => {
-          this.loading = false; // Reset loading state when the request is completed
-        })
-      )
-      .subscribe();
-  }
+  //         this.addIsOpenProperty(response);
+  //         this.AllMappedCat = response; // Assign the fetched categories to the categories array
+  //         this.setFilteration(this.categories);
+  //       }),
+  //       catchError((error) => {
+  //         this.errorMessage = 'Failed to load categories.';
+  //         console.error('Error fetching categories:', error);
+  //         return of([]); // Return an empty array if there's an error
+  //       }),
+  //       finalize(() => {
+  //         this.loading = false; // Reset loading state when the request is completed
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
-  addIsOpenProperty(categories: any) {
-    categories.forEach((category: any) => {
-      category.isOpen = false; // Add isOpen property
+  // addIsOpenProperty(categories: any) {
+  //   categories.forEach((category: any) => {
+  //     category.isOpen = false; // Add isOpen property
 
-      // Recursively call this function for subcategories if they exist
-      if (category.subCategories && category.subCategories.length > 0) {
-        this.addIsOpenProperty(category.subCategories);
-      }
-    });
-  }
+  //     // Recursively call this function for subcategories if they exist
+  //     if (category.subCategories && category.subCategories.length > 0) {
+  //       this.addIsOpenProperty(category.subCategories);
+  //     }
+  //   });
+  // }
 
   setFilteration(categories: any) {
     this.filteredOptions = [...categories]; // Filtered options for search
@@ -680,122 +684,122 @@ export class TestSeriesDetailsComponent implements OnInit {
     // You can add your logic here based on whether the switch is on or off
   }
 
-  createSubCategory(): void {
-    const reqBody = {
-      id: this.selectedOption?.id,
-      catNames: this.chips,
-    };
-    this.loading = true; // Start loading
+  // createSubCategory(): void {
+  //   const reqBody = {
+  //     id: this.selectedOption?.id,
+  //     catNames: this.chips,
+  //   };
+  //   this.loading = true; // Start loading
 
-    this.categoriesService
-      .createCategory(reqBody)
-      .pipe(
-        tap((response) => {
-        }),
-        catchError((error) => {
-          console.error('Error creating category:', error);
-          return of(error); // Return an observable to handle the error
-        }),
-        finalize(() => {
-          this.loading = false; // Stop loading
-          this.selectedOption = null;
-          this.chips = [];
-          this.getCategories();
-          this.getAllMappedCategories();
-        })
-      )
-      .subscribe();
-  }
+  //   this.categoriesService
+  //     .createCategory(reqBody)
+  //     .pipe(
+  //       tap((response) => {
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error creating category:', error);
+  //         return of(error); // Return an observable to handle the error
+  //       }),
+  //       finalize(() => {
+  //         this.loading = false; // Stop loading
+  //         this.selectedOption = null;
+  //         this.chips = [];
+  //         this.getCategories();
+  //         this.getAllMappedCategories();
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
-  createNewCategory() {
-    const reqBody = {
-      catNames: this.chips,
-    };
-    this.loading = true; // Start loading
+  // createNewCategory() {
+  //   const reqBody = {
+  //     catNames: this.chips,
+  //   };
+  //   this.loading = true; // Start loading
 
-    this.categoriesService
-      .createCategory(reqBody)
-      .pipe(
-        tap((response) => {
-        }),
-        catchError((error) => {
-          console.error('Error creating category:', error);
-          return of(error); // Return an observable to handle the error
-        }),
-        finalize(() => {
-          this.loading = false; // Stop loading
-          this.selectedOption = null;
-          this.chips = [];
-          this.getCategories();
-          this.getAllMappedCategories();
-        })
-      )
-      .subscribe();
-  }
+  //   this.categoriesService
+  //     .createCategory(reqBody)
+  //     .pipe(
+  //       tap((response) => {
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error creating category:', error);
+  //         return of(error); // Return an observable to handle the error
+  //       }),
+  //       finalize(() => {
+  //         this.loading = false; // Stop loading
+  //         this.selectedOption = null;
+  //         this.chips = [];
+  //         this.getCategories();
+  //         this.getAllMappedCategories();
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
-  genQuestions() {
-    const reqBody = {
-      categoryIds: [this.questionForm.get('id')?.value],
-      numberOfQuestionsEasy: this.questionForm.get('easyQuestions')?.value,
-      numberOfQuestionsMedium: this.questionForm.get('mediumQuestions')?.value,
-      numberOfQuestionsHard: this.questionForm.get('hardQuestions')?.value,
-    };
+  // genQuestions() {
+  //   const reqBody = {
+  //     categoryIds: [this.questionForm.get('id')?.value],
+  //     numberOfQuestionsEasy: this.questionForm.get('easyQuestions')?.value,
+  //     numberOfQuestionsMedium: this.questionForm.get('mediumQuestions')?.value,
+  //     numberOfQuestionsHard: this.questionForm.get('hardQuestions')?.value,
+  //   };
 
-    this.loading = true; // Start loading
-    this.genQuesAsyncCall = true;
+  //   this.loading = true; // Start loading
+  //   this.genQuesAsyncCall = true;
 
-    this.testSeriesService
-      .fetchQuestionsForTest(reqBody)
-      .pipe(
-        tap((response) => {
-          this.AccordionData = response;
-          this.transformData();
-        }),
-        catchError((error) => {
-          console.error('Error updating category:', error);
-          return of(error); // Return an observable to handle the error
-        }),
-        finalize(() => {
-          this.questionForm.reset();
-          this.closeModal();
-          this.selectedOption = null;
-          this.loading = false; // Stop loading
-          this.genQuesAsyncCall = false;
-        })
-      )
-      .subscribe();
-  }
+  //   this.testSeriesService
+  //     .fetchQuestionsForTest(reqBody)
+  //     .pipe(
+  //       tap((response) => {
+  //         this.AccordionData = response;
+  //         this.transformData();
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error updating category:', error);
+  //         return of(error); // Return an observable to handle the error
+  //       }),
+  //       finalize(() => {
+  //         this.questionForm.reset();
+  //         this.closeModal();
+  //         this.selectedOption = null;
+  //         this.loading = false; // Stop loading
+  //         this.genQuesAsyncCall = false;
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
-  createTest() {
-    this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
-    this.loading = true; // Start loading
-    this.createTestAsyncCall = true;
+  // createTest() {
+  //   this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
+  //   this.loading = true; // Start loading
+  //   this.createTestAsyncCall = true;
 
 
-    this.testSeriesService
-      .createTest(this.getTestSeriesId(), this.testForm)
-      .pipe(
-        tap((response) => {
+  //   this.testSeriesService
+  //     .createTest(this.testForm)
+  //     .pipe(
+  //       tap((response) => {
          
           
-        }),
-        catchError((error) => {
-          console.error('Error creating test:', error);
-          return of(error); // Return an observable to handle the error
-        }),
-        finalize(() => {
-          this.getTestsByTestSeries(this.getTestSeriesId())
-          this.resetTestForm();
-          this.closeModal();
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error creating test:', error);
+  //         return of(error); // Return an observable to handle the error
+  //       }),
+  //       finalize(() => {
+  //         this.getTestsByTestSeries(this.getTestSeriesId())
+  //         this.resetTestForm();
+  //         this.closeModal();
 
-          this.loading = false; // Stop loading
-          this.createTestAsyncCall = false;
-        })
-      )
-      .subscribe();
+  //         this.loading = false; // Stop loading
+  //         this.createTestAsyncCall = false;
+  //       })
+  //     )
+  //     .subscribe();
 
     
-  }
+  // }
 
   resetTestForm() {
     this.testForm = {
@@ -814,38 +818,38 @@ export class TestSeriesDetailsComponent implements OnInit {
     this.endTime = '';
   }
 
-  editTest() {
-    this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
-  }
+  // editTest() {
+  //   this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
+  // }
 
 
-  EditTestseries() {
+  // EditTestseries() {
       
-      const reqBody = {
-        name: this.testSeriesDetails.name,
-        medium: this.testSeriesDetails.medium,
-        details: this.testSeriesDetails.details,
-        startDate: this.testSeriesDetails.startDate,
-        fee: this.testSeriesDetails.fee,
-        isActive : true
-      }
+  //     const reqBody = {
+  //       name: this.testSeriesDetails.name,
+  //       medium: this.testSeriesDetails.medium,
+  //       details: this.testSeriesDetails.details,
+  //       startDate: this.testSeriesDetails.startDate,
+  //       fee: this.testSeriesDetails.fee,
+  //       isActive : true
+  //     }
   
   
-      this.loading = true; // Set loading state to true while fetching data
+  //     this.loading = true; // Set loading state to true while fetching data
     
-      this.testSeriesService.updateTestSeries(this.testSeriesDetails.id, reqBody).pipe(
-        tap((response: any) => {
-        }),
-        catchError((error) => {
-          this.errorMessage = 'Error creating test series.'; // Handle error message
-          console.error('Error creating test series:', error);
-          return of([]); // Return an empty array in case of an error
-        }),
-        finalize(() => {
-          this.loading = false; // Reset loading state when the request is completed
-        })
-      ).subscribe();
-    }
+  //     this.testSeriesService.updateTestSeries(this.testSeriesDetails.id, reqBody).pipe(
+  //       tap((response: any) => {
+  //       }),
+  //       catchError((error) => {
+  //         this.errorMessage = 'Error creating test series.'; // Handle error message
+  //         console.error('Error creating test series:', error);
+  //         return of([]); // Return an empty array in case of an error
+  //       }),
+  //       finalize(() => {
+  //         this.loading = false; // Reset loading state when the request is completed
+  //       })
+  //     ).subscribe();
+  //   }
 
 
   getTestseries(id: any) {
@@ -933,7 +937,55 @@ export class TestSeriesDetailsComponent implements OnInit {
           
         
           this.loading = false; // Stop loading
-         
+          this.getAllTests();
+        })
+      )
+      .subscribe();
+  }
+
+
+  public isElementInChips(element: Category): boolean {
+    // return this.chips.includes(element);
+    return this.testForm.categoryIds.some((chip: any) => chip.id === element.id);
+  }
+
+
+
+  createMapping() {
+
+    // console.log()
+    // console.log(this.testForm.categoryIds)
+    // this.loading = true; // Start loading
+
+    const Obj = {
+      testSeriesId: this.getTestSeriesId(),
+      testIds: this.testForm.categoryIds.map((q: any)=> q.id)
+    }
+
+    console.log(Obj)
+   
+
+    this.testSeriesTestMapping
+      .createMapping(Obj)
+      .pipe(
+        tap((response) => {
+          console.log(response)
+          // this.tableData = response; // Assign the fetched data to the list
+          // this.showColumns  = this.generateTableHeaders(response.map(({ id,keywords,files,topics,categories,minimumPassingScore, ...rest }: any) => rest));
+          // this.tableHeaders = this.generateTableHeaders(response)
+          
+        }),
+        catchError((error) => {
+          console.error('Error:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          
+        
+          this.loading = false; // Stop loading
+          this.testForm.categoryIds = []
+          this.closeModal();
+          this.getTestsByTestSeries(this.getTestSeriesId())
         })
       )
       .subscribe();
@@ -981,27 +1033,27 @@ export class TestSeriesDetailsComponent implements OnInit {
     this.transformData();
   }
 
-  DeleteCategory(id: any) {
-    this.categoriesService
-      .deleteCategory(id)
-      .pipe(
-        tap((response) => {
-        }),
-        catchError((error) => {
-          console.error('Error deleting category:', error);
-          return of(error); // Return an observable to handle the error
-        }),
-        finalize(() => {
-          this.getCategories();
-          this.getAllMappedCategories();
-        })
-      )
-      .subscribe();
-  }
+  // DeleteCategory(id: any) {
+  //   this.categoriesService
+  //     .deleteCategory(id)
+  //     .pipe(
+  //       tap((response) => {
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error deleting category:', error);
+  //         return of(error); // Return an observable to handle the error
+  //       }),
+  //       finalize(() => {
+  //         this.getCategories();
+  //         this.getAllMappedCategories();
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
   deleteTest(val: any) {
-    this.testSeriesService
-    .deleteTest(this.getTestSeriesId() , val.id)
+    this.testSeriesTestMapping
+    .DeleteTestFromMapping(this.getTestSeriesId() , val.id)
     .pipe(
       tap((response) => {
       }),
@@ -1020,6 +1072,7 @@ export class TestSeriesDetailsComponent implements OnInit {
 
   closeModal() {
     if (this.modalRef) {
+      
       this.modalRef.close(); // Close the modal
     }
     if(this.isEditTest) {

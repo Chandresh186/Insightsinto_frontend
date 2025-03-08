@@ -1,0 +1,668 @@
+
+  
+  .container {
+   
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+   
+    overflow: hidden;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  header h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  header p {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .series-details {
+    margin-bottom: 30px;
+  }
+  
+  .details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .series-details h2 {
+    font-size: 20px;
+    color: #555;
+  }
+  
+  .series-details span {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .btn-create {
+    background: #1A1F35;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .btn-create:hover {
+    background: #3C4258;
+  }
+  
+  .tests-list h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #444;
+  }
+  
+  .tests-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .tests-list th, .tests-list td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tests-list th {
+    background: #f8f9fa;
+    color: #555;
+  }
+  
+  .tests-list td {
+    font-size: 14px;
+  }
+  
+  .btn-edit, .btn-delete {
+    padding: 6px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .btn-edit {
+    background: #17a2b8;
+    color: #fff;
+  }
+  
+  .btn-delete {
+    background: #dc3545;
+    color: #fff;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .close-btn {
+    float: right;
+    font-size: 18px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .create-test-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-test-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .create-test-form label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .create-test-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+  
+  .create-test-form .btn-submit {
+    background: #007bff;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+  }
+  
+  .create-test-form .btn-submit:hover {
+    background: #0056b3;
+  }
+  
+  .create-details-header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+  }
+
+
+
+  ::ng-deep .tests-list .test-series-section {
+    padding: 30px 0px 10px !important;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .chip-input-container {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .chip-list .badge {
+    display: inline-flex;
+    align-items: center;
+    padding-right: 0.5rem; /* Extra padding for the close button */
+  }
+  
+  .chip-list .btn-close {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+
+
+
+
+
+
+
+
+
+
+  .dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .dropdown-item.disabled {
+    color: #6c757d;
+  }
+  
+  .w-100 {
+    width: 100%;
+  }
+
+
+  .dropdown-toggle::after {
+    position: absolute;
+    right: 10px;
+    top: 17px;
+}
+
+.input-group-append {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+    z-index: 1;
+    transform: translate(0px, 0px)
+}
+
+
+.createContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.createContainer button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #1A1F35;
+    border-color: #1A1F35
+}
+
+// .createContainer .create {
+//     // transform: scale(1.5);
+
+// }
+
+ion-icon {
+   font-size: 25px;
+}
+
+.chip-input-container .add-more {
+    padding: 3px;
+    display: flex;
+    align-items: center;
+}
+
+// .select_input {
+//     padding: 6px 39px 6px 6px;
+// }
+
+.input-group > .form-control:focus {
+    z-index: 1;
+}
+
+
+.modal-body {
+  z-index: 1;
+}
+
+
+
+
+
+
+
+/* Base styles for the switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+/* Hide the default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider (switch itself) */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+/* The circle inside the switch */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* When checked, move the circle to the right */
+input:checked + .slider {
+  background-color: #667fea; /* Active color */
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+
+
+.w-25rem {
+  width: 25rem
+}
+
+
+
+.wrapper {
+    max-height: 60vh;
+    overflow: auto;
+    // border: 4px solid gray;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-mapping-main {
+  padding: 20px;
+  border-radius: 15px;
+  margin: 10px;
+  width: calc(100% - 20px);
+  background-color: var(--color-white);
+}
+
+.trash {
+  color: red;
+  font-size: 12px;
+  margin-right: 0.2rem;
+  margin-left: 0.2rem;
+  z-index: 1;
+  font-size: 1rem;
+  cursor: pointer;
+
+}
+
+.edit {
+  font-size: 12px;
+
+}
+
+.move {
+
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 50%;
+}
+
+
+.move-modal {
+  height: 20vm;
+}
+
+
+
+
+.accordion-body ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .accordion-body ul li {
+    padding: 5px 0;
+  }
+
+
+  .options li {
+    padding-left: 50px !important;
+  }
+
+
+
+  /* Hide the number input arrows in all browsers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.chip-input-container {
+  position: relative;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
+.chip {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.remove-chip {
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+input.form-control {
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  gap: 4px;
+}
+
+.chip-container:focus-within {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  background-color: #1A1F35;
+  color: #fff;
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.chip .remove-chip {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.chip-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+
+.mb-10px {
+  margin-bottom: 10px;
+}
+
+.highlight {
+  background: #AEFF77;
+    padding: 1px 10px;
+    margin-inline: 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+
+
+
+
+
+
+
+.enterprise-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.enterprise-header h1 {
+  font-size: 2.5rem;
+  color: #1A1F35;
+}
+
+.enterprise-header p {
+  font-size: 1.25rem;
+  color: #1a1a1a;
+  opacity: 0.8;
+}
+
+
+
+
+
+
+
+
+
+
+.series-overview {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.overview-header h2 {
+  font-size: 1.75rem;
+  color: #1A1F35;
+  margin-bottom: 0.5rem;
+}
+
+.overview-metrics {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.overview-metrics div {
+  background: #f4f7fc;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  flex: 1;
+}
+
+.overview-metrics label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+
+@media (max-width: 800px) {
+  .overview-metrics {
+    flex-direction: column;
+  }
+
+  .custom-gap {
+    flex-direction: column;
+  }
+}
+
+
+.custom-drop-down-menu {
+  max-height: 124px;
+    overflow-y: auto;
+}
+
+.custom-gap {
+  gap: 12px;
+}
+
+.gap-10px {
+  gap: 10px;
+}
+
+.text-primary {
+  color: #1A1F35 !important;
+}
+
+
+.dropdown-item.active, .dropdown-item:active {
+  color: var(--bs-dropdown-link-active-color);
+  text-decoration: none;
+  background-color: #1A1F35;
+}

@@ -988,3 +988,15 @@ footer .wrapper {
   width: 45%;
   object-fit: cover;
 }
+
+.logo-small {
+  // height: 2rem;
+  // width: 2rem;
+  // overflow: hidden;
+  // object-fit: cover;
+
+  height: 2rem;
+    width: 14rem;
+    overflow: hidden;
+    object-fit: scale-down;
+}

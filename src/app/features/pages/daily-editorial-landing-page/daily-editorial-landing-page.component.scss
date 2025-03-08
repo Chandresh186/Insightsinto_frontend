@@ -447,7 +447,7 @@
   // width: 300px;
   // padding: 30px;
   width: 284px;
-    padding: 21px;
+  padding: 21px;
   transition: transform 0.3s, box-shadow 0.3s;
   text-align: center;
 }
@@ -471,7 +471,7 @@
 }
 
 .price {
-  font-size: 2.5em;
+  font-size: 1.3em;
   font-weight: bold;
   color: #1A1F35;
   margin-bottom: 20px;
@@ -587,8 +587,8 @@
   color: red;
 }
 
-.h-29 {
-  height: 29%;
+.h-18 {
+  height: 18%;
 }
 
 
@@ -614,4 +614,103 @@
   font-size: 16px;
   color: #555;
   margin: 0 0 20px;
+}
+
+
+
+
+
+
+.card {
+  background-color: #fff;
+  // padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Card Body */
+.card-body {
+  text-align: center;
+}
+
+/* Heading */
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Paragraph */
+p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* OTP Input Styling */
+.otp-input {
+  font-size: 24px;
+  text-align: center;
+  padding: 12px;
+  width: 80%;
+  margin-bottom: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.otp-input:focus {
+  border-color: #1a1f35;
+  outline: none;
+}
+
+/* Button Styling */
+.otp-button {
+  padding: 12px 25px;
+  background-color: #1a1f35;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 80%;
+  transition: background-color 0.3s;
+}
+
+.otp-button:hover {
+  background-color: #3c4258;
+}
+
+/* Resend Text Styling */
+.resend-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.resend-text a {
+  color: #1a1f35;
+  text-decoration: none;
+}
+
+.resend-text a:hover {
+  text-decoration: underline;
+}
+
+.disabled-link {
+  pointer-events: none;
+  color: gray;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+
+.otp-button:disabled {
+  background-color: #ccc; /* Light gray background */
+  color: #666; /* Gray text */
+  cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+  border: 1px solid #ddd; /* Light border color */
+  pointer-events: none; /* Prevent clicking */
 }

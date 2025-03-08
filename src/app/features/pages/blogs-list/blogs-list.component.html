@@ -7,7 +7,7 @@
     </header>
     <div class="search blog-container d-flex justify-content-between">
         <input type="text" name="search" id="search" placeholder="search" (input)="onSearch($event)">
-        <a *ngIf="checkRole('admin')" routerLink="../create-blog"   class="read-more">Create blog</a>
+        <a *ngIf="checkRole('admin') || checkRole('super admin')" routerLink="../create-blog"   class="read-more">Create blog</a>
 
       </div>
     <main class="blog-container">
@@ -17,7 +17,7 @@
                 <div class="blog-card">
                  <div class="position-relative">
                      <img [src]="blog && staticBaseUrl+blog.coverImage" alt="Core Web Vitals" class="blog-img" loading="lazy">
-                     <div class="card-actions" *ngIf="checkRole('admin')">
+                     <div class="card-actions" *ngIf="checkRole('admin') || checkRole('super admin')">
                          <i class="far fa-edit edit" [routerLink]="['../edit-blog', blog.id]" ></i> 
                          <i class="far fa-trash-alt trash" (click)="deleteBlog(blog.id)"></i>
      

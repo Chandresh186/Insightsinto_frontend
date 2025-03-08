@@ -1,0 +1,34 @@
+  <div class="container">
+    <h2>Your test series</h2>
+      <div class="cards-container my-5">
+        <ng-container *ngIf="testSeriesData.length > 0; else noTestSeries">
+        <div class="card shadow border-0" *ngFor="let series of testSeriesData">
+          <div class="card-label"  [ngClass]="{
+            active: series.status === 'Active',
+            completed: series.status === 'Completed',
+            upcoming: series.status === 'Upcoming' || series.status === 'Ready'
+          }">   {{ series.status }}</div>
+          <div class="card-body">
+            <p class="card-detail"><strong>{{ series.name | uppercase }}</strong> </p>
+            <p class="card-detail"><strong>Medium:</strong> {{ series.medium }}</p>
+            <p class="card-detail"><strong>Details:</strong> {{ series.details }}</p>
+            <p class="card-detail"><strong>Start Date:</strong> {{ series.startDate | date: 'MMM d, y' }}</p>
+           
+          
+      
+            <button *ngIf="series.status === 'Ready'" class="btn start-now" (click)="seeDetails(series)">Start Now</button>
+            <button *ngIf="series.status === 'Active'" class="btn continue" (click)="seeDetails(series)">Continue</button>
+            <button *ngIf="series.status === 'Completed'" class="btn view-details" (click)="seeDetails(series)">View Details</button>
+          </div>
+        </div>
+        </ng-container>
+      
+        <ng-template #noTestSeries>
+          <p class="empty-msg">You haven't purchased any test series yet.</p>
+        </ng-template>
+      
+       
+      
+      </div>
+
+  </div>

@@ -55,9 +55,9 @@ export class TestSeriesService {
     }
 
 
-    getTestSeriesByUserId(id: any): Observable<any> {
+    getTestSeriesByUserId(id: any, testSeriesId: any): Observable<any> {
       const headers = this.getHeaders();
-      return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_SERIES_BY_USER_ID(id)}`, headers);
+      return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_SERIES_BY_USER_ID(id, testSeriesId)}`, headers);
     }
   
     // Update Test Series
@@ -81,7 +81,7 @@ export class TestSeriesService {
 
     
 
-    createTest(testSeriesId: string, data: any) {
+    createTest(data: any) {
       const headers = this.getHeadersFormData();
       const formData: any = new FormData();
     
@@ -122,12 +122,17 @@ export class TestSeriesService {
       }
     
     
-      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.CREATE_TEST(testSeriesId)}`, formData, headers); //
+      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.CREATE_TEST}`, formData, headers); //
     }
 
-    deleteTest(testSeriesId: any, testId: any): Observable<void> {
+    deleteTest(testId: any): Observable<void> {
       const headers = this.getHeaders();
-      return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.DELETE_TEST(testSeriesId, testId)}`, headers);
+      return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.DELETE_TEST(testId)}`, headers);
+    }
+
+    deleteTestFromTestSeries(testSeriesId: any, testId: any): Observable<void> {
+      const headers = this.getHeaders();
+      return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.DELETE_TEST_FROM_TEST_SERIES(testSeriesId, testId)}`, headers);
     }
 
 
@@ -142,6 +147,11 @@ export class TestSeriesService {
     getTestByTestSeries(id: any): Observable<any> {
       const headers = this.getHeaders();
       return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_By_TEST_SERIES_ID(id)}`, headers);
+    }
+
+    getAllTest(): Observable<any> {
+      const headers = this.getHeaders();
+      return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_ALL_TEST}`, headers);
     }
 
     getUserTestByTestSeries(testSeriesId: any, userId: any): Observable<any> {
@@ -170,9 +180,9 @@ export class TestSeriesService {
       return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.START_Offline_TEST}`, data, headers);
     }
 
-    submitTest(userId: string, testSeriesId: string, testId: string, data: any): Observable<any> {
+    submitTest(userId: string, testId: string, data: any): Observable<any> {
       const headers = this.getHeaders();
-      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.SUBMIT_TEST(userId, testSeriesId, testId)}`, data, headers);
+      return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.SUBMIT_TEST(userId, testId)}`, data, headers);
     }
 
 }

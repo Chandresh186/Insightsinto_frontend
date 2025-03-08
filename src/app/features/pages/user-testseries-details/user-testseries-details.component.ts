@@ -38,6 +38,7 @@ import { CategoriesService } from '../../../core/services/categories.service';
 import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
 import { PdfGeneratorService } from '../../../core/services/pdf-generator.service';
 import { PdfWatermarkService } from '../../../core/services/pdf-watermark.service';
+import { SharedDataService } from '../../../shared/helper.service';
 // import { CountdownTimerService } from '../../../core/services/count-down-timer.service';
 
 @Component({
@@ -70,6 +71,7 @@ export class UserTestseriesDetailsComponent implements OnInit {
     private router: Router,
     private pdfService: PdfGeneratorService,
     private pdfWatermarkService: PdfWatermarkService,
+    private sharedDataService: SharedDataService
     // private countdownTimerService: CountdownTimerService
   ) {}
 
@@ -177,21 +179,34 @@ export class UserTestseriesDetailsComponent implements OnInit {
             time: "2 Hours"
           }
 
-           this.pdfService.generatePDF(res, headerVal).then(async pdfBytes => {
-              // Add watermark
-              const watermarkedPdf = await this.pdfWatermarkService.addWatermarkToPdf(
-                new Uint8Array(pdfBytes),
-                JSON.parse(localStorage.getItem('currentUser') as string)?.response.email.toUpperCase()
-              );
+          //  this.pdfService.generatePDF(res, headerVal).then(async pdfBytes => {
+          //     // Add watermark
+          //     const watermarkedPdf = await this.pdfWatermarkService.addWatermarkToPdf(
+          //       new Uint8Array(pdfBytes),
+          //       JSON.parse(localStorage.getItem('currentUser') as string)?.response.email.toUpperCase()
+          //     );
             
-              // Trigger download
-              const blob = new Blob([watermarkedPdf], { type: 'application/pdf' });
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
-              link.download = `${val.title}.pdf`; // This will prompt the browser to download the file with the filename in the URL
-              link.click();
+          //     // Trigger download
+          //     const blob = new Blob([watermarkedPdf], { type: 'application/pdf' });
+          //     const link = document.createElement('a');
+          //     link.href = URL.createObjectURL(blob);
+          //     link.download = `${val.title}.pdf`; // This will prompt the browser to download the file with the filename in the URL
+          //     link.click();
            
-          });
+          // });
+
+          const obj = {
+             headerVal : {
+              institutionName: "K-ASOFTECH",
+              paperName: "Economics",
+              totalMarks: "100",
+              time: "2 Hours"
+            },
+
+            questionPaper : res
+          }
+
+          this.sharedDataService.changeData(obj)
 
         
           // this.startCountdown(val.id)

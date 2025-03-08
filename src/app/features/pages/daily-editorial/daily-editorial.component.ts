@@ -350,11 +350,11 @@ export class DailyEditorialComponent implements OnInit{
 
 
 
-    onBuy(planType: any, newPrice: any) {
+    onBuy(planType: any, newPrice: any, name: any) {
       let row = {
         fee : newPrice,
         planType : planType,
-        name : 'Editorials'
+        name : `Today’s Editorial Program – ${name}`
 
       };
       

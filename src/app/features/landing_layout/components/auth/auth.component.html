@@ -1,18 +1,18 @@
 <div class="body position-relative">
     <!-- <ion-icon class="back-icon" name="arrow-back" routerLink="/"></ion-icon> -->
     <div class="container" [ngClass]="{'active': isRegister}">
-        <div class="form-box login">
+        <div class="form-box login text-center">
             <form [formGroup]="loginForm">
                 <h1>Login</h1>
                 <div class="input-box">
                     <div class="position-relative">
-                        <input type="text" placeholder="Username" formControlName="email"
-                        [class.is-invalid]="loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)">
+                        <input type="text" placeholder="Username" formControlName="email"  (input)="enforceLowerCase($event)"
+                        [class.is-invalid]="loginFormControl['email']?.invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)">
                         <ion-icon name="person" class="icon"></ion-icon>
 
                     </div>
 
-                    <div *ngIf="loginFormControl['email'].errors" class="invalid-feedback"  [ngClass]="{'d-block': loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)}">
+                    <div *ngIf="loginFormControl['email'].errors" class="invalid-feedback"  [ngClass]="{'d-block': loginFormControl['email']?.invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)}">
                         {{ loginFormControl['email'].errors['required'] ?
                         validationErrorMessage.emailRequiredError :
                         validationErrorMessage.emailValidationError }}
@@ -20,8 +20,8 @@
                 </div>
                 <div class="input-box">
                     <div class="position-relative">
-                        <input [type]="hidePassword ? 'password': 'text'"  placeholder="Password"  formControlName="password"
-                        [class.is-invalid]="loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
+                        <input [type]="hidePassword ? 'password': 'text'"  placeholder="Password"  formControlName="password" 
+                        [class.is-invalid]="loginFormControl['password']?.invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
                         @if(loginFormControl['password'].value) {
                             <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
                            
@@ -44,7 +44,7 @@
                 <div class="forgot-link">
                     <a routerLink="/forgot_password">Forgot Password?</a>
                 </div>
-                <button type="submit" class="btn" (click)="loginUser()" [disabled]="loginForm.invalid">Login</button>
+                <button type="submit" class="btn" (click)="loginUser()" [disabled]="loginForm?.invalid">Login</button>
                 <!-- <p>or login with social platforms</p>
                 <div class="social-icons">
                 
@@ -81,11 +81,13 @@
                 </div>
                
                 <div class="input-box">
-                    <div class="position-relative">
-                        <input type="email" class="form-control" placeholder="Email" formControlName="email"
+                    <div class="position-relative" aria-describedby="emailHelp">
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email" (input)="enforceLowerCase($event)" 
                         [class.is-invalid]="signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)">
                         <ion-icon name="mail"></ion-icon>
                     </div>
+                    <small id="emailHelp" class="form-text text-muted">Note: All the Communications with
+                      the Insights_Into will happen on this E-Mail.</small>
                     <div *ngIf="signUpControl['email'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)}">
                         {{ signUpControl['email'].errors['required'] ?
                         validationErrorMessage.emailRequiredError :

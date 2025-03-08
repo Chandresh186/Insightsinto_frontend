@@ -8,7 +8,9 @@ export const API_CONSTANTS = {
       LOGIN: 'Account/login',
       REGISTER: 'Account/register',
       LOGOUT: 'Account/logout-details',
-      REGISTER_AND_LOGIN: 'Account/registerAndLogin'
+      REGISTER_AND_LOGIN: 'Account/registerAndLogin',
+      RESEND_OTP: "Account/send-otp",
+      VALIDATE_OTP: "Account/validate-otp",
     },
 
     USER: {
@@ -54,9 +56,10 @@ export const API_CONSTANTS = {
     // Add more API endpoints as needed
     TESTSERIES: {
       GET_ALL_TEST_SERIES: 'TestSeries',
+      GET_ALL_TEST: 'Test',
       
       GET_TEST_SERIES_BY_ID: (id: string) => `TestSeries/${id}`,
-      GET_TEST_SERIES_BY_USER_ID: (id: string) => `TestSeries/GetTestSeriesByUserId/${id}`,
+      GET_TEST_SERIES_BY_USER_ID: (id: string, testSeriesId: string) => `TestSeries/GetTestSeriesByUserId/${id}/${testSeriesId}`,
       CREATE_TEST_SERIES: 'TestSeries',
       UPDATE_TEST_SERIES: (id: string) => `TestSeries/${id}`,
       DELETE_TEST_SERIES: (id: string) => `TestSeries/${id}`,
@@ -64,7 +67,7 @@ export const API_CONSTANTS = {
 
       GET_TEST_By_TEST_SERIES_ID: (id: string) => `Test/testSeries/${id}`,
       GET_USER_TEST_By_TEST_SERIES_ID: (testSeriesId: string, userId: string) => `Test/testSeries/${testSeriesId}/user/${userId}`,
-      DELETE_TEST: (testSeriesId: string, testId: string) => `Test/${testSeriesId}/${testId}`,
+      DELETE_TEST_FROM_TEST_SERIES: (testSeriesId: string, testId: string) => `Test/${testSeriesId}/${testId}`,
 
       GET_TEST_RESULT_BY_ID: (testId: string, userId: string) => `Test/result/test/${testId}/user/${userId}`,
 
@@ -76,9 +79,10 @@ export const API_CONSTANTS = {
       GET_TEST_BY_ID : (id: string) => `Test/${id}`,
 
 
-      CREATE_TEST: (testSeriesId: string) => `Test/CreateTest?testSeriesId=${testSeriesId}`,
+      CREATE_TEST : "Test/CreateTest",
+      DELETE_TEST : (id: string) => `Test/${id}`,
 
-      SUBMIT_TEST: (userId: string, testSeriesId: string, testId: string) => `Test/checkanswers?userId=${userId}&testSeriesId=${testSeriesId}&testId=${testId}`,
+      SUBMIT_TEST: (userId: string, testId: string) => `Test/checkanswers?userId=${userId}&testId=${testId}`,
 
       START_Online_TEST: 'Test/start',
       START_Offline_TEST: 'Test/offlineTest',
@@ -86,6 +90,11 @@ export const API_CONSTANTS = {
       GET_ANALYSIS: (userId: string, testId: string)  => `Test/questions/${userId}/${testId}`,
 
 
+    },
+
+    Test_SERIES_TEST_MAPPING : {
+      CREATE_MAPPING: "TestSeriesTestMapping/create",
+      DELETE_MAPPING:(testSeriesId : any , testId: any) => `TestSeriesTestMapping/delete?testSeriesId=${testSeriesId}&testId=${testId}`
     },
 
     DAILY_EDITORIAL: {
@@ -96,6 +105,26 @@ export const API_CONSTANTS = {
       DELETE_EDITORIAL: (id: string) => `DailyEditorial/${id}`
     },
 
+    Courses : {
+      GET_ALL_COURSES: "CoursesAndChapters",
+      GET_ALL_USER_COURSES: (id: string) => `CoursesAndChapters/GetCoursesByUserId/${id}`,
+      GET_ALL_ACTIVE_COURSES: (val: boolean) => `CoursesAndChapters?isActive=${val}`,
+      CREATE_COURSE: "CoursesAndChapters",
+      GET_COURSE_BY_ID: (id:string) => `CoursesAndChapters/${id}`,
+      GET_PUBLIC_COURSE_BY_ID: (id:string) => `CoursesAndChapters/public/${id}`,
+      UPDATE_COURSE_BY_ID: (id:string) => `CoursesAndChapters/${id}`,
+      DELETE_COURSE_BY_ID: (id:string) => `CoursesAndChapters/${id}`,
+      GET_CHAPTERS_COURSES_BY_COURSEID: (id:string) => `CoursesAndChapters?parentId=${id}`,
+      GET_ALL_COURSE_Material_BY_ID: (id:string) => `CoursesAndChapters/courseMaterial/${id}`,
+      DELETE_COURSE_Material_BY_ID: (id:string) => `CoursesAndChapters/courseMaterial/${id}`,
+      Update_COURSE_MATERIAL: "CoursesAndChapters/courseMaterial"
+    },
+    
+    ANSWERSHEET: {
+      UPLOAD_TEST: "UserTestAnswerSheet/create",
+      GET_CHAPTER_ANSWERSHEET_BY_COURSEID: (id: any) => `UserTestAnswerSheet/getByCourseId/${id}`,
+    },
+
     ADMIN_DASHBOARD: {
       GET_ADMIN_DASHBOARD: "AdminDashboard/dashboard-data"
     },
@@ -104,6 +133,20 @@ export const API_CONSTANTS = {
       GET_USER_DASHBOARD: (id: string) => `UserDashboard/GetUserDashboard?userId=${id}`
     },
 
+    USERS: {
+      GET_ALL_USERS: "Account/get_all_users",
+      DELETE_USERS: (userId: any) => `Account/delete_user/${userId}`
+    },
+
+    PERMISSIONS: {
+      GET_ALL_PERMISSIONS: "Permission",
+      CREATE_OR_UPDATE_PERMSSSIONS: "Permission/create-or-update",
+      GET_ALL_USER_PERMISSIONS:(userId:any)=> `Permission/get-all/${userId}`
+    },
+
+    Roles: {
+      GET_ALL_ROLES: "Roles/roles"
+    },
    
 
 

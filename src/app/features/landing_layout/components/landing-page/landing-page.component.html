@@ -16,7 +16,7 @@
 
                      <img src="assets/icons/logo.png" alt="image" class="hero-img w-75">
                      <div class="btn-groups">
-                         <a routerLink="/test_series" class="btn btn-primary">Test Series</a>
+                         <a routerLink="/courses" class="btn btn-primary">Courses</a>
                          <a routerLink="/editorial" class="btn btn-secondary">Editorial</a>
                      </div>
                  </div>
@@ -34,10 +34,40 @@
         <div class="main">
             <div class="container">
                 <div class="blog">
+
+                    <iframe class="mb-5 rounded" width="100%" height="400" src="https://www.youtube.com/embed/jrYAlc_TEhk?si=KokuoJvJbvrD78W5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
                     <!-- <div class=""> -->
                         <h2 class="h2">Latest Editorial</h2>
                         <app-daily-editorial-landing-page></app-daily-editorial-landing-page>
                     <!-- </div> -->
+
+                        <h2 class="h2">Our Courses</h2>
+                        <div class="courses mb-5">
+                            <owl-carousel-o [options]="customOptions">
+    
+                                <ng-container *ngFor="let slide of tableData">
+                                  <ng-template carouselSlide [id]="slide.id">
+                                    <!-- <img [src]="staticBaseUrl+slide.thumbnail" [alt]="slide.alt" [title]="slide.title"> -->
+                                    <div class="card course-card">
+                                      <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]">
+                                        <img class="card-img-top"  [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px">
+                                      </a>
+                                      <div class="card-body">
+                                        <h5 class="card-title div-courses-min-height">{{slide. name}}</h5>
+                                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                                        <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]" class="btn btn-primary w-100">View Details</a>
+                                      </div>
+                                    </div>
+                                  </ng-template>
+                                </ng-container>
+                            
+                              </owl-carousel-o>
+
+                        </div>
+
+                        <!-- <app-test-series-landing-page></app-test-series-landing-page> -->
+
                     <h2 class="h2">Latest Blog Post</h2>
 
                     <div class="blog-card-group">
@@ -417,22 +447,22 @@
 
                             <ul class="social-link">
                                 <li>
-                                    <a href="#" class="icon-box discord">
-                                        <ion-icon name="logo-discord"></ion-icon>
+                                    <a href="https://chat.whatsapp.com/L6Fo43K7vUN1iDyfWpiJuv" target="_blank" class="icon-box discord">
+                                        <i class="fa-brands fa-whatsapp"></i>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#" class="icon-box twitter">
-                                        <ion-icon name="logo-twitter"></ion-icon>
+                                    <a href="https://t.me/Insights_into_current" target="_blank" class="icon-box twitter">
+                                        <i class="fa-brands fa-telegram"></i>
                                     </a>
                                 </li>
 
-                                <li>
+                                <!-- <li>
                                     <a href="#" class="icon-box facebook">
                                         <ion-icon name="logo-facebook"></ion-icon>
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>

@@ -1,16 +1,16 @@
 <body>
   <!-- Hero Section -->
-  <header class="hero-section">
+  <!-- <header class="hero-section">
     <div class="hero-content">
-      <h1>Welcome to Our Test Series Platform</h1>
-      <p>Prepare with the best online test series and achieve your goals.</p>
-      <a href="javascript:void(0)" (click)="scrollToTestSeries()" class="cta-button shadow">Explore Test Series</a>
+      <h1>Welcome to our course platform</h1>
+      <p>Prepare with the best online course and achieve your goals.</p>
+      <a href="javascript:void(0)" (click)="scrollToTestSeries()" class="cta-button shadow">Explore courses</a>
     </div>
-  </header>
+  </header> -->
 
 
   
-  <section id="test-series" #testSeries>
+  <!-- <section id="test-series" #testSeries>
    
       <app-table  
       [tableHeaders]="tableHeaders"
@@ -18,16 +18,66 @@
       [itemsPerPage]="5"
       [actionsConfig]="actionsConfig"
       (actionTriggered)="handleAction($event)"
-      [tableName]="'Test Series'"
+      [tableName]="'Courses'"
       [showTableName]="true"
       [showSearchBar]="true"
       [showColumns]="showColumns"
       >
       </app-table>
-      <!-- (rowClick)="onRowClicked($event)" -->
+     
+  </section> -->
+  <section id="courses" class="courses-section">
+    <div class="container">
+      <!-- <owl-carousel-o [options]="customOptions">
+    
+        <ng-container *ngFor="let slide of tableData">
+          <ng-template carouselSlide [id]="slide.id">
+         
+            <div class="card course-card">
+              <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]">
+                <img class="card-img-top"  [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px">
+              </a>
+              <div class="card-body">
+                <h5 class="card-title div-courses-min-height">{{slide. name}}</h5>
+                <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]" class="btn btn-primary w-100">View Details</a>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+    
+      </owl-carousel-o> -->
+
+
+      <div class="row g-4">
+        <!-- Card 1 -->
+         <ng-container *ngFor="let slide of tableData" >
+           <div class="col-12 col-sm-6 col-lg-3">
+             <!-- <div class="card h-100">
+               <img src="https://via.placeholder.com/150" class="card-img-top" alt="Card Image">
+               <div class="card-body text-center">
+                 <h5 class="card-title">Card Title 1</h5>
+                 <p class="card-text">Card description goes here. It's simple and responsive.</p>
+               </div>
+             </div> -->
+             <div class="card course-card">
+              <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]">
+                <img class="card-img-top"  [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px">
+              </a>
+              <div class="card-body">
+                <h5 class="card-title div-courses-min-height">{{slide. name}}</h5>
+                <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]" class="btn btn-primary w-100">View Details</a>
+              </div>
+            </div>
+           </div>
+
+         </ng-container>
+       
+      </div>
+    
+    </div>
   </section>
 
-  
   
 
   <!-- Features Section -->

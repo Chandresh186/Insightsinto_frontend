@@ -91,7 +91,7 @@ export class LayoutComponent {
         }),
         finalize(() => {
           this.loading = false; // Reset loading state when the request is completed
-          this.router.navigateByUrl('/')
+          window.location.reload();
         })
       ).subscribe();
     }

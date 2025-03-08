@@ -41,6 +41,49 @@ export class AuthService {
       return this.httpService.post(url, data);
     }
 
+  
+    getAllUsers(): Observable<any[]> {
+      const headers = this.getHeaders();
+      return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.USERS.GET_ALL_USERS}`, headers);
+    }
+
+    createOrUpdateUserPermission(data: any): Observable<any> {
+      const headers = this.getHeaders();
+      const url = `${this.baseUrl}${API_CONSTANTS.PERMISSIONS.CREATE_OR_UPDATE_PERMSSSIONS}`;
+      return this.httpService.post(url, data, headers);
+    }
+
+    resendOTP(data: any): Observable<any> {
+      const url = `${this.baseUrl}${API_CONSTANTS.AUTH.RESEND_OTP}`;
+      return this.httpService.post(url, data);
+    }
+
+    validateOTP(data: any): Observable<any> {
+      const url = `${this.baseUrl}${API_CONSTANTS.AUTH.VALIDATE_OTP}`;
+      return this.httpService.post(url, data);
+    }
+
+    getAllPermissions(): Observable<any[]> {
+      const headers = this.getHeaders();
+      return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.PERMISSIONS.GET_ALL_PERMISSIONS}`, headers);
+    }
+
+    getAllUserPermissions(userId: any): Observable<any[]> {
+      const headers = this.getHeaders();
+      return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.PERMISSIONS.GET_ALL_USER_PERMISSIONS(userId)}`, headers);
+    }
+
+
+    getAllRoles(): Observable<any[]> {
+      const headers = this.getHeaders();
+      return this.httpService.get(`${this.baseUrl}${API_CONSTANTS.Roles.GET_ALL_ROLES}`, headers);
+    }
+
+
+    deleteUserByuserId(userId : any ): Observable<void> {
+      const headers = this.getHeaders();
+      return this.httpService.delete(`${this.baseUrl}${API_CONSTANTS.USERS.DELETE_USERS(userId)}`, headers);
+    }
 
     // Logout method
     logout(): Observable<any> {
@@ -52,11 +95,17 @@ export class AuthService {
 
     checkPermission(permission: any): boolean {
       if (!permission) return false;
+      const currentUserPermissions = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.userPermissions;
+      // console.log(currentUserPermissions)
       const rolePermissionsMap: Record<any, PermissionEnum[]> = {
-        [INSIGHT_INTO_ROLE.Admin]: [PermissionEnum.Settings, PermissionEnum.Categories, PermissionEnum.Test, PermissionEnum.DailyEditorial, PermissionEnum.AdminDashboard, PermissionEnum.Blogs, PermissionEnum.PromoCode, PermissionEnum.Question],
-        [INSIGHT_INTO_ROLE.User]: [PermissionEnum.Settings, PermissionEnum.Dashboard, PermissionEnum.UserDashboard, PermissionEnum.DailyEditorial, PermissionEnum.Blogs],
+        [INSIGHT_INTO_ROLE.SupperAdmin]: currentUserPermissions,
+        [INSIGHT_INTO_ROLE.Admin]: currentUserPermissions,
+        [INSIGHT_INTO_ROLE.User]: currentUserPermissions,
   
       };
+      // [PermissionEnum.Settings, PermissionEnum.Categories, PermissionEnum.TestSeries, PermissionEnum.Test, PermissionEnum.DailyEditorial, PermissionEnum.AdminDashboard, PermissionEnum.Blogs, PermissionEnum.PromoCode, PermissionEnum.Question, PermissionEnum.Courses,PermissionEnum.Users]
+      // [PermissionEnum.Settings, PermissionEnum.Categories, PermissionEnum.TestSeries, PermissionEnum.Test, PermissionEnum.DailyEditorial, PermissionEnum.AdminDashboard, PermissionEnum.Blogs, PermissionEnum.PromoCode, PermissionEnum.Question, PermissionEnum.Courses, PermissionEnum.Users]
+      // [PermissionEnum.Settings, PermissionEnum.Dashboard, PermissionEnum.DailyEditorial, PermissionEnum.Blogs]
       const userRole = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.role;
       this.currentUserPermissions = rolePermissionsMap[userRole] || [];
       return this.currentUserPermissions.includes(permission);

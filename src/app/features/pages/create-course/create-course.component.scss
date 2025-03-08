@@ -1,0 +1,565 @@
+
+
+
+
+
+
+
+
+
+
+// * {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+//   }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+  }
+  
+  .container {
+    // max-width: 900px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    // box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #1A1F35;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  input[type='text'],
+  input[type='file'],
+  .custom-button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+  
+  .editor-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 200px;
+    background-color: #fff;
+  }
+  
+  button {
+    background-color: #1A1F35;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #3C4258;
+  }
+  
+  footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #555;
+    font-size: 0.9em;
+  }
+  
+
+
+
+//   .tag-selector {
+//     position: relative;
+//     margin-bottom: 10px;
+//   }
+  
+//   .search-input {
+//     width: 100%;
+//     padding: 8px;
+//     border: 1px solid #ccc;
+//     border-radius: 4px;
+//   }
+  
+//   .dropdown-list {
+//     position: absolute;
+//     top: 100%;
+//     left: 0;
+//     right: 0;
+//     background: #fff;
+//     border: 1px solid #ccc;
+//     border-radius: 4px;
+//     max-height: 150px;
+//     overflow-y: auto;
+//     z-index: 10;
+//   }
+  
+//   .dropdown-list li {
+//     padding: 8px;
+//     cursor: pointer;
+//   }
+  
+//   .dropdown-list li:hover {
+//     background: #f0f0f0;
+//   }
+  
+//   .selected-tags {
+//     display: flex;
+//     flex-wrap: wrap;
+//     gap: 8px;
+//   }
+  
+//   .chip {
+//     display: inline-flex;
+//     align-items: center;
+//     background: #4e54c8;
+//     color: white;
+//     padding: 5px 10px;
+//     border-radius: 16px;
+//     font-size: 14px;
+//   }
+  
+//   .chip .close-btn {
+//     margin-left: 8px;
+//     cursor: pointer;
+//     font-weight: bold;
+//     color: #ff6b6b;
+//   }
+
+
+
+
+
+.chip-input-container {
+    width: 100%;
+    // max-width: 400px;
+  }
+  
+  .chip-list .badge {
+    display: inline-flex;
+    align-items: center;
+    padding-right: 0.5rem; /* Extra padding for the close button */
+  }
+  
+  .chip-list .btn-close {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+  .dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  
+  .dropdown-item.disabled {
+    color: #6c757d;
+  
+  }
+
+//   cursor: not-allowed; /* Shows a "not-allowed" cursor */
+//   pointer-events: none; /* Disables any interactions */
+  
+  .w-100 {
+    width: 100%;
+  }
+
+
+  .dropdown-toggle::after {
+    position: absolute;
+    right: 10px;
+    top: 17px;
+}
+
+.input-group-append {
+    position: absolute;
+    right: 20px;
+    top: 11px;
+    cursor: pointer;
+    z-index: 1;
+    transform: translate(0px, 0px)
+}
+
+
+.createContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.createContainer button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+// .createContainer .create {
+//     // transform: scale(1.5);
+
+// }
+
+ion-icon {
+   font-size: 25px;
+}
+
+.chip-input-container .add-more {
+    padding: 3px;
+    display: flex;
+    align-items: center;
+}
+
+// .select_input {
+//     padding: 6px 39px 6px 6px;
+// }
+
+// .input-group > .form-control:focus {
+//     z-index: -1;
+// }
+
+
+.modal-body {
+  z-index: 1;
+}
+
+
+
+
+
+
+
+/* Base styles for the switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+/* Hide the default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider (switch itself) */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+/* The circle inside the switch */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* When checked, move the circle to the right */
+input:checked + .slider {
+  background-color: #667fea; /* Active color */
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+
+
+.w-25rem {
+  width: 25rem
+}
+
+
+
+.wrapper {
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.user-mapping-main {
+  padding: 20px;
+  border-radius: 15px;
+  margin: 10px;
+  width: calc(100% - 20px);
+  background-color: var(--color-white);
+}
+
+.trash {
+  color: red;
+  font-size: 12px;
+  margin-right: 0.2rem;
+  margin-left: 0.2rem;
+  z-index: 1;
+
+}
+
+.edit {
+  font-size: 12px;
+
+}
+
+.move {
+  font-size: 12px;
+}
+
+
+.move-modal {
+  height: 20vm;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bg-primary {
+    background-color: #1A1F35 !important;
+    padding: 4px 15px !important;
+    border-radius: 50px;
+}
+
+
+.list-wrapper {
+    max-height: 129px;
+    overflow: auto;
+}
+
+
+
+.dropdown-item {
+    line-height: 23px;
+    padding: 10px;
+  }
+
+
+  .dropdown-item:active {
+    text-decoration: none;
+    background-color: #1A1F35;
+    border-radius: 8px;
+}
+
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.custom-gap {
+    gap: 20px;
+}
+
+.input-group > .form-control:focus {
+    z-index: 1;
+}
+
+input.form-control {
+    margin-bottom: 10px;
+}
+
+.delete-icon {
+    color: red;
+}
+
+input[type="file"] {
+    padding: 0 10px;
+    line-height: 45px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Container class for the list */
+.list-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Heading for the list */
+.list-container h2 {
+  color: #1a1f35;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Style for the unordered list */
+.unordered-list {
+  list-style-type: none;  /* Removes default bullets */
+  padding: 0;
+}
+
+/* List item styles */
+.list-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Hover effect for list items */
+.list-item:hover {
+  background-color: #e6e6e6;
+  transform: translateY(-5px); /* Moves item up slightly */
+}
+
+/* Styling for icons in list */
+.list-item::before {
+  // content: "✔️";  /* Checkmark icon */
+  margin-right: 10px;
+  font-size: 18px;
+  color: #1a1f35;
+}
+
+/* Button styles */
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.custom-button {
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.p12px {
+  padding: 12px !important;
+}
+
+/* Edit Button */
+.edit-btn {
+  background-color: #1a1f35;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #3c4258;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+
+.courseMaterialWrapper {
+  display: flex;
+  gap: 20px
+}
+
+button:disabled {
+  background-color: #cccccc; /* Light gray background */
+  color: #666666; /* Darker gray text */
+  cursor: not-allowed; /* Show "not allowed" cursor */
+  opacity: 0.6; /* Slightly transparent for a disabled look */
+  border: 1px solid #bbbbbb; /* Subtle border to match */
+  box-shadow: none; /* Remove shadow for a flat appearance */
+}
+
+
+#isOfflineTestHelp {
+  margin-left: -37px;
+}
+
+
+.card-strip {
+  width: 170px; /* Adjust the width as needed */
+  /* height: 60px; Set the height similar to a button */
+  border: 1px solid #ccc; /* Add border for the card */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+.icon {
+  font-size: 24px; /* Size of the Font Awesome icon */
+  margin-right: 10px; /* Space between icon and text */
+  color: #1a1f35;
+}
+.image-name {
+  font-size: 14px;
+  font-weight: bold;
+  max-width: 120px; /* Max width of the name */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

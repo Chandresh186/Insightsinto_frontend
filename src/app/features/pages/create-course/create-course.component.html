@@ -1,0 +1,419 @@
+
+<div class="container">
+  <div class="row">
+    @if(!getCourseId()) {
+      <div class="col-10">
+        <h1>{{this.getCourseId() ? 'Edit course' : 'Create a new course'}}</h1>
+
+      </div>
+      <div class="col">
+        <div class="form-check form-switch">
+          <div>
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [(ngModel)]="isCreateChapter" >
+            <label class="form-check-label" for="flexSwitchCheckDefault">Chapter</label>
+  
+          </div>
+          
+        </div>
+      </div>
+
+    } @else {
+      <div class="col-9" >
+        <h1>{{getCourseId() ? 'Edit course' : 'Create a new course'}}</h1>
+  
+      </div>
+      <div class="col d-flex align-items-center gap-3" > <!--*ngIf="courseData && courseData.parentId !== null"-->
+        <div class="form-check form-switch">
+          <div>
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [(ngModel)]="isCreateChapter" >
+            <label class="form-check-label" for="flexSwitchCheckDefault">Chapter</label>
+  
+          </div>
+          
+        </div>
+        <button  class="custom-button edit-button" (click)="open(content)">Edit material</button>
+  
+      </div>
+
+    }
+
+  </div>
+    <form [formGroup]="createCourseForm" (ngSubmit)="getCourseId() ? onEditSubmit(createCourseForm.value)  : onSubmit(createCourseForm.value)" >
+
+      <div>
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter the name"
+          formControlName = "name"
+          [class.is-invalid]="createCourseFormControl['name'].invalid && (createCourseFormControl['name'].dirty || createCourseFormControl['name'].touched)"
+        />
+
+        <div class="invalid-feedback" >
+          Name is required
+        </div>
+      </div>
+      <!-- *ngIf="isCreateChapter"-->
+      <div class="input-box">
+        <label for="files" class="form-label">File</label>
+        <input type="file" #fileInput [attr.accept]="getCourseId() ? 'video/*, image/*': 'application/pdf, video/*, image/*'" class="form-control" id="files" (change)="onFileChange($event)" multiple
+        [ngStyle]=" { 'color': 'white' } " aria-describedby="fileHelp"
+        >
+        <small id="fileHelp" class="form-text text-muted">Course thumbnail must be an image. Upload files only when creating chapters for a course.</small>
+        <ul class="mb-0 p-0" >
+      
+          
+
+                        <li *ngFor="let key of objectKeys(selectedFiles)" 
+                class="d-flex align-items-center justify-content-between" 
+                [ngClass]="{'mt-2' : selectedFiles['pdf'].length > 0 || selectedFiles['video'] !== null || selectedFiles['image'] !== null}">
+
+            <!-- Show file name for PDFs -->
+            <span class="w-100" *ngIf="key === 'pdf' && selectedFiles[key].length > 0">
+                <div class="d-flex align-items-center justify-content-between w-100" *ngFor="let file of selectedFiles[key]">
+                {{ file.name }}  
+                <i *ngIf="file" (click)="deleteFromUploadList(key, file)" class="far fa-trash-alt delete-icon cursor-pointer"></i>
+                </div>
+            </span>
+
+            <!-- Show file name for video -->
+            <span class="d-flex align-items-center justify-content-between w-100" *ngIf="key === 'video' && selectedFiles[key]">
+                {{ selectedFiles[key]?.name }} 
+                <i *ngIf="selectedFiles[key]" (click)="deleteFromUploadList(key, selectedFiles[key])" class="far fa-trash-alt delete-icon cursor-pointer"></i>
+            </span>
+
+            <span class="d-flex align-items-center justify-content-between w-100" *ngIf="key === 'image' && selectedFiles[key]">
+              {{ selectedFiles[key]?.name }} 
+              <i *ngIf="selectedFiles[key]" (click)="deleteFromUploadList(key, selectedFiles[key])" class="far fa-trash-alt delete-icon cursor-pointer"></i>
+          </span>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- <div class="uploaded files">
+      <div class="card-strip">
+       
+        <i class="fas fa-image icon"></i>
+        
+      
+        <span class="image-name" ngbTooltip="This is a very long image name that will be truncated">This is a very long image name that will be truncated</span>
+      </div>
+    </div> -->
+
+    <div class="form-check form-switch" *ngIf="isCreateChapter && testChips.length == 0">
+      <div>
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" formControlName="isOfflineTest" aria-describedby="isOfflineTestHelp">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Offline Test</label> 
+
+      </div>
+      <small id="isOfflineTestHelp" class="form-text text-muted">Enable or disable this only for chapters, not courses.</small>
+    </div>
+
+      <div *ngIf="isCreateChapter && !createCourseFormControl['isOfflineTest'].value">
+        <div>
+            <label for="testseriesId" class="form-label">Select test</label>
+            <div class="dropdown"  [class.show]="testDropdownOpen" (clickOutside)="testDropdownOpen = false">
+ 
+              <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+           <div class="input-group" id="target_Dropdown">
+             <input
+             type="text"
+             class="select_input form-control dropdown-toggle text-start cursor-pointer"
+             placeholder="Select test series"
+             [value]="testSelectedOption && testSelectedOption.title  || 'Select an option'"
+             (click)=" testToggleDropdown()"
+             aria-describedby="testSeriesHelp"
+             name="selectInput"
+             aria-expanded="testDropdownOpen"
+             id="testDropdownOpen"
+             readonly
+           /> <!--(focus)="toggleDropdown()"-->
+           <span class="input-group-append"  >
+            <i class="fa fa-caret-down" (click)="testToggleDropdown()"></i>
+             <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+           </span>
+         </div>
+         <small id="testSeriesHelp" class="form-text text-muted">Select test only when creating chapters for a course.</small>
+             <!-- Dropdown menu with search functionality -->
+             <div class="dropdown-menu p-2" [class.show]="testDropdownOpen" style="width: 100%;">
+               <!-- Search input -->
+               <input
+                 type="text"
+                 class="form-control mb-2"
+                 placeholder="Search..."
+                 name="searchInput"
+                 [(ngModel)]="searchQuery"
+                 [ngModelOptions]="{standalone: true}"
+                 (input)="testFilterOptions()"
+                 (click)="$event.stopPropagation()"  
+               />
+           
+               <div class="list-wrapper">
+
+                   <a
+                     *ngFor="let option of testFilteredOptions"
+                     class="dropdown-item "
+                     href="#"
+                     [ngStyle]="{ 'cursor': testElementInChips(option) ? 'not-allowed' : 'pointer' }"
+                     (click)="testElementInChips(option) ? '' : testSelectOption(option); $event.preventDefault()"
+                   >
+                     {{ option.title}} 
+                   </a>
+               </div>
+               <!-- Filtered options list -->
+           
+               <!-- Message for no matches -->
+               <div *ngIf="testFilteredOptions && testFilteredOptions.length === 0" class="dropdown-item disabled">
+                 No options found
+               </div>
+             </div>
+           </div>
+          </div>
+        <div *ngIf="testChips.length > 0" class="my-3">
+          <div class="chip-input-container">
+          
+          
+            <div class="chip-list">
+              <span
+                class="badge bg-primary me-2 mb-2 p12px"
+                *ngFor="let chip of testChips; let i = index">
+                {{ chip.title }}
+                <button
+                  type="button"
+                  class="bg-transparent px-2 "
+                  aria-label="Remove"
+                  (click)="testRemoveChip(i)">
+                  <i class="fas fa-times"></i>
+                </button> 
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div *ngIf="isCreateChapter">
+        <div>
+            <label for="testseriesId" class="form-label">Select Parent Course</label>
+            <div class="dropdown"  [class.show]="chapterDropdownOpen" (clickOutside)="chapterDropdownOpen = false">
+ 
+              <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+           <div class="input-group" id="target_Dropdown">
+             <input
+             type="text"
+             class="select_input form-control dropdown-toggle text-start cursor-pointer"
+             placeholder="Select Course"
+             [value]="chapterselectedOption && chapterselectedOption.name  || 'Select an option'"
+             (click)="chapterToggleDropdown()"
+             aria-describedby="parentCourseHelp"
+             name="selectInput"
+             aria-expanded="chapterDropdownOpen"
+             id="chapterDropdownOpen"
+             readonly
+           /> <!--(focus)="toggleDropdown()"-->
+           <span class="input-group-append"  >
+            <i class="fa fa-caret-down" (click)="chapterToggleDropdown()"></i>
+             <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+           </span>
+         </div>
+         <small id="parentCourseHelp" class="form-text text-muted">Select parent course only when creating chapters for a course.</small>
+           
+             <!-- Dropdown menu with search functionality -->
+             <div class="dropdown-menu p-2" [class.show]="chapterDropdownOpen" style="width: 100%;">
+               <!-- Search input -->
+               <input
+                 type="text"
+                 class="form-control mb-2"
+                 placeholder="Search..."
+                 name="searchInput"
+                 [(ngModel)]="searchQuery"
+                 [ngModelOptions]="{standalone: true}"
+                 (input)="chapterfilterOptions()"
+                 (click)="$event.stopPropagation()"  
+               />
+           
+               <div class="list-wrapper">
+
+                   <a
+                     *ngFor="let option of chapterfilteredOptions"
+                     class="dropdown-item "
+                     href="#"
+                     [ngStyle]="{ 'cursor': chapterisElementInChips(option) ? 'not-allowed' : 'pointer' }"
+                     (click)="chapterisElementInChips(option) ? '' : childrenSelectOption(option); $event.preventDefault()"
+                   >
+                     {{ option.name}} 
+                   </a>
+               </div>
+               <!-- Filtered options list -->
+           
+               <!-- Message for no matches -->
+               <div *ngIf="chapterfilteredOptions && chapterfilteredOptions.length === 0" class="dropdown-item disabled">
+                 No options found
+               </div>
+             </div>
+           </div>
+          </div>
+        <div *ngIf="chapterchips.length > 0" class="my-3">
+          <div class="chip-input-container">
+          
+          
+            <div class="chip-list">
+              <span
+                class="badge bg-primary me-2 mb-2 p12px"
+                *ngFor="let chip of chapterchips; let i = index">
+                {{ chip.name }}
+                <button
+                  type="button"
+                  class="bg-transparent px-2"
+                  aria-label="Remove"
+                  (click)="chapterremoveChip(i)">
+                  <i class="fas fa-times"></i>
+                </button> 
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="description">Description</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          placeholder="Enter the Description"
+          formControlName = "description"
+          [class.is-invalid]="createCourseFormControl['description'].invalid && (createCourseFormControl['description'].dirty || createCourseFormControl['description'].touched)"
+        />
+
+        <div class="invalid-feedback" >
+          Description is required
+         
+        </div>
+      </div>
+
+      <div *ngIf="!isCreateChapter">
+        <label for="fee">Fee</label>
+        <input
+          type="text"
+          id="fee"
+          name="fee"
+          placeholder="Enter the fee"
+          formControlName = "fee"
+          aria-describedby="feeHelp"
+        />
+        <small id="feeHelp" class="form-text text-muted">Enter the fee only for courses, not chapters.</small>
+      </div>
+  
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" formControlName="active">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Active</label>
+      </div>
+
+ 
+    
+  
+      <!-- Submit Button -->
+      <div class="d-flex custom-gap">
+        <button type="submit" class="custom-button p12px" [disabled]="createCourseForm.invalid">{{getCourseId() ? 'Update course':'Create course'}}</button>
+        <button id="back" class="custom-button p12px" type="button" routerLink="/dash/course-list" >Back</button>
+      </div>
+    </form>
+
+
+   
+ 
+  </div>
+
+
+
+
+
+
+
+
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{!isCourseMaterialSelected ? 'Course Materials': 'Edit Material'}}</h4>
+      <button type="button" class="btn-close bg-transparent" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <!-- <div class="list-container"> -->
+       
+        @if(!isCourseMaterialSelected) {
+          <ul class="unordered-list" >
+            <!-- <ng-container > -->
+              @for( material of courseMaterial; track material.id) {
+                <li class="list-item">
+                  <div class="d-flex w-100">{{extractFilename(material.pdf)}}</div>
+                  <div class="button-container">
+                      <button class="custom-button edit-btn" (click)="onEditMaterial(material)">Edit</button>
+                      <button class="custom-button delete-btn" (click)="onDeleteMaterial(material)">Delete</button>
+                  </div>
+              </li>
+              } @empty {
+                <p>No course material is uploaded</p>
+              }
+              
+    
+            <!-- </ng-container> -->
+             
+              
+          </ul>
+        } @else {
+          <div class="input-box">
+            <label for="files" class="form-label w-100 d-flex">File</label>
+            <div class="courseMaterialWrapper">
+              <!-- <div class="col-10"> -->
+                <input type="file" #fileInput accept ="application/pdf" class="form-control" id="files" (change)="onCourseMaterialFileChange($event)" multiple
+                [ngStyle]=" { 'color': 'white' } "
+                >
+  
+              <!-- </div>
+              <div class="col"> -->
+                
+  
+              <!-- </div> -->
+            </div>
+            <ul class="mb-0 p-0" >
+          
+             
+    
+                            <li *ngFor="let key of objectKeys(selectedFiles)" 
+                    class="d-flex align-items-center justify-content-between" 
+                    [ngClass]="{'mt-2' : selectedFiles['pdf'].length > 0 || selectedFiles['video'] !== null}">
+    
+               
+                <span class="w-100" *ngIf="key === 'pdf' && selectedFiles[key].length > 0">
+                    <div class="d-flex align-items-center justify-content-between w-100" *ngFor="let file of selectedFiles[key]">
+                    {{ file.name }}  
+                    <i *ngIf="file" (click)="deleteFromUploadList(key, file)" class="far fa-trash-alt delete-icon cursor-pointer"></i>
+                    </div>
+                </span>
+    
+            
+    
+                </li>
+  
+            </ul>
+        </div>
+        }
+       
+    <!-- </div> -->
+    </div>
+    <div class="modal-footer">
+
+      <button *ngIf="isCourseMaterialSelected" type="button" class="btn btn-outline-secondary" [disabled]="this.selectedFiles['pdf'] && this.selectedFiles['pdf'].length == 0" (click)="submitEdit()">Submit</button>
+      <button *ngIf="isCourseMaterialSelected" type="button" class="btn btn-outline-secondary" (click)="isCourseMaterialSelected = !isCourseMaterialSelected">Back</button>
+      <button *ngIf="!isCourseMaterialSelected" type="button" class="btn btn-outline-secondary" (click)="onEditMaterial({id:getCourseId()})">Add new</button>
+      <!-- <button *ngIf="isCourseMaterialSelected" class="custom-button edit-button p12px"  (click)="">Submit</button> -->
+    </div>
+  </ng-template>
+  

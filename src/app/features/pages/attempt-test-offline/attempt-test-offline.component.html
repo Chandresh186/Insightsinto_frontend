@@ -1,4 +1,4 @@
-<body>
+<!-- <body>
     <div class="test-container">
       <h1>Test in Progress</h1>
       <p>Your test has already started. Please proceed with answering the questions.</p>
@@ -29,4 +29,57 @@
   
       const timerInterval = setInterval(updateTimer, 1000);
     </script>
-  </body>
+  </body> -->
+
+
+
+
+
+
+
+
+  <!-- <body>
+    <button (click)="generatePDF()">click</button>
+    <div class="container" id="questionPaper">
+        <header class="header">
+            <h1>{{paperData && paperData.headerVal.institutionName}}</h1>
+            <h3>Subject: {{paperData && paperData.headerVal.paperName}}</h3> 
+            <p><span>Total Marks: {{paperData && paperData.headerVal.totalMarks}} </span> <span>Time Allowed: {{paperData && paperData.headerVal.time}}</span> </p>
+        </header>
+        
+        <section class="instructions">
+            <h3>Instructions:</h3>
+            <ul>
+                <li>Answer all the questions.</li>
+                <li>Each question carries equal marks.</li>
+                <li>No negative marking for wrong answers.</li>
+            </ul>
+        </section>
+
+        <section class="questions">
+            
+            <ng-container *ngFor="let ques of paperData && paperData.questionPaper; let i = index">
+              <div class="question">
+                  <p class="d-flex"><strong>Q{{i+1}}.&nbsp;</strong> <span [innerHTML]="ques.question"></span></p>
+                  <ul class="options">
+                      <li class="d-flex">A)&nbsp; <span [innerHTML]="ques.a"></span></li>
+                      <li class="d-flex">B)&nbsp; <span [innerHTML]="ques.b"></span></li>
+                      <li class="d-flex">C)&nbsp; <span [innerHTML]="ques.c"></span></li>
+                      <li class="d-flex">D)&nbsp; <span [innerHTML]="ques.d"></span></li>
+                  </ul>
+              </div>
+
+            </ng-container>
+
+           
+        </section>
+        
+     
+    </div>
+</body> -->
+
+
+<app-coming-soon></app-coming-soon>
+
+
+

@@ -1,4 +1,6 @@
+import { Injectable } from "@angular/core";
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { BehaviorSubject } from "rxjs";
 
 export function patternValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -33,4 +35,21 @@ export function passwordPatternValidator(): ValidatorFn {
     // Return errors if any condition fails; otherwise, null
     return Object.keys(errors).length ? errors : null;
   };
+}
+
+
+@Injectable({
+  providedIn: 'root' // makes the service available globally
+})
+
+export class SharedDataService {
+  private dataSource = new BehaviorSubject<any>(null); // initial value is null
+  currentData = this.dataSource.asObservable(); // Observable to allow subscription
+
+  constructor() {}
+
+  // Method to update the data
+  changeData(data: any) {
+    this.dataSource.next(data);
+  }
 }

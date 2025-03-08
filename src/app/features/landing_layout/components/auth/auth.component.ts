@@ -59,6 +59,22 @@ export class AuthComponent implements OnInit{
   }
 
 
+  enforceLowerCase(event: Event) {
+    const input = event.target as HTMLInputElement; // Get the input element
+    const currentValue = input.value.toLowerCase(); // Get the current value of the input
+  
+    // Convert the entire input value to lowercase
+    const newValue = currentValue.toLowerCase();
+  
+    // Update the input value with the lowercase version
+    input.value = newValue.toLowerCase();
+  
+    // Emit the new value to the form control (if using reactive forms)
+    this.signUpControl['email'].setValue(newValue, { emitEvent: false });
+  
+
+  }
+
   onInputChange(event: Event): void {
     const numericCharCheckMark = document.getElementById('numeric-char-check') as any;
     const uppercaseCharCheckMark = document.getElementById('uppercase-char-check') as any;
@@ -116,6 +132,9 @@ export class AuthComponent implements OnInit{
         this.signUpForm.reset();
       }),
       catchError(error => {
+        this.toastr.error(error.error.message, "Error", {
+          progressBar: true
+        }) ;
         this.errorMessage = 'Registration failed. Please try again.'; // Handle error
         console.error('Registration error:', error);
         return of(null); // Return a default value to continue the stream
@@ -139,11 +158,15 @@ export class AuthComponent implements OnInit{
         }
       }),
       catchError(error => {
-        this.errorMessage = 'Login failed. Please check your credentials.';
-        console.error('Login error:', error);
         this.toastr.error(error.error.message, "Error", {
           progressBar: true
         }) ;
+        this.errorMessage = 'Login failed. Please check your credentials.';
+        console.error('Login error:', error);
+        if(error && error.error.status === false && error.error.message === "Please verify your email before logging in.") {
+          this.router.navigateByUrl(`/validate/${loginData.email}`)
+        }
+       
         return of(null); // Return a default value to continue the stream
       }),
       finalize(() => {

@@ -15,7 +15,11 @@ export const permissionGuard: CanActivateFn = (route, state) => {
 
   if (requiredRoles && !requiredRoles.includes(userRole)) {
     // Redirect to respective dashboards if the user doesn't have the required role
-    if (userRole === 'Admin') {
+    if (userRole === 'Super Admin') {
+      // router.navigate(['/dash/test-series']);
+      router.navigate(['/dash', 'dashboard']);
+    
+    } else if (userRole === 'Admin') {
       // router.navigate(['/dash/test-series']);
       router.navigate(['/dash', 'dashboard']);
     } else if (userRole === 'User') {

@@ -1,0 +1,419 @@
+<div class="container">
+    <!-- <div class="list-container"> -->
+        <h2>All Chapters</h2>
+        <!-- <ul class="unordered-list">
+          <ng-container *ngFor="let chapter of allChapters; let i = index">
+            <li class="list-item">
+              <span
+                ><b><h5 class="m-0">{{ chapter.name }}</h5></b></span
+              >
+              <div class="button-container">
+                <i class="fas fa-pencil-alt" *ngIf="checkRole('admin')" [routerLink]="['/dash/edit-course', chapter.id]"></i>
+                <i class="far fa-trash-alt trash" *ngIf="checkRole('admin')" (click)="onDelete(chapter.id)"></i>
+                <i class="fab fa-youtube" (click)="openPlayer(chapter.video)"></i>
+                <i class="fas fa-file-pdf" (click)="open(content, chapter)"></i>
+                <img src="assets/icons/questions.png" alt="Quiz image" width="20" [routerLink]="['/dash/user-testSeries', chapter.testSeriesId]" >
+              </div>
+            </li>
+          </ng-container>
+        </ul> -->
+
+        
+      <!-- </div> -->
+
+      <div class="accordion mt-5" id="accordionExample">
+        <div
+          class="accordion-item"
+          *ngFor="let item of allChapters; let i = index"
+        >
+          <h2 class="accordion-header" [id]="'heading' + i">
+            <div
+              class="accordion-button"
+              
+              data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#collapse' + i"
+              [attr.aria-expanded]="i === 0 ? 'true' : 'false'"
+              [attr.aria-controls]="'collapse' + i"
+            >
+              <div class="w-100"> <span class="title">{{ item.name }} </span></div> <!--<span *ngIf="checkRole('admin')" class="badge" [ngClass]="item && item.isActive ? 'badge-success': 'badge-secondary'">{{item && item.isActive ? "Active": "Inactive"}}&nbsp;&nbsp;</span> -->
+              <div class="button-container w-100">
+                <i class="fas fa-pencil-alt" *ngIf="checkRole('admin') || checkRole('super admin')" [routerLink]="['/dash/edit-course', item.id]"></i>
+                <i class="far fa-trash-alt trash" *ngIf="checkRole('admin') || checkRole('super admin')" (click)="onDelete(item.id)"></i>
+                <img *ngIf="(checkRole('admin') || checkRole('super admin')) && item.isOfflineTest" src="assets/icons/answer.png" alt="answer_sheet" width="25"(click)="openSumitedTestList(testList, item.id)"  ngbTooltip="Submited answer sheet" >
+                
+                <i class="fab fa-youtube" (click)="openPlayer(item.video)"></i>
+                <i class="fas fa-file-pdf" (click)="open(content, item)"></i>
+                @if(checkRole('user') && item.testDetails?.status !== 'Completed') {
+                  @if(item.isOfflineTest ) {
+                    <img src="assets/icons/start.png" alt="Quiz image" width="25" (click)="openTest(offlineTest, item)" ngbTooltip="Start offline test" >
+                  } @else {
+                    <img src="assets/icons/questions.png" alt="Quiz image" width="25" [routerLink]="['/dash/test', item.testId, item.parentId]" ngbTooltip="Start online test" >
+                  }
+
+                }
+                <i *ngIf="checkRole('user') && item.testDetails?.status === 'Completed'" class="fas fa-chart-line" (click)="seeResult(Result, item)"></i>
+              </div>
+          </div>
+          </h2>
+          <div
+            [id]="'collapse' + i"
+            class="accordion-collapse collapse"
+            [ngClass]="{ show: i === 0 }"
+            [attr.aria-labelledby]="'heading' + i"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <p><strong>Description:</strong> {{ item.description }}</p>
+              <!-- <p><strong>Video:</strong> <a [href]="item.video" target="_blank">View Video</a></p>
+              <p><strong>Test Series ID:</strong> {{ item.testSeriesId }}</p>
+      
+              <div *ngIf="item.courseMaterials?.length">
+                <strong>Course Materials:</strong>
+                <ul>
+                  <li *ngFor="let material of item.courseMaterials">
+                    <a [href]="material.pdf" target="_blank">Download PDF</a>
+                  </li>
+                </ul>
+              </div>
+      
+              <p *ngIf="!item.courseMaterials?.length">No course materials available.</p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <!-- <div class="accordion mt-5" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Accordion Item #1
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Accordion Item #2
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Accordion Item #3
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+      </div> -->
+</div>
+
+
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Course Material</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+        @if(!showPdf) {
+            <div class="list-container">
+            
+                <ul class="unordered-list">
+                  <ng-container *ngFor="let mateirial of courseMaterial.courseMaterials; let i = index">
+                    <li class="list-item">
+                      <span
+                        ><b>{{ extractFilename(mateirial.pdf) }}</b></span
+                      >
+                      <div class="button-container">
+                        <button class="custom-button edit-btn" (click)="pdfLink = mateirial.pdf ;showPdf = true; " >View</button>
+                          <button class="custom-button delete-btn" (click)="downloadFile(mateirial.pdf , courseMaterial.name +'-'+'material'+ i+1)" >Download</button>
+                      </div>
+                    </li>
+                  </ng-container>
+                </ul>
+            </div>
+        } @else {
+            <pdf-viewer
+            id="outerContainer"
+            [src]="staticBaseUrl+pdfLink"
+            [rotation]="0"
+            [original-size]="false"
+            [show-all]="true"
+            [fit-to-page]="false"
+            [zoom]="1"
+            [zoom-scale]="'page-width'"
+            [stick-to-page]="false"
+            [render-text]="true"
+            [external-link-target]="'blank'"
+            [autoresize]="true"
+            [show-borders]="false"
+            style="width: 100%; height: 400px;"
+           
+          ></pdf-viewer>  
+          <!-- (after-load-complete)="afterLoadComplete($event)" 
+          (pagechanging)="onPageChange($event, editorial.id)"  -->
+        }
+		
+	</div>
+	<div class="modal-footer" *ngIf="showPdf">
+		<button type="button" class="custom-button edit-btn" (click)="pdfLink = '';showPdf = false">Back</button>
+	</div>
+</ng-template>
+
+
+<ng-template #offlineTest let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Offline test</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+
+    @if(allSubmittedAnswerSheet.length > 0) {
+      @if(!showPdf) {
+        <div class="list-container">
+        
+            <ul class="unordered-list">
+              <!-- <ng-container > -->
+                <!-- *ngFor="let paper of allSubmittedAnswerSheet; let i = index" -->
+                @for(paper of allSubmittedAnswerSheet; track paper.id) {
+                  <li class="list-item">
+                    <span
+                      ><b>{{ paper.userName }}</b></span
+                    >
+                    <div class="button-container">
+                      <button class="custom-button edit-btn" (click)="pdfLink = paper.sheet ;showPdf = true;" >View</button>
+                        <button class="custom-button delete-btn" (click)="downloadFile(paper.sheet , paper.userName)" >Download</button>
+                    </div>
+                  </li>
+                } @empty {
+                  <p>No data found for the corresponding chapter</p>
+                }
+               
+              <!-- </ng-container> -->
+            </ul>
+        </div>
+      } @else {
+        <pdf-viewer
+        id="outerContainer"
+        [src]="staticBaseUrl+pdfLink"
+        [rotation]="0"
+        [original-size]="false"
+        [show-all]="true"
+        [fit-to-page]="false"
+        [zoom]="1"
+        [zoom-scale]="'page-width'"
+        [stick-to-page]="false"
+        [render-text]="true"
+        [external-link-target]="'blank'"
+        [autoresize]="true"
+        [show-borders]="false"
+        style="width: 100%; height: 400px;"
+       
+      ></pdf-viewer>  
+      <!-- (after-load-complete)="afterLoadComplete($event)" 
+      (pagechanging)="onPageChange($event, editorial.id)"  -->
+      }
+    } @else {
+      <header class="rounded" *ngIf="courseDetails.testDetails !== null">
+        <div class="difficulty" aria-label="Difficulty Level">
+            <h1>{{courseDetails.testDetails && courseDetails.testDetails.title | uppercase}}     </h1>
+         
+             <div class="test-timer">
+                <i class="far fa-clock"></i> Time: {{ remainingTime }}
+              </div>
+    
+        </div>
+      </header>
+  
+      <div class="mt-3">
+        <label class="form-label" for="customFile">Please upload answer sheet</label> 
+        <input type="file" class="form-control" aria-describedby="fileHelp" accept=".pdf" id="customFile" (change)="onFileSelected($event)"/>
+        <!-- <small id="fileHelp" class="form-text text-muted">Upload image files only (JPG, JPEG, PNG)</small> -->
+        <!-- Display List of Uploaded Files -->
+        <div *ngIf="uploadedFiles.length > 0" class="mt-3">
+          <h5>Uploaded Files:</h5>
+          <ul class="list-group">
+            <li *ngFor="let file of uploadedFiles; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+              {{ file.name }}
+              <button type="button" class="btn btn-danger btn-sm" (click)="deleteFile(i)">
+                Delete
+              </button>
+            </li>
+          </ul>
+        </div>
+  
+      </div>
+    }
+
+   
+
+    
+		
+	</div>
+  <div class="modal-footer"  *ngIf="showPdf && allSubmittedAnswerSheet.length > 0" >
+		<button type="button" class="custom-button edit-btn" (click)="pdfLink = '';showPdf = false">Back</button>
+	</div>
+	<div class="modal-footer" *ngIf="allSubmittedAnswerSheet.length == 0"  >
+		<button type="button" class="custom-button edit-btn" (click)="uploadTestPaper()">Upload</button>
+		<button type="button" class="custom-button delete-btn" (click)="cancelTest()">Cancel</button>
+	</div>
+</ng-template>
+
+
+
+<ng-template #testList let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Submiited Papers</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+    @if(!showPdf) {
+            <div class="list-container">
+            
+                <ul class="unordered-list">
+                  <!-- <ng-container > -->
+                    <!-- *ngFor="let paper of allSubmittedAnswerSheet; let i = index" -->
+                    @for(paper of allSubmittedAnswerSheet; track paper.id) {
+                      <li class="list-item">
+                        <span
+                          ><b>{{ paper.userName }}</b></span
+                        >
+                        <div class="button-container">
+                          <button class="custom-button edit-btn" (click)="pdfLink = paper.sheet ;showPdf = true;" >View</button>
+                            <button class="custom-button delete-btn" (click)="downloadFile(paper.sheet , paper.userName)" >Download</button>
+                        </div>
+                      </li>
+                    } @empty {
+                      <p>No data found for the corresponding chapter</p>
+                    }
+                   
+                  <!-- </ng-container> -->
+                </ul>
+            </div>
+          } @else {
+            <pdf-viewer
+            id="outerContainer"
+            [src]="staticBaseUrl+pdfLink"
+            [rotation]="0"
+            [original-size]="false"
+            [show-all]="true"
+            [fit-to-page]="false"
+            [zoom]="1"
+            [zoom-scale]="'page-width'"
+            [stick-to-page]="false"
+            [render-text]="true"
+            [external-link-target]="'blank'"
+            [autoresize]="true"
+            [show-borders]="false"
+            style="width: 100%; height: 400px;"
+           
+          ></pdf-viewer>  
+          <!-- (after-load-complete)="afterLoadComplete($event)" 
+          (pagechanging)="onPageChange($event, editorial.id)"  -->
+        }
+		
+	</div>
+	<div class="modal-footer"  *ngIf="showPdf" >
+		<button type="button" class="custom-button edit-btn" (click)="pdfLink = '';showPdf = false">Back</button>
+	</div>
+</ng-template>
+
+
+
+<ng-template #Result let-modal>
+  <div class="custom-modal-container">
+    <div class="modal-body p-0">
+      <div class="test-result-card">
+        <div class="test-card-header d-flex justify-content-between">
+          <div class="w-100">
+            <h2>Test Result</h2>
+          </div>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+          ></button>
+        </div>
+        <div class="test-card-body">
+          <ul>
+            <li>
+              Right Answered:
+              <span>{{
+                testResultDetails && testResultDetails.rightAnswered
+              }}</span>
+            </li>
+            <li>
+              Total Questions:
+              <span>{{
+                testResultDetails && testResultDetails.totalQuestions
+              }}</span>
+            </li>
+            <li>
+              Answered Questions:
+              <span>{{
+                testResultDetails && testResultDetails.answeredQuestions
+              }}</span>
+            </li>
+            <li>
+              Unanswered Questions:
+              <span>{{
+                testResultDetails && testResultDetails.unansweredQuestions
+              }}</span>
+            </li>
+            <li>
+              Evaluation Score:
+              <span
+                >{{
+                  testResultDetails &&
+                    testResultDetails.evaluationScore.toFixed(2)
+                }}%</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="test-card-footer">
+          <p>
+            <strong>Test:</strong>
+            {{ testResultDetails && testResultDetails.testTitle }}
+          </p>
+          <p>
+            <strong>User:</strong>
+            {{ testResultDetails && testResultDetails.userName }}
+          </p>
+          <p class="d-flex align-items-center justify-content-between">
+            <span>
+            <strong>Subitted:</strong>
+            {{
+              testResultDetails && testResultDetails.createdAt
+                | date : "d MMM, y"
+            }}
+
+            </span>
+            <button  type="button" class="btn btn-outline-primary" (click)="goToAnalysis(testResultDetails && testResultDetails.testId)">See Analysis</button>
+          </p>
+        </div>
+        <!-- <div class="button-wrapper">
+          
+          
+        </div> -->
+      </div>
+    </div>
+  </div>
+</ng-template> 

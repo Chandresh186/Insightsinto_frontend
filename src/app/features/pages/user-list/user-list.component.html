@@ -1,0 +1,126 @@
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>All users</h2>
+        <div class="d-flex gap-2">
+            <!--  <button *ngIf="testSeriesDetails && testSeriesDetails.isActive === false" class="btn-create" id="createTestBtn" (click)="EditTestseries()"> Publish test series</button> -->
+             <button class="btn-create" id="createTestBtn" (click)="open(content)"> Create user</button>
+             <!-- <button class="btn-create" id="createTestBtn" routerLink="/dash" > Back </button> -->
+
+           </div>
+
+    </div>
+    <section class="tests-list">
+        <app-table  
+        [tableHeaders]="tableHeaders"
+        [tableData]="tableData"
+        [itemsPerPage]="10"
+        [actionsConfig]="actionsConfig"
+        (actionTriggered)="handleAction($event)"
+        [tableName]="''"
+        [showTableName]="true"
+        [showSearchBar]="true"
+        [showColumns]="showColumns"
+        >
+        </app-table>
+      </section>
+</div>
+
+
+
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Create user</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<div class="form-box register">
+            <form  [formGroup]="signUpForm">
+                
+                <div class="d-flex gap-2 input-box">
+                    <div class="w-50">
+                            <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"
+                            [class.is-invalid]="signUpControl['firstName'].invalid && (signUpControl['firstName'].dirty || signUpControl['firstName'].touched)">
+                            <div *ngIf="signUpControl['firstName'].errors?.['required']" class="invalid-feedback m-0">
+                                {{validationErrorMessage.firstNameRequiredError}}
+                              </div>
+                    </div>
+                    <div class="w-50">
+                            <input type="text" class="form-control" placeholder="Last name" formControlName="lastName"
+                            [class.is-invalid]="signUpControl['lastName'].invalid && (signUpControl['lastName'].dirty || signUpControl['lastName'].touched)">
+                            <div *ngIf="signUpControl['lastName'].errors?.['required']" class="invalid-feedback m-0">
+                                {{validationErrorMessage.lastNameRequiredError}}
+                              </div>
+                    </div>
+                </div>
+
+                <div ngbDropdown class="input-box">
+                    <!-- <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                        Toggle dropdown
+                    </button> -->
+                    <input type="text" class="form-control" placeholder="Select Role" [(ngModel)]="selectedRoleName" [ngModelOptions]="{standalone: true}"
+                            [class.is-invalid]="signUpControl['userType'].invalid && (signUpControl['userType'].dirty || signUpControl['userType'].touched)" id="dropdownBasic1" ngbDropdownToggle readonly>
+                            <div *ngIf="signUpControl['userType'].errors?.['userType']" class="invalid-feedback m-0" >
+                                {{validationErrorMessage.roleNameRequiredError}}
+                              </div>
+
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <ng-container *ngFor="let role of allRoles">
+                            <button ngbDropdownItem (click)="selectRole(role)">{{role.roleName}}</button>
+                        </ng-container>
+                        <!-- <button ngbDropdownItem>Another Action</button>
+                        <button ngbDropdownItem>Something else is here</button> -->
+                    </div>
+                </div>
+               
+                <div class="input-box">
+                    <div class="position-relative">
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email" (input)="enforceLowerCase($event)"
+                        [class.is-invalid]="signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)">
+                        <ion-icon name="mail"></ion-icon>
+                    </div>
+                    <div *ngIf="signUpControl['email'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)}">
+                        {{ signUpControl['email'].errors['required'] ?
+                        validationErrorMessage.emailRequiredError :
+                        validationErrorMessage.emailValidationError }}
+                      </div>
+                     
+                </div>
+                <div class="input-box">
+                    
+                    <div class="position-relative">
+                        <input [type]="hidePassword ? 'password' : 'text'" class="form-control" placeholder="Password" formControlName="password" 
+                        [class.is-invalid]="signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)">
+                        @if(signUpControl['password'].value) {
+                            <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                           
+                                <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                                <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                              
+                            </div>
+                        } @else {
+
+                            <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                        }
+
+                        
+                    </div>
+
+
+                      <div *ngIf="signUpControl['password'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)}">
+                        {{ signUpControl['password'].errors['required'] ?
+                        validationErrorMessage.passwordRequiredError :
+                        validationErrorMessage.passwordValidationError }}
+                      
+                      </div>
+
+                </div>
+                
+            </form>
+	    </div>
+    </div>
+	<div class="modal-footer">
+		
+        <button type="submit" class="btn" [disabled]="signUpForm.invalid" (click)="registerUser()">Register</button>
+	</div>
+</ng-template>

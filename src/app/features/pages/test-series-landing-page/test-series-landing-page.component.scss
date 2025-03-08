@@ -28,7 +28,7 @@ body {
   }
   
   .container {
-    max-width: 1200px;
+    // max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
   }
@@ -97,6 +97,7 @@ body {
     padding: 15px 20px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    
   }
   
   .test-series-table th {
@@ -109,8 +110,9 @@ body {
     background: #f1f1f1;
   }
   
-  .test-series-table td {
+  ::ng-deep .test-series-table td {
     font-size: 0.95rem;
+    white-space: nowrap !important;
   }
   
   /* Features Section */
@@ -229,6 +231,11 @@ body {
   
     .feature {
       margin-bottom: 20px;
+    }
+
+    .course-card {
+      width: 100%;
+      max-width: 100% !important;
     }
   }
 
@@ -432,6 +439,11 @@ body {
     }
   }
   
+  @media (max-width: 400px) {
+    .feature {
+      min-width: 200px;
+    }
+  }
   
 
   .input-box {
@@ -463,3 +475,68 @@ body {
     transform: translateY(-50%);
     font-size: 20px;
   }
+
+
+  ::ng-deep.table-container table td {
+    // min-width: 100px;
+    max-width: 300px;
+  }
+
+  .div-courses-min-height {
+    min-height: 45px;
+    margin-bottom: 8px;
+}
+
+.card-body {
+  padding: 8px;
+}
+
+.owl-carousel .owl-item img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+::ng-deep .owl-theme .owl-dots .owl-dot.active span{
+  background: #1a1f35;
+  width: 30px;
+}
+
+.course-card {
+  width: 96%;
+  max-width: 19rem;
+}
+  
+
+
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #1A1F35;
+  --bs-btn-border-color: #1A1F35;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #3C4258;
+  --bs-btn-hover-border-color: #3C4258;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #1A1F35;
+  --bs-btn-active-border-color: #1A1F35;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #1A1F35;
+  --bs-btn-disabled-border-color: #1A1F35;
+}
+
+.btn-primary {
+  border-radius: 150px;
+}
+
+.card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+

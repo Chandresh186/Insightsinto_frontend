@@ -319,3 +319,34 @@
   .restore-button:hover {
     background-color: #3C4258 !important;
   }
+
+
+
+  @media (max-width: 900px) {
+    .nav {
+        display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .d-flex.gap-2.input-box{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .w-50 {
+        width: 100% !important;
+    }
+
+    .restore-seeting-body {
+        width: 100%;
+    }
+
+    .flex-between {
+        margin-bottom: 100px;
+    }
+
+    .delete-account {
+        display: none !important;
+    }
+  }

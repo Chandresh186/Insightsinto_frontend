@@ -77,7 +77,8 @@
         <!--  -->
         <div  class="editorial-item">
           <div class="editorial-info">
-            <span class="editorial-title">Editorial: {{editorial.fileName}}</span>
+            <span class="editorial-title">Today’s Editorial
+              Program: {{editorial.fileName}}</span>
             <span class="editorial-date"> {{editorial.uploadDate | date: 'MMMM d, y'}}</span>
           </div>
           <div *ngIf="!pricingAndPlans.includes(editorial.id)" class="editorial-preview">
@@ -115,7 +116,8 @@
             </div>
             <div class="pdf-actions">
               <!-- <a  class="btn view-btn" routerLink="/auth">Login</a> -->
-              <a  class="btn view-btn" (click)="seePlans(editorial.id)">See plans</a>
+              <a *ngIf="userAllEditorial.length == 0"  class="btn view-btn" (click)="seePlans(editorial.id)">See plans</a>
+              <a *ngIf="userAllEditorial.length > 0" class="btn view-btn" routerLink="/dash/daily-editorial" routerLinkActive="router-link-active" >Go to editorials</a>
               <!-- <a  class="btn view-btn" (click)="onBuy(editorial , 'monthly', '149')">Buy</a> -->
 
               <!-- <div class="pricing-container">
@@ -182,7 +184,7 @@
             <div class="wrapper-container">
               <div class="d-flex justify-content-between">
 
-                <h1>Plans & Pricing</h1>
+                <h1>Plans</h1>
                 <div>
 
                   <a  class="btn view-btn" (click)="pricingAndPlans = []">Back</a>
@@ -191,38 +193,40 @@
               <div class="pricing-containers">
                   <div class="pricing-card">
                       <h2>Monthly</h2>
-                      <p>Perfect for students looking to enhance their preparation with a monthly subscription.</p>
+                      <p>For <b>a Month</b>, Get <b>Daily access</b> to the
+                        detailed and Mains-oriented <b>Summary of Leading News Paper Editorials</b> in <b>Question-Answer Format</b> with <b>Weekly Video Discussion</b> on Trending issues in news.</p>
 
                       
-                      <div class="price">₹149<span>/mo</span></div>
-                      <ul class="features h-29">
-                          <li class="d-flex align-items-baseline justify-content-center">Referral : &nbsp;<div class="referral-price">₹99<span>/mo</span></div></li>
+                      <div class=""><span class="price">₹149 </span> <span class="price">for <b>One month</b></span></div>
+                      <ul class="features h-18">
+                          <li class="d-flex align-items-baseline justify-content-center"> <div class=""> <span class="referral-price">Use Referral Code for ₹99</span><span class="referral-price"> for <b>One month</b></span></div></li>
                           <!-- <li>5GB Storage</li>
                           <li>Email Support</li>
                           <li>Basic Features</li> -->
                       </ul>
-                      <button class="button" (click)="onBuy(editorial , 'monthly', '149')">Purchase</button>
+                      <button class="button" (click)="onBuy(editorial , 'monthly', '149', 'Monthly Subscription')">Subscribe / Join</button>
                   </div>
       
                   <div class="pricing-card">
-                      <h2>Quarterly</h2>
-                      <p>Perfect for students looking to enhance their preparation with a quarterly subscription.</p>
+                      <h2>Three Monthly</h2>
+                      <p>For <b>Three Months</b>, Get <b>Daily access</b> to the
+                        detailed and Mains-oriented <b>Summary of Leading News Paper Editorials</b> in <b>Question-Answer Format</b> with <b>Weekly Video Discussion</b> on Trending issues in news.</p>
                       <div class="">
-                        <div class="price mb-0">₹399<span>/mo</span></div>
-                        <div class="price strike">₹449<span>/mo</span></div>
+                        <div class="mb-0"><span class="price ">₹399</span><span class="price"> for <b>Three month</b></span></div>
+                        <div><span class="price strike">₹449</span><span class="price"> for <b>Three month</b></span></div>
 
                       </div>
                       <ul class="features">
-                          <li class="d-flex align-items-baseline justify-content-center">Referral : &nbsp;
+                          <li class="d-flex align-items-baseline justify-content-center">
                           <div class="">
-                            <div class="referral-price">₹249<span>/mo</span></div>
-                            <div class="referral-price strike">₹299<span>/mo</span></div>
+                            <div class=""><span class="referral-price">Use Referral Code for ₹249</span><span class="referral-price"> for <b>Three month</b></span></div>
+                            <!-- <div class="">Use Referral Code for <span class="strike">₹299</span><span class="referral-price"> for <b>Three month</b></span></div> -->
                           </div></li>
                           <!-- <li>50GB Storage</li>
                           <li>Priority Support</li>
                           <li>Advanced Features</li> -->
                       </ul>
-                      <button class="button" (click)="onBuy(editorial , 'quarterly', '399')">Purchase</button>
+                      <button class="button" (click)="onBuy(editorial , 'quarterly', '399', 'Three Monthly Subscription')">Subscribe / Join</button>
                   </div>
       
                   <!-- <div class="pricing-card">
@@ -399,7 +403,37 @@
 </ng-template>
 
 
-
+<ng-template #confirmmEmail let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body d-flex align-items-center justify-content-center">
+		<div class="otp-container">
+      <div class="card">
+        <div class="card-body">
+          <h2>Enter 6-Digit OTP</h2>
+          <p>A 6-digit OTP has been sent to your email. Please enter it below.</p>
+  
+  
+          <input type="text" maxlength="6" [(ngModel)]="otp" class="otp-input" placeholder="Enter OTP" (keypress)="isNumberKey($event)">
+  
+  
+    
+          <button class="otp-button mb-2" (click)="onSubmit()" >Verify OTP</button> <!---->
+          <!-- <button class="otp-button" routerLink="/auth">Back</button> -->
+    
+          <p class="resend-text">
+            Didn't receive the OTP? <a href="javascript:void(0);" (click)="resendMail()">Resend</a> <!---->
+          </p>
+        </div>
+      </div>
+    </div>
+	</div>
+	<!-- <div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
+	</div> -->
+</ng-template>
 
   
 

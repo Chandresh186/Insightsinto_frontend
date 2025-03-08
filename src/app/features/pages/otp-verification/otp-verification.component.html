@@ -1,0 +1,21 @@
+<div class="otp-container">
+    <div class="card">
+      <div class="card-body">
+        <h2>Enter 6-Digit OTP</h2>
+        <p>A 6-digit OTP has been sent to your email. Please enter it below.</p>
+
+
+        <input type="text" maxlength="6" [(ngModel)]="otp" class="otp-input" placeholder="Enter OTP" (keypress)="isNumberKey($event)">
+
+
+  
+        <button class="otp-button mb-2" (click)="onSubmit()">Verify OTP</button>
+        <button class="otp-button" routerLink="/auth">Back</button>
+  
+        <p class="resend-text">
+          Didn't receive the OTP? <a href="javascript:void(0);" (click)="resendMail()">Resend</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  

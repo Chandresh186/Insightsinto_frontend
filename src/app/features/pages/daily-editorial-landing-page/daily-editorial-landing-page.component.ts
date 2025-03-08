@@ -6,10 +6,10 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbCollapseModule, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PaymentService } from '../../../core/services/payment.service';
 import { AsyncButtonComponent } from '../../../shared/resusable_components/async-button/async-button.component';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { validationErrorMessage } from '../../../core/constants/validation.constant';
 import { patternValidator } from '../../../shared/helper.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -19,18 +19,22 @@ import { loginRequest } from '../../../core/models/interface/login_request.inter
 import { environment } from '../../../../environments/environment.development';
 import { VideoPlayerComponent } from '../../../shared/resusable_components/video-player/video-player.component';
 import { EncryptionService } from '../../../core/services/encryption.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-daily-editorial-landing-page',
   standalone: true,
-  imports: [PdfViewerModule, CommonModule, NgbCollapseModule, AsyncButtonComponent, ReactiveFormsModule, VideoPlayerComponent],
+  imports: [PdfViewerModule, CommonModule, NgbCollapseModule, AsyncButtonComponent, ReactiveFormsModule, VideoPlayerComponent, RouterLink, FormsModule],
   templateUrl: './daily-editorial-landing-page.component.html',
   styleUrl: './daily-editorial-landing-page.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DailyEditorialLandingPageComponent  {
+  private _userEmail: string = '';
+  public otp: string = '';
   public loading = false;
   public allEditoril: any = [];
+  public userAllEditorial : any = [];
   private errorMessage: string | null = null;
  
 
@@ -46,6 +50,7 @@ export class DailyEditorialLandingPageComponent  {
   public isLogin: boolean = false;
   public staticBaseUrl = environment.staticBaseUrl;
   public pricingAndPlans: any = [];
+  private confirmEmailmodalRef!: NgbModalRef;
 
   // isCollapsed = true;
 
@@ -59,8 +64,8 @@ export class DailyEditorialLandingPageComponent  {
   totalPages: number = 0;
 
   @ViewChild('content') content!: TemplateRef<any>;
-
-  constructor(private encryptionService: EncryptionService, private authService: AuthService, private editorialService : EditorialService, private router : Router, private paymentService: PaymentService, private modalService: NgbModal) {}
+  @ViewChild('confirmmEmail') confirmmEmail!: TemplateRef<any>; 
+  constructor(private toastr : ToastrService, private encryptionService: EncryptionService, private authService: AuthService, private editorialService : EditorialService, private router : Router, private paymentService: PaymentService, private modalService: NgbModal) {}
 
   ngOnInit() {
 
@@ -78,9 +83,51 @@ export class DailyEditorialLandingPageComponent  {
         });
 
     this.loadAllEditorial();
+    if(this.getUserId() !== null) {
+      this.checkEditorialPurchase(this.getUserId());
+
+    }
     
   }
 
+  getEmail(): any {
+    return this._userEmail;
+  }
+
+  // Setter for email
+   setEmail(value: any) {
+    this._userEmail = value; // Update the form value
+  }
+
+  // getUserId() {
+  //   const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+  //   return currentUser?.response?.userId ?? null;
+  // }
+
+  checkEditorialPurchase(userId: any) {
+    this.loading = true; // Set loading state to true while fetching data
+    
+    this.editorialService.getAllEditorialsUser(userId).pipe(
+      tap((response: any) => {
+        // response.sort((a: any, b: any) => a.uploadDate - b.uploadDate);
+        response.sort((a: any, b: any) => new Date(a.uploadDate).getTime() - new Date(b.uploadDate).getTime());
+        
+        this.userAllEditorial = response
+        console.log(this.userAllEditorial)
+        
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+        console.error('Error loading Daily editorials:', error);
+        this.userAllEditorial = []; 
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+      })
+    ).subscribe();
+  }
+ 
 
   get signUpControl() {
     return this.signUpForm.controls;
@@ -141,16 +188,27 @@ export class DailyEditorialLandingPageComponent  {
     this.router.navigateByUrl('/auth')
   }
 
-   
+  getUserId() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    return currentUser?.response?.userId ?? null;
+  }
 
-  onBuy(row: any, planType: any, newPrice: any) {
+  onBuy(row: any, planType: any, newPrice: any, name: any) {
     row.fee = newPrice;
     row.planType = planType;
-    row.name = 'Editorials'
+    row.name = `Today’s Editorial Program – ${name}`
     this.selectedEditorial = row;
     
     this.paymentService.setSelectedProductForCheckout(this.selectedEditorial);
-    this.modalRef = this.modalService.open(this.content,  { scrollable: true , ariaLabelledBy: 'modal-basic-title'});
+
+    if(this.getUserId()) {
+      this.router.navigateByUrl(`/dash/payment/checkout/${this.getUserId()}`); 
+
+    } else {
+      this.modalRef = this.modalService.open(this.content,  { scrollable: true , ariaLabelledBy: 'Buy-Editorial'});
+    }
+
+    
   }
 
 
@@ -172,21 +230,26 @@ export class DailyEditorialLandingPageComponent  {
         return;
       }
     
-      this.authService.registerAndLogin(registerData).pipe(
+      this.authService.register(registerData).pipe(
         tap(registerResponse => {
+          console.log(registerResponse)
+          this.toastr.success("Please login and confim your email", "success", {
+            progressBar: true
+          }) ;
           if (!registerResponse || !registerResponse.status) {
             throw new Error('Invalid registration response. Registration failed.');
           }
-          localStorage.setItem('currentUser', JSON.stringify(registerResponse));
+          // localStorage.setItem('currentUser', JSON.stringify(registerResponse));
           const product = {
             userid: registerResponse.response.userId,
             productid: '',
             moduleType: 'dailyeditorial'
           }
           localStorage.setItem('product', JSON.stringify(product))
-          this.closeModal();
-          this.router.navigateByUrl(`/dash/payment/checkout/${registerResponse.response.userId}`); // Navigate to checkout
-          this.signUpForm.reset(); // Reset the form after successful registration
+          this.isLogin = true;
+          // this.closeModal();
+          // this.router.navigateByUrl(`/dash/payment/checkout/${registerResponse.response.userId}`); // Navigate to checkout
+          // this.signUpForm.reset(); // Reset the form after successful registration
 
         }),
         // switchMap(registerResponse => {
@@ -260,16 +323,52 @@ export class DailyEditorialLandingPageComponent  {
               throw new Error('Invalid login response. Login failed.');
             }
             // Handle successful login - you might want to save tokens, user data, etc.
+            // this.checkEditorialPurchase(loginResponse.response.userId) 
+            // if(this.userAllEditorial.length > 0) {
+            //   this.toastr.info('You already have purchased One Month/Three Month Plan.')
+            // }
             this.loginForm.reset();
             localStorage.setItem('currentUser', JSON.stringify(loginResponse));
-              const product = {
-                userid: loginResponse.response.userId,
-                productid: '',
-                moduleType: 'dailyeditorial'
-              };
-              localStorage.setItem('product', JSON.stringify(product));
-            this.closeModal();
-              this.router.navigateByUrl(`/dash/payment/checkout/${loginResponse.response.userId}`); 
+            this.loading = true; // Set loading state to true while fetching data
+    
+            this.editorialService.getAllEditorialsUser(loginResponse.response.userId).pipe(
+              tap((response: any) => {
+                // response.sort((a: any, b: any) => a.uploadDate - b.uploadDate);
+                response.sort((a: any, b: any) => new Date(a.uploadDate).getTime() - new Date(b.uploadDate).getTime());
+                
+                this.userAllEditorial = response
+                console.log(this.userAllEditorial)
+                if(this.userAllEditorial.length == 0) {
+                  const product = {
+                    userid: loginResponse.response.userId,
+                    productid: '',
+                    moduleType: 'dailyeditorial'
+                  };
+                  localStorage.setItem('product', JSON.stringify(product));
+                  this.closeModal();
+                  this.router.navigateByUrl(`/dash/payment/checkout/${loginResponse.response.userId}`); 
+                } else {
+                  this.closeModal();
+                  this.toastr.info('You already have purchased One Month/Three Month Plan.','Info',{ progressBar: true })
+                  this.router.navigateByUrl('/dash/daily-editorial')
+                }
+                
+              }),
+              catchError((error) => {
+                
+                this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+                console.error('Error loading Daily editorials:', error);
+               
+                this.userAllEditorial = []; 
+                return of([]); // Return an empty array in case of an error
+              }),
+              finalize(() => {
+                this.loading = false; // Reset loading state when the request is completed
+              })
+            ).subscribe();
+
+           
+        
           }),
           // switchMap(loginResponse => {
           //   // Step 2: Create order after login (if needed)
@@ -306,8 +405,19 @@ export class DailyEditorialLandingPageComponent  {
           //   return of(null);
           // }),
           catchError(error => {
+            this.toastr.error(error.error.message, "Error", {
+              progressBar: true
+            });
             this.errorMessage = error.message || 'Something went wrong. Please try again.';
             console.error('Error during login or payment process:', error);
+            if(error && error.error.status === false && error.error.message === "Please verify your email before logging in.") {
+              // this.router.navigateByUrl(`/validate/${loginData.email}`)
+              console.log("hello");
+              const email =  this.loginForm.get('email')?.value;
+              this.setEmail(email);
+              this.resendMail();
+              this.confirmEmailmodalRef = this.modalService.open(this.confirmmEmail,  { scrollable: true , ariaLabelledBy: 'confirm-email'});
+            }
             return of(null);
           }),
           finalize(() => {
@@ -321,6 +431,88 @@ export class DailyEditorialLandingPageComponent  {
       decryptData(encryptedData: any) {
         return this.encryptionService.encrypt(encryptedData);
        
+      }
+
+
+
+
+
+
+      onSubmit() {
+        console.log('OTP Submitted: ', this.otp);
+        const obj = {
+          email: this.getEmail(),
+          otp: this.otp
+        };
+    
+        console.log(obj);
+        this.loading = true; // Set loading state
+        this.authService
+          .validateOTP(obj)
+          .pipe(
+            tap((response) => {
+              console.log(response);
+              if(response.success) {
+                console.log('Resending OTP...');
+                this.toastr.success(response.message, "success", {
+                  progressBar: true
+                }) ;
+                
+                // this.router.navigateByUrl('auth')
+              }
+            }),
+            catchError((error) => {
+              this.toastr.error(error.error.message, "Error", {
+                progressBar: true
+              }) ;
+              this.errorMessage = 'validation failed. Please try again.'; // Handle error
+              console.error('validation error:', error);
+              return of(null); // Return a default value to continue the stream
+            }),
+            finalize(() => {
+              this.otp = '';
+              this.loading = false; // Reset loading state
+              //  this.modalService.dismissAll();
+              this.confirmEmailmodalRef.close();
+            })
+          )
+          .subscribe();
+      }
+    
+      resendMail() {
+        const obj = {
+          email: this.getEmail(),
+        };
+    
+        console.log(obj);
+        this.loading = true; // Set loading state
+        this.authService
+          .resendOTP(obj)
+          .pipe(
+            tap((response) => {
+              console.log(response);
+              if(response.success) {
+                console.log('Resending OTP...');
+              }
+            }),
+            catchError((error) => {
+              this.errorMessage = 'Registration failed. Please try again.'; // Handle error
+              console.error('Registration error:', error);
+              return of(null); // Return a default value to continue the stream
+            }),
+            finalize(() => {
+              this.otp = '';
+              this.loading = false; // Reset loading state
+              //  this.modalService.dismissAll();
+            })
+          )
+          .subscribe();
+      }
+  
+      isNumberKey(evt: any) {
+        var charCode = evt.which ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+        return true;
       }
 
  

@@ -6,11 +6,14 @@ import { BlogService } from '../../../../core/services/blog.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { DailyEditorialLandingPageComponent } from '../../../pages/daily-editorial-landing-page/daily-editorial-landing-page.component';
 import { environment } from '../../../../../environments/environment.development';
+import { TestSeriesLandingPageComponent } from '../../../pages/test-series-landing-page/test-series-landing-page.component';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { CourseService } from '../../../../core/services/course.service';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule,RouterModule, NgbModule, DailyEditorialLandingPageComponent],
+  imports: [CommonModule,RouterModule, NgbModule, DailyEditorialLandingPageComponent, TestSeriesLandingPageComponent, CarouselModule ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -23,12 +26,133 @@ export class LandingPageComponent implements OnInit{
   private errorMessage: string | null = null; // To store error messages
   public blogs: any = [];
   public tags:  any = [];
+  tableData:any = [];
   public staticBaseUrl = environment.staticBaseUrl;
 
-  constructor(private blogService : BlogService) {}
+  customOptions: OwlOptions = {
+      loop: true,
+      mouseDrag: false,
+      touchDrag: false,
+      pullDrag: false,
+      dots: true,
+      navSpeed: 700,
+      navText: ['', ''],
+      responsive: {
+        // 0: {
+        //   items: 1
+        // },
+        // 400: {
+        //   items: 2
+        // },
+        // 740: {
+        //   items: 3
+        // },
+        // 940: {
+        //   items: 4
+        // }
+        0: {
+          items: 1, // Extra small screens (phones)
+        },
+        576: {
+          items: 2, // Small screens (phones, landscape orientation)
+        },
+        768: {
+          items: 3, // Medium screens (tablets)
+        },
+        992: {
+          items: 4, // Large screens (desktops)
+        },
+        1200: {
+          items: 5, // Extra large screens (wide desktops)
+        },
+        1400: {
+          items: 6, // Ultra-wide screens
+        },
+      },
+      nav: false,
+      autoplay: true,
+    }
+
+  constructor(private blogService : BlogService, private courseService : CourseService,) {}
 
   ngOnInit() {
     this.getBlogs();
+
+    this.loadAllCourses();
+    
+    if(this.getUserId() !== null) {
+      this.loadUserAllCourses(this.getUserId());
+    }
+  }
+
+
+  private loadUserAllCourses(userId: any): void {
+    this.loading = true; // Set loading state to true while fetching data
+  
+    this.courseService.getAllUserCourses(userId).pipe(
+      tap((response: any) => {
+       
+        const courseIds = response.map((item: any) => item.id);
+        
+        this.courseService.setCourses(courseIds);
+        // this.allCourses = response
+        
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+        console.error('Error loading Daily editorials:', error);
+        // this.allCourses = []; 
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+      })
+    ).subscribe();
+  }
+
+
+  private loadAllCourses(): void {
+    this.loading = true; // Set loading state to true while fetching data
+  
+    this.courseService.getAllActiveCoursesForPublic(true).pipe(
+      tap((response: any) => {
+
+        const courses = this.courseService.getCourses();
+        
+        var filteredData = null;
+        if(courses && courses.length > 0) {
+         filteredData = response.filter((item : any) => !courses.includes(item.id));
+
+        } else {
+          filteredData = response
+        }
+
+        this.tableData = filteredData;
+        
+
+        // this.tableData = filteredData; // Assign the fetched data to the list
+        // this.showColumns  = this.generateTableHeaders(filteredData.map(({ id,courseMaterials,isActive,parentDetails,parentId,testDetails,testId,updatedAt,video, isOfflineTest, ...rest }: any) => rest));
+        // this.tableHeaders = this.generateTableHeaders(filteredData)
+
+
+        // this.tableData = response; // Assign the fetched data to the list
+        // this.showColumns  = this.generateTableHeaders(response.map(({ id,courseMaterials,isActive,parentDetails,parentId,testDetails,testId,updatedAt,video, ...rest }: any) => rest));
+        // this.tableHeaders = this.generateTableHeaders(response)
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error loading test series.'; // Handle error message
+        console.error('Error loading test series:', error);
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+      })
+    ).subscribe();
+  }
+
+  getUserId() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    return currentUser?.response?.userId ?? null;
   }
 
   toggleNav() {
@@ -48,7 +172,7 @@ export class LandingPageComponent implements OnInit{
         this.loading = true;  // Set loading state to true while fetching data
         this.blogService.getBlogs().pipe(
           tap(response => {
-            this.blogs = response.slice(0, 2);  // Assign the fetched categories to the categories array
+            this.blogs = response.slice(0, 3);  // Assign the fetched categories to the categories array
             // this.filteredBlogs = this.blogs;
             // Get all tags from blogs and remove duplicates based on id
              this.tags = Array.from(

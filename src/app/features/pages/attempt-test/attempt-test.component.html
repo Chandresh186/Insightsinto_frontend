@@ -2,7 +2,7 @@
 <div class="container">
   <header class="rounded">
       <div class="difficulty" aria-label="Difficulty Level">
-          <h1>{{testDetails && testDetails.title | uppercase}}     </h1>
+          <h1> <i ngbTooltip="Go back" (click)="backToCourse()" class="fas fa-arrow-left back-button"></i> &nbsp; &nbsp;{{testDetails && testDetails.title | uppercase}}     </h1>
        
            <div class="test-timer">
               <i class="far fa-clock"></i> Time: {{ remainingTime }}

@@ -5,24 +5,13 @@
           <h1>Test Series Details</h1>
           <p>Effortlessly manage your test series and associated tests.</p>
         </header>
-    
-        <!-- <section class="series-details">
-          <div class="details-header">
-            <h2>Series Name: <span>{{testSeriesDetails?.name}}</span></h2> 
-            <button class="btn-create" id="createTestBtn" (click)="createTestModel()">+ Create New Test</button>
-          </div>
-          <p><strong>Description:</strong> &nbsp;{{testSeriesDetails?.details}}</p>
-          <p><strong>Medium:</strong> &nbsp;{{testSeriesDetails?.medium}}</p>
-          <p><strong>Start Date:</strong> &nbsp;{{testSeriesDetails?.startDate | date: 'd MMM, y'}}</p>
-          <p><strong>Fee:</strong> &nbsp;{{testSeriesDetails?.fee | currency: 'INR'}}</p>
-        </section> -->
 
         <section class="series-overview">
           <div class="overview-header d-flex justify-content-between mb-3">
             <h2> <b>{{testSeriesDetails && testSeriesDetails.name | uppercase}}</b></h2> 
             <div class="d-flex gap-10px">
-              <button *ngIf="testSeriesDetails && testSeriesDetails.isActive === false" class="btn-create" id="createTestBtn" (click)="EditTestseries()"> Publish test series</button>
-              <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
+              <!-- <button *ngIf="testSeriesDetails && testSeriesDetails.isActive === false" class="btn-create" id="createTestBtn" (click)="EditTestseries()"> Publish test series</button> -->
+              <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Add test</button>
               <button class="btn-create" id="createTestBtn" routerLink="/dash/test-series" > Back </button>
 
             </div>
@@ -74,17 +63,7 @@
             <h1>Generate test questions</h1>
             <p>Effortlessly generate test questions.</p>
           </header>
-          <!-- <section class="series-details">
-            <div class="details-header">
-              <h2>Test Name: <span>{{testForm.title}}</span></h2>
-              <div>
-                <button class="btn-create" id="createTestBtns" (click)="generateQues = !generateQues">{{generateQues ? 'See question': 'Add question'}}</button> &nbsp;
-                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest">Back</button>
-
-              </div>
-            </div>
-            <p><strong>Duration:</strong> {{testForm.duration}}</p>
-          </section> -->
+          
 
 
 
@@ -120,38 +99,13 @@
 
               
             </div>
-            <!-- <p><strong>Duration:</strong> {{testForm.duration}}</p> -->
+           
           </section>
 
 
 
 
-          <!-- <section class="series-overview">
-            <div class="overview-header d-flex justify-content-between mb-3">
-              <h2> <b>{{testSeriesDetails && testSeriesDetails.name | uppercase}}</b></h2> 
-              <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
-            </div>
-            <div class="overview-metrics">
-              <div>
-                <label>Description</label>
-                <span>{{testSeriesDetails &&  testSeriesDetails?.medium }}</span>
-              </div>
-              <div>
-                <label>Medium</label>
-                <span>{{testSeriesDetails &&  testSeriesDetails?.medium }}</span>
-              </div>
-              <div>
-                <label>Start Date</label>
-                <span>{{testSeriesDetails &&  testSeriesDetails?.startDate | date: "d MMM, y" }}</span>
-              </div>
-  
-              <div>
-                <label>Fee</label>
-                <span>{{testSeriesDetails && testSeriesDetails?.fee | currency: 'INR'}}</span>
-              </div>
-            </div>
-        
-          </section> -->
+          
 
 
           <div class="wrapper" *ngIf="generateQues">
@@ -166,9 +120,7 @@
                 />
                 <button  ngbTooltip="Search"  class="btn btn-primary add-more" type="button" ><ion-icon name="search-outline"></ion-icon></button>
               </div>
-                <!-- <button class="btn btn-primary" placement="bottom" ngbTooltip="Create Category" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                    <ion-icon class="create" name="add-outline"></ion-icon> Create Category
-                </button> -->
+              
             
             </div>
               
@@ -187,7 +139,7 @@
                             <label for="exampleInputPassword1" class="form-label">Select Category</label>
                             <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
                  
-                              <!-- Input field with dropdown arrow -->
+                             
                            <div class="input-group" id="target_Dropdown">
                              <input
                              type="text"
@@ -199,16 +151,16 @@
                              name="selectInput"
                              aria-expanded="dropdownOpen"
                              readonly
-                           /> <!--(focus)="toggleDropdown()"-->
+                           /> 
                            <span class="input-group-append"  >
-                             <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
+                            
                              <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
                            </span>
                          </div>
                            
-                             <!-- Dropdown menu with search functionality -->
+                            
                              <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
-                               <!-- Search input -->
+                              
                                <input
                                  type="text"
                                  class="form-control mb-2"
@@ -220,7 +172,7 @@
                                />
                            
                                <div class="custom-drop-down-menu">
-                                 <!-- Filtered options list -->
+                                 
                                  <a
                                    *ngFor="let option of filteredOptions"
                                    class="dropdown-item"
@@ -232,7 +184,7 @@
 
                                </div>
                            
-                               <!-- Message for no matches -->
+                               
                                <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
                                  No options found
                                </div>
@@ -268,11 +220,11 @@
                               </span>
                             </div>
                           </div>
-                          <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                         
                         </div>
                        
                       
-                        <button type="button" class="btn btn-primary" (click)="isCreateNewCategory ? createNewCategory(): createSubCategory() ">Submit</button>
+                        <!-- <button type="button" class="btn btn-primary" (click)="isCreateNewCategory ? createNewCategory(): createSubCategory() ">Submit</button> -->
                       </form>
                 </div>
               </div>
@@ -283,42 +235,42 @@
             <ul class="tree">
                 <li *ngFor="let category of filteredCategories" class="parent">
                     <details [open]="category.isOpen" class="details">
-                        <summary><span class="label">Category</span>{{ category.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{category.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{category.totalQuestionCount}} <i (click)="onMove(category)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                        <summary><span class="label">Category</span>{{ category.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{category.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{category.totalQuestionCount}} <i (click)="onMove(category)" class="move fa fa-ellipsis-v" ></i></summary>
                         <ul class="nested-list">
-                            <!-- Level 2 -->
+                            
                             <li *ngFor="let subCategory of category.subCategories" class="nested-item">
                                 <details [open]="subCategory.isOpen">
-                                    <summary><span class="label">Sub Category</span>{{ subCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subCategory.totalQuestionCount}} <i (click)="onMove(subCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                                    <summary><span class="label">Sub Category</span>{{ subCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subCategory.totalQuestionCount}} <i (click)="onMove(subCategory)" class="move fa fa-ellipsis-v" ></i></summary>
                                     <ul class="nested-list">
-                                        <!-- Level 3 -->
+                                       
                                         <li *ngFor="let subSubCategory of subCategory.subCategories" class="nested-item">
                                             <details [open]="subSubCategory.isOpen">
-                                                <summary><span class="label">Sub Category</span>{{ subSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubCategory.totalQuestionCount}} <i (click)="onMove(subSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                                                <summary><span class="label">Sub Category</span>{{ subSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubCategory.totalQuestionCount}} <i (click)="onMove(subSubCategory)" class="move fa fa-ellipsis-v" ></i></summary>
                                                 <ul class="nested-list">
-                                                    <!-- Level 4 -->
+                                                   
                                                     <li *ngFor="let subSubSubCategory of subSubCategory.subCategories"
                                                         class="nested-item">
                                                         <details [open]="subSubSubCategory.isOpen">
                                                             <summary><span class="label">Sub Category</span>{{
-                                                                subSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubCategory.totalQuestionCount}}  <i (click)="onMove(subSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                                                                subSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubCategory.totalQuestionCount}}  <i (click)="onMove(subSubSubCategory)" class="move fa fa-ellipsis-v" ></i></summary>
                                                             <ul class="nested-list">
-                                                                <!-- Level 5 -->
+                                                              
                                                                 <li *ngFor="let subSubSubSubCategory of subSubSubCategory.subCategories"
                                                                     class="nested-item">
                                                                     <details [open]="subSubSubSubCategory.isOpen">
                                                                         <summary><span class="label">Sub Category</span>{{
-                                                                            subSubSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubCategory.totalQuestionCount}} <i (click)="onMove(subSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i></summary>
+                                                                            subSubSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubCategory.totalQuestionCount}} <i (click)="onMove(subSubSubSubCategory)" class="move fa fa-ellipsis-v"></i></summary>
                                                                         <ul class="nested-list">
-                                                                            <!-- Level 6 -->
+                                                                           
                                                                             <li *ngFor="let subSubSubSubSubCategory of subSubSubSubCategory.subCategories"
                                                                                 class="nested-item">
                                                                                 <details [open]="subSubSubSubSubCategory.isOpen">
                                                                                     <summary><span class="label">Sub
                                                                                             Category</span>{{
-                                                                                        subSubSubSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubCategory.totalQuestionCount}}  <i (click)="onMove(subSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                                                        subSubSubSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubCategory.totalQuestionCount}}  <i (click)="onMove(subSubSubSubSubCategory)" class="move fa fa-ellipsis-v" ></i>
                                                                                     </summary>
                                                                                     <ul class="nested-list">
-                                                                                        <!-- Level 7 -->
+                                                                                       
                                                                                         <li *ngFor="let subSubSubSubSubSubCategory of subSubSubSubSubCategory.subCategories"
                                                                                             class="nested-item">
                                                                                             <details
@@ -327,10 +279,10 @@
                                                                                                         Category</span>{{
                                                                                                     subSubSubSubSubSubCategory.catName
                                                                                                     }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubSubCategory.totalQuestionCount}}
-                                                                                                    <i (click)="onMove(subSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                                                                    <i (click)="onMove(subSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v"></i>
                                                                                                 </summary>
                                                                                                 <ul class="nested-list">
-                                                                                                    <!-- Level 8 -->
+                                                                                                   
                                                                                                     <li *ngFor="let subSubSubSubSubSubSubCategory of subSubSubSubSubSubCategory.subCategories"
                                                                                                         class="nested-item">
                                                                                                         <details
@@ -340,10 +292,10 @@
                                                                                                                     Category</span>{{
                                                                                                                 subSubSubSubSubSubSubCategory.catName
                                                                                                                 }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubSubSubCategory.totalQuestionCount}}
-                                                                                                                <i (click)="onMove(subSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                                                                                <i (click)="onMove(subSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v"></i>
                                                                                                             </summary>
                                                                                                             <ul class="nested-list">
-                                                                                                                <!-- Level 9 -->
+                                                                                                                
                                                                                                                 <li *ngFor="let subSubSubSubSubSubSubSubCategory of subSubSubSubSubSubSubCategory.subCategories"
                                                                                                                     class="nested-item">
                                                                                                                     <details
@@ -356,11 +308,11 @@
                                                                                                                             }}
                                                                                                                             &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubSubSubSubCategory.totalQuestionCount}}
                                                                                                                             
-                                                                                                                            <i (click)="onMove(subSubSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                                                                                            <i (click)="onMove(subSubSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v"></i>
                                                                                                                         </summary>
                                                                                                                         <ul
                                                                                                                             class="nested-list">
-                                                                                                                            <!-- Level 10 -->
+                                                                                                                           
                                                                                                                             <li *ngFor="let subSubSubSubSubSubSubSubSubCategory of subSubSubSubSubSubSubSubCategory.subCategories"
                                                                                                                                 class="nested-item">
                                                                                                                                 <details
@@ -373,9 +325,9 @@
                                                                                                                                         }}
                                                                                                                                         &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubSubSubSubSubCategory.totalQuestionCount}}
                                                                                                                                       
-                                                                                                                                        <i (click)="onMove(subSubSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                                                                                                        <i (click)="onMove(subSubSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v"></i>
                                                                                                                                     </summary>
-                                                                                                                                    <!-- Add the nested structure here if needed -->
+                                                                                                                                    
                                                                                                                                 </details>
                                                                                                                             </li>
                                                                                                                         </ul>
@@ -436,7 +388,7 @@
                         <div class="accordion-body">
                           <ul class="options"> 
                             <li *ngFor="let mcq of category.mcqs; let index = index">  
-                              <p class="d-flex align-items-center justify-content-between"><span><strong>Q{{ index + 1 }}:</strong> {{ mcq.question }}</span> <i (click)="deleteGeneratedQues(mcq)" class=" far fa-trash-alt trash" aria-hidden="true"></i></p>
+                              <p class="d-flex align-items-center justify-content-between"><span><strong>Q{{ index + 1 }}:</strong> {{ mcq.question }}</span> <i (click)="deleteGeneratedQues(mcq)" class=" far fa-trash-alt trash"></i></p>
                               <ul>
                                 <li>a) {{ mcq.a }}</li>
                                 <li>b) {{ mcq.b }}</li>
@@ -456,7 +408,7 @@
             </div>
             <ng-template #noQUestion>
               <div class="mt-5">
-                <!-- <p class="text-center">Please generate the questions for creating test</p> -->
+                
                 <div class="text-center p-4 bg-light rounded shadow-sm my-4">
                   <p class="display-6 text-primary font-weight-bold">
                     Please generate the questions for creating the test
@@ -468,7 +420,7 @@
               
           </div>
           <div class="create-details-header">
-            <!-- <h2>Series Name: <span>Modern Test Series</span></h2> -->
+            
             <button *ngIf="generateQues" class="btn-create" id="createTestBtn" [disabled]="GeneratedQuestions.length == 0" (click)="addQuesToTest()" >Add</button>
           </div>
             
@@ -492,39 +444,39 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{isEditTest ? 'Edit test' : 'Create test'}}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="resetTestForm(); isEditTest = false; modal.dismiss('Cross click')"></button>
+    <h4 class="modal-title" id="modal-basic-title">Add Test</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="resetTestForm();modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body min-heigth-284px">
    
     
   
-      <!-- Title Field (Required) -->
-      <div class="input-box">
+     
+      <!-- <div class="input-box">
         <label for="title" class="form-label">Title
-           <!--<span class="text-danger" >*</span> [ngClass]="{'text-danger': title?.invalid && title?.touched}"-->
+          
         </label>
         <input type="text" class="form-control" id="title" [ngClass]="{'mb-0': title.invalid && title.touched}"
           placeholder="Enter Title" [(ngModel)]="testForm.title" name="title" required  #title="ngModel">
 
-        <!-- Display error message if the title is invalid and has been touched -->
+        
         <div *ngIf="title.invalid && title.touched" class="text-danger">
           Title is required.
         </div>
           
-      </div>
+      </div> -->
     
-      <!-- Subtitle Field -->
-      <div class="input-box">
+     
+      <!-- <div class="input-box">
         <label for="subTitle" class="form-label">Sub Title
           <span class="text-muted"> (Optional)</span>
         </label>
         <input type="text" class="form-control" id="subTitle"
           placeholder="Enter Subtitle" [(ngModel)]="testForm.subTitle" name="subTitle">
-      </div>
+      </div> -->
     
-      <!-- Keywords Field -->
-      <div class="input-box">
+      
+      <!-- <div class="input-box">
         <label for="keywords" class="form-label">Keywords
           <span class="text-muted"> (Optional)</span>
         </label>
@@ -537,27 +489,23 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> -->
       
     
     
     
-      <!-- Minimum Passing Score Field -->
-      <div class="input-box">
+      
+      <!-- <div class="input-box">
         <label for="minimumPassingScore" class="form-label">Minimum Passing Score
           <span class="text-muted"> (Optional)</span>
         </label>
         <input type="text" class="form-control" id="minimumPassingScore"
           placeholder="Enter Minimum Passing Score" [(ngModel)]="testForm.minimumPassingScore" name="minimumPassingScore" required>
-      </div>
-    
-      <!-- Topics Field -->
-      <!-- <div class="input-box">
-        <label for="topics" class="form-label">Topics</label>
-        <input type="text" class="form-control" id="topics" placeholder="Enter Topics" [(ngModel)]="testForm.topics" name="topics">
       </div> -->
+    
+      
 
-      <div class="input-box">
+      <!-- <div class="input-box">
         <label for="topics" class="form-label">Topics
           <span class="text-muted"> (Optional)</span>
         </label>
@@ -570,36 +518,35 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="">
-        <label for="exampleInputPassword1" class="form-label">Select Category
-          <span class="text-muted"> (Optional)</span>
+        <label for="exampleInputPassword1" class="form-label">Select test
         </label>
         <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
 
-          <!-- Input field with dropdown arrow -->
+          
        <div class="input-group" id="target_Dropdown">
          <input
          type="text"
          class="select_input form-control dropdown-toggle  text-start"
          placeholder="Select Category"
-         [value]="selectedOption && selectedOption.catName  || 'Select an option'"
+         [value]="selectedOption && selectedOption.title  || 'Select an option'"
          (click)="toggleDropdown()"
 
          name="selectInput"
          aria-expanded="dropdownOpen"
          id="dropdownOpen"
          readonly
-       /> <!--(focus)="toggleDropdown()"-->
+       /> 
        <span class="input-group-append"  >
-         <i class="fa fa-caret-down" (click)="toggleDropdown()"></i><!-- Bootstrap Icon for dropdown  -->
+         <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
        </span>
      </div>
        
-         <!-- Dropdown menu with search functionality -->
+        
          <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
-           <!-- Search input -->
+         
            <input
              type="text"
              class="form-control mb-2"
@@ -611,21 +558,23 @@
            />
        
            <div class="custom-drop-down-menu">
-             <!-- Filtered options list -->
+             
              <a
                *ngFor="let option of filteredOptions"
                class="dropdown-item"
                href="#"
-               (click)="addCategoryChip(option); $event.preventDefault()"
-             >
-               {{ option.catName}}
+               [ngStyle]="{ 'cursor': isElementInChips(option) ? 'not-allowed' : 'pointer' }"
+               (click)="isElementInChips(option) ? '' : addCategoryChip(option); $event.preventDefault()"
+               >
+               <!-- (click)="addCategoryChip(option); $event.preventDefault()" -->
+               {{ option.title}}
              </a>
 
            </div>
         
 
        
-           <!-- Message for no matches -->
+           
            <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
              No options found
            </div>
@@ -633,7 +582,7 @@
          <div class="chip-container mb-10px" *ngIf="testForm.categoryIds.length > 0">
           <div class="chips">
             <span *ngFor="let chip of testForm.categoryIds; let i = index" class="chip">
-              {{ chip.catName }} <button class="remove-chip" (click)="removeCategoryChip(i)">×</button>
+              {{ chip.title }} <button class="remove-chip" (click)="removeCategoryChip(i)">×</button>
             </span>
           </div>
          </div>
@@ -641,13 +590,9 @@
       </div>
 
     
-      <!-- Duration Field -->
-      <!-- <div class="input-box">
-        <label for="duration" class="form-label">Duration</label>
-        <input type="time" class="form-control" id="duration" placeholder="Enter Duration" [(ngModel)]="testForm.duration" name="duration" required>
-      </div> -->
+     
 
-      <div class="d-flex custom-gap">
+      <!-- <div class="d-flex custom-gap">
         <div class="input-box" >
           <label for="startTime" class="form-label">Start Time</label>
           <input type="time" [ngClass]="{'mb-0': testForm.duration === null}" class="form-control" id="startTime" [(ngModel)]="startTime" name="startTime" #startTimeControl="ngModel" (change)="calculateTimeDifference()" required>
@@ -672,24 +617,24 @@
       </div>
       <div *ngIf="endTimeControl.invalid && endTimeControl.touched" class="text-danger">
         End Time is required.
-      </div>
+      </div> -->
 
     
-      <!-- Language Field -->
-      <div class="input-box">
+      
+      <!-- <div class="input-box">
         <label for="language" class="form-label">Language
           <span class="text-muted"> (Optional)</span>
         </label>
         <input type="text" class="form-control" id="language" placeholder="Enter Language" [(ngModel)]="testForm.language" name="language" required>
       </div>
     
-        <!-- Files Field -->
+        
         <div class="input-box">
           <label for="files" class="form-label">Files
             <span class="text-muted"> (Optional)</span>
           </label>
           <input type="file" class="form-control" id="files" (change)="onFileChange($event)" multiple>
-        </div>
+        </div> -->
     
     
     
@@ -697,14 +642,14 @@
     
   </div>
   <div class="modal-footer">
-    @if(isEditTest) {
+    <!-- @if(isEditTest) {
       <app-async-button type="button" classes="restore-button" [disabled]="false || createTestAsyncCall"
       [isAsyncCall]="createTestAsyncCall" (click)="editTest()">Edit</app-async-button>
-    } @else {
+    } @else { -->
       <app-async-button type="button" classes="restore-button" [disabled]="false || createTestAsyncCall"
-    [isAsyncCall]="createTestAsyncCall" (click)="createTest()">Create</app-async-button>
-    }
-    <!-- <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button> -->
+    [isAsyncCall]="createTestAsyncCall" (click)="createMapping()" >Create</app-async-button> <!--(click)="createTest()"-->
+    <!-- } -->
+    
     
 
    
@@ -712,7 +657,7 @@
 </ng-template>
 
 
-<ng-template #genQues let-modal>
+<!-- <ng-template #genQues let-modal>
   <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Generate Questions</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="unsubscribeFromChanges();questionForm.reset();modal.dismiss('Cross click')"></button>
@@ -736,7 +681,7 @@
                   
                 </div>
               
-                <!-- Easy Questions Field -->
+                
                 <div class="form-group mb-3">
                   <label for="easyQuestions" class="form-label">Number of Easy Questions</label>
                   <input
@@ -748,7 +693,7 @@
                     min="0" />
                 </div>
               
-                <!-- Medium Questions Field -->
+                
                 <div class="form-group mb-3">
                   <label for="mediumQuestions" class="form-label">Number of Medium Questions</label>
                   <input
@@ -760,7 +705,7 @@
                     min="0" />
                 </div>
               
-                <!-- Hard Questions Field -->
+               
                 <div class="form-group mb-3">
                   <label for="hardQuestions" class="form-label">Number of Hard Questions</label>
                   <input
@@ -781,4 +726,4 @@
           [isAsyncCall]="genQuesAsyncCall" (click)="genQuestions()">Generate</app-async-button>
 
   </div>
-</ng-template>
+</ng-template> -->

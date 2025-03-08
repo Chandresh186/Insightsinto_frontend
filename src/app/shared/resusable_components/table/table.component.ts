@@ -61,7 +61,7 @@ export class TableComponent implements OnChanges {
  
     this.filteredData = this.tableData.filter(row => {
       return Object.values(row).some((val:any) => 
-        val.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
+        val && val.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     });
 

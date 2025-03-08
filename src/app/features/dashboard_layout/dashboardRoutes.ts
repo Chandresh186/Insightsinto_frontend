@@ -13,7 +13,7 @@ export const dashboardRoutes: Routes = [
     {
         path: '',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['User'] }, 
+        data: { requiredRoles: ['User'], requiredPermissions: ['Dashboard']  }, 
         loadComponent: () =>
             import('../pages/dashboard/dashboard.component').then(
                 (component) => component.DashboardComponent
@@ -24,7 +24,8 @@ export const dashboardRoutes: Routes = [
     {
         path: 'categories',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] }, 
+        data: { requiredRoles: ['Super Admin','Admin'] },
+        
         loadComponent: () =>
             import('../pages/categories/categories.component').then(
                 (component) => component.CategoriesComponent
@@ -33,14 +34,25 @@ export const dashboardRoutes: Routes = [
     {
         path: 'test-series',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] }, 
+        data: { requiredRoles: ['Super Admin','Admin']}, 
         loadChildren: () =>
             import('../test/index').then(
                 (component) => component.testRoutes
             ),
     },
     {
+        path: 'test-list',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin','Admin'] },
+        loadComponent: () => 
+            import('../test/components/test-list/test-list.component').then(
+                (Component) => Component.TestListComponent
+            )
+    },
+    {
         path: 'settings',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin','Admin', 'User'] },
         loadComponent: () =>
             import('../settings/index').then(
                 (component) => component.SettingsComponent
@@ -59,7 +71,7 @@ export const dashboardRoutes: Routes = [
     },
     
     {
-        path: 'test/:id/:testSeriesId',
+        path: 'test/:id/:courseId',
         canActivate: [permissionGuard], 
         data: { requiredRoles: ['User'] }, 
         loadComponent: () =>
@@ -88,7 +100,7 @@ export const dashboardRoutes: Routes = [
     {
         path: 'dashboard',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] }, 
+        data: { requiredRoles: ['Super Admin','Admin'] }, 
         loadComponent: () =>
             import('../pages/admin-dashboard/admin-dashboard.component').then(
                 (component) => component.AdminDashboardComponent
@@ -106,7 +118,7 @@ export const dashboardRoutes: Routes = [
     {
         path: 'daily-editorial',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin', 'User'] }, 
+        data: { requiredRoles: ['Super Admin','Admin', 'User'] }, 
         loadComponent: () => 
             import('../pages/daily-editorial/daily-editorial.component').then(
                 (Component) => Component.DailyEditorialComponent
@@ -115,7 +127,7 @@ export const dashboardRoutes: Routes = [
     {
         path: 'create-blog',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] },
+        data: { requiredRoles: ['Super Admin','Admin'] },
         loadComponent: () => 
             import(
                 '../pages/create-blog/create-blog.component'
@@ -124,7 +136,7 @@ export const dashboardRoutes: Routes = [
     {
         path: 'edit-blog/:id',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] },
+        data: { requiredRoles: ['Super Admin','Admin'] },
         loadComponent: () => 
             import(
                 '../pages/create-blog/create-blog.component'
@@ -147,7 +159,7 @@ export const dashboardRoutes: Routes = [
     {
         path: 'promocode',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] },
+        data: { requiredRoles: ['Super Admin','Admin'] },
         loadComponent: () => 
             import(
                 '../pages/promocode/promocode.component'
@@ -163,7 +175,7 @@ export const dashboardRoutes: Routes = [
     {
         path: 'question-list',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] },
+        data: { requiredRoles: ['Super Admin','Admin'] },
         loadComponent:() =>
             import (
                 '../../features/pages/question-list/question-list.component'
@@ -172,7 +184,7 @@ export const dashboardRoutes: Routes = [
     {
         path: 'create-question',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] },
+        data: { requiredRoles: ['Super Admin','Admin'] },
         loadComponent:() =>
             import (
                 '../../features/pages/create-question/create-question.component'
@@ -181,11 +193,74 @@ export const dashboardRoutes: Routes = [
     {
         path: 'edit-question/:id',
         canActivate: [permissionGuard], 
-        data: { requiredRoles: ['Admin'] },
+        data: { requiredRoles: ['Super Admin','Admin'] },
         loadComponent:() =>
             import (
                 '../../features/pages/create-question/create-question.component'
             ).then((component) => component.CreateQuestionComponent)
+    },
+    {
+        path: 'course-list',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin','Admin'] },
+        loadComponent:() =>
+            import (
+                '../../features/pages/course-list/course-list.component'
+            ).then((component) => component.CourseListComponent)
+    },
+    {
+        path: 'create-course',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin','Admin'] },
+        loadComponent:() =>
+            import (
+                '../../features/pages/create-course/create-course.component'
+            ).then((component) => component.CreateCourseComponent)
+    },
+    {
+        path: 'edit-course/:id',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin','Admin'] },
+        loadComponent:() =>
+            import (
+                '../../features/pages/create-course/create-course.component'
+            ).then((component) => component.CreateCourseComponent)
+    },
+    {
+        path: 'course-detail/:id',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin','Admin', 'User'] },
+        loadComponent:() => 
+            import (
+                '../../features/pages/course-detail-page/course-detail-page.component'
+            ).then((component) => component.CourseDetailPageComponent)
+    },
+    {
+        path: 'user-testSeries/:id',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['User'] },
+        loadComponent:() => 
+            import (
+                '../../features/pages/user-test-series/user-test-series.component'
+            ).then((component) => component.UserTestSeriesComponent)
+    },
+    {
+        path: 'user-list',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin'] },
+        loadComponent:() => 
+            import (
+                '../../features/pages/user-list/user-list.component'
+            ).then((component) => component.UserListComponent)
+    }, 
+    {
+        path: 'user-permissions/:id',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin'] },
+        loadComponent:() => 
+            import (
+                '../../features/pages/user-permissions/user-permissions.component'
+            ).then((component) => component.UserPermissionsComponent)
     },
     {
         path: '**',

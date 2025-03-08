@@ -9,11 +9,15 @@ import { PaymentService } from '../../../core/services/payment.service';
 import { Router, RouterModule } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { UserDashboardService } from '../../../core/services/user-dashboard.service';
+import { CourseService } from '../../../core/services/course.service';
+import { CourseListComponent } from '../course-list/course-list.component';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule, RouterModule, CourseListComponent, CarouselModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
  
@@ -22,6 +26,7 @@ export class DashboardComponent {
   public showColumns: any;
   public loading = false; // To track loading state
   private errorMessage: string | null = null; // To store error messages
+  staticBaseUrl : any = environment.staticBaseUrl
 
   public tableHeaders:any = [];
 
@@ -34,37 +39,9 @@ export class DashboardComponent {
 
   resultShowColumns: any;
 
-  resultTableHeaders: any = [
-    
-  ]
+  resultTableHeaders: any = []
 
-  resultTableData: any = [
-    // {
-    //   test: "Math Test 1",
-    //   testSeries: "Series A",
-    //   score: 85
-    // },
-    // {
-    //   test: "Science Test 1",
-    //   testSeries: "Series B",
-    //   score: 90
-    // },
-    // {
-    //   test: "English Test 1",
-    //   testSeries: "Series C",
-    //   score: 78
-    // },
-    // {
-    //   test: "History Test 1",
-    //   testSeries: "Series A",
-    //   score: 92
-    // },
-    // {
-    //   test: "Geography Test 1",
-    //   testSeries: "Series B",
-    //   score: 88
-    // }
-  ]
+  resultTableData: any = []
 
 
 
@@ -81,95 +58,56 @@ export class DashboardComponent {
     // Dynamic Actions Config
     actionsConfig = [
       { key: 'buy', label: 'Buy', class: 'btn-primary', visible: true },
-      // { key: 'delete', label: 'Delete', class: 'btn-danger', visible: true },
-      // { key: 'view', label: 'View', class: 'btn-secondary', visible: false }, // Hidden action
     ];
 
-    testSeriesData:any = [
-      // {
-      //   title: 'Test Series 1',
-      //   status: 'Active',
-      //   tests: 10,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'View Details'
-      // },
-      // {
-      //   title: 'Test Series 2',
-      //   status: 'Completed',
-      //   tests: 15,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'View Results'
-      // },
-      // {
-      //   title: 'Test Series 3',
-      //   status: 'Upcoming',
-      //   tests: 8,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'Start Now'
-      // },
-      // {
-      //   title: 'Test Series 4',
-      //   status: 'Upcoming',
-      //   tests: 8,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'Start Now'
-      // },
-      // {
-      //   title: 'Test Series 5',
-      //   status: 'Upcoming',
-      //   tests: 8,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'Start Now'
-      // },
-      // {
-      //   title: 'Test Series 6',
-      //   status: 'Upcoming',
-      //   tests: 8,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'Start Now'
-      // },
-      // {
-      //   title: 'Test Series 7',
-      //   status: 'Upcoming',
-      //   tests: 8,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'Start Now'
-      // },
-      // {
-      //   title: 'Test Series 8',
-      //   status: 'Upcoming',
-      //   tests: 8,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'Start Now'
-      // },
-      // {
-      //   title: 'Test Series 9',
-      //   status: 'Upcoming',
-      //   tests: 8,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'Start Now'
-      // },
-      // {
-      //   title: 'Test Series 10',
-      //   status: 'Upcoming',
-      //   tests: 8,
-      //   medium: 'English',
-      //   startDate: '2024-11-25',
-      //   buttonLabel: 'Start Now'
-      // }
-    ];
+    testSeriesData:any = [];
+
+      customOptions: OwlOptions = {
+        loop: true,
+        mouseDrag: false,
+        touchDrag: false,
+        pullDrag: false,
+        dots: true,
+        navSpeed: 700,
+        navText: ['', ''],
+        responsive: {
+          // 0: {
+          //   items: 1
+          // },
+          // 400: {
+          //   items: 2
+          // },
+          // 740: {
+          //   items: 3
+          // },
+          // 940: {
+          //   items: 4
+          // }
+          0: {
+            items: 1, // Extra small screens (phones)
+          },
+          576: {
+            items: 2, // Small screens (phones, landscape orientation)
+          },
+          768: {
+            items: 3, // Medium screens (tablets)
+          },
+          992: {
+            items: 4, // Large screens (desktops)
+          },
+          1200: {
+            items: 5, // Extra large screens (wide desktops)
+          },
+          1400: {
+            items: 6, // Ultra-wide screens
+          },
+        },
+        nav: false,
+        autoplay: true,
+      }
 
 
-    constructor(private userDashboardService : UserDashboardService,private testSeriesService: TestSeriesService,private paymentService: PaymentService, private router : Router) {}
+    constructor(private userDashboardService : UserDashboardService,private testSeriesService: TestSeriesService,private paymentService: PaymentService, private router : Router, private courseService : CourseService) {}
 
 
     handleAction(event: { action: string; row: any }) {
@@ -222,7 +160,7 @@ export class DashboardComponent {
           pipeFormat = 'INR';  // No special formatting for 'currency' pipe
         } 
         // Add 'date' pipe for 'startDate' column
-        else if (key === 'startDate') {
+        else if (key === 'createdAt') {
           pipe = 'date';  // The pipe name for startDate is date
           pipeFormat = 'd MMM, y';  // Custom format for date (can be changed as needed)
         }
@@ -239,9 +177,12 @@ export class DashboardComponent {
 
   ngOnInit() {
     const userId = JSON.parse(localStorage.getItem('currentUser') || 'null').response.userId
-    this.loadTestSeries();
-    this.loadUserTestSeries(userId);
+    // this.loadTestSeries();
+    
+    // this.loadUserTestSeries(userId);
     this.getUserDashboardDetails(userId);
+
+    this.loadUserAllCourses(userId);
    
   }
 
@@ -296,7 +237,7 @@ export class DashboardComponent {
       const product = {
         userid: userId,
         productid: row.id,
-        moduleType: 'testseries'
+        moduleType: 'course'
       }
       localStorage.setItem('product', JSON.stringify(product));
       this.paymentService.setSelectedProductForCheckout(row);
@@ -340,40 +281,53 @@ export class DashboardComponent {
     }
 
 
-    private loadTestSeries(): void {
+    private loadUserAllCourses(userId: any): void {
       this.loading = true; // Set loading state to true while fetching data
     
-      this.testSeriesService.getTestSeries().pipe(
+      this.courseService.getAllUserCourses(userId).pipe(
         tap((response: any) => {
-          this.tableData = response.response; // Assign the fetched data to the list
-          this.showColumns  = this.generateTableHeaders(response.response.map(({ id, ...rest }: any) => rest));
-          this.tableHeaders = this.generateTableHeaders(response.response)
-        }),
-        catchError((error) => {
-          this.errorMessage = 'Error loading test series.'; // Handle error message
-          console.error('Error loading test series:', error);
-          return of([]); // Return an empty array in case of an error
-        }),
-        finalize(() => {
-          this.loading = false; // Reset loading state when the request is completed
-        })
-      ).subscribe();
-    }
-
-
-
-    private loadUserTestSeries(userId: any): void {
-      this.loading = true; // Set loading state to true while fetching data
-    
-      this.testSeriesService.getTestSeriesByUserId(userId).pipe(
-        tap((response: any) => {
-          this.testSeriesData = response 
+         
+          const courseIds = response.map((item: any) => item.id);
+          
+          this.courseService.setCourses(courseIds);
+          // this.allCourses = response
           
         }),
         catchError((error) => {
+          this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+          console.error('Error loading Daily editorials:', error);
+          // this.allCourses = []; 
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+          this.loadAllCourses();
+        })
+      ).subscribe();
+    }
+
+
+    private loadAllCourses(): void {
+     
+      this.loading = true; // Set loading state to true while fetching data
+    
+      this.courseService.getAllActiveCoursesForPublic(true).pipe(
+        tap((response: any) => {
+          
+          
+          const courses = this.courseService.getCourses();
+          if(courses) {
+            let filteredData = response.filter((item : any) => !courses.includes(item.id));
+  
+            this.tableData = filteredData; // Assign the fetched data to the list
+            this.showColumns  = this.generateTableHeaders(filteredData.map(({ id,courseMaterials,isActive,parentDetails,parentId,testDetails,testId,updatedAt,video, isOfflineTest, ...rest }: any) => rest));
+            this.tableHeaders = this.generateTableHeaders(filteredData)
+
+          }
+        }),
+        catchError((error) => {
           this.errorMessage = 'Error loading test series.'; // Handle error message
           console.error('Error loading test series:', error);
-          this.testSeriesData= []
           return of([]); // Return an empty array in case of an error
         }),
         finalize(() => {
@@ -381,6 +335,29 @@ export class DashboardComponent {
         })
       ).subscribe();
     }
+
+
+
+    // private loadUserTestSeries(userId: any): void {
+    //   this.loading = true; // Set loading state to true while fetching data
+    
+    //   this.testSeriesService.getTestSeriesByUserId(userId).pipe(
+    //     tap((response: any) => {
+    //       console.log(response)
+    //       this.testSeriesData = response 
+          
+    //     }),
+    //     catchError((error) => {
+    //       this.errorMessage = 'Error loading test series.'; // Handle error message
+    //       console.error('Error loading test series:', error);
+    //       this.testSeriesData= []
+    //       return of([]); // Return an empty array in case of an error
+    //     }),
+    //     finalize(() => {
+    //       this.loading = false; // Reset loading state when the request is completed
+    //     })
+    //   ).subscribe();
+    // }
 
 
 

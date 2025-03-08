@@ -1,0 +1,42 @@
+<div class="container">
+    <div *ngIf="checkRole('admin') || checkRole('super admin')" class="d-flex justify-content-between p-3">
+        <h2>All Courses</h2>
+        <button class="btn btn-primary" routerLink="/dash/create-course">Add new</button>
+    </div>
+    <div class="row">
+        <ng-container *ngFor="let course of allCourses"> 
+        <div class="col-lg-4">
+                <div class="card card-margin">
+                    <div class="card-header no-border" [ngClass]="{ 'user-style': checkRole('user') }">
+                        <h5 *ngIf="checkRole('admin') || checkRole('super admin')"  class="card-title d-flex justify-content-end align-items-center w-100"> <span *ngIf="checkRole('admin') || checkRole('super admin')" class="badge" [ngClass]="course && course.isActive ? 'badge-success': 'badge-secondary'">{{course && course.isActive ? "Active": "Inactive"}}</span></h5>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="widget-49">
+                            <div class="widget-49-title-wrapper">
+                                <div class="widget-49-date-primary">
+                                    <img class="w-100" src="assets/icons/course.png" alt="courseimage">
+                                </div>
+                                <div class="widget-49-meeting-info">
+                                    <span class="widget-49-pro-title fw-bold fs-5">{{course && course.name}}</span>
+                                    <span class="widget-49-meeting-time"></span>
+                                </div>
+                            </div>
+                            <div class="widget-49-meeting-points mb-2">
+                                <div class="widget-49-meeting-item description-truncate"><span [ngbTooltip]="course && course.description" [openDelay]="3000">{{course && course.description}}</span></div>
+                                <!-- <li class="widget-49-meeting-item"><span>Data migration is in scope</span></li>
+                                <li class="widget-49-meeting-item"><span>Session timeout increase to 30 minutes</span></li> -->
+                            </div>
+                            <div class="widget-49-meeting-action d-flex justify-content-end gap-2">
+                                <a *ngIf="checkRole('admin') || checkRole('super admin')" href="javascript:void(0);" [routerLink]="['../edit-course', course.id]"  class="btn btn-sm btn-flash-border-primary edit-btn">Edit</a>
+                                <a *ngIf="checkRole('admin') || checkRole('super admin')" href="javascript:void(0);" (click)="onDelete(course.id)"  class="btn btn-sm btn-flash-border-primary delete-btn">Delete</a>
+                                <a href="javascript:void(0);" class="btn btn-sm btn-flash-border-primary edit-btn" [routerLink]="['/dash/course-detail', course.id]">Explore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </ng-container>
+       
+    </div>
+    </div>

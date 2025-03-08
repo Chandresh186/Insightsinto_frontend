@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { Test } from '../../../core/models/interface/test.interface';
 import { ToastrService } from 'ngx-toastr';
 import Quill from 'quill';
+import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
 
 @Component({
   selector: 'app-attempt-test',
   standalone: true,
-  imports: [CommonModule, FormsModule, ],
+  imports: [CommonModule, FormsModule, ngbootstrapModule],
   templateUrl: './attempt-test.component.html',
   styleUrl: './attempt-test.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -1270,60 +1271,16 @@ export class AttemptTestComponent implements OnInit {
 
   ngOnInit(): void {
     this.initilizeEditor();
+    const back = this.getCourseId();
+    
     window.onload = function() {
       if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
           // Redirect to the homepage if the page was reloaded
-          window.location.href = '/dash'; // Or the path to your homepage
+          window.location.href = `/dash/course-detail/${back}`; // Or the path to your homepage
       }
   };
-  
-  
 
-    // this.getTest();
     this.getTestPaper();
-
-    // this.quillEditor = new Quill('#editor', {
-    //   theme: 'snow',
-    //   readOnly: false,
-    //   // placeholder: 'Write your blog content here...',
-    //   modules: {
-    //     toolbar: [
-    //     //   // Font family
-    //     //   [{ font: [] }],
-  
-    //     //   // Font size
-    //     //   [{ size: [] }],
-  
-    //     //   // Text formatting
-    //     //   ['bold', 'italic', 'underline', 'strike'], // Bold, italic, underline, strike
-    //     //   [{ script: 'sub' }, { script: 'super' }], // Subscript, superscript
-    //     //   [{ color: [] }, { background: [] }], // Text and background colors
-  
-    //     //   // Headers and block styles
-    //     //   [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers (H1-H6)
-    //     //   ['blockquote', 'code-block'], // Blockquote and code block
-  
-    //     //   // Lists and Indentation
-    //     //   [{ list: 'ordered' }, { list: 'bullet' }], // Ordered and unordered lists
-    //     //   [{ indent: '-1' }, { indent: '+1' }], // Indentation
-  
-    //     //   // Alignment and Direction
-    //     //   [{ align: [] }], // Align left, center, right, justify
-    //     //   [{ direction: 'rtl' }], // RTL text direction
-  
-    //     //   // Links, media, and more
-    //     //   ['link', 'image', 'video', 'formula'], // Links, images, videos, formulas
-  
-    //     //   ['table'], // Table operations
-  
-    //     //   // Clear formatting
-    //     //   ['clean'], // Clear formatting
-    //     ],
-    //     // table: true, // Enable table module
-    //   },
-    // });
-
-   
 
   }
 
@@ -1381,7 +1338,6 @@ export class AttemptTestComponent implements OnInit {
 
 
   startTestTimer(): void {
-    console.log("entered");
     // Convert total time to seconds
     this.totalTimeInSeconds = this.totalTimeInMinutes * 60;
 
@@ -1558,7 +1514,7 @@ export class AttemptTestComponent implements OnInit {
    
 
     this.testSeriesService
-      .submitTest(this.getUserId(), this.getTestSeriesId(), this.getTestId(), this.questions)
+      .submitTest(this.getUserId(), this.getTestId(), this.questions)
       .pipe(
         tap((response) => {
           // this.testSeriesDetails =  response.response
@@ -1573,12 +1529,17 @@ export class AttemptTestComponent implements OnInit {
         
           this.loading = false; // Stop loading
          
-          this.router.navigateByUrl(`dash/series-details/${this.getTestSeriesId()}`);
+          // this.router.navigateByUrl(`dash/course-list`);
+          this.backToCourse()
           // //  this.router.navigateByUrl(`dash/test/${val.id}`);
           // // this.router.navigate(['dash/test', val.id], { queryParams: { key1: 'value1', key2: 'value2' } });
         })
       )
       .subscribe();
+  }
+
+  backToCourse() {
+    this.router.navigateByUrl(`dash/course-detail/${this.getCourseId()}`);
   }
 
   // getTest() {
@@ -1733,8 +1694,8 @@ export class AttemptTestComponent implements OnInit {
     return this.route.snapshot.params['id']
   }
 
-  getTestSeriesId() {
-    return this.route.snapshot.params['testSeriesId']
+  getCourseId() {
+    return this.route.snapshot.params['courseId']
   }
 
 

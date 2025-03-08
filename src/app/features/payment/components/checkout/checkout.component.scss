@@ -540,7 +540,7 @@
   .cart-section h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #4e54c8;
+    color: #1a1f35;
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
   }
@@ -577,7 +577,7 @@
   .cart-item-price {
     font-size: 18px;
     font-weight: bold;
-    color: #4e54c8;
+    color: #1a1f35;
   }
 
   .cart-divider {
@@ -606,7 +606,7 @@
   .summary-section h3 {
     font-size: 20px;
     margin-bottom: 15px;
-    color: #4e54c8;
+    color: #1a1f35;
   }
 
   .coupon-input {
@@ -625,7 +625,7 @@
 
   .coupon-input .btn-apply {
     padding: 12px 20px;
-    background: linear-gradient(45deg, #4e54c8, #8f94fb);
+    background: linear-gradient(45deg, #1a1f35, #3c4258);
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -636,7 +636,7 @@
   }
 
   .coupon-input .btn-apply:hover {
-    background: linear-gradient(45deg, #8f94fb, #4e54c8);
+    background: linear-gradient(45deg, #3c4258, #1a1f35);
   }
 
   .coupon-input .btn-cancel {
@@ -693,7 +693,7 @@
   .checkout-btn {
     display: block;
     width: 100%;
-    background: linear-gradient(45deg, #4e54c8, #8f94fb);
+    background: linear-gradient(45deg, #1a1f35, #3c4258);
     color: #ffffff;
     border: none;
     padding: 15px;
@@ -707,7 +707,7 @@
   }
 
   .checkout-btn:hover {
-    background: linear-gradient(45deg, #8f94fb, #4e54c8);
+    background: linear-gradient(45deg, #3c4258 , #1a1f35);
     // transform: translateY(-2px);
   }
 

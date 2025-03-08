@@ -7,18 +7,21 @@ import { ModalDismissReasons, NgbDatepickerModule, NgbModal, NgbModalRef } from 
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { testSeriesValidationErrorMessage, validationErrorMessage } from '../../../core/constants/validation.constant';
 import { PaymentService } from '../../../core/services/payment.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { patternValidator } from '../../../shared/helper.service';
 import { registerRequest } from '../../../core/models/interface/register_request.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { AsyncButtonComponent } from '../../../shared/resusable_components/async-button/async-button.component';
 import { PaymentOrder } from '../../../core/models/interface/payment.interface';
 import { loginRequest } from '../../../core/models/interface/login_request.interface';
+import { CourseService } from '../../../core/services/course.service';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-test-series-landing-page',
   standalone: true,
-  imports: [CommonModule, TableComponent, NgbDatepickerModule, ReactiveFormsModule, AsyncButtonComponent],
+  imports: [CommonModule, TableComponent, NgbDatepickerModule, ReactiveFormsModule, AsyncButtonComponent, CarouselModule, RouterLink],
   templateUrl: './test-series-landing-page.component.html',
   styleUrl: './test-series-landing-page.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -26,35 +29,11 @@ import { loginRequest } from '../../../core/models/interface/login_request.inter
 export class TestSeriesLandingPageComponent implements OnInit{
 
   // Example table headers
-  tableHeaders:any = [
-    // { key: 'id', displayName: 'ID' },
-    // { key: 'name', displayName: 'Name' },
-    // { key: 'medium', displayName: 'Medium' },
-    // { key: 'details', displayName: 'Details' },
-    // { key: 'startDate', displayName: 'Start Date' },
-    // { key: 'fee', displayName: 'Fee' }
-  ];
-
+  tableHeaders:any = [];
+  staticBaseUrl : any = environment.staticBaseUrl
 
     // Example table data
-    tableData:any = [
-      // {
-      //   id: '1',
-      //   name: 'Test Series 1',
-      //   medium: 'Online',
-      //   details: 'Details about Test Series 1',
-      //   startDate: '2024-11-12',
-      //   fee: '1000'
-      // },
-      // {
-      //   id: '2',
-      //   name: 'Test Series 2',
-      //   medium: 'Offline',
-      //   details: 'Details about Test Series 2',
-      //   startDate: '2024-11-15',
-      //   fee: '1500'
-      // }
-    ];
+    tableData:any = [];
 
 
 
@@ -62,8 +41,6 @@ export class TestSeriesLandingPageComponent implements OnInit{
     // Dynamic Actions Config
     actionsConfig = [
       { key: 'buy', label: 'Buy', class: 'btn-primary', visible: true },
-      // { key: 'delete', label: 'Delete', class: 'btn-danger', visible: true },
-      // { key: 'view', label: 'View', class: 'btn-secondary', visible: false }, // Hidden action
     ];
   
   
@@ -98,8 +75,52 @@ export class TestSeriesLandingPageComponent implements OnInit{
   public showColumns: any;
   @ViewChild('testSeries', { static: false }) testSeriesSection!: ElementRef; 
 
+  customOptions: OwlOptions = {
+    loop: true,
+    mouseDrag: false,
+    touchDrag: false,
+    pullDrag: false,
+    dots: true,
+    navSpeed: 700,
+    navText: ['', ''],
+    responsive: {
+      // 0: {
+      //   items: 1
+      // },
+      // 400: {
+      //   items: 2
+      // },
+      // 740: {
+      //   items: 3
+      // },
+      // 940: {
+      //   items: 4
+      // }
+      0: {
+        items: 1, // Extra small screens (phones)
+      },
+      576: {
+        items: 2, // Small screens (phones, landscape orientation)
+      },
+      768: {
+        items: 3, // Medium screens (tablets)
+      },
+      992: {
+        items: 4, // Large screens (desktops)
+      },
+      1200: {
+        items: 5, // Extra large screens (wide desktops)
+      },
+      1400: {
+        items: 6, // Ultra-wide screens
+      },
+    },
+    nav: false,
+    autoplay: true,
+  }
 
-  constructor( private authService: AuthService, private testSeriesService: TestSeriesService, private modalService: NgbModal, private paymentService: PaymentService, private router : Router) {}
+
+  constructor(private courseService : CourseService, private authService: AuthService, private testSeriesService: TestSeriesService, private modalService: NgbModal, private paymentService: PaymentService, private router : Router) {}
 
   ngOnInit() {
     this.signUpForm = new FormGroup({
@@ -115,8 +136,17 @@ export class TestSeriesLandingPageComponent implements OnInit{
       password: new FormControl('', Validators.compose([Validators.required, patternValidator()])),
     });
   
-    this.loadTestSeries();
+    this.loadAllCourses();
+    
+    if(this.getUserId() !== null) {
+      this.loadUserAllCourses(this.getUserId());
+    }
 
+  }
+
+  getUserId() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    return currentUser?.response?.userId ?? null;
   }
 
   scrollToTestSeries() {
@@ -133,22 +163,6 @@ export class TestSeriesLandingPageComponent implements OnInit{
     return this.loginForm.controls;
   }
 
-
-  // generateTableHeaders(dataArray: any[]): { key: string; displayName: string }[] {
-  //   if (!dataArray || dataArray.length === 0) {
-  //     return [];
-  //   }
-  
-  //   const formatDisplayName = (key: string): string =>
-  //     key
-  //       .replace(/([A-Z])/g, ' $1') // Add a space before uppercase letters (camelCase to spaced)
-  //       .replace(/^./, (str) => str.toUpperCase()); // Capitalize the first letter
-  
-  //   return Object.keys(dataArray[0]).map((key) => ({
-  //     key: key,
-  //     displayName: formatDisplayName(key),
-  //   }));
-  // }
 
   generateTableHeaders(dataArray: any[]): { key: string; displayName: string, pipe: string | null, pipeFormat: string | null }[] {
     if (!dataArray || dataArray.length === 0) {
@@ -170,7 +184,7 @@ export class TestSeriesLandingPageComponent implements OnInit{
         pipeFormat = 'INR';  // No special formatting for 'currency' pipe
       } 
       // Add 'date' pipe for 'startDate' column
-      else if (key === 'startDate') {
+      else if (key === 'createdAt') {
         pipe = 'date';  // The pipe name for startDate is date
         pipeFormat = 'd MMM, y';  // Custom format for date (can be changed as needed)
       }
@@ -188,23 +202,75 @@ export class TestSeriesLandingPageComponent implements OnInit{
   onBuy(row: any) {
     this.selectedTestSeries = row;
     this.paymentService.setSelectedProductForCheckout(this.selectedTestSeries);
-    this.modalRef = this.modalService.open(this.content,  { scrollable: true , ariaLabelledBy: 'modal-basic-title'});
+    
+
+    if(this.getUserId()) {
+      this.router.navigateByUrl(`/dash/payment/checkout/${this.getUserId()}`); 
+
+    } else {
+      this.modalRef = this.modalService.open(this.content,  { scrollable: true , ariaLabelledBy: 'buy-courses'});
+    }
+
    
    
+  }
+
+
+  private loadUserAllCourses(userId: any): void {
+    this.loading = true; // Set loading state to true while fetching data
+  
+    this.courseService.getAllUserCourses(userId).pipe(
+      tap((response: any) => {
+       
+        const courseIds = response.map((item: any) => item.id);
+        
+        this.courseService.setCourses(courseIds);
+        // this.allCourses = response
+        
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+        console.error('Error loading Daily editorials:', error);
+        // this.allCourses = []; 
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+      })
+    ).subscribe();
   }
 
 
 
 
     // Reactive loading of test series
-    private loadTestSeries(): void {
+    private loadAllCourses(): void {
       this.loading = true; // Set loading state to true while fetching data
     
-      this.testSeriesService.getTestSeries().pipe(
+      this.courseService.getAllActiveCoursesForPublic(true).pipe(
         tap((response: any) => {
-          this.tableData = response.response; // Assign the fetched data to the list
-          this.showColumns  = this.generateTableHeaders(response.response.map(({ id, ...rest }: any) => rest));
-          this.tableHeaders = this.generateTableHeaders(response.response)
+
+          const courses = this.courseService.getCourses();
+          
+          var filteredData = null;
+          if(courses && courses.length > 0) {
+           filteredData = response.filter((item : any) => !courses.includes(item.id));
+
+          } else {
+            filteredData = response
+          }
+
+          
+          
+
+          this.tableData = filteredData; // Assign the fetched data to the list
+          this.showColumns  = this.generateTableHeaders(filteredData.map(({ id,courseMaterials,isActive,parentDetails,parentId,testDetails,testId,updatedAt,video, isOfflineTest, ...rest }: any) => rest));
+          this.tableHeaders = this.generateTableHeaders(filteredData)
+
+
+          // this.tableData = response; // Assign the fetched data to the list
+          // this.showColumns  = this.generateTableHeaders(response.map(({ id,courseMaterials,isActive,parentDetails,parentId,testDetails,testId,updatedAt,video, ...rest }: any) => rest));
+          // this.tableHeaders = this.generateTableHeaders(response)
         }),
         catchError((error) => {
           this.errorMessage = 'Error loading test series.'; // Handle error message
@@ -216,53 +282,6 @@ export class TestSeriesLandingPageComponent implements OnInit{
         })
       ).subscribe();
     }
-
-
-  //     // Add a new test series
-  // public addTestSeries(): void {
-  //   of(this.newTestSeries) // Simulate the input as an observable
-  //     .pipe(
-  //       switchMap((series) =>
-  //         this.testSeriesService.createTestSeries(series).pipe(
-  //           tap(() => {
-  //             this.newTestSeries = { id: 0, name: '', description: '', totalMarks: 0, duration: '' }; // Reset form
-  //             this.refresh$.next(); // Trigger reload
-  //           }),
-  //           catchError((error) => {
-  //             this.error$.next('Error creating test series');
-  //             console.error('Error creating test series:', error);
-  //             return of(null); // Emit null on error
-  //           })
-  //         )
-  //       )
-  //     )
-  //     .subscribe();
-  // }
-
-
-  //   // Delete a test series
-  //   public deleteTestSeries(id: number): void {
-  //     of(id) // Simulate the input as an observable
-  //       .pipe(
-  //         switchMap((seriesId) =>
-  //           this.testSeriesService.deleteTestSeries(seriesId).pipe(
-  //             tap(() => this.refresh$.next()), // Trigger reload on success
-  //             catchError((error) => {
-  //               this.error$.next('Error deleting test series');
-  //               console.error('Error deleting test series:', error);
-  //               return of(null); // Emit null on error
-  //             })
-  //           )
-  //         )
-  //       )
-  //       .subscribe();
-  //   }
-
-
-  //   public getError(): Observable<string | null> {
-  //     return this.error$.asObservable();
-  //   }
-
 
 
   registerUser() {
@@ -291,47 +310,14 @@ export class TestSeriesLandingPageComponent implements OnInit{
         const product = {
           userid: registerResponse.response.userId,
           productid: selectedTestSeries.id,
-          moduleType: 'testseries'
+          moduleType: 'course'
         }
         localStorage.setItem('product', JSON.stringify(product))
         this.closeModal();
         this.router.navigateByUrl(`/dash/payment/checkout/${registerResponse.response.userId}`); // Navigate to checkout
         this.signUpForm.reset(); // Reset the form after successful registration
       }),
-      // switchMap(registerResponse => {
-      //   // Step 2: Create order after registration
-      //   const paymentOrderData: PaymentOrder = {
-      //     amount: selectedTestSeries.fee, // Use the validated amount
-      //     currency: 'INR',
-      //     receipt: registerResponse.response.id, // Use response ID as receipt
-      //     productId: this.selectedTestSeries.id
-      //   };
-  
-      //   return this.paymentService.createOrder(paymentOrderData); // Call the Create Order API
-      // }),
-      // tap(orderResponse => {
-      //   if (orderResponse) {
-      //     this.orderId = orderResponse.data.orderId; // Assuming orderResponse contains an 'id' field
-      //     const product = {
-      //       userid: orderResponse.data.userId,
-      //       productid: orderResponse.data.productId,
-      //       moduleType: 'testseries'
-      //     }
-      //     localStorage.setItem('product', JSON.stringify(product))
-      //   } else {
-      //     throw new Error('Order creation failed. Response is empty.');
-      //   }
-      // }),
-      // switchMap(() => {
-      //   if (this.orderId) {
-      //     // this.paymentService.setSelectedProductForCheckout(this.selectedTestSeries); // Save selected product
-      //     this.closeModal();
-      //     this.router.navigateByUrl(`/payment/checkout/${this.orderId}`); // Navigate to checkout
-      //   } else {
-      //     throw new Error('Order ID is missing. Cannot navigate to checkout.');
-      //   }
-      //   return of(null);
-      // }),
+      
       catchError(error => {
         this.errorMessage = error.message || 'Something went wrong. Please try again.';
         console.error('Error during registration or payment process:', error);
@@ -377,47 +363,14 @@ export class TestSeriesLandingPageComponent implements OnInit{
           const product = {
             userid: loginResponse.response.userId,
             productid: selectedTestSeries.id,
-            moduleType: 'testseries'
+            moduleType: 'course'
           };
           localStorage.setItem('product', JSON.stringify(product));
           this.closeModal();
           this.router.navigateByUrl(`/dash/payment/checkout/${loginResponse.response.userId}`); // Navigate to checkout
           this.loginForm.reset();
       }),
-      // switchMap(loginResponse => {
-      //   // Step 2: Create order after login (if needed)
-      //   const paymentOrderData: PaymentOrder = {
-      //     amount: selectedTestSeries.fee, // Use the validated amount
-      //     currency: 'INR',
-      //     receipt: loginResponse.response.userId, // Use user ID or any other identifier as receipt
-      //     productId: selectedTestSeries.id // Use selected test series ID
-      //   };
-    
-      //   return this.paymentService.createOrder(paymentOrderData); // Call the Create Order API
-      // }),
-      // tap(orderResponse => {
-      //   if (orderResponse) {
-      //     this.orderId = orderResponse.data.orderId; // Assuming orderResponse contains an 'id' field
-      //     const product = {
-      //       userid: orderResponse.data.userId,
-      //       productid: orderResponse.data.productId,
-      //       moduleType: 'testseries'
-      //     };
-      //     localStorage.setItem('product', JSON.stringify(product));
-      //   } else {
-      //     throw new Error('Order creation failed. Response is empty.');
-      //   }
-      // }),
-      // switchMap(() => {
-      //   if (this.orderId) {
-      //     // this.paymentService.setSelectedProductForCheckout(this.selectedTestSeries); // Save selected product
-      //     this.closeModal();
-      //     this.router.navigateByUrl(`/payment/checkout/${this.orderId}`); // Navigate to checkout
-      //   } else {
-      //     throw new Error('Order ID is missing. Cannot navigate to checkout.');
-      //   }
-      //   return of(null);
-      // }),
+     
       catchError(error => {
         this.errorMessage = error.message || 'Something went wrong. Please try again.';
         console.error('Error during login or payment process:', error);

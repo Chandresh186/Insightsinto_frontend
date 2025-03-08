@@ -1,6 +1,6 @@
 <div class="container">
     <!-- Upload Section -->
-    <section class="section" *ngIf="checkRole('admin')">
+    <section class="section" *ngIf="checkRole('admin') || checkRole('super admin')">
         <h2>Upload Files</h2>
         <form [formGroup]="dailyEditorialForm" class="upload-form d-flex justify-content-evenly gap-20px" (ngSubmit)="createEditorial()">
             <div class="input-box">
@@ -70,7 +70,7 @@
     </section>
 
     <!-- Files List Section -->
-    <section class="section" *ngIf="checkRole('admin')" >
+    <section class="section" *ngIf="checkRole('admin') || checkRole('super admin') " >
         <h2>Uploaded Files</h2>
         <ul class="file-list">
             @for(editorial of allEditoril; track editorial) {
@@ -190,7 +190,7 @@
             <div  class="wrapper-container">
                 <div class="d-flex justify-content-between">
   
-                  <h1>Plans & Pricing</h1>
+                  <h1>Plans</h1>
                   <!-- <div>
   
                     <a  class="btn view-btn" (click)="pricingAndPlans = []">Back</a>
@@ -199,38 +199,40 @@
                 <div class="pricing-containers">
                     <div class="pricing-card">
                         <h2>Monthly</h2>
-                        <p>Perfect for students looking to enhance their preparation with a monthly subscription.</p>
+                        <p>For <b>a Month</b>, Get <b>Daily access</b> to the
+                          detailed and Mains-oriented <b>Summary of Leading News Paper Editorials</b> in <b>Question-Answer Format</b> with <b>Weekly Video Discussion</b> on Trending issues in news.</p>
   
                         
-                        <div class="price">₹149<span>/mo</span></div>
-                        <ul class="features h-29">
-                            <li class="d-flex align-items-baseline justify-content-center">Referral : &nbsp;<div class="referral-price">₹99<span>/mo</span></div></li>
-                            <!-- <li>5GB Storage</li>
-                            <li>Email Support</li>
-                            <li>Basic Features</li> -->
-                        </ul>
-                        <button class="button" (click)="onBuy('monthly', '149')" >Purchase</button> <!---->
+                        <div class=""><span class="price">₹149 </span> <span class="price">for <b>One month</b></span></div>
+                        <ul class="features h-19">
+                          <li class="d-flex align-items-baseline justify-content-center"> <div class=""> <span class="referral-price">Use Referral Code for ₹99</span><span class="referral-price"> for <b>One month</b></span></div></li>
+                          <!-- <li>5GB Storage</li>
+                          <li>Email Support</li>
+                          <li>Basic Features</li> -->
+                      </ul>
+                        <button class="button" (click)="onBuy('monthly', '149','Monthly Subscription')" >Subscribe / Join</button> <!---->
                     </div>
         
                     <div class="pricing-card">
-                        <h2>Quarterly</h2>
-                        <p>Perfect for students looking to enhance their preparation with a quarterly subscription.</p>
-                        <div class="">
-                          <div class="price mb-0">₹399<span>/mo</span></div>
-                          <div class="price strike">₹449<span>/mo</span></div>
-  
-                        </div>
-                        <ul class="features">
-                            <li class="d-flex align-items-baseline justify-content-center">Referral : &nbsp;
+                        <h2>Three Monthly</h2>
+                        <p>For <b>Three Months</b>, Get <b>Daily access</b> to the
+                          detailed and Mains-oriented <b>Summary of Leading News Paper Editorials</b> in <b>Question-Answer Format</b> with <b>Weekly Video Discussion</b> on Trending issues in news.</p>
+                          <div class="">
+                            <div class="mb-0"><span class="price ">₹399</span><span class="price"> for <b>Three month</b></span></div>
+                            <div><span class="price strike">₹449</span><span class="price"> for <b>Three month</b></span></div>
+    
+                          </div>
+                          <ul class="features">
+                            <li class="d-flex align-items-baseline justify-content-center">
                             <div class="">
-                              <div class="referral-price">₹249<span>/mo</span></div>
-                              <div class="referral-price strike">₹299<span>/mo</span></div>
+                              <div class=""><span class="referral-price">Use Referral Code for ₹249</span><span class="referral-price"> for <b>Three month</b></span></div>
+                              <!-- <div class="">Use Referral Code for <span class="strike">₹299</span><span class="referral-price"> for <b>Three month</b></span></div> -->
                             </div></li>
                             <!-- <li>50GB Storage</li>
                             <li>Priority Support</li>
                             <li>Advanced Features</li> -->
                         </ul>
-                        <button class="button" (click)="onBuy('quarterly', '399')" >Purchase</button> <!---->
+                        <button class="button" (click)="onBuy('quarterly', '399', 'Three Monthly Subscription')" >Subscribe / Join</button> <!---->
                     </div>
         
                     <!-- <div class="pricing-card">

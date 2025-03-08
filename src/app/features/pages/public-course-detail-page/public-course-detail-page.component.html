@@ -1,0 +1,203 @@
+<body>
+
+    <div class="course-container">
+      <!-- Left: Course Details -->
+      <div class="course-details">
+        <h2>{{courseData && courseData.name}}</h2>
+        <p>{{courseData && courseData.description}}</p>
+
+      </div>
+  
+      <!-- Right: Cards -->
+      <div class="course-cards">
+        <div class="card">
+            <img *ngIf="courseData && courseData.thumbnail" class="card-img-top" [src]="staticBaseUrl+ courseData.thumbnail" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Price - {{courseData && courseData.fee | currency: 'INR'}}</h5>
+              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+               <div class="d-flex flex-column gap-2">
+                   <a href="javascript:void(0);" class="btn btn-outline-primary" (click)="onBuy(courseData)">Buy Now</a>
+                   <!-- <a href="javascript:void(0);" class="btn btn-outline-primary">Enquire Now</a> -->
+                   <!-- <a href="javascript:void(0);" class="btn btn-outline-primary">WHatsapp</a> -->
+
+               </div>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  
+  </body>
+
+
+
+  <ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">{{!isLogin ? 'signUp' : 'Login'}}</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+    @if(!isLogin) {
+      <form  [formGroup]="signUpForm">
+        <div class="d-flex gap-2 input-box">
+            <div class="w-50">
+                    <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"
+                    [class.is-invalid]="signUpControl['firstName'].invalid && (signUpControl['firstName'].dirty || signUpControl['firstName'].touched)">
+                    <div *ngIf="signUpControl['firstName'].errors?.['required']" class="invalid-feedback m-0">
+                        {{validationErrorMessage.firstNameRequiredError}}
+                      </div>
+            </div>
+            <div class="w-50">
+                    <input type="text" class="form-control" placeholder="Last name" formControlName="lastName"
+                    [class.is-invalid]="signUpControl['lastName'].invalid && (signUpControl['lastName'].dirty || signUpControl['lastName'].touched)">
+                    <div *ngIf="signUpControl['lastName'].errors?.['required']" class="invalid-feedback m-0">
+                        {{validationErrorMessage.lastNameRequiredError}}
+                      </div>
+            </div>
+        </div>
+       
+        <div class="input-box">
+            <div class="position-relative" aria-describedby="emailHelp">
+                <input type="email" class="form-control" placeholder="Email" formControlName="email"
+                [class.is-invalid]="signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)">
+                <ion-icon name="mail"></ion-icon>
+            </div>
+            <small id="emailHelp" class="form-text text-muted">Note: All the Communications with
+                the Insights_Into will happen on this E-Mail.</small>
+            <div *ngIf="signUpControl['email'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)}">
+                {{ signUpControl['email'].errors['required'] ?
+                validationErrorMessage.emailRequiredError :
+                validationErrorMessage.emailValidationError }}
+              </div>
+             
+        </div>
+        <div class="input-box">
+            <div class="position-relative">
+                <input [type]="hidePassword ? 'password' : 'text'" class="form-control" placeholder="Password" formControlName="password" 
+                [class.is-invalid]="signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)">
+                @if(signUpControl['password'].value) {
+                    <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                   
+                        <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                        <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                      
+                    </div>
+                } @else {
+  
+                    <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                }
+            </div>
+              <div *ngIf="signUpControl['password'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)}">
+                {{ signUpControl['password'].errors['required'] ?
+                validationErrorMessage.passwordRequiredError :
+                validationErrorMessage.passwordValidationError }}
+            
+              </div>
+  
+        </div>
+        
+      
+    </form>
+
+    } @else {
+      <form [formGroup]="loginForm">
+      
+        <div class="input-box">
+            <div class="position-relative">
+                <input type="text" placeholder="Username" formControlName="email"
+                [class.is-invalid]="loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)">
+                <ion-icon name="person" class="icon"></ion-icon>
+
+            </div>
+
+            <div *ngIf="loginFormControl['email'].errors" class="invalid-feedback"  [ngClass]="{'d-block': loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)}">
+                {{ loginFormControl['email'].errors['required'] ?
+                validationErrorMessage.emailRequiredError :
+                validationErrorMessage.emailValidationError }}
+              </div>
+        </div>
+        <div class="input-box">
+            <div class="position-relative">
+                <input [type]="hidePassword ? 'password': 'text'"  placeholder="Password"  formControlName="password"
+                [class.is-invalid]="loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
+                @if(loginFormControl['password'].value) {
+                    <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
+                   
+                        <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+                        <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+                      
+                    </div>
+                } @else {
+
+                    <ion-icon  name="lock-closed" class="icon"></ion-icon>
+                }
+
+            </div>
+            <div *ngIf="loginFormControl['password'].errors" class="invalid-feedback" [ngClass]="{'d-block': loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)}">
+                {{ loginFormControl['password'].errors['required'] ?
+                validationErrorMessage.passwordRequiredError :
+                validationErrorMessage.passwordValidationError }}
+              </div>
+        </div>
+        
+        
+    </form>
+    }
+  
+	</div>
+	<div class="modal-footer">
+    <app-async-button type="submit" classes="restore-button"
+    [disabled]="false"
+    [isAsyncCall]="false" (click)="isLogin = !isLogin">{{!isLogin ? 'Already have an account ?' : 'Don’t have an account?'}}</app-async-button>
+
+    @if(!isLogin ) {
+      <app-async-button type="submit" classes="restore-button"
+      [disabled]="signUpForm.invalid || isSignUpAsyncCall"
+      [isAsyncCall]="isSignUpAsyncCall" (click)="registerUser()">Singup</app-async-button>
+    } @else {
+      <app-async-button type="submit" classes="restore-button"
+      [disabled]="loginForm.invalid || isSignInAsyncCall"
+      [isAsyncCall]="isSignInAsyncCall" (click)="loginUser()">Login</app-async-button>
+    }
+	
+
+  
+	</div>
+
+	
+</ng-template>
+
+
+
+
+<ng-template #confirmmEmail let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body d-flex align-items-center justify-content-center">
+		<div class="otp-container">
+      <div class="card">
+        <div class="card-body">
+          <h2>Enter 6-Digit OTP</h2>
+          <p>A 6-digit OTP has been sent to your email. Please enter it below.</p>
+  
+  
+          <input type="text" maxlength="6" [(ngModel)]="otp" class="otp-input" placeholder="Enter OTP" (keypress)="isNumberKey($event)">
+  
+  
+    
+          <button class="otp-button mb-2" (click)="onSubmit()" >Verify OTP</button> <!---->
+          <!-- <button class="otp-button" routerLink="/auth">Back</button> -->
+    
+          <p class="resend-text">
+            Didn't receive the OTP? <a href="javascript:void(0);" (click)="resendMail()">Resend</a> <!---->
+          </p>
+        </div>
+      </div>
+    </div>
+	</div>
+	<!-- <div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
+	</div> -->
+</ng-template>

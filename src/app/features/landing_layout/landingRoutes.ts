@@ -23,6 +23,13 @@ export const landingRoutes: Routes = [
           ),
       },
       {
+        path: 'validate/:email',
+        loadComponent: () => 
+          import('../pages/otp-verification/otp-verification.component').then(
+            (component) => component.OtpVerificationComponent
+          )
+      },
+      {
         path: 'forgot_password',
         loadComponent: () =>
           import('./components/forgot-password/forgot-password.component').then(
@@ -30,13 +37,19 @@ export const landingRoutes: Routes = [
           ),
       },
       {
-        path: 'test_series',
+        path: 'courses',
         loadComponent: () =>
           import(
             '../pages/test-series-landing-page/test-series-landing-page.component'
           ).then((component) => component.TestSeriesLandingPageComponent),
       },
-
+      {
+        path: 'courses-detail/:id',
+        loadComponent: () =>
+          import(
+            '../pages/public-course-detail-page/public-course-detail-page.component'
+          ).then((component) => component.PublicCourseDetailPageComponent),
+      },
       {
         path: 'editorial',
         loadComponent: () => 

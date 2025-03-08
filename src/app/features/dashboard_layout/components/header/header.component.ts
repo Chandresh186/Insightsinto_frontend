@@ -99,7 +99,8 @@ export class HeaderComponent {
       }),
       finalize(() => {
         this.loading = false; // Reset loading state when the request is completed
-        this.router.navigateByUrl('/')
+        // this.router.navigateByUrl('/')
+        window.location.reload();
       })
     ).subscribe();
   }

@@ -29,7 +29,7 @@ const ALERTS: Alert[] = [
   standalone: true,
   imports: [CommonModule, RouterModule, ngbootstrapModule, ReactiveFormsModule, FormsModule],
   templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.scss'
+  styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent {
   razorPayKey: any = environment.key_id;
@@ -114,8 +114,8 @@ export class CheckoutComponent {
 
     // Update the component's properties
     this.Subtotal = subtotal;
-    this.discount = discount;
-    this.total = total;
+    this.discount = discount.toFixed(2);
+    this.total = total.toFixed(2);
   }
 
 
@@ -218,7 +218,7 @@ export class CheckoutComponent {
       tap((response: any) => {
         
 
-        this.payWithRazorpay(response.data.orderId);
+        this.payWithRazorpay(response && response.data && response.data.orderId);
         
       }),
       catchError((error) => {
@@ -254,7 +254,7 @@ export class CheckoutComponent {
       key: this.razorPayKey,
       amount: this.total * 100, //  this.total * 100 amount should be in paise format to display Rs 1255 without decimal point
       currency: 'INR',
-      name: 'InsightInto', // company name or product name
+      name: 'Insights_into (KA Softech)', // company name or product name
       description: 'Online Coaching', // product description
       image: '../../../assets/icons/icon-logo.jpeg', // company logo or product image
       order_id: paymentOrderId, // order_id created by you in backend
@@ -267,6 +267,7 @@ export class CheckoutComponent {
       },
       theme: {
         color: '#ddcbff',
+        // color: '#1A1F35'
       },
     };
     options.handler = (response: any, error: any) => {
