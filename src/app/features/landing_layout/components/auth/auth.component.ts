@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -30,7 +30,7 @@ export class AuthComponent implements OnInit{
   public signUpForm!: FormGroup;
   public loginForm!: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {}
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService, private cdr: ChangeDetectorRef) {}
 
 
   ngOnInit() {
@@ -68,9 +68,15 @@ export class AuthComponent implements OnInit{
   
     // Update the input value with the lowercase version
     input.value = newValue.toLowerCase();
-  
     // Emit the new value to the form control (if using reactive forms)
-    this.signUpControl['email'].setValue(newValue, { emitEvent: false });
+    if(this.isRegister) {
+      this.signUpControl['email'].setValue(newValue, { emitEvent: false });
+    } else {
+      this.loginFormControl['email'].setValue(newValue, { emitEvent: false });
+    }
+    
+    // Manually trigger change detection
+    this.cdr.detectChanges();
   
 
   }

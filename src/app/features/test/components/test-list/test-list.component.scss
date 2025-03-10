@@ -380,7 +380,7 @@ input:checked + .slider:before {
 
 .wrapper {
     max-height: 60vh;
-    overflow: auto;
+    overflow-y: auto;
     // border: 4px solid gray;
     border-radius: 6px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -665,4 +665,8 @@ input.form-control {
   color: var(--bs-dropdown-link-active-color);
   text-decoration: none;
   background-color: #1A1F35;
+}
+
+.h-100 {
+  height: 500px !important;
 }

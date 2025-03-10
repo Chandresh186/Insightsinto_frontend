@@ -41,9 +41,9 @@
                 <i class="far fa-trash-alt trash" *ngIf="checkRole('admin') || checkRole('super admin')" (click)="onDelete(item.id)"></i>
                 <img *ngIf="(checkRole('admin') || checkRole('super admin')) && item.isOfflineTest" src="assets/icons/answer.png" alt="answer_sheet" width="25"(click)="openSumitedTestList(testList, item.id)"  ngbTooltip="Submited answer sheet" >
                 
-                <i class="fab fa-youtube" (click)="openPlayer(item.video)"></i>
-                <i class="fas fa-file-pdf" (click)="open(content, item)"></i>
-                @if(checkRole('user') && item.testDetails?.status !== 'Completed') {
+                <i *ngIf="item.video" class="fab fa-youtube" (click)="openPlayer(item.video)"></i>
+                <i *ngIf="item.courseMaterials.length > 0" class="fas fa-file-pdf" (click)="open(content, item)"></i>
+                @if((checkRole('user')) && item.testDetails?.status !== 'Completed') {
                   @if(item.isOfflineTest ) {
                     <img src="assets/icons/start.png" alt="Quiz image" width="25" (click)="openTest(offlineTest, item)" ngbTooltip="Start offline test" >
                   } @else {

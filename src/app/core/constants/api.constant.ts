@@ -111,6 +111,7 @@ export const API_CONSTANTS = {
       GET_ALL_ACTIVE_COURSES: (val: boolean) => `CoursesAndChapters?isActive=${val}`,
       CREATE_COURSE: "CoursesAndChapters",
       GET_COURSE_BY_ID: (id:string) => `CoursesAndChapters/${id}`,
+      GET_COURSE_BY_TEST_ID: (id:string) => `CoursesAndChapters/getCourseByTest${id}`,
       GET_PUBLIC_COURSE_BY_ID: (id:string) => `CoursesAndChapters/public/${id}`,
       UPDATE_COURSE_BY_ID: (id:string) => `CoursesAndChapters/${id}`,
       DELETE_COURSE_BY_ID: (id:string) => `CoursesAndChapters/${id}`,

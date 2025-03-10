@@ -198,6 +198,7 @@ export class SettingsComponent implements OnInit {
           lastName: response?.lastName,
           email: response?.email,
           mobNumber: response?.mobNumber,
+          role: response?.role
 
         });
      

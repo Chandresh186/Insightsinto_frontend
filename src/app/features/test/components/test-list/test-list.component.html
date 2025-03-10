@@ -94,7 +94,7 @@
               <h2><b>{{testForm && testForm.title | uppercase}}</b></h2>
               <div>
                 <button class="btn-create" id="createTestBtns" (click)="generateQues = !generateQues">{{generateQues ? 'See question': 'Add question'}}</button> &nbsp;
-                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest; generateQues = false">Back</button>
+                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest; generateQues = false ; selectedCourseOption = null">Back</button>
 
               </div>
             </div>
@@ -152,6 +152,67 @@
             </div>
         
           </section> -->
+
+          <!-- <div class="wrapper mb-2 h-100"  > -->
+            <!-- <div class="createContainer"> -->
+              <div *ngIf="generateQues" class="dropdown mb-2"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
+               <!-- (focus)="toggleDropdown()" -->
+                 
+                <!-- Input field with dropdown arrow -->
+             <div class="input-group" id="target_Dropdown">
+               <input
+               type="text"
+               class="select_input form-control dropdown-toggle  text-start m-0"
+               placeholder="Select Category"
+               [value]="selectedCourseOption && selectedCourseOption.name  || 'Select course'"
+               (click)="toggleDropdown()"
+               name="selectInput"
+               aria-expanded="dropdownOpen"
+               id="dropdownOpen"
+               readonly
+             /> <!--(focus)="toggleDropdown()"-->
+             
+             <span class="input-group-append"  >
+               <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
+               <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+             </span>
+           </div>
+           <small>Select a course only if the test is associated with a course</small>
+             
+               <!-- Dropdown menu with search functionality -->
+               <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
+                 <!-- Search input -->
+                 <input
+                   type="text"
+                   class="form-control mb-2"
+                   placeholder="Search..."
+                   name="searchInput"
+                   [(ngModel)]="searchQuery"
+                   (input)="filtereCourseOptions()"
+                   (click)="$event.stopPropagation()"  
+                 />
+             
+                 <div class="custom-drop-down-menu">
+                   <!-- Filtered options list -->
+                   <a
+                     *ngFor="let option of filteredCourseOptions"
+                     class="dropdown-item"
+                     href="#"
+                     (click)="selectCourseOption(option); $event.preventDefault()"
+                   > 
+                     {{ option.name}} 
+                   </a>
+
+                 </div>
+             
+                 <!-- Message for no matches -->
+                 <div *ngIf="filteredCourseOptions && filteredCourseOptions.length === 0" class="dropdown-item disabled">
+                   No options found
+                 </div>
+               </div>
+             </div>
+            <!-- </div> -->
+          <!-- </div> -->
 
 
           <div class="wrapper" *ngIf="generateQues">

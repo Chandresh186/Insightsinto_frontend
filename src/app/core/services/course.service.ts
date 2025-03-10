@@ -177,6 +177,11 @@ export class CourseService {
     return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.Courses.GET_COURSE_BY_ID(id)}`, headers );
   }
 
+  getCourseByTestId(id: any): Observable<any> {
+    const headers = this.getHeaders()
+    return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.Courses.GET_COURSE_BY_TEST_ID(id)}`, headers );
+  }
+
   getPublicCourseById(id: any): Observable<any> {
     const headers = this.getHeaders()
     return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.Courses.GET_PUBLIC_COURSE_BY_ID(id)}`, headers );

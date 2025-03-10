@@ -10,6 +10,7 @@ import { apiResponse, Category, CategoryList } from '../../../../core/models/int
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriesService } from '../../../../core/services/categories.service';
 import { TestSeriesService } from '../../../../core/services/test-series.service';
+import { CourseService } from '../../../../core/services/course.service';
 
 @Component({
   selector: 'app-test-list',
@@ -161,7 +162,7 @@ export class TestListComponent {
 
     this.loading = true; // Start loading
    
-
+    this.getCourseByTestId(e.id)
     this.testSeriesService
       .getTestPaperById(e.id)
       .pipe(
@@ -188,8 +189,39 @@ export class TestListComponent {
 
   }
 
+  getCourseByTestId(id: any) {
+    this.loading = true; // Start loading
+   
+
+    this.courseService
+      .getCourseByTestId(id)
+      .pipe(
+        tap((response) => {
+          console.log(response)
+          // this.AccordionData = response;
+          // this.transformData();
+          this.selectedCourseOption = response.parentDetails
+          
+        }),
+        catchError((error) => {
+          console.error('Error:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          
+        
+          this.loading = false; // Stop loading
+         
+        })
+      )
+      .subscribe();
+  }
+
+
+
   ngOnInit(): void {
     // this.showColumns = this.tableHeaders;
+    this.loadAllCourses();
     this.getCategories();
     this.getAllMappedCategories();
 
@@ -233,6 +265,29 @@ export class TestListComponent {
 
   getTestSeriesId() {
     return this.route.snapshot.params['id']
+  }
+
+
+  private loadAllCourses(): void {
+    this.loading = true; // Set loading state to true while fetching data
+  
+    this.courseService.getAllCourses().pipe(
+      tap((response: any) => {
+        console.log(response)
+        this.allCourses = response
+        this.setCourseFilteration(this.allCourses);
+        
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+        console.error('Error loading Daily editorials:', error);
+        this.allCourses = []; 
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+      })
+    ).subscribe();
   }
 
  
@@ -423,7 +478,7 @@ export class TestListComponent {
   public chips: string[] = [];
   public chipInput: string = '';
 
-
+  public allCourses: any = []
 
   public loading = false; // To track loading state
   private errorMessage: string | null = null; // To store error messages
@@ -436,11 +491,13 @@ export class TestListComponent {
   // Options available in the dropdown
   // public options: string[] = ['Apple', 'Banana', 'Cherry', 'Date', 'Grape', 'Lemon', 'Mango'];
   public filteredOptions: Category[] | null = []; // Filtered options for search
+  public filteredCourseOptions: any[] | null = []; // Filtered options for search
   public searchQuery: string = ''; // Current search input value
   public searchCategory: string = '';
   public searchCatSubject: Subject<string> = new Subject<string>();
 
   public selectedOption: Category | null = null; // Holds the selected option
+  public selectedCourseOption: any | null = null; // Holds the selected option
   public dropdownOpen: boolean = false; // Controls dropdown visibility
   public categoryForm!: FormGroup;
 
@@ -458,7 +515,8 @@ export class TestListComponent {
     private categoriesService: CategoriesService,
     private testSeriesService: TestSeriesService,
     private modalService: NgbModal,
-    private route : ActivatedRoute
+    private route : ActivatedRoute,
+    private courseService: CourseService,
   ) {
     this.searchCatSubject.pipe(debounceTime(300)).subscribe((query) => {
       this.searchCategory = query; // Assign the value to searchQuery
@@ -502,11 +560,38 @@ export class TestListComponent {
     }
   }
 
+  filtereCourseOptions() {
+    if (
+      this.searchQuery.trim() &&
+      this.allCourses &&
+      this.allCourses.length > 0
+    ) {
+      // Filter categories based on catName, case insensitive
+      this.filteredCourseOptions = this.allCourses.filter((course: any) =>
+        course.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    } else {
+      // If searchQuery is empty, reset to all categories
+      this.filteredCourseOptions = this.allCourses ? [...this.allCourses] : [];
+    }
+  }
+
+  // filteredCourseOptions
+
   selectOption(option: Category): void {
     this.selectedOption = option; // Set the selected option
     this.dropdownOpen = false; // Close dropdown
     this.searchQuery = ''; // Reset search input
     this.filteredOptions = this.categories ? [...this.categories] : []; // Reset filtered list
+  }
+
+  selectCourseOption(option: any): void {
+    
+    this.selectedCourseOption = option; // Set the selected option
+    console.log(this.selectedCourseOption.id)
+    this.dropdownOpen = false; // Close dropdown
+    this.searchQuery = ''; // Reset search input
+    this.filteredCourseOptions = this.allCourses ? [...this.allCourses] : []; // Reset filtered list
   }
 
   onMove(val: any) {
@@ -674,6 +759,10 @@ export class TestListComponent {
     this.filteredOptions = [...categories]; // Filtered options for search
   }
 
+  setCourseFilteration(course: any) {
+    this.filteredCourseOptions = [...course]; // Filtered options for search
+  }
+
   onToggleCategory(event: Event): void {
     const isChecked = (event.target as HTMLInputElement).checked;
     this.isCreateNewCategory = !isChecked;
@@ -734,12 +823,16 @@ export class TestListComponent {
   }
 
   genQuestions() {
-    const reqBody = {
+    const reqBody: any = {
       categoryIds: [this.questionForm.get('id')?.value],
       numberOfQuestionsEasy: this.questionForm.get('easyQuestions')?.value,
       numberOfQuestionsMedium: this.questionForm.get('mediumQuestions')?.value,
       numberOfQuestionsHard: this.questionForm.get('hardQuestions')?.value,
     };
+
+    if(this.selectedCourseOption != null) {
+      reqBody.courseId = this.selectedCourseOption.id
+    }
 
     this.loading = true; // Start loading
     this.genQuesAsyncCall = true;
@@ -748,12 +841,14 @@ export class TestListComponent {
       .fetchQuestionsForTest(reqBody)
       .pipe(
         tap((response) => {
-          this.AccordionData = response;
+          // this.AccordionData = response;
+          this.AccordionData = [...this.AccordionData, ...response];
           this.transformData();
         }),
         catchError((error) => {
           console.error('Error updating category:', error);
           return of(error); // Return an observable to handle the error
+
         }),
         finalize(() => {
           this.questionForm.reset();
