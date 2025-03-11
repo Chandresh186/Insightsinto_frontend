@@ -213,7 +213,7 @@ export class CheckoutComponent {
                   productId: this.selectedProduct.id // Use selected test series ID
                 };
     this.loading = true; // Set loading state to true while fetching data
-  
+    console.log(this.product,paymentOrderData)
     this.paymentService.createOrder(paymentOrderData).pipe(
       tap((response: any) => {
         

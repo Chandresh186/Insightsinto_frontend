@@ -79,6 +79,13 @@ export class PublicCourseDetailPageComponent implements OnInit {
     
 
     if(this.getUserId()) {
+      const product = {
+        userid: this.getUserId(),
+        productid: row.id,
+        moduleType: 'course'
+      }
+      console.log(product)
+      localStorage.setItem('product', JSON.stringify(product));
       this.router.navigateByUrl(`/dash/payment/checkout/${this.getUserId()}`); 
 
     } else {

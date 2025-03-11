@@ -239,6 +239,7 @@ export class DashboardComponent {
         productid: row.id,
         moduleType: 'course'
       }
+      console.log(product)
       localStorage.setItem('product', JSON.stringify(product));
       this.paymentService.setSelectedProductForCheckout(row);
       this.router.navigateByUrl(`/dash/payment/checkout/${userId}`); // Navigate to checkout
