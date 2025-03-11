@@ -159,7 +159,15 @@ export class CourseDetailPageComponent implements OnInit {
     this.modalService.open(content, {
       scrollable: true,
       ariaLabelledBy: 'course-material',
-    });
+    }).result.then(
+      (result) => {
+				// this.closeResult.set(`Closed with: ${result}`);
+			},
+			(reason) => {
+				// this.closeResult.set(`Dismissed ${this.getDismissReason(reason)}`);
+        this.showPdf = false;
+			},
+    );
   }
 
   openTest(content: TemplateRef<any>, courseDetail: any) {
