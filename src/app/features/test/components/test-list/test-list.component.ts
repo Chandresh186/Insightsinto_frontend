@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, HostListener, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AsyncButtonComponent } from '../../../../shared/resusable_components/async-button/async-button.component';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../../../shared/resusable_components/table/table.component';
@@ -11,6 +11,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriesService } from '../../../../core/services/categories.service';
 import { TestSeriesService } from '../../../../core/services/test-series.service';
 import { CourseService } from '../../../../core/services/course.service';
+import Quill from 'quill';
 
 @Component({
   selector: 'app-test-list',
@@ -28,12 +29,14 @@ import { CourseService } from '../../../../core/services/course.service';
   styleUrl: './test-list.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class TestListComponent {
+export class TestListComponent implements OnInit {
  public isCreateQuesToTest: boolean = false;
   public showColumns: any;
   public GeneratedQuestions: any;
   public questionForm!: FormGroup;
   public testSeriesDetails: any;
+  public quillEditor: Quill[] | undefined;
+  public originalData: any[] = []
   // public testForm!: FormGroup;
   public testForm: any = {
     title: '',
@@ -167,8 +170,19 @@ export class TestListComponent {
       .getTestPaperById(e.id)
       .pipe(
         tap((response) => {
+          if(this.originalData.length === 0) {
+            this.originalData = response
+
+          }
           this.AccordionData = response;
-          this.transformData();
+          this.GeneratedQuestions = response;
+          
+            this.initilizeEditor();
+            this.initilizePrimaryEditor();
+
+          console.log(this.GeneratedQuestions)
+
+          // this.transformData();
           
         }),
         catchError((error) => {
@@ -187,6 +201,10 @@ export class TestListComponent {
 
 
 
+  }
+
+  getCategoriesOfData(data: any): any[] {
+    return [...new Set(data.map((res: any)=> res.categoryName))]
   }
 
   getCourseByTestId(id: any) {
@@ -215,8 +233,51 @@ export class TestListComponent {
         })
       )
       .subscribe();
-  }
+  } 
 
+  openCategories = new Map<string, boolean>();
+
+    toggleCategory(categoryId: string,categories?: any) {
+      // this.openCategories.set(categoryId, !this.openCategories.get(categoryId)); // Toggle state
+      // const category = this.filteredCategories.find((cat: any) => cat.id === categoryId);
+      // if (category) {
+      //   category.isOpen = !category.isOpen;
+      // }
+
+      categories = categories || this.filteredCategories; // Start from the root if no categories are passed
+
+      for (let category of categories) {
+        if (category.id === categoryId) {
+          category.isOpen = !category.isOpen; // Toggle isOpen
+          return;
+        }
+        if (category.subCategories?.length) {
+          this.toggleCategory(categoryId, category.subCategories); // Recursively check subcategories
+        }
+      }
+
+      
+    }
+
+    isCategoryOpen(categoryId: string, categories?: any): boolean {
+      // return !!this.openCategories.get(categoryId); // Get state (default false)
+      // const category = this.filteredCategories.find((cat: any) => cat.id === categoryId);
+      // return category ? category.isOpen || this.openCategories.has(categoryId) : false;
+
+      categories = categories || this.filteredCategories; // Start from root if no categories are passed
+
+      for (let category of categories) {
+        if (category.id === categoryId) {
+          return category.isOpen === true; // Return isOpen state
+        }
+        if (category.subCategories?.length) {
+          if (this.isCategoryOpen(categoryId, category.subCategories)) {
+            return true; // If any nested category is open, return true
+          }
+        }
+      }
+      return false; // Default to false if not found
+    }
 
 
   ngOnInit(): void {
@@ -246,6 +307,8 @@ export class TestListComponent {
         Validators.required,
         Validators.min(1),
       ]),
+
+      totalQuestions: new FormControl('')
     });
 
 
@@ -261,7 +324,47 @@ export class TestListComponent {
 
     this.transformData();
 
+    
+
   }
+
+  initilizeEditor() {
+    setTimeout(() => {
+    this.GeneratedQuestions.forEach((mcq: any, index: any) => {
+      this.initializeQuill(`quill-question-${index}`, mcq.question);
+      this.initializeQuill(`quill-optionA-${index}`, mcq.a);
+      this.initializeQuill(`quill-optionB-${index}`, mcq.b);
+      this.initializeQuill(`quill-optionC-${index}`, mcq.c);
+      this.initializeQuill(`quill-optionD-${index}`, mcq.d);
+    });
+    }, 100)
+  }
+
+  initilizePrimaryEditor() {
+    setTimeout(() => {
+    this.originalData.forEach((mcq: any, index: any) => {
+      this.initializeQuill(`quill-questions-${index}`, mcq.question);
+      this.initializeQuill(`quill-optionsA-${index}`, mcq.a);
+      this.initializeQuill(`quill-optionsB-${index}`, mcq.b);
+      this.initializeQuill(`quill-optionsC-${index}`, mcq.c);
+      this.initializeQuill(`quill-optionsD-${index}`, mcq.d);
+    });
+    }, 100)
+  }
+
+  initializeQuill(elementId: string, content: string) {
+    const container = document.getElementById(elementId);
+    if (container) {
+      const quill = new Quill(container, {
+        theme: 'snow',
+        readOnly: true,
+        modules: { toolbar: [] }
+      });
+      quill.root.innerHTML = content;
+    }
+  }
+
+  
 
   getTestSeriesId() {
     return this.route.snapshot.params['id']
@@ -452,6 +555,7 @@ export class TestListComponent {
     // Ensure the order is the same as the original AccordionData
     // (No need to sort if you want to keep the original order from AccordionData)
     this.GeneratedQuestions = this.sortCategoriesAndMCQs(categoryWiseMcqs);
+    console.log(this.GeneratedQuestions)
 
   }
 
@@ -497,8 +601,10 @@ export class TestListComponent {
   public searchCatSubject: Subject<string> = new Subject<string>();
 
   public selectedOption: Category | null = null; // Holds the selected option
+  public selectedCatOption: Category | null = null; // Holds the selected option
   public selectedCourseOption: any | null = null; // Holds the selected option
   public dropdownOpen: boolean = false; // Controls dropdown visibility
+  public dropdownCourseOpen: boolean = false;
   public categoryForm!: FormGroup;
 
   public categoryAsyncCall: boolean = false;
@@ -520,6 +626,7 @@ export class TestListComponent {
   ) {
     this.searchCatSubject.pipe(debounceTime(300)).subscribe((query) => {
       this.searchCategory = query; // Assign the value to searchQuery
+      console.log(this.searchCategory)
     });
   }
 
@@ -541,6 +648,10 @@ export class TestListComponent {
   // Toggles dropdown visibility
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  toggleCourseDropdown(): void {
+    this.dropdownCourseOpen = !this.dropdownCourseOpen;
   }
 
   // Filters categories based on search query
@@ -585,6 +696,17 @@ export class TestListComponent {
     this.filteredOptions = this.categories ? [...this.categories] : []; // Reset filtered list
   }
 
+  selectCatOption(option: Category):void {
+    console.log(option, this.AccordionData)
+    this.GeneratedQuestions = this.AccordionData.filter((res: any) => res.categoryName === option.catName)
+    console.log(this.GeneratedQuestions)
+    this.selectedCatOption = option; // Set the selected option
+    this.dropdownOpen = false; // Close dropdown
+    this.searchQuery = ''; // Reset search input
+    this.filteredOptions = this.categories ? [...this.categories] : []; // Reset filtered list
+    this.initilizeEditor();
+  }
+
   selectCourseOption(option: any): void {
     
     this.selectedCourseOption = option; // Set the selected option
@@ -601,6 +723,8 @@ export class TestListComponent {
     this.questionForm.patchValue({
       id: val.id,
       selectedCategory: val.catName,
+      totalQuestions: val.totalQuestionCount
+
     });
     this.modalRef = this.modalService.open(this.genQues, {
       scrollable: false,
@@ -649,6 +773,7 @@ export class TestListComponent {
 
 
   onSearchChange(query: any) {
+    console.log(query.target.value)
     this.searchCatSubject.next(query.target.value); // Emit the query to search
   }
 
@@ -685,7 +810,6 @@ export class TestListComponent {
         return { ...item, subCategories: updatedSubCategories };
       });
     }
-
     return searchAndMarkAncestors(data);
   }
 
@@ -843,7 +967,9 @@ export class TestListComponent {
         tap((response) => {
           // this.AccordionData = response;
           this.AccordionData = [...this.AccordionData, ...response];
-          this.transformData();
+          this.GeneratedQuestions = [...this.AccordionData]
+          // this.transformData();
+          this.initilizeEditor();
         }),
         catchError((error) => {
           console.error('Error updating category:', error);
@@ -1129,6 +1255,10 @@ export class TestListComponent {
   onClickOutside(targetElement: HTMLElement): void {
     if (targetElement.id !== 'dropdownOpen') {
       this.dropdownOpen = false;
+    }
+
+    if(targetElement.id !== 'dropdownCourseOpen') {
+      this.dropdownCourseOpen = false;
     }
   }
 

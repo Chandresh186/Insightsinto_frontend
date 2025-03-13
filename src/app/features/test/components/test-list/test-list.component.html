@@ -1,12 +1,11 @@
-
 @if(!isCreateQuesToTest) {
-    <div class="container">
-        <!-- <header class="enterprise-header">
+<div class="container">
+  <!-- <header class="enterprise-header">
           <h1>Test Series Details</h1>
           <p>Effortlessly manage your test series and associated tests.</p>
         </header> -->
-    
-        <!-- <section class="series-details">
+
+  <!-- <section class="series-details">
           <div class="details-header">
             <h2>Series Name: <span>{{testSeriesDetails?.name}}</span></h2> 
             <button class="btn-create" id="createTestBtn" (click)="createTestModel()">+ Create New Test</button>
@@ -17,17 +16,26 @@
           <p><strong>Fee:</strong> &nbsp;{{testSeriesDetails?.fee | currency: 'INR'}}</p>
         </section> -->
 
-        <!-- <section class="series-overview"> -->
-          <div class="overview-header d-flex justify-content-between align-items-center mb-3">
-            <h2> <b>All test</b></h2>
-            <div class="d-flex gap-10px">
-             <!--  <button *ngIf="testSeriesDetails && testSeriesDetails.isActive === false" class="btn-create" id="createTestBtn" (click)="EditTestseries()"> Publish test series</button> -->
-              <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
-              <button class="btn-create" id="createTestBtn" routerLink="/dash/test-series" > Back </button>
-
-            </div>
-          </div>
-          <!-- <div class="overview-metrics">
+  <!-- <section class="series-overview"> -->
+  <div
+    class="overview-header d-flex justify-content-between align-items-center mb-3"
+  >
+    <h2><b>All test</b></h2>
+    <div class="d-flex gap-10px">
+      <!--  <button *ngIf="testSeriesDetails && testSeriesDetails.isActive === false" class="btn-create" id="createTestBtn" (click)="EditTestseries()"> Publish test series</button> -->
+      <button class="btn-create" id="createTestBtn" (click)="createTestModel()">
+        Create test
+      </button>
+      <button
+        class="btn-create"
+        id="createTestBtn"
+        routerLink="/dash/test-series"
+      >
+        Back
+      </button>
+    </div>
+  </div>
+  <!-- <div class="overview-metrics">
             <div>
               <label>Description</label>
               <span>{{testSeriesDetails &&  testSeriesDetails?.medium }}</span>
@@ -46,87 +54,181 @@
               <span>{{testSeriesDetails && testSeriesDetails?.fee | currency: 'INR'}}</span>
             </div>
           </div> -->
-      
-        <!-- </section> -->
 
-        <!-- <hr> -->
-    
-        <section class="tests-list">
-         
-         
-          <app-table  
-          [tableHeaders]="tableHeaders"
-          [tableData]="tableData"
-          [itemsPerPage]="10"
-          [actionsConfig]="actionsConfig"
-          (actionTriggered)="handleAction($event)"
-          [tableName]="''"
-          [showTableName]="true"
-          [showSearchBar]="true"
-          [showColumns]="showColumns"
-          >
-          </app-table>
-        </section>
-      </div>
+  <!-- </section> -->
+
+  <!-- <hr> -->
+
+  <section class="tests-list">
+    <app-table
+      [tableHeaders]="tableHeaders"
+      [tableData]="tableData"
+      [itemsPerPage]="10"
+      [actionsConfig]="actionsConfig"
+      (actionTriggered)="handleAction($event)"
+      [tableName]="''"
+      [showTableName]="true"
+      [showSearchBar]="true"
+      [showColumns]="showColumns"
+    >
+    </app-table>
+  </section>
+</div>
 } @else {
-    <div class="container">
-        <header class="enterprise-header">
-            <h1>Generate test questions</h1>
-            <p>Effortlessly generate test questions.</p>
-          </header>
-          <!-- <section class="series-details">
-            <div class="details-header">
-              <h2>Test Name: <span>{{testForm.title}}</span></h2>
-              <div>
-                <button class="btn-create" id="createTestBtns" (click)="generateQues = !generateQues">{{generateQues ? 'See question': 'Add question'}}</button> &nbsp;
-                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest">Back</button>
+<div class="container">
+  @if(!generateQues) {
+  <header class="enterprise-header">
+    <h1>Generate test questions</h1>
+    <p>Effortlessly generate test questions.</p>
+  </header>
+  <section class="series-overview">
+    <div class="overview-header d-flex justify-content-between mb-3">
+      <h2>
+        <b>{{ testForm && testForm.title | uppercase }}</b>
+      </h2>
+      <div>
+        <button
+          class="btn-create"
+          id="createTestBtns"
+          (click)="
+            generateQues = !generateQues;
+          "
+        >
+          {{ generateQues ? "See question" : "Add question" }}
+        </button>
+        &nbsp;
+        <button
+          class="btn-create"
+          id="createTestBtn"
+          (click)="
+            AccordionData = [];
+            GeneratedQuestions = [];
+            this.resetTestForm();
+            isCreateQuesToTest = !isCreateQuesToTest;
+            generateQues = false;
+            selectedCourseOption = null
+          "
+        >
+          Back
+        </button>
+      </div>
+    </div>
+    <div class="overview-metrics">
+      <div>
+        <label>Sub Title</label>
+        <span>{{ testForm && testForm?.subTitle }}</span>
+      </div>
+      <div>
+        <label>Duration</label>
+        <span>{{ testForm && testForm?.duration }}</span>
+      </div>
+      <div>
+        <label>Language</label>
+        <span>{{ testForm && testForm?.language }}</span>
+      </div>
 
-              </div>
-            </div>
-            <p><strong>Duration:</strong> {{testForm.duration}}</p>
-          </section> -->
+      <div>
+        <label>Passing Score</label>
+        <span>{{ testForm && testForm?.minimumPassingScore }}</span>
+      </div>
+    </div>
+    <!-- <p><strong>Duration:</strong> {{testForm.duration}}</p> -->
+  </section>
+  }@else {
+  <div class="d-flex justify-content-between">
+    <div
+      *ngIf="generateQues"
+      class="dropdown"
+      [class.show]="dropdownCourseOpen"
+      (clickOutside)="dropdownCourseOpen = false"
+    >
+      <!-- Input field with dropdown arrow -->
+      <div class="input-group" id="target_Dropdown">
+        <input
+          type="text"
+          class="select_input form-control dropdown-toggle text-start m-0"
+          placeholder="Select Course"
+          [value]="
+            (selectedCourseOption && selectedCourseOption.name) ||
+            'Select course'
+          "
+          (click)="toggleCourseDropdown()"
+          name="selectInput"
+          aria-expanded="dropdownCourseOpen"
+          id="dropdownCourseOpen"
+          readonly
+        />
 
+        <span class="input-group-append">
+          <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
+          <i class="fa fa-caret-down" (click)="toggleCourseDropdown()"></i>
+        </span>
+      </div>
+      <!-- <small>Select a course only if the test is associated with a course</small> -->
 
+      <!-- Dropdown menu with search functionality -->
+      <div
+        class="dropdown-menu p-2"
+        [class.show]="dropdownCourseOpen"
+        style="width: 100%"
+      >
+        <!-- Search input -->
+        <input
+          type="text"
+          class="form-control mb-2"
+          placeholder="Search..."
+          name="searchInput"
+          [(ngModel)]="searchQuery"
+          (input)="filtereCourseOptions()"
+          (click)="$event.stopPropagation()"
+        />
 
+        <div class="custom-drop-down-menu">
+          <!-- Filtered options list -->
+          <a
+            *ngFor="let option of filteredCourseOptions"
+            class="dropdown-item"
+            href="#"
+            (click)="selectCourseOption(option); $event.preventDefault()"
+          >
+            {{ option.name }}
+          </a>
+        </div>
 
-          <section class="series-overview">
-            <div class="overview-header  d-flex justify-content-between mb-3">
-              <h2><b>{{testForm && testForm.title | uppercase}}</b></h2>
-              <div>
-                <button class="btn-create" id="createTestBtns" (click)="generateQues = !generateQues">{{generateQues ? 'See question': 'Add question'}}</button> &nbsp;
-                <button class="btn-create" id="createTestBtn" (click)="AccordionData= []; GeneratedQuestions = [] ;this.resetTestForm(); isCreateQuesToTest = !isCreateQuesToTest; generateQues = false ; selectedCourseOption = null">Back</button>
+        <!-- Message for no matches -->
+        <div
+          *ngIf="filteredCourseOptions && filteredCourseOptions.length === 0"
+          class="dropdown-item disabled"
+        >
+          No options found
+        </div>
+      </div>
+    </div>
+    <div class="create-details-header">
+      <button
+        class="btn-create"
+        id="createTestBtns"
+        (click)="generateQues = !generateQues"
+      >
+        {{ generateQues ? "See question" : "Add question" }}
+      </button>
+      &nbsp;
+      <!-- <h2>Series Name: <span>Modern Test Series</span></h2> -->
+      <button
+        *ngIf="generateQues"
+        class="btn-create"
+        id="createTestBtn"
+        [disabled]="GeneratedQuestions.length == 0"
+        (click)="addQuesToTest()"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <small>Select a course only if the test is associated with a course</small>
+  }
 
-              </div>
-            </div>
-            <div class="overview-metrics">
-
-              <div>
-                <label>Sub Title</label>
-                <span>{{testForm &&  testForm?.subTitle }}</span>
-              </div>
-              <div>
-                <label>Duration</label>
-                <span>{{testForm &&  testForm?.duration }}</span>
-              </div>
-              <div>
-                <label>Language</label>
-                <span>{{testForm &&  testForm?.language }}</span>
-              </div>
-
-              <div>
-                <label>Passing Score</label>
-                <span>{{testForm &&  testForm?.minimumPassingScore }}</span>
-              </div>
-
-              
-            </div>
-            <!-- <p><strong>Duration:</strong> {{testForm.duration}}</p> -->
-          </section>
-
-
-
-
-          <!-- <section class="series-overview">
+  <!-- <section class="series-overview">
             <div class="overview-header d-flex justify-content-between mb-3">
               <h2> <b>{{testSeriesDetails && testSeriesDetails.name | uppercase}}</b></h2> 
               <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Create test</button>
@@ -153,87 +255,32 @@
         
           </section> -->
 
-          <!-- <div class="wrapper mb-2 h-100"  > -->
-            <!-- <div class="createContainer"> -->
-              <div *ngIf="generateQues" class="dropdown mb-2"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
-               <!-- (focus)="toggleDropdown()" -->
-                 
-                <!-- Input field with dropdown arrow -->
-             <div class="input-group" id="target_Dropdown">
-               <input
-               type="text"
-               class="select_input form-control dropdown-toggle  text-start m-0"
-               placeholder="Select Category"
-               [value]="selectedCourseOption && selectedCourseOption.name  || 'Select course'"
-               (click)="toggleDropdown()"
-               name="selectInput"
-               aria-expanded="dropdownOpen"
-               id="dropdownOpen"
-               readonly
-             /> <!--(focus)="toggleDropdown()"-->
-             
-             <span class="input-group-append"  >
-               <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
-               <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
-             </span>
-           </div>
-           <small>Select a course only if the test is associated with a course</small>
-             
-               <!-- Dropdown menu with search functionality -->
-               <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
-                 <!-- Search input -->
-                 <input
-                   type="text"
-                   class="form-control mb-2"
-                   placeholder="Search..."
-                   name="searchInput"
-                   [(ngModel)]="searchQuery"
-                   (input)="filtereCourseOptions()"
-                   (click)="$event.stopPropagation()"  
-                 />
-             
-                 <div class="custom-drop-down-menu">
-                   <!-- Filtered options list -->
-                   <a
-                     *ngFor="let option of filteredCourseOptions"
-                     class="dropdown-item"
-                     href="#"
-                     (click)="selectCourseOption(option); $event.preventDefault()"
-                   > 
-                     {{ option.name}} 
-                   </a>
+  <!-- <div class="wrapper mb-2 h-100"  > -->
+  <!-- <div class="createContainer"> -->
 
-                 </div>
-             
-                 <!-- Message for no matches -->
-                 <div *ngIf="filteredCourseOptions && filteredCourseOptions.length === 0" class="dropdown-item disabled">
-                   No options found
-                 </div>
-               </div>
-             </div>
-            <!-- </div> -->
-          <!-- </div> -->
+  <!-- </div> -->
+  <!-- </div> -->
 
-
-          <div class="wrapper" *ngIf="generateQues">
-            <div class="createContainer">
-              <div class="input-group w-25rem  ">
+  <!-- <div class="mt-2" *ngIf="generateQues"> -->
+    <!--wrapper-->
+    <!-- <div class="createContainer"> -->
+    <!-- <div class="input-group w-25rem">
                 <input
                   type="text"
                   class="form-control mb-0"
                   name="Search"
                   placeholder="Search"
                   (input)="onSearchChange($event)"
-                />
-                <button  ngbTooltip="Search"  class="btn btn-primary add-more" type="button" ><ion-icon name="search-outline"></ion-icon></button>
-              </div>
-                <!-- <button class="btn btn-primary" placement="bottom" ngbTooltip="Create Category" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                /> -->
+    <!-- <button  ngbTooltip="Search"  class="btn btn-primary add-more" type="button" ><ion-icon name="search-outline"></ion-icon></button> -->
+    <!-- </div> -->
+    <!-- <button class="btn btn-primary" placement="bottom" ngbTooltip="Create Category" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                     <ion-icon class="create" name="add-outline"></ion-icon> Create Category
                 </button> -->
-            
-            </div>
-              
-              <div class="offcanvas offcanvas-end"  data-bs-backdrop="static" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+
+    <!-- </div> -->
+
+    <!-- <div class="offcanvas offcanvas-end"  data-bs-backdrop="static" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                 <div class="offcanvas-header">
                   <h5 class="offcanvas-title" id="offcanvasExampleLabel">Create Categories</h5> 
                   <label class="switch" ngbTooltip="Create Sub Category">
@@ -248,7 +295,7 @@
                             <label for="exampleInputPassword1" class="form-label">Select Category</label>
                             <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
                  
-                              <!-- Input field with dropdown arrow -->
+                             
                            <div class="input-group" id="target_Dropdown">
                              <input
                              type="text"
@@ -260,16 +307,16 @@
                              name="selectInput"
                              aria-expanded="dropdownOpen"
                              readonly
-                           /> <!--(focus)="toggleDropdown()"-->
+                           /> 
                            <span class="input-group-append"  >
-                             <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
+                             
                              <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
                            </span>
                          </div>
                            
-                             <!-- Dropdown menu with search functionality -->
+                           
                              <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
-                               <!-- Search input -->
+                              
                                <input
                                  type="text"
                                  class="form-control mb-2"
@@ -281,7 +328,7 @@
                                />
                            
                                <div class="custom-drop-down-menu">
-                                 <!-- Filtered options list -->
+                                
                                  <a
                                    *ngFor="let option of filteredOptions"
                                    class="dropdown-item"
@@ -293,7 +340,7 @@
 
                                </div>
                            
-                               <!-- Message for no matches -->
+                             
                                <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
                                  No options found
                                </div>
@@ -329,48 +376,45 @@
                               </span>
                             </div>
                           </div>
-                          <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                     
                         </div>
                        
                       
                         <button type="button" class="btn btn-primary" (click)="isCreateNewCategory ? createNewCategory(): createSubCategory() ">Submit</button>
                       </form>
                 </div>
-              </div>
-            
-            
-    
-            
-            <ul class="tree">
+              </div> -->
+
+    <!-- <ul class="tree">
                 <li *ngFor="let category of filteredCategories" class="parent">
                     <details [open]="category.isOpen" class="details">
                         <summary><span class="label">Category</span>{{ category.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{category.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{category.totalQuestionCount}} <i (click)="onMove(category)" class="move fa fa-ellipsis-v" ></i></summary>
                         <ul class="nested-list">
-                            <!-- Level 2 -->
+                             Level 2 
                             <li *ngFor="let subCategory of category.subCategories" class="nested-item">
                                 <details [open]="subCategory.isOpen">
                                     <summary><span class="label">Sub Category</span>{{ subCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subCategory.totalQuestionCount}} <i (click)="onMove(subCategory)" class="move fa fa-ellipsis-v" ></i></summary>
                                     <ul class="nested-list">
-                                        <!-- Level 3 -->
+                                         Level 3
                                         <li *ngFor="let subSubCategory of subCategory.subCategories" class="nested-item">
                                             <details [open]="subSubCategory.isOpen">
                                                 <summary><span class="label">Sub Category</span>{{ subSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubCategory.totalQuestionCount}} <i (click)="onMove(subSubCategory)" class="move fa fa-ellipsis-v" ></i></summary>
                                                 <ul class="nested-list">
-                                                    <!-- Level 4 -->
+                                                    Level 4
                                                     <li *ngFor="let subSubSubCategory of subSubCategory.subCategories"
                                                         class="nested-item">
                                                         <details [open]="subSubSubCategory.isOpen">
                                                             <summary><span class="label">Sub Category</span>{{
                                                                 subSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubCategory.totalQuestionCount}}  <i (click)="onMove(subSubSubCategory)" class="move fa fa-ellipsis-v" ></i></summary>
                                                             <ul class="nested-list">
-                                                                <!-- Level 5 -->
+                                                                 Level 5 
                                                                 <li *ngFor="let subSubSubSubCategory of subSubSubCategory.subCategories"
                                                                     class="nested-item">
                                                                     <details [open]="subSubSubSubCategory.isOpen">
                                                                         <summary><span class="label">Sub Category</span>{{
                                                                             subSubSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubCategory.totalQuestionCount}} <i (click)="onMove(subSubSubSubCategory)" class="move fa fa-ellipsis-v"></i></summary>
                                                                         <ul class="nested-list">
-                                                                            <!-- Level 6 -->
+                                                                            Level 6
                                                                             <li *ngFor="let subSubSubSubSubCategory of subSubSubSubCategory.subCategories"
                                                                                 class="nested-item">
                                                                                 <details [open]="subSubSubSubSubCategory.isOpen">
@@ -379,7 +423,7 @@
                                                                                         subSubSubSubSubCategory.catName }} &nbsp; <span ngbTooltip="Category question count">CQC: </span> {{subSubSubSubSubCategory.questionCount}} &nbsp; <span ngbTooltip="Total Question Count">TQC:</span> {{subSubSubSubSubCategory.totalQuestionCount}}  <i (click)="onMove(subSubSubSubSubCategory)" class="move fa fa-ellipsis-v" ></i>
                                                                                     </summary>
                                                                                     <ul class="nested-list">
-                                                                                        <!-- Level 7 -->
+                                                                                         Level 7
                                                                                         <li *ngFor="let subSubSubSubSubSubCategory of subSubSubSubSubCategory.subCategories"
                                                                                             class="nested-item">
                                                                                             <details
@@ -391,7 +435,7 @@
                                                                                                     <i (click)="onMove(subSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" ></i>
                                                                                                 </summary>
                                                                                                 <ul class="nested-list">
-                                                                                                    <!-- Level 8 -->
+                                                                                                    Level 8
                                                                                                     <li *ngFor="let subSubSubSubSubSubSubCategory of subSubSubSubSubSubCategory.subCategories"
                                                                                                         class="nested-item">
                                                                                                         <details
@@ -404,7 +448,7 @@
                                                                                                                 <i (click)="onMove(subSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v" ></i>
                                                                                                             </summary>
                                                                                                             <ul class="nested-list">
-                                                                                                                <!-- Level 9 -->
+                                                                                                                 Level 9
                                                                                                                 <li *ngFor="let subSubSubSubSubSubSubSubCategory of subSubSubSubSubSubSubCategory.subCategories"
                                                                                                                     class="nested-item">
                                                                                                                     <details
@@ -421,7 +465,7 @@
                                                                                                                         </summary>
                                                                                                                         <ul
                                                                                                                             class="nested-list">
-                                                                                                                            <!-- Level 10 -->
+                                                                                                                            Level 10
                                                                                                                             <li *ngFor="let subSubSubSubSubSubSubSubSubCategory of subSubSubSubSubSubSubSubCategory.subCategories"
                                                                                                                                 class="nested-item">
                                                                                                                                 <details
@@ -436,7 +480,7 @@
                                                                                                                                       
                                                                                                                                         <i (click)="onMove(subSubSubSubSubSubSubSubCategory)" class="move fa fa-ellipsis-v"></i>
                                                                                                                                     </summary>
-                                                                                                                                    <!-- Add the nested structure here if needed -->
+                                                                                                                                    Add the nested structure here if needed
                                                                                                                                 </details>
                                                                                                                             </li>
                                                                                                                         </ul>
@@ -466,14 +510,252 @@
                         </ul>
                     </details>
                 </li>
+            </ul>  -->
+  <!-- </div> -->
+  <!-- category filter start -->
+  <div class="row">
+    <div *ngIf="generateQues" class="col-3">
+      <div class="input-group mb-2">
+        <input
+          type="text"
+          class="form-control mb-0"
+          name="Search"
+          placeholder="Search"
+          (input)="onSearchChange($event)"
+        />
+      </div>
+      <ul>
+        <ng-container *ngFor="let category of filteredCategories">
+          <li>
+            <span (click)="toggleCategory(category.id)">
+              <span class="arrow" *ngIf="category.subCategories.length > 0">
+                <i
+                  class="fas"
+                  [ngClass]="
+                    isCategoryOpen(category.id)
+                      ? 'fa-caret-down'
+                      : 'fa-caret-right'
+                  "
+                ></i>
+              </span>
+              {{ category.catName }}
+              <i (click)="onMove(category)" class="move fa fa-ellipsis-v"></i>
+            </span>
+            <ul *ngIf="isCategoryOpen(category.id)">
+              <ng-container
+                *ngTemplateOutlet="
+                  categoryTemplate;
+                  context: { $implicit: category.subCategories }
+                "
+              ></ng-container>
             </ul>
-          
+          </li>
+        </ng-container>
+      </ul>
+
+      <!-- Recursive Template for Subcategories -->
+      <ng-template #categoryTemplate let-subCategories>
+        <ng-container *ngFor="let subCategory of subCategories">
+          <li>
+            <span (click)="toggleCategory(subCategory.id)">
+              <span class="arrow" *ngIf="subCategory.subCategories.length > 0"
+                ><i
+                  class="fas"
+                  [ngClass]="
+                    isCategoryOpen(subCategory.id)
+                      ? 'fa-caret-down'
+                      : 'fa-caret-right'
+                  "
+                ></i
+              ></span>
+              {{ subCategory.catName }}
+              <i
+                (click)="onMove(subCategory)"
+                class="move fa fa-ellipsis-v"
+              ></i>
+            </span>
+            <ul *ngIf="isCategoryOpen(subCategory.id)">
+              <ng-container
+                *ngTemplateOutlet="
+                  categoryTemplate;
+                  context: { $implicit: subCategory.subCategories }
+                "
+              ></ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ng-template>
+
+      <!-- category filter end -->
+    </div>
+    <div  [ngClass]="{'col-9 border-left': generateQues}">
+   
+      <div *ngIf="GeneratedQuestions.length > 0; else noQUestion">
+        <div class="d-flex align-items-baseline justify-content-between">
+          <h1 class="mb-4">
+            Category-wise MCQs ({{ GeneratedQuestions.length }})
+          </h1>
+
+          <div
+            class="dropdown"
+            [class.show]="dropdownOpen"
+            (clickOutside)="dropdownOpen = false"
+          >
+            <div class="d-flex align-items-baseline gap-2">
+              <div class="input-group" id="target_Dropdown">
+                <input
+                  type="text"
+                  class="select_input form-control dropdown-toggle text-start"
+                  placeholder="Select Category"
+                  [value]="
+                    (selectedCatOption && selectedCatOption.catName) ||
+                    'Select an option'
+                  "
+                  (focus)="toggleDropdown()"
+                  name="selectInput"
+                  aria-expanded="dropdownOpen"
+                  id="dropdownOpen"
+                  readonly
+                />
+
+                <span class="input-group-append">
+                  <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+                </span>
+              </div>
+              <i
+                *ngIf="selectedCatOption !== null"
+                class="fas fa-times cursor-pointer"
+                (click)="
+                  selectedCatOption = null;
+                  GeneratedQuestions = AccordionData;
+                  initilizeEditor()
+                "
+              ></i>
+            </div>
+
+            <div
+              class="dropdown-menu p-2"
+              [class.show]="dropdownOpen"
+              style="width: 100%"
+            >
+              <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="Search..."
+                name="searchInput"
+                [(ngModel)]="searchQuery"
+                (input)="filterOptions()"
+                (click)="$event.stopPropagation()"
+              />
+
+              <div class="custom-drop-down-menu">
+                <ng-container *ngFor="let option of filteredOptions">
+                  <a
+                    *ngIf="
+                      getCategoriesOfData(AccordionData).includes(
+                        option.catName
+                      )
+                    "
+                    class="dropdown-item"
+                    href="#"
+                    (click)="selectCatOption(option); $event.preventDefault()"
+                  >
+                    {{ option.catName }}
+                  </a>
+                </ng-container>
+              </div>
+
+              <div
+                *ngIf="filteredOptions && filteredOptions.length === 0"
+                class="dropdown-item disabled"
+              >
+                No options found
+              </div>
+            </div>
           </div>
-          <br>
-          <div >
-            <div class="mt-5 my-4" *ngIf="GeneratedQuestions.length > 0 ; else noQUestion">
-                <h1 class="mb-4">Category-wise MCQs </h1>
-                <div class="accordion" id="accordionExample">
+
+          <!-- {{getCategoriesOfData(GeneratedQuestions) | json}} -->
+        </div>
+        <div class="question-sec-height">
+          <!-- <ul class="options"> 
+                            <li *ngFor="let mcq of GeneratedQuestions; let index = index">  
+                              <div class="d-flex align-items-center justify-content-between"><span><strong>Q{{ index + 1 }}:</strong> {{ mcq.question }}</span> <i (click)="deleteGeneratedQues(mcq)" class=" far fa-trash-alt trash"></i></div>
+                              <ul>
+                                <li>a) {{ mcq.a }}</li>
+                                <li>b) {{ mcq.b }}</li>
+                                <li>c) {{ mcq.c }}</li>
+                                <li>d) {{ mcq.d }}</li>
+                              </ul>
+                              <br>
+                              <p><strong>Complexity:</strong> <span class="highlight">{{ mcq.complexity }}</span> </p>
+                              <p><strong>Description:</strong> {{ mcq.description }}</p>
+                            </li>
+                          </ul> -->
+
+          <ul class="options">
+            <li *ngFor="let mcq of GeneratedQuestions; let index = index">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex">
+                  <strong>Q{{ index + 1 }}:</strong>
+                  <div id="quill-question-{{ index }}"></div>
+                </div>
+                <i
+                *ngIf="generateQues"
+                  (click)="deleteGeneratedQues(mcq)"
+                  class="far fa-trash-alt trash"
+                ></i>
+              </div>
+
+              <ul>
+                <li class="d-flex">
+                  a)
+                  <div id="quill-optionA-{{ index }}"></div>
+                </li>
+                <li class="d-flex">
+                  b)
+                  <div id="quill-optionB-{{ index }}"></div>
+                </li>
+                <li class="d-flex">
+                  c)
+                  <div id="quill-optionC-{{ index }}"></div>
+                </li>
+                <li class="d-flex">
+                  d)
+                  <div id="quill-optionD-{{ index }}"></div>
+                </li>
+              </ul>
+
+              <br />
+              <p>
+                <strong>Complexity:</strong>
+                <span class="highlight">{{ mcq.complexity }}</span>
+              </p>
+              <p><strong>Description:</strong> {{ mcq.description }}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <ng-template #noQUestion>
+        <div class="">
+          <!-- <p class="text-center">Please generate the questions for creating test</p> -->
+          <div class="text-center p-4 bg-light rounded shadow-sm my-4">
+            <p class="display-6 text-primary font-weight-bold">
+              Please generate the questions for creating the test
+            </p>
+            <p class="text-muted mb-0">
+              Make sure to follow the instructions carefully
+            </p>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="!generateQues"> -->
+  <!-- <br> -->
+  <!-- <div class="mt-5 my-4" *ngIf="GeneratedQuestions.length > 0 ; else noQUestion"> -->
+  <!-- <h1 class="mb-4">Category-wise MCQs {{originalData.length}}</h1> -->
+  <!-- <div class="accordion" id="accordionExample">
                     <div *ngFor="let category of GeneratedQuestions" class="accordion-item">
                       <h2 class="accordion-header" id="{{ 'heading' + category.categoryId }}">
                         <button
@@ -512,12 +794,47 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                  
-            </div>
-            <ng-template #noQUestion>
+                  </div> -->
+  <!-- <div class="question-sec-height"> -->
+  <!-- <ul class="options"> 
+                      <li *ngFor="let mcq of GeneratedQuestions; let index = index">  
+                        <p class="d-flex align-items-center justify-content-between"><span><strong>Q{{ index + 1 }}:</strong> {{ mcq.question }}</span> <i (click)="deleteGeneratedQues(mcq)" class=" far fa-trash-alt trash"></i></p>
+                        <ul>
+                          <li>a) {{ mcq.a }}</li>
+                          <li>b) {{ mcq.b }}</li>
+                          <li>c) {{ mcq.c }}</li>
+                          <li>d) {{ mcq.d }}</li>
+                        </ul>
+                        <br>
+                        <p><strong>Complexity:</strong> <span class="highlight">{{ mcq.complexity }}</span> </p>
+                        <p><strong>Description:</strong> {{ mcq.description }}</p>
+                      </li>
+                    </ul> -->
+
+  <!-- <ul class="options">
+                      <li *ngFor="let mcq of originalData; let index = index">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div class="d-flex"><strong>Q{{ index + 1 }}:</strong> <div id="quill-questions-{{index}}"></div></div>
+                          <i (click)="deleteGeneratedQues(mcq)" class="far fa-trash-alt trash"></i>
+                        </div>
+                    
+                        <ul>
+                          <li class="d-flex">a) <div id="quill-optionsA-{{index}}"></div></li>
+                          <li class="d-flex">b) <div id="quill-optionsB-{{index}}"></div></li>
+                          <li class="d-flex">c) <div id="quill-optionsC-{{index}}"></div></li>
+                          <li class="d-flex">d) <div id="quill-optionsD-{{index}}"></div></li>
+                        </ul>
+                    
+                        <br>
+                        <p><strong>Complexity:</strong> <span class="highlight">{{ mcq.complexity }}</span> </p>
+                        <p><strong>Description:</strong> {{ mcq.description }}</p>
+                      </li>
+                    </ul> -->
+  <!-- </div>  -->
+  <!-- </div> -->
+  <!-- <ng-template #noQUestion>
               <div class="mt-5">
-                <!-- <p class="text-center">Please generate the questions for creating test</p> -->
+              
                 <div class="text-center p-4 bg-light rounded shadow-sm my-4">
                   <p class="display-6 text-primary font-weight-bold">
                     Please generate the questions for creating the test
@@ -525,321 +842,454 @@
                   <p class="text-muted mb-0">Make sure to follow the instructions carefully</p>
                 </div>
               </div>
-            </ng-template>
-              
-          </div>
-          <div class="create-details-header">
-            <!-- <h2>Series Name: <span>Modern Test Series</span></h2> -->
-            <button *ngIf="generateQues" class="btn-create" id="createTestBtn" [disabled]="GeneratedQuestions.length == 0" (click)="addQuesToTest()" >Add</button>
-          </div>
-            
-       
+            </ng-template> -->
 
+  <!-- </div> -->
+</div>
 
-       
-        
-        
-        
-          
-          
-          
-            
-    </div>
-
-    
 }
-
-
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{isEditTest ? 'Edit test' : 'Create test'}}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="resetTestForm(); isEditTest = false; modal.dismiss('Cross click')"></button>
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ isEditTest ? "Edit test" : "Create test" }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="
+        resetTestForm(); isEditTest = false; modal.dismiss('Cross click')
+      "
+    ></button>
   </div>
   <div class="modal-body">
-   
-    
-  
-      <!-- Title Field (Required) -->
-      <div class="input-box">
-        <label for="title" class="form-label">Title
-           <!--<span class="text-danger" >*</span> [ngClass]="{'text-danger': title?.invalid && title?.touched}"-->
-        </label>
-        <input type="text" class="form-control" id="title" [ngClass]="{'mb-0': title.invalid && title.touched}"
-          placeholder="Enter Title" [(ngModel)]="testForm.title" name="title" required  #title="ngModel">
+    <!-- Title Field (Required) -->
+    <div class="input-box">
+      <label for="title" class="form-label"
+        >Title
+        <!--<span class="text-danger" >*</span> [ngClass]="{'text-danger': title?.invalid && title?.touched}"-->
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        [ngClass]="{ 'mb-0': title.invalid && title.touched }"
+        placeholder="Enter Title"
+        [(ngModel)]="testForm.title"
+        name="title"
+        required
+        #title="ngModel"
+      />
 
-        <!-- Display error message if the title is invalid and has been touched -->
-        <div *ngIf="title.invalid && title.touched" class="text-danger">
-          Title is required.
+      <!-- Display error message if the title is invalid and has been touched -->
+      <div *ngIf="title.invalid && title.touched" class="text-danger">
+        Title is required.
+      </div>
+    </div>
+
+    <!-- Subtitle Field -->
+    <div class="input-box">
+      <label for="subTitle" class="form-label"
+        >Sub Title
+        <span class="text-muted"> (Optional)</span>
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="subTitle"
+        placeholder="Enter Subtitle"
+        [(ngModel)]="testForm.subTitle"
+        name="subTitle"
+      />
+    </div>
+
+    <!-- Keywords Field -->
+    <div class="input-box">
+      <label for="keywords" class="form-label"
+        >Keywords
+        <span class="text-muted"> (Optional)</span>
+      </label>
+      <div class="chip-container mb-10px">
+        <input
+          type="text"
+          class="chip-input"
+          placeholder="Type and press Enter"
+          [(ngModel)]="keywordsInput"
+          name="keywords"
+          (keydown.enter)="addKeyWordsChip()"
+        />
+        <div class="chips">
+          <span
+            *ngFor="let chip of testForm.keyWords; let i = index"
+            class="chip"
+          >
+            {{ chip }}
+            <button class="remove-chip" (click)="removeKeyWordsChip(i)">
+              ×
+            </button>
+          </span>
         </div>
-          
       </div>
-    
-      <!-- Subtitle Field -->
-      <div class="input-box">
-        <label for="subTitle" class="form-label">Sub Title
-          <span class="text-muted"> (Optional)</span>
-        </label>
-        <input type="text" class="form-control" id="subTitle"
-          placeholder="Enter Subtitle" [(ngModel)]="testForm.subTitle" name="subTitle">
-      </div>
-    
-      <!-- Keywords Field -->
-      <div class="input-box">
-        <label for="keywords" class="form-label">Keywords
-          <span class="text-muted"> (Optional)</span>
-        </label>
-        <div class="chip-container  mb-10px">
-          <input type="text" class="chip-input" placeholder="Type and press Enter"
-            [(ngModel)]="keywordsInput" name="keywords" (keydown.enter)="addKeyWordsChip()" />
-          <div class="chips">
-            <span *ngFor="let chip of testForm.keyWords; let i = index" class="chip">
-              {{ chip }} <button class="remove-chip" (click)="removeKeyWordsChip(i)">×</button>
-            </span>
-          </div>
-        </div>
-      </div>
-      
-    
-    
-    
-      <!-- Minimum Passing Score Field -->
-      <div class="input-box">
-        <label for="minimumPassingScore" class="form-label">Minimum Passing Score
-          <span class="text-muted"> (Optional)</span>
-        </label>
-        <input type="text" class="form-control" id="minimumPassingScore"
-          placeholder="Enter Minimum Passing Score" [(ngModel)]="testForm.minimumPassingScore" name="minimumPassingScore" required>
-      </div>
-    
-      <!-- Topics Field -->
-      <!-- <div class="input-box">
+    </div>
+
+    <!-- Minimum Passing Score Field -->
+    <div class="input-box">
+      <label for="minimumPassingScore" class="form-label"
+        >Minimum Passing Score
+        <span class="text-muted"> (Optional)</span>
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="minimumPassingScore"
+        placeholder="Enter Minimum Passing Score"
+        [(ngModel)]="testForm.minimumPassingScore"
+        name="minimumPassingScore"
+        required
+      />
+    </div>
+
+    <!-- Topics Field -->
+    <!-- <div class="input-box">
         <label for="topics" class="form-label">Topics</label>
         <input type="text" class="form-control" id="topics" placeholder="Enter Topics" [(ngModel)]="testForm.topics" name="topics">
       </div> -->
 
-      <div class="input-box">
-        <label for="topics" class="form-label">Topics
-          <span class="text-muted"> (Optional)</span>
-        </label>
-        <div class="chip-container mb-10px">
-          <input type="text" class="chip-input" placeholder="Type and press Enter"
-            [(ngModel)]="topicsInput" name="topics" (keydown.enter)="addTopicsChip()" />
+    <div class="input-box">
+      <label for="topics" class="form-label"
+        >Topics
+        <span class="text-muted"> (Optional)</span>
+      </label>
+      <div class="chip-container mb-10px">
+        <input
+          type="text"
+          class="chip-input"
+          placeholder="Type and press Enter"
+          [(ngModel)]="topicsInput"
+          name="topics"
+          (keydown.enter)="addTopicsChip()"
+        />
+        <div class="chips">
+          <span
+            *ngFor="let chip of testForm.topics; let i = index"
+            class="chip"
+          >
+            {{ chip }}
+            <button class="remove-chip" (click)="removeTopicsChip(i)">×</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <label for="exampleInputPassword1" class="form-label"
+        >Select Category
+        <span class="text-muted"> (Optional)</span>
+      </label>
+      <div
+        class="dropdown"
+        [class.show]="dropdownOpen"
+        (clickOutside)="dropdownOpen = false"
+      >
+        <!-- Input field with dropdown arrow -->
+        <div class="input-group" id="target_Dropdown">
+          <input
+            type="text"
+            class="select_input form-control dropdown-toggle text-start"
+            placeholder="Select Category"
+            [value]="
+              (selectedOption && selectedOption.catName) || 'Select an option'
+            "
+            (click)="toggleDropdown()"
+            name="selectInput"
+            aria-expanded="dropdownOpen"
+            id="dropdownOpen"
+            readonly
+          />
+          <!--(focus)="toggleDropdown()"-->
+          <span class="input-group-append">
+            <i class="fa fa-caret-down" (click)="toggleDropdown()"></i
+            ><!-- Bootstrap Icon for dropdown  -->
+          </span>
+        </div>
+
+        <!-- Dropdown menu with search functionality -->
+        <div
+          class="dropdown-menu p-2"
+          [class.show]="dropdownOpen"
+          style="width: 100%"
+        >
+          <!-- Search input -->
+          <input
+            type="text"
+            class="form-control mb-2"
+            placeholder="Search..."
+            name="searchInput"
+            [(ngModel)]="searchQuery"
+            (input)="filterOptions()"
+            (click)="$event.stopPropagation()"
+          />
+
+          <div class="custom-drop-down-menu">
+            <!-- Filtered options list -->
+            <a
+              *ngFor="let option of filteredOptions"
+              class="dropdown-item"
+              href="#"
+              (click)="addCategoryChip(option); $event.preventDefault()"
+            >
+              {{ option.catName }}
+            </a>
+          </div>
+
+          <!-- Message for no matches -->
+          <div
+            *ngIf="filteredOptions && filteredOptions.length === 0"
+            class="dropdown-item disabled"
+          >
+            No options found
+          </div>
+        </div>
+        <div
+          class="chip-container mb-10px"
+          *ngIf="testForm.categoryIds.length > 0"
+        >
           <div class="chips">
-            <span *ngFor="let chip of testForm.topics; let i = index" class="chip">
-              {{ chip }} <button class="remove-chip" (click)="removeTopicsChip(i)">×</button>
+            <span
+              *ngFor="let chip of testForm.categoryIds; let i = index"
+              class="chip"
+            >
+              {{ chip.catName }}
+              <button class="remove-chip" (click)="removeCategoryChip(i)">
+                ×
+              </button>
             </span>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="">
-        <label for="exampleInputPassword1" class="form-label">Select Category
-          <span class="text-muted"> (Optional)</span>
-        </label>
-        <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
-
-          <!-- Input field with dropdown arrow -->
-       <div class="input-group" id="target_Dropdown">
-         <input
-         type="text"
-         class="select_input form-control dropdown-toggle  text-start"
-         placeholder="Select Category"
-         [value]="selectedOption && selectedOption.catName  || 'Select an option'"
-         (click)="toggleDropdown()"
-
-         name="selectInput"
-         aria-expanded="dropdownOpen"
-         id="dropdownOpen"
-         readonly
-       /> <!--(focus)="toggleDropdown()"-->
-       <span class="input-group-append"  >
-         <i class="fa fa-caret-down" (click)="toggleDropdown()"></i><!-- Bootstrap Icon for dropdown  -->
-       </span>
-     </div>
-       
-         <!-- Dropdown menu with search functionality -->
-         <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
-           <!-- Search input -->
-           <input
-             type="text"
-             class="form-control mb-2"
-             placeholder="Search..."
-             name="searchInput"
-             [(ngModel)]="searchQuery"
-             (input)="filterOptions()"
-             (click)="$event.stopPropagation()"  
-           />
-       
-           <div class="custom-drop-down-menu">
-             <!-- Filtered options list -->
-             <a
-               *ngFor="let option of filteredOptions"
-               class="dropdown-item"
-               href="#"
-               (click)="addCategoryChip(option); $event.preventDefault()"
-             >
-               {{ option.catName}}
-             </a>
-
-           </div>
-        
-
-       
-           <!-- Message for no matches -->
-           <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
-             No options found
-           </div>
-         </div>
-         <div class="chip-container mb-10px" *ngIf="testForm.categoryIds.length > 0">
-          <div class="chips">
-            <span *ngFor="let chip of testForm.categoryIds; let i = index" class="chip">
-              {{ chip.catName }} <button class="remove-chip" (click)="removeCategoryChip(i)">×</button>
-            </span>
-          </div>
-         </div>
-       </div>
-      </div>
-
-    
-      <!-- Duration Field -->
-      <!-- <div class="input-box">
+    <!-- Duration Field -->
+    <!-- <div class="input-box">
         <label for="duration" class="form-label">Duration</label>
         <input type="time" class="form-control" id="duration" placeholder="Enter Duration" [(ngModel)]="testForm.duration" name="duration" required>
       </div> -->
 
-      <div class="d-flex custom-gap">
-        <div class="input-box" >
-          <label for="startTime" class="form-label">Start Time</label>
-          <input type="time" [ngClass]="{'mb-0': testForm.duration === null}" class="form-control" id="startTime" [(ngModel)]="startTime" name="startTime" #startTimeControl="ngModel" (change)="calculateTimeDifference()" required>
-        </div>
-        
-        <div class="input-box">
-          <label for="endTime" class="form-label">End Time</label>
-          <input type="time" [ngClass]="{'mb-0': testForm.duration === null}" class="form-control" id="endTime" [(ngModel)]="endTime" name="endTime" #endTimeControl="ngModel" (change)="calculateTimeDifference()"  required>
-        </div>
-        
-        <div class="input-box">
-          <label for="timeDifference" class="form-label">Time (in minutes)</label>
-          <input type="text" [ngClass]="{'mb-0': testForm.duration === null}" class="form-control" id="timeDifference" [value]="testForm.duration"  readonly>
-        </div>
-
-      </div>
-      <div *ngIf="testForm.duration === null" class="text-danger">
-        End time cannot be earlier than start time.
-      </div>
-      <div *ngIf="startTimeControl.invalid && startTimeControl.touched" class="text-danger">
-        Start Time is required.
-      </div>
-      <div *ngIf="endTimeControl.invalid && endTimeControl.touched" class="text-danger">
-        End Time is required.
-      </div>
-
-    
-      <!-- Language Field -->
+    <div class="d-flex custom-gap">
       <div class="input-box">
-        <label for="language" class="form-label">Language
-          <span class="text-muted"> (Optional)</span>
-        </label>
-        <input type="text" class="form-control" id="language" placeholder="Enter Language" [(ngModel)]="testForm.language" name="language" required>
+        <label for="startTime" class="form-label">Start Time</label>
+        <input
+          type="time"
+          [ngClass]="{ 'mb-0': testForm.duration === null }"
+          class="form-control"
+          id="startTime"
+          [(ngModel)]="startTime"
+          name="startTime"
+          #startTimeControl="ngModel"
+          (change)="calculateTimeDifference()"
+          required
+        />
       </div>
-    
-        <!-- Files Field -->
-        <div class="input-box">
-          <label for="files" class="form-label">Files
-            <span class="text-muted"> (Optional)</span>
-          </label>
-          <input type="file" class="form-control" id="files" (change)="onFileChange($event)" multiple>
-        </div>
-    
-    
-    
-    
-    
+
+      <div class="input-box">
+        <label for="endTime" class="form-label">End Time</label>
+        <input
+          type="time"
+          [ngClass]="{ 'mb-0': testForm.duration === null }"
+          class="form-control"
+          id="endTime"
+          [(ngModel)]="endTime"
+          name="endTime"
+          #endTimeControl="ngModel"
+          (change)="calculateTimeDifference()"
+          required
+        />
+      </div>
+
+      <div class="input-box">
+        <label for="timeDifference" class="form-label">Time (in minutes)</label>
+        <input
+          type="text"
+          [ngClass]="{ 'mb-0': testForm.duration === null }"
+          class="form-control"
+          id="timeDifference"
+          [value]="testForm.duration"
+          readonly
+        />
+      </div>
+    </div>
+    <div *ngIf="testForm.duration === null" class="text-danger">
+      End time cannot be earlier than start time.
+    </div>
+    <div
+      *ngIf="startTimeControl.invalid && startTimeControl.touched"
+      class="text-danger"
+    >
+      Start Time is required.
+    </div>
+    <div
+      *ngIf="endTimeControl.invalid && endTimeControl.touched"
+      class="text-danger"
+    >
+      End Time is required.
+    </div>
+
+    <!-- Language Field -->
+    <div class="input-box">
+      <label for="language" class="form-label"
+        >Language
+        <span class="text-muted"> (Optional)</span>
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="language"
+        placeholder="Enter Language"
+        [(ngModel)]="testForm.language"
+        name="language"
+        required
+      />
+    </div>
+
+    <!-- Files Field -->
+    <div class="input-box">
+      <label for="files" class="form-label"
+        >Files
+        <span class="text-muted"> (Optional)</span>
+      </label>
+      <input
+        type="file"
+        class="form-control"
+        id="files"
+        (change)="onFileChange($event)"
+        multiple
+      />
+    </div>
   </div>
   <div class="modal-footer">
     @if(isEditTest) {
-      <app-async-button type="button" classes="restore-button" [disabled]="false || createTestAsyncCall"
-      [isAsyncCall]="createTestAsyncCall" (click)="editTest()">Edit</app-async-button>
+    <app-async-button
+      type="button"
+      classes="restore-button"
+      [disabled]="false || createTestAsyncCall"
+      [isAsyncCall]="createTestAsyncCall"
+      (click)="editTest()"
+      >Edit</app-async-button
+    >
     } @else {
-      <app-async-button type="button" classes="restore-button" [disabled]="false || createTestAsyncCall"
-    [isAsyncCall]="createTestAsyncCall" (click)="createTest()">Create</app-async-button>
+    <app-async-button
+      type="button"
+      classes="restore-button"
+      [disabled]="false || createTestAsyncCall"
+      [isAsyncCall]="createTestAsyncCall"
+      (click)="createTest()"
+      >Create</app-async-button
+    >
     }
     <!-- <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button> -->
-    
-
-   
   </div>
 </ng-template>
 
-
 <ng-template #genQues let-modal>
   <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Generate Questions</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="unsubscribeFromChanges();questionForm.reset();modal.dismiss('Cross click')"></button>
+    <h4 class="modal-title" id="modal-basic-title">Generate Questions</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="
+        unsubscribeFromChanges();
+        questionForm.reset();
+        modal.dismiss('Cross click')
+      "
+    ></button>
   </div>
   <div class="modal-body move-modal">
+    <form [formGroup]="questionForm">
+      <div class="form-group mb-3">
+        <label for="totalQuestions" class="form-label">Total Questions</label>
+        <input
+          type="number"
+          readonly
+          class="form-control"
+          id="totalQuestions"
+          placeholder="Total questions"
+          formControlName="totalQuestions"
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="category" class="form-label">Selected Category</label>
 
+        <div class="input-group" id="target_Dropdown">
+          <input
+            type="text"
+            class="form-control dropdown-toggle"
+            placeholder="Selected Category"
+            readonly
+            formControlName="selectedCategory"
+          />
+        </div>
+      </div>
 
-              <form [formGroup]="questionForm">
-                <div class="form-group mb-3">
-                  <label for="category" class="form-label">Selected Category</label>
-                  
-                    <div class="input-group" id="target_Dropdown">
-                      <input 
-                        type="text" 
-                        class="form-control dropdown-toggle" 
-                        placeholder="Selected Category"
-                       
-                        readonly 
-                        formControlName="selectedCategory" />
-                    </div>
-                  
-                </div>
-              
-                <!-- Easy Questions Field -->
-                <div class="form-group mb-3">
-                  <label for="easyQuestions" class="form-label">Number of Easy Questions</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="easyQuestions"
-                    placeholder="Enter number of easy questions"
-                    formControlName="easyQuestions"
-                    min="0" />
-                </div>
-              
-                <!-- Medium Questions Field -->
-                <div class="form-group mb-3">
-                  <label for="mediumQuestions" class="form-label">Number of Medium Questions</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="mediumQuestions"
-                    placeholder="Enter number of medium questions"
-                    formControlName="mediumQuestions"
-                    min="0" />
-                </div>
-              
-                <!-- Hard Questions Field -->
-                <div class="form-group mb-3">
-                  <label for="hardQuestions" class="form-label">Number of Hard Questions</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="hardQuestions"
-                    placeholder="Enter number of hard questions"
-                    formControlName="hardQuestions"
-                    min="0" />
-                </div>
-              
-            
-              </form>
-              
+      <!-- Easy Questions Field -->
+      <div class="form-group mb-3">
+        <label for="easyQuestions" class="form-label"
+          >Number of Easy Questions</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          id="easyQuestions"
+          placeholder="Enter number of easy questions"
+          formControlName="easyQuestions"
+          min="0"
+        />
+      </div>
+
+      <!-- Medium Questions Field -->
+      <div class="form-group mb-3">
+        <label for="mediumQuestions" class="form-label"
+          >Number of Medium Questions</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          id="mediumQuestions"
+          placeholder="Enter number of medium questions"
+          formControlName="mediumQuestions"
+          min="0"
+        />
+      </div>
+
+      <!-- Hard Questions Field -->
+      <div class="form-group mb-3">
+        <label for="hardQuestions" class="form-label"
+          >Number of Hard Questions</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          id="hardQuestions"
+          placeholder="Enter number of hard questions"
+          formControlName="hardQuestions"
+          min="0"
+        />
+      </div>
+    </form>
   </div>
   <div class="modal-footer">
-      <app-async-button type="submit" classes="restore-button" [disabled]="questionForm.invalid || genQuesAsyncCall || totalQuestions > totalQuestionCount"
-          [isAsyncCall]="genQuesAsyncCall" (click)="genQuestions()">Generate</app-async-button>
-
+    <app-async-button
+      type="submit"
+      classes="restore-button"
+      [disabled]="
+        questionForm.invalid ||
+        genQuesAsyncCall ||
+        totalQuestions > totalQuestionCount
+      "
+      [isAsyncCall]="genQuesAsyncCall"
+      (click)="genQuestions()"
+      >Generate</app-async-button
+    >
   </div>
 </ng-template>

@@ -264,7 +264,7 @@
 .input-group-append {
     position: absolute;
     right: 10px;
-    top: 5px;
+    top: 10px;
     cursor: pointer;
     z-index: 1;
     transform: translate(0px, 0px)
@@ -452,11 +452,41 @@ input[type="number"] {
     -moz-appearance: textfield; /* For Firefox */
 }
 
+.border-left {
+  border-left: 2px solid black;
+}
 
 
+.question-sec-height {
+  max-height: 27rem;
+  overflow-y: auto;
+}
 
 
+.gap-2 {
+  gap: 8px;
+}
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
+::ng-deep .options .ql-toolbar.ql-snow {
+  display: none;
+
+}
+
+::ng-deep .options .ql-container {
+  border: none
+}
+
+::ng-deep .options .ql-snow .ql-editor img {
+  max-width: 30%;
+}
+
+::ng-deep .ql-editor {
+  padding: 0 15px;
+}
 
 
 
@@ -669,4 +699,62 @@ input.form-control {
 
 .h-100 {
   height: 500px !important;
+}
+
+
+.form-control {
+  line-height: 30px;
+}
+
+
+// category filter css 
+
+
+.category-container {
+  width: 300px;
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+}
+
+.category-list li {
+  padding: 5px 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.category-toggle {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 10px;
+  position: relative;
+}
+
+.category-toggle::before {
+  content: "▶";
+  margin-right: 8px;
+  font-size: 12px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.sub-category {
+  list-style: none;
+  padding-left: 20px;
+  display: none;
+}
+
+.open > .sub-category {
+  display: block;
+}
+
+.open > .category-toggle::before {
+  transform: rotate(90deg);
 }

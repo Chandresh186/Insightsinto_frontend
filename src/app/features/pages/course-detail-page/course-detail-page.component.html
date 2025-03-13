@@ -47,11 +47,12 @@
                   @if(item.isOfflineTest ) {
                     <img src="assets/icons/start.png" alt="Quiz image" width="25" (click)="openTest(offlineTest, item)" ngbTooltip="Start offline test" >
                   } @else {
-                    <img src="assets/icons/questions.png" alt="Quiz image" width="25" [routerLink]="['/dash/test', item.testId, item.parentId]" ngbTooltip="Start online test" >
+                    <img *ngIf="item.testId !== null" src="assets/icons/testing.png" alt="Quiz image" width="25" [routerLink]="['/dash/test', item.testId, item.parentId]" ngbTooltip="Start online test" >
                   }
 
                 }
-                <i *ngIf="checkRole('user') && item.testDetails?.status === 'Completed'" class="fas fa-chart-line" (click)="seeResult(Result, item)"></i>
+                <!-- <i *ngIf="checkRole('user') && item.testDetails?.status === 'Completed'" class="fas fa-chart-line" (click)="seeResult(Result, item)"></i> -->
+                <img  *ngIf="checkRole('user') && item.testDetails?.status === 'Completed'" src="assets/icons/analysis.png" alt="Quiz image" width="25" (click)="seeResult(Result, item)" >
               </div>
           </div>
           </h2>

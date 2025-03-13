@@ -1,7 +1,10 @@
 export interface Category {
     id: string;            
     catName: string;        
-    parentCatId: string | null;  
+    parentCatId: string | null;
+    subCategories: Category[];
+    questionCount: number;
+    totalQuestionCount: number;
   }
 
 

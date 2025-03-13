@@ -227,13 +227,18 @@ header h1 {
 .question-number:focus {
     background-color: #d4edda;
     border-color: #28a745;
+    color: black;
 }
 
 .question-number.active {
     // background-color: #6f42c1;
-    background-color: #6f42c1;
-    color: white;
-    border: 3px solid #5a379b;
+    // background-color: #6f42c1;
+    // color: white;
+    // border: 3px solid #5a379b;
+
+    background-color: #d4edda;
+    // border-color: #28a745;
+    border: 1px solid #28a745 !important;
 }
 
 .question-number.attempted {
@@ -312,7 +317,7 @@ header h1 {
   .review {
     background-color: #f8940685;
     color: white;
-    border: 3px solid #f89406;
+    border: 1px solid #f89406;
   }
 
   .review-next {

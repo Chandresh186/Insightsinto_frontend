@@ -43,7 +43,7 @@
       </div>
 
       <div>
-        <div  >
+        <div>
             <label for="categoryId" class="form-label">Select Category</label>
             <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
  
@@ -125,6 +125,65 @@
       </div>
 
       <div>
+        <label for="description">Select Type</label>
+        <div class="dropdown"  [class.show]="dropdownTypeOpen" (clickOutside)="dropdownTypeOpen = false">
+ 
+          <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+       <div class="input-group" id="target_Dropdown">
+         <input
+         type="text"
+         class="select_input form-control dropdown-toggle  text-start cursor-pointer"
+         placeholder="Select Category"
+         [value]="selectedTypeOption && selectedTypeOption || 'Select an option'"
+         (click)="toggleTypeDropdown()"
+        
+         name="selectInput"
+         aria-expanded="dropdownOpen"
+         id="dropdownTypeOpen"
+         readonly
+       /> <!--(focus)="toggleDropdown()"-->
+       <span class="input-group-append"  >
+        <i class="fa fa-caret-down" (click)="toggleTypeDropdown()"></i>
+         <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+       </span>
+     </div>
+       
+         <!-- Dropdown menu with search functionality -->
+         <div class="dropdown-menu p-2" [class.show]="dropdownTypeOpen" style="width: 100%;">
+           <!-- Search input -->
+           <input
+             type="text"
+             class="form-control mb-2"
+             placeholder="Search..."
+             name="searchInput"
+             [(ngModel)]="searchQuery"
+             [ngModelOptions]="{standalone: true}"
+             (input)="filterTypeOptions()"
+             (click)="$event.stopPropagation()"  
+           />
+       
+           <div class="list-wrapper">
+
+               <a
+                 *ngFor="let option of filteredTypeOptions"
+                 class="dropdown-item "
+                 href="#"
+                 (click)="selectTypeOption(option); $event.preventDefault()"
+               >
+                 {{ option}} 
+               </a>
+           </div>
+           <!-- Filtered options list -->
+       
+           <!-- Message for no matches -->
+           <div *ngIf="filteredTypeOptions && filteredTypeOptions.length === 0" class="dropdown-item disabled">
+             No options found
+           </div>
+         </div>
+       </div>
+      </div>
+
+      <div>
         <label for="description">Description</label>
         <input
           type="text"
@@ -144,6 +203,65 @@
           placeholder="Enter the complexity"
           formControlName = "complexity"
         />
+      </div>
+      <div>
+        <label for="language">Language</label>
+        <div class="dropdown"  [class.show]="dropdownLanguageOpen" (clickOutside)="dropdownLanguageOpen = false">
+ 
+          <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+       <div class="input-group" id="target_Dropdown">
+         <input
+         type="text"
+         class="select_input form-control dropdown-toggle  text-start cursor-pointer"
+         placeholder="Select Category"
+         [value]="selectedLanguageOption && selectedLanguageOption || 'Select an option'"
+         (click)="toggleLanguageDropdown()"
+        
+         name="selectInput"
+         aria-expanded="dropdownOpen"
+         id="dropdownLanguageOpen"
+         readonly
+       /> <!--(focus)="toggleDropdown()"-->
+       <span class="input-group-append"  >
+        <i class="fa fa-caret-down" (click)="toggleLanguageDropdown()"></i>
+         <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+       </span>
+     </div>
+       
+         <!-- Dropdown menu with search functionality -->
+         <div class="dropdown-menu p-2" [class.show]="dropdownLanguageOpen" style="width: 100%;">
+           <!-- Search input -->
+           <input
+             type="text"
+             class="form-control mb-2"
+             placeholder="Search..."
+             name="searchInput"
+             [(ngModel)]="searchQuery"
+             [ngModelOptions]="{standalone: true}"
+             (input)="filterLanguageOptions()"
+             (click)="$event.stopPropagation()"  
+           />
+       
+           <div class="list-wrapper">
+
+               <a
+                 *ngFor="let option of filteredLanguageOptions"
+                 class="dropdown-item "
+                 href="#"
+                 (click)="selectLanguageOption(option); $event.preventDefault()"
+               >
+                 {{ option}} 
+               </a>
+           </div>
+           <!-- Filtered options list -->
+       
+           <!-- Message for no matches -->
+           <div *ngIf="filteredLanguageOptions && filteredLanguageOptions.length === 0" class="dropdown-item disabled">
+             No options found
+           </div>
+         </div>
+       </div>
+       
       </div>
   
       <!-- Blog Content -->

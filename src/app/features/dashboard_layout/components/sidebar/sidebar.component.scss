@@ -481,7 +481,17 @@ input[type=time]::-webkit-calendar-picker-indicator {
 
 
 
+@media (max-width: 913px) {
+    .notification-single-message {
+        right: 64px; /* Adjust the position as needed */
+       
+    }
 
+    .notification-single-message.d-flex.flex-column::after {
+        right: 20px; /* Adjust the position as needed */
+       
+    }
+}
 
 
 

@@ -6,10 +6,10 @@
     <div class="d-flex" [ngClass]="{ 'collapsed': !isSidebarOpen }" [class.open]="isSidebarOpen">
         <nav class="sidebar dashboard-sidebar">
             <div class="sidebar-top-wrapper">
-                <div class="sidebar-top">
+                <div class="sidebar-top w-100 d-flex align-items-center">
                     <a routerLink="/" class="logo__wrapper">
                         <img src="assets/icons/icon-logo.jpeg" alt="Logo" class="logo-small">
-                        <span class="hide company-name">Insights_Into</span>
+                        <!-- <span class="hide company-name">Insights_Into</span> -->
                     </a>
                 </div>
                 <button class="expand-btn" type="button" (click)="toggleSidebar()"><ion-icon class="i" name="chevron-back-outline"></ion-icon>
@@ -34,14 +34,14 @@
             </div>
 
             <div class="sidebar__profile sidebar-links">
-                <ul>
+                <!-- <ul>
                     <li>
                         <a [routerLink]="'support'" title="Support" class="tooltip">
                             <img src="assets/icons/Support Icon.svg" alt="Support" width="23px">
                             <span class="link hide">Support</span>
                         </a>
                     </li>
-                </ul>
+                </ul> -->
             </div>
         </nav>
         <section class="home-section" [ngClass]="{'padding-bottom-on-mobile' : checkRole('user')}"> 
@@ -55,7 +55,7 @@
     <header class="mobile-header">
         <nav class="navbar d-lg-none d-xl-none d-xxl-none fixed-top" >
             <div class="container-fluid">
-                <a class="navbar-brand" routerLink="/">Insights_Into</a>
+                <a class="navbar-brand" routerLink="/"> <img class="logo-small" src="assets/icons/icon-logo.jpeg" alt=""> </a>
 
                   <div class="d-flex">
                     <ng-container>

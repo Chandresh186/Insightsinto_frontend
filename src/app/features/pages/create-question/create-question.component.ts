@@ -18,10 +18,16 @@ import { QuestionService } from '../../../core/services/question.service';
 })
 export class CreateQuestionComponent {
   public dropdownOpen: boolean = false;
+  public dropdownTypeOpen: boolean = false;
+  public dropdownLanguageOpen : boolean = false;
   public searchQuery: string = '';
   public filteredOptions: Category[] | null = [];
+  public filteredTypeOptions: any[] | null = [];
+  public filteredLanguageOptions : any[] | null = [];
   public categories: Category[] | null = []; 
   public selectedOption: Category | null = null;
+  public selectedTypeOption: any| null = null;
+  public selectedLanguageOption: any| null = null;
   public chips: Category[] = []; 
 
   public questionForm!: FormGroup
@@ -30,13 +36,41 @@ export class CreateQuestionComponent {
 
 
   public loading = false; // To track loading state
-   private errorMessage: string | null = null; // To store error messages
+  private errorMessage: string | null = null; // To store error messages
 
+  questionTypes =  [
+    "Statement Based",
+    "Pair Based",
+    "Factual",
+    "Application Based",
+    "Assertion-Reason",
+    "Chronology Based",
+    "Map Based",
+    "Current Affairs",
+    "Interdisciplinary",
+    "Data/Trend Based",
+    "Scenario Based",
+    "Cause-Effect",
+    "Philosophical/Value-Based",
+    "Elimination Based",
+    "Image/Diagram Based",
+    "Odd-One-Out"
+  ];
+
+  languages =  [
+    "English",
+    "Hindi",
+    "Gujarati",
+  
+  ]
 
 
   constructor(private route : ActivatedRoute,  private categoriesService: CategoriesService, private questionServcie : QuestionService,  private router: Router) {}
 
   ngOnInit() {
+
+    this.setTypeFilteration(this.questionTypes)
+    this.setLanguageFilteration(this.languages)
     this.questionForm = new FormGroup({
       question: new FormControl(''),
       optionA: new FormControl(''),
@@ -46,7 +80,7 @@ export class CreateQuestionComponent {
       ans: new FormControl(''),
       complexity: new FormControl(''),
       categoryId: new FormControl(''),
-      description: new FormControl('')
+      description: new FormControl(''),
     })
 
     if(this.getQuestionId()) {
@@ -111,6 +145,14 @@ export class CreateQuestionComponent {
    public toggleDropdown(): void {
       this.dropdownOpen = !this.dropdownOpen;
     }
+
+    public toggleTypeDropdown(): void {
+      this.dropdownTypeOpen = !this.dropdownTypeOpen;
+    }
+
+    public toggleLanguageDropdown(): void {
+      this.dropdownLanguageOpen = !this.dropdownLanguageOpen;
+    }
   
     public filterOptions() {
       
@@ -124,6 +166,32 @@ export class CreateQuestionComponent {
         this.filteredOptions = this.categories ? [...this.categories] : [];
       }
     }
+
+    public filterTypeOptions() {
+      
+      if (this.searchQuery.trim() && this.questionTypes && this.questionTypes.length > 0) {
+        // Filter categories based on catName, case insensitive
+        this.filteredTypeOptions = this.questionTypes.filter(type =>
+          type.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      } else {
+        // If searchQuery is empty, reset to all categories
+        this.filteredTypeOptions = this.questionTypes ? [...this.questionTypes] : [];
+      }
+    }
+
+    public filterLanguageOptions() {
+      
+      if (this.searchQuery.trim() && this.languages && this.languages.length > 0) {
+        // Filter categories based on catName, case insensitive
+        this.filteredLanguageOptions = this.languages.filter(type =>
+          type.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      } else {
+        // If searchQuery is empty, reset to all categories
+        this.filteredLanguageOptions = this.languages ? [...this.languages] : [];
+      }
+    }
   
     public selectOption(option: Category): void {
       this.selectedOption = option; // Set the selected option
@@ -135,6 +203,22 @@ export class CreateQuestionComponent {
         this.selectedOption = null;
   
       }, 1000)
+    }
+
+    public selectTypeOption(option: any): void {
+      this.selectedTypeOption = option; // Set the selected option
+      this.dropdownTypeOpen = false; // Close dropdown
+      this.searchQuery = ''; // Reset search input
+      this.filteredTypeOptions = this.questionTypes ? [...this.questionTypes] : []; // Reset filtered list
+   
+    }
+
+    public selectLanguageOption(option: any): void {
+      this.selectedLanguageOption = option; // Set the selected option
+      this.dropdownLanguageOpen = false; // Close dropdown
+      this.searchQuery = ''; // Reset search input
+      this.filteredLanguageOptions = this.languages ? [...this.languages] : []; // Reset filtered list
+   
     }
   
     public addChip(chipInput: any): void {
@@ -182,6 +266,14 @@ export class CreateQuestionComponent {
           this.filteredOptions = [...categories]; // Filtered options for search
         }
 
+        public setTypeFilteration(type: any) {
+          this.filteredTypeOptions = [...type]; // Filtered options for search
+        }
+
+        public setLanguageFilteration(type: any) {
+          this.filteredLanguageOptions = [...type]; // Filtered options for search
+        }
+
 
         getQuestionById(id: any) {
           this.loading = true;  // Set loading state to true while fetching data
@@ -196,9 +288,14 @@ export class CreateQuestionComponent {
                 optionD: 'An OS',
                 ans: response.ans,
                 complexity: response.complexity,
-                categoryId: '123',
-                description: 'A question about Angular framework'
+                categoryId: response.categoryId,
+                description: response.description,
+               
               });
+
+              this.selectedTypeOption = response.type
+              this.selectedLanguageOption = response.language
+            
               
               if (this.quillEditor && this.quillEditor.length > 0) {
                 this.quillEditor[0].root.innerHTML = response.question;
@@ -209,7 +306,7 @@ export class CreateQuestionComponent {
             
         
               }
-                const obj = {
+                const obj:any = {
                   id: response.categoryId,
                   catName: response.categoryName,
                   parentCatId: null
@@ -240,7 +337,9 @@ export class CreateQuestionComponent {
         ans: this.questionForm.get('ans')?.value,
         complexity: this.questionForm.get('complexity')?.value,
         categoryId: this.chips[0].id,
-        description: this.questionForm.get('description')?.value
+        description: this.questionForm.get('description')?.value,
+        type: this.selectedTypeOption &&  this.selectedTypeOption,
+        language: this.selectedLanguageOption && this.selectedLanguageOption
       }
       if (this.quillEditor && this.quillEditor.length > 0) {
         payload.question = this.quillEditor[0].root.innerHTML;
@@ -281,7 +380,9 @@ export class CreateQuestionComponent {
         ans: this.questionForm.get('ans')?.value,
         complexity: this.questionForm.get('complexity')?.value,
         categoryId: this.chips[0].id,
-        description: this.questionForm.get('description')?.value
+        description: this.questionForm.get('description')?.value,
+        type: this.selectedTypeOption &&  this.selectedTypeOption,
+        language: this.selectedLanguageOption && this.selectedLanguageOption
       }
       if (this.quillEditor && this.quillEditor.length > 0) {
         payload.question = this.quillEditor[0].root.innerHTML;
@@ -319,6 +420,10 @@ export class CreateQuestionComponent {
       // console.log(targetElement)
       if (targetElement.id !== 'dropdownOpen' ) {
         this.dropdownOpen = false;
+      }
+
+      if (targetElement.id !== 'dropdownTypeOpen' ) {
+        this.dropdownTypeOpen = false;
       }
     }
    
