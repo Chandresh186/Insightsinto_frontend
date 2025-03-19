@@ -1,6 +1,6 @@
 
 <div class="container">
-    <h1>{{getQuestionId() ? 'Edit Question': 'Create a New Question'}}</h1>
+    <h4 class="mb-0 text-center">{{getQuestionId() ? 'Edit Question': 'Create a New Question'}}</h4>
     <form [formGroup]="questionForm" (ngSubmit)="getQuestionId() ? onEditSubmit(questionForm.value)  : onSubmit(questionForm.value)" >
       
       <div>

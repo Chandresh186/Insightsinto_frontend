@@ -7,9 +7,10 @@
   
   
   <section id="your-test-series" #yourtestSeries class=" my-0 py-0">
-    <h1 class="mb-5">Your Courses</h1>
-    
-    <app-course-list></app-course-list>
+    <h4 class="mb-5">Your Courses</h4>
+    <div class="courses">
+      <app-course-list></app-course-list>
+    </div>
   
     
   <!-- <div class="cards-container mb-5">
@@ -78,7 +79,7 @@
 <hr *ngIf="resultTableData.length > 0" />
     
     <section id="test-series" #testSeries class=" my-0 py-0">
-      <h1 class="mb-5">Courses</h1>
+      <h4 class="mb-5">Courses</h4>
       <!-- <app-table
         [tableHeaders]="tableHeaders"
         [tableData]="tableData"
@@ -97,7 +98,7 @@
             <!-- <img [src]="staticBaseUrl+slide.thumbnail" [alt]="slide.alt" [title]="slide.title"> -->
             <div class="card course-card shadow-none transform-none" >
               <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]">
-                <img class="card-img-top"  [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px">
+                <img class="card-img-top"  [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px" onerror="this.src = 'assets/302x200.svg'">
               </a>
               <div class="card-body p-2 gap-0">
                 <h5 class="card-title div-courses-min-height">{{slide. name}}</h5>
@@ -113,7 +114,7 @@
 
     <section class="row g-6 my-5 ">
       <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card shadow border-0">
+        <div class="card border-0">
           <div class="card-body">
             <div class="row">
               <div class="col">
@@ -138,7 +139,7 @@
         </div>
       </div>
       <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card shadow border-0">
+        <div class="card border-0">
           <div class="card-body">
             <div class="row">
               <div class="col">
@@ -161,7 +162,7 @@
         </div>
       </div>
       <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card shadow border-0">
+        <div class="card border-0">
           <div class="card-body">
             <div class="row">
               <div class="col">
@@ -185,7 +186,7 @@
         </div>
       </div>
       <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card shadow border-0">
+        <div class="card border-0">
           <div class="card-body">
             <div class="row">
               <div class="col">

@@ -26,6 +26,49 @@ export class QuestionListComponent implements OnInit {
     this.loadQuestions();
   }
 
+  downloadCSV() {
+    const csvFilePath = 'assets/question_bank.csv'; // Update with your CSV file name
+    const link = document.createElement('a');
+    link.href = csvFilePath;
+    link.download = 'question-template.csv'; // Set the downloaded file name
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  onFileSelected(event: Event) {
+    this.loading = true;
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+  
+      if (file.type !== 'text/csv' && !file.name.endsWith('.csv')) {
+        alert('Please select a valid CSV file.');
+        return;
+      }
+  
+      console.log('Selected file:', file);
+      if(file !== null) {
+        
+        this.questionServcie.uploadCsv(file).pipe(
+          tap((response: any) => {
+           console.log(response)
+          }),
+          catchError((error) => {
+            this.errorMessage = 'Error uploading questions.'; // Handle error message
+            console.error('Error uploading questions:', error);
+            return of([]); // Return an empty array in case of an error
+          }),
+          finalize(() => {
+            this.loading = false; // Reset loading state when the request is completed
+            this.loadQuestions()
+          })
+        ).subscribe();
+      }
+      // Perform further processing (upload, read, etc.)
+    }
+  }
+
   actionConfig = [
     { key: 'edit', label: 'Edit', class: 'btn btn-outline-info', visible: true },
     { key: 'delete', label: 'Delete', class: 'btn btn-outline-danger', visible: true },

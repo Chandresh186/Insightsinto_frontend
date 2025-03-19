@@ -1,44 +1,40 @@
-body{
-    background: #F4F7FD;
-    margin-top:20px;
-}
-
 .card-margin {
-    margin-bottom: 1.875rem;
+  margin-bottom: 1.875rem;
 }
 
-.card {
-    border: 0;
-    box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
-    -ms-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
-}
-.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #ffffff;
-    background-clip: border-box;
-    border: 1px solid #e6e4e9;
-    border-radius: 8px;
-}
+// .card {
+//     border: 0;
+//     box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+//     -webkit-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+//     -moz-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+//     -ms-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+// }
+// .card {
+//     position: relative;
+//     display: flex;
+//     flex-direction: column;
+//     min-width: 0;
+//     word-wrap: break-word;
+//     background-color: #ffffff;
+//     background-clip: border-box;
+//     border: 1px solid #e6e4e9;
+//     border-radius: 8px;
+// }
 
-.card .card-header.no-border {
-    border: 0;
-}
-.card .card-header {
-    background: none;
-    padding: 0 0.9375rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    min-height: 50px;
-}
+// .card .card-header.no-border {
+//     border: 0;
+// }
+// .card .card-header {
+//     background: none;
+//     padding: 0 0.9375rem;
+//     font-weight: 500;
+//     display: flex;
+//     align-items: center;
+//     min-height: 50px;
+// }
+
 .card-header:first-child {
-    border-radius: calc(8px - 1px) calc(8px - 1px) 0 0;
+  border-radius: calc(8px - 1px) calc(8px - 1px) 0 0;
 }
 
 .widget-49 .widget-49-title-wrapper {
@@ -57,14 +53,20 @@ body{
   border-radius: 50%;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-primary .widget-49-date-day {
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-primary
+  .widget-49-date-day {
   color: #4e73e5;
   font-weight: 500;
   font-size: 1.5rem;
   line-height: 1;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-primary .widget-49-date-month {
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-primary
+  .widget-49-date-month {
   color: #4e73e5;
   line-height: 1;
   font-size: 1rem;
@@ -82,14 +84,20 @@ body{
   border-radius: 50%;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-secondary .widget-49-date-day {
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-secondary
+  .widget-49-date-day {
   color: #dde1e9;
   font-weight: 500;
   font-size: 1.5rem;
   line-height: 1;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-secondary .widget-49-date-month {
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-secondary
+  .widget-49-date-month {
   color: #dde1e9;
   line-height: 1;
   font-size: 1rem;
@@ -107,14 +115,20 @@ body{
   border-radius: 50%;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-success .widget-49-date-day {
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-success
+  .widget-49-date-day {
   color: #17d1bd;
   font-weight: 500;
   font-size: 1.5rem;
   line-height: 1;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-success .widget-49-date-month {
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-success
+  .widget-49-date-month {
   color: #17d1bd;
   line-height: 1;
   font-size: 1rem;
@@ -157,15 +171,21 @@ body{
   border-radius: 50%;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-warning .widget-49-date-day {
-  color: #FFC868;
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-warning
+  .widget-49-date-day {
+  color: #ffc868;
   font-weight: 500;
   font-size: 1.5rem;
   line-height: 1;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-warning .widget-49-date-month {
-  color: #FFC868;
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-warning
+  .widget-49-date-month {
+  color: #ffc868;
   line-height: 1;
   font-size: 1rem;
   text-transform: uppercase;
@@ -183,14 +203,17 @@ body{
 }
 
 .widget-49 .widget-49-title-wrapper .widget-49-date-danger .widget-49-date-day {
-  color: #F95062;
+  color: #f95062;
   font-weight: 500;
   font-size: 1.5rem;
   line-height: 1;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-danger .widget-49-date-month {
-  color: #F95062;
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-danger
+  .widget-49-date-month {
+  color: #f95062;
   line-height: 1;
   font-size: 1rem;
   text-transform: uppercase;
@@ -214,7 +237,10 @@ body{
   line-height: 1;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-date-light .widget-49-date-month {
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-date-light
+  .widget-49-date-month {
   color: #f7f9fa;
   line-height: 1;
   font-size: 1rem;
@@ -258,14 +284,14 @@ body{
 }
 
 .widget-49 .widget-49-title-wrapper .widget-49-date-base .widget-49-date-day {
-  color: #68CBD7;
+  color: #68cbd7;
   font-weight: 500;
   font-size: 1.5rem;
   line-height: 1;
 }
 
 .widget-49 .widget-49-title-wrapper .widget-49-date-base .widget-49-date-month {
-  color: #68CBD7;
+  color: #68cbd7;
   line-height: 1;
   font-size: 1rem;
   text-transform: uppercase;
@@ -277,29 +303,35 @@ body{
   margin-left: 1rem;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-meeting-info .widget-49-pro-title {
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-meeting-info
+  .widget-49-pro-title {
   color: #3c4142;
   font-size: 14px;
 }
 
-.widget-49 .widget-49-title-wrapper .widget-49-meeting-info .widget-49-meeting-time {
-  color: #B1BAC5;
+.widget-49
+  .widget-49-title-wrapper
+  .widget-49-meeting-info
+  .widget-49-meeting-time {
+  color: #b1bac5;
   font-size: 13px;
 }
 
 .widget-49 .widget-49-meeting-points {
   font-weight: 400;
   font-size: 13px;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .widget-49 .widget-49-meeting-points .widget-49-meeting-item {
-//   display: list-item;
+  //   display: list-item;
   color: #727686;
 }
 
 .widget-49 .widget-49-meeting-points .widget-49-meeting-item span {
-//   margin-left: .5rem;
+  //   margin-left: .5rem;
 }
 
 .widget-49 .widget-49-meeting-action {
@@ -310,29 +342,25 @@ body{
 //   // text-transform: uppercase;
 // }
 
-
-
-
 .badge-success {
-    color: #fff;
-    background-color: #28a745;
+  color: #fff;
+  background-color: #28a745;
 }
 
 .badge-secondary {
-    color: #fff;
-    background-color: #6c757d;
+  color: #fff;
+  background-color: #6c757d;
 }
 
-
 .btn-primary {
-    background-color: #1A1F35;
-    border-color: #1A1F35 !important;
-    transition: all 0.3s ease;
+  background-color: #1a1f35;
+  border-color: #1a1f35 !important;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: #3C4258;
-    border-color: #3C4258 !important;
+  background-color: #3c4258;
+  border-color: #3c4258 !important;
 }
 
 .description-truncate {
@@ -341,18 +369,17 @@ body{
   // overflow: hidden;           /* Hide the overflowing text */
   // text-overflow: ellipsis;    /* Add ellipsis when text overflows */
 
-  display: -webkit-box;        /* Enable the flexbox model for multi-line truncation */
-  -webkit-line-clamp: 2;       /* Limit the text to 2 lines (adjust if necessary) */
+  display: -webkit-box; /* Enable the flexbox model for multi-line truncation */
+  -webkit-line-clamp: 2; /* Limit the text to 2 lines (adjust if necessary) */
   -webkit-box-orient: vertical; /* Specify the orientation of the box */
-  height: 40px;                /* Set the height of the container */
-  overflow: hidden;            /* Hide any overflowed text */
-  text-overflow: ellipsis;     /* Add ellipsis when text overflows */
+  height: 40px; /* Set the height of the container */
+  overflow: hidden; /* Hide any overflowed text */
+  text-overflow: ellipsis; /* Add ellipsis when text overflows */
 }
 
 .user-style {
   min-height: 30px;
 }
-
 
 .edit-btn {
   background: #1a1f35;
@@ -361,9 +388,8 @@ body{
 }
 
 .edit-btn:hover {
-  background: #3C4258;
+  background: #3c4258;
 }
-
 
 .delete-btn {
   background: red;
@@ -373,4 +399,57 @@ body{
 
 .delete-btn:hover {
   background: #cc0000;
+}
+
+.course-card {
+  // width: 96%;
+  // max-width: 19rem;
+  padding: 0;
+  border-radius: 12px;
+}
+
+.course-card img {
+  display: block;
+  width: 100%;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .course-card {
+    width: 100%;
+    max-width: 100% !important;
+  }
+}
+
+.div-courses-min-height {
+  min-height: 45px;
+  margin-bottom: 8px;
+}
+
+.desc {
+  max-height: 60px;
+  overflow-y: auto;
+}
+
+.dropButton {
+  //   font-weight: bold;
+  width: 100%;
+  //     // line-height: 35px;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-item:hover {
+  color: white;
+  background-color: #1a1f35;
+}
+
+.btn-grp button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

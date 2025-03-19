@@ -58,9 +58,9 @@
             titlecase}}
           </p> -->
           <!-- <p class="status-user-role">{{userDetails?.role}}</p> -->
-           <p class="status-user-name">{{userDetails && userDetails.firstName | titlecase }} {{userDetails && userDetails.lastName |
+           <p class="status-user-name mb-0">{{userDetails && userDetails.firstName | titlecase }} {{userDetails && userDetails.lastName |
             titlecase}}</p>
-           <p class="status-user-name">{{userDetails && userDetails.role}}</p>
+           <p class="status-user-name mb-0">{{userDetails && userDetails.role}}</p>
         </div>
         <!-- <div class="dropdown status-icon-container" id="log_out">
             <img alt="" class="dropdown-toggle" id="logout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -96,7 +96,7 @@
                 src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
 			
 			<div ngbDropdownMenu aria-labelledby="logout">
-				<button ngbDropdownItem class="d-flex justify-content-around align-items-center" (click)="logOut()"><ion-icon name="log-out-outline" ></ion-icon> Logout</button>
+				<button ngbDropdownItem class="d-flex justify-content-around align-items-center" (click)="logOut()"><i class="fas fa-right-from-bracket"></i> Logout</button>
 				
 			</div>
 		</div>

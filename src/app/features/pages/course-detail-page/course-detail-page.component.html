@@ -1,6 +1,6 @@
 <div class="container">
     <!-- <div class="list-container"> -->
-        <h2>All Chapters</h2>
+        <h4 class="mb-0">All Chapters</h4>
         <!-- <ul class="unordered-list">
           <ng-container *ngFor="let chapter of allChapters; let i = index">
             <li class="list-item">
@@ -47,12 +47,13 @@
                   @if(item.isOfflineTest ) {
                     <img src="assets/icons/start.png" alt="Quiz image" width="25" (click)="openTest(offlineTest, item)" ngbTooltip="Start offline test" >
                   } @else {
-                    <img *ngIf="item.testId !== null" src="assets/icons/testing.png" alt="Quiz image" width="25" [routerLink]="['/dash/test', item.testId, item.parentId]" ngbTooltip="Start online test" >
+                    <!-- <img *ngIf="item.testId !== null" src="assets/icons/testing.png" alt="Quiz image" width="25" [routerLink]="['/dash/test', item.testId, item.parentId]" ngbTooltip="Start online test" > -->
+                    <i *ngIf="item.testId !== null" class="fas fa-list-check" [routerLink]="['/dash/test', item.testId, item.parentId]" ngbTooltip="Start online test"></i>
                   }
 
                 }
-                <!-- <i *ngIf="checkRole('user') && item.testDetails?.status === 'Completed'" class="fas fa-chart-line" (click)="seeResult(Result, item)"></i> -->
-                <img  *ngIf="checkRole('user') && item.testDetails?.status === 'Completed'" src="assets/icons/analysis.png" alt="Quiz image" width="25" (click)="seeResult(Result, item)" >
+                <i *ngIf="checkRole('user') && item.testDetails?.status === 'Completed'" class="fas fa-chart-bar" (click)="seeResult(Result, item)" ngbTooltip="Result"></i>
+                <!-- <img  *ngIf="checkRole('user') && item.testDetails?.status === 'Completed'" src="assets/icons/analysis.png" alt="Quiz image" width="25" (click)="seeResult(Result, item)" > -->
               </div>
           </div>
           </h2>
@@ -343,7 +344,7 @@
       <div class="test-result-card">
         <div class="test-card-header d-flex justify-content-between">
           <div class="w-100">
-            <h2>Test Result</h2>
+            <h4 class="mb-0">Test Result</h4>
           </div>
           <button
             type="button"

@@ -27,6 +27,15 @@ export class QuestionService {
     });
   }
 
+  uploadCsv(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name); // Append CSV file
+
+    const headers = this.getHeadersFormData();
+
+    return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.Questions.UPLOAD_CSVFILE}`, formData,  headers );
+  }
+
    // Create a new category (POST)
    createQuestion(data: any): Observable<any> {
     const headers = this.getHeaders();

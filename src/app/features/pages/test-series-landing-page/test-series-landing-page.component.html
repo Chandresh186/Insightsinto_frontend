@@ -1,288 +1,358 @@
-<body>
-  <!-- Hero Section -->
-  <!-- <header class="hero-section">
-    <div class="hero-content">
-      <h1>Welcome to our course platform</h1>
-      <p>Prepare with the best online course and achieve your goals.</p>
-      <a href="javascript:void(0)" (click)="scrollToTestSeries()" class="cta-button shadow">Explore courses</a>
-    </div>
-  </header> -->
-
-
-  
-  <!-- <section id="test-series" #testSeries>
-   
-      <app-table  
-      [tableHeaders]="tableHeaders"
-      [tableData]="tableData"
-      [itemsPerPage]="5"
-      [actionsConfig]="actionsConfig"
-      (actionTriggered)="handleAction($event)"
-      [tableName]="'Courses'"
-      [showTableName]="true"
-      [showSearchBar]="true"
-      [showColumns]="showColumns"
-      >
-      </app-table>
-     
-  </section> -->
-  <section id="courses" class="courses-section">
-    <div class="container">
-      <!-- <owl-carousel-o [options]="customOptions">
-    
-        <ng-container *ngFor="let slide of tableData">
-          <ng-template carouselSlide [id]="slide.id">
-         
-            <div class="card course-card">
-              <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]">
-                <img class="card-img-top"  [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title div-courses-min-height">{{slide. name}}</h5>
-                <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]" class="btn btn-primary w-100">View Details</a>
-              </div>
+<section id="courses" class="courses-section">
+  <div class="container">
+    <div class="row g-4 m-2 p-2">
+      <ng-container *ngFor="let slide of tableData">
+        <div class="col-12 col-sm-6 col-lg-3 p-0">
+          <div class="card course-card">
+            <a
+              href="javascript:void(0);"
+              [routerLink]="['/courses-detail', slide.id]"
+            >
+              <img
+                class="card-img-top"
+                [src]="staticBaseUrl + slide.thumbnail"
+                alt="Card image cap"
+                height="200px"
+                onerror="this.src = 'assets/302x200.svg'"
+              />
+            </a>
+            <div class="card-body">
+              <h5 class="card-title div-courses-min-height">
+                {{ slide.name }}
+              </h5>
+              <a
+                href="javascript:void(0);"
+                [routerLink]="['/courses-detail', slide.id]"
+                class="btn btn-primary w-100"
+                >View Details</a
+              >
             </div>
-          </ng-template>
-        </ng-container>
-    
-      </owl-carousel-o> -->
-
-
-      <div class="row g-4">
-        <!-- Card 1 -->
-         <ng-container *ngFor="let slide of tableData" >
-           <div class="col-12 col-sm-6 col-lg-3">
-             <!-- <div class="card h-100">
-               <img src="https://via.placeholder.com/150" class="card-img-top" alt="Card Image">
-               <div class="card-body text-center">
-                 <h5 class="card-title">Card Title 1</h5>
-                 <p class="card-text">Card description goes here. It's simple and responsive.</p>
-               </div>
-             </div> -->
-             <div class="card course-card">
-              <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]">
-                <img class="card-img-top"  [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title div-courses-min-height">{{slide. name}}</h5>
-                <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]" class="btn btn-primary w-100">View Details</a>
-              </div>
-            </div>
-           </div>
-
-         </ng-container>
-       
-      </div>
-    
+          </div>
+        </div>
+      </ng-container>
     </div>
-  </section>
+  </div>
+</section>
 
-  
-
-  <!-- Features Section -->
-  <section id="features" class="features-section">
-    <div class="container">
-      <h2>Why Choose Us?</h2>
-      <div class="features">
-        <div class="feature">
-          <h3>Expertly Designed Tests</h3>
-          <p>Our test series are crafted by top educators and industry experts to ensure quality preparation.</p>
-        </div>
-        <div class="feature">
-          <h3>Detailed Performance Reports</h3>
-          <p>Track your progress with in-depth performance analytics and improve with every test.</p>
-        </div>
-        <div class="feature">
-          <h3>Flexible Timing</h3>
-          <p>Attempt tests at your convenience with a user-friendly platform available 24/7.</p>
-        </div>
+<!-- Features Section -->
+<section id="features" class="features-section">
+  <div class="container">
+    <h2 class="text-center">Why Choose Us?</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>Expertly Designed Tests</h3>
+        <p>
+          Our test series are crafted by top educators and industry experts to
+          ensure quality preparation.
+        </p>
+      </div>
+      <div class="feature">
+        <h3>Detailed Performance Reports</h3>
+        <p>
+          Track your progress with in-depth performance analytics and improve
+          with every test.
+        </p>
+      </div>
+      <div class="feature">
+        <h3>Flexible Timing</h3>
+        <p>
+          Attempt tests at your convenience with a user-friendly platform
+          available 24/7.
+        </p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Testimonials Section -->
-  <section id="testimonials" class="testimonials-section">
-    <div class="container">
-      <h2>What Our Users Say</h2>
-      <div class="testimonials">
-        <div class="testimonial">
-          <p>"The test series helped me crack my exams with confidence. Highly recommended!"</p>
-          <h4>- John Doe</h4>
-        </div>
-        <div class="testimonial">
-          <p>"Detailed performance reports were a game changer for me. Thanks for such a great platform!"</p>
-          <h4>- Jane Smith</h4>
-        </div>
+<!-- Testimonials Section -->
+<section id="testimonials" class="testimonials-section">
+  <div class="container">
+    <h2 class="text-center">What Our Users Say</h2>
+    <div class="testimonials">
+      <div class="testimonial">
+        <p>
+          "The test series helped me crack my exams with confidence. Highly
+          recommended!"
+        </p>
+        <h4>- John Doe</h4>
+      </div>
+      <div class="testimonial">
+        <p>
+          "Detailed performance reports were a game changer for me. Thanks for
+          such a great platform!"
+        </p>
+        <h4>- Jane Smith</h4>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FAQ Section -->
-  <section id="faq" class="faq-section">
-    <div class="container">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq">
-        <div class="faq-item">
-          <h4>How do I enroll in a test series?</h4>
-          <p>Simply create an account, browse through the test series, and click on enroll.</p>
-        </div>
-        <div class="faq-item">
-          <h4>Are the tests available offline?</h4>
-          <p>Currently, our tests are only available online to ensure instant performance reports.</p>
-        </div>
+<!-- FAQ Section -->
+<section id="faq" class="faq-section">
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h4>How do I enroll in a test series?</h4>
+        <p>
+          Simply create an account, browse through the test series, and click on
+          enroll.
+        </p>
+      </div>
+      <div class="faq-item">
+        <h4>Are the tests available offline?</h4>
+        <p>
+          Currently, our tests are only available online to ensure instant
+          performance reports.
+        </p>
       </div>
     </div>
-  </section>
-  <br>
-  
-  <!-- Footer -->
-  <!-- <footer class="footer">
-    <p>&copy; 2024 Test Series Platform. All rights reserved.</p>
-  </footer> -->
-</body>
-
-
-
-
+  </div>
+</section>
 
 <ng-template #content let-modal>
-	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">{{!isLogin ? 'signUp' : 'Login'}}</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-	</div>
-	<div class="modal-body">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ !isLogin ? "signUp" : "Login" }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
     @if(!isLogin) {
-      <form  [formGroup]="signUpForm">
-        <div class="d-flex gap-2 input-box">
-            <div class="w-50">
-                    <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"
-                    [class.is-invalid]="signUpControl['firstName'].invalid && (signUpControl['firstName'].dirty || signUpControl['firstName'].touched)">
-                    <div *ngIf="signUpControl['firstName'].errors?.['required']" class="invalid-feedback m-0">
-                        {{validationErrorMessage.firstNameRequiredError}}
-                      </div>
-            </div>
-            <div class="w-50">
-                    <input type="text" class="form-control" placeholder="Last name" formControlName="lastName"
-                    [class.is-invalid]="signUpControl['lastName'].invalid && (signUpControl['lastName'].dirty || signUpControl['lastName'].touched)">
-                    <div *ngIf="signUpControl['lastName'].errors?.['required']" class="invalid-feedback m-0">
-                        {{validationErrorMessage.lastNameRequiredError}}
-                      </div>
-            </div>
+    <form [formGroup]="signUpForm">
+      <div class="d-flex gap-2 input-box">
+        <div class="w-50">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="First Name"
+            formControlName="firstName"
+            [class.is-invalid]="
+              signUpControl['firstName'].invalid &&
+              (signUpControl['firstName'].dirty ||
+                signUpControl['firstName'].touched)
+            "
+          />
+          <div
+            *ngIf="signUpControl['firstName'].errors?.['required']"
+            class="invalid-feedback m-0"
+          >
+            {{ validationErrorMessage.firstNameRequiredError }}
+          </div>
         </div>
-       
-        <div class="input-box">
-            <div class="position-relative">
-                <input type="email" class="form-control" placeholder="Email" formControlName="email"
-                [class.is-invalid]="signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)">
-                <ion-icon name="mail"></ion-icon>
-            </div>
-            <div *ngIf="signUpControl['email'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['email'].invalid && (signUpControl['email'].dirty || signUpControl['email'].touched)}">
-                {{ signUpControl['email'].errors['required'] ?
-                validationErrorMessage.emailRequiredError :
-                validationErrorMessage.emailValidationError }}
-              </div>
-             
+        <div class="w-50">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Last name"
+            formControlName="lastName"
+            [class.is-invalid]="
+              signUpControl['lastName'].invalid &&
+              (signUpControl['lastName'].dirty ||
+                signUpControl['lastName'].touched)
+            "
+          />
+          <div
+            *ngIf="signUpControl['lastName'].errors?.['required']"
+            class="invalid-feedback m-0"
+          >
+            {{ validationErrorMessage.lastNameRequiredError }}
+          </div>
         </div>
-        <div class="input-box">
-            <div class="position-relative">
-                <input [type]="hidePassword ? 'password' : 'text'" class="form-control" placeholder="Password" formControlName="password" 
-                [class.is-invalid]="signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)">
-                @if(signUpControl['password'].value) {
-                    <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
-                   
-                        <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
-                        <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
-                      
-                    </div>
-                } @else {
-  
-                    <ion-icon  name="lock-closed" class="icon"></ion-icon>
-                }
-            </div>
-              <div *ngIf="signUpControl['password'].errors" class="invalid-feedback m-0" [ngClass]="{'d-block': signUpControl['password'].invalid && (signUpControl['password'].dirty || signUpControl['password'].touched)}">
-                {{ signUpControl['password'].errors['required'] ?
-                validationErrorMessage.passwordRequiredError :
-                validationErrorMessage.passwordValidationError }}
-            
-              </div>
-  
+      </div>
+
+      <div class="input-box">
+        <div class="position-relative">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email"
+            formControlName="email"
+            [class.is-invalid]="
+              signUpControl['email'].invalid &&
+              (signUpControl['email'].dirty || signUpControl['email'].touched)
+            "
+          />
+          <ion-icon name="mail"></ion-icon>
         </div>
-        
-      
+        <div
+          *ngIf="signUpControl['email'].errors"
+          class="invalid-feedback m-0"
+          [ngClass]="{
+            'd-block':
+              signUpControl['email'].invalid &&
+              (signUpControl['email'].dirty || signUpControl['email'].touched)
+          }"
+        >
+          {{
+            signUpControl["email"].errors["required"]
+              ? validationErrorMessage.emailRequiredError
+              : validationErrorMessage.emailValidationError
+          }}
+        </div>
+      </div>
+      <div class="input-box">
+        <div class="position-relative">
+          <input
+            [type]="hidePassword ? 'password' : 'text'"
+            class="form-control"
+            placeholder="Password"
+            formControlName="password"
+            [class.is-invalid]="
+              signUpControl['password'].invalid &&
+              (signUpControl['password'].dirty ||
+                signUpControl['password'].touched)
+            "
+          />
+          @if(signUpControl['password'].value) {
+          <div
+            class="input-group-prepend"
+            (click)="hidePassword = !hidePassword"
+          >
+            <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+            <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+          </div>
+          } @else {
+
+          <ion-icon name="lock-closed" class="icon"></ion-icon>
+          }
+        </div>
+        <div
+          *ngIf="signUpControl['password'].errors"
+          class="invalid-feedback m-0"
+          [ngClass]="{
+            'd-block':
+              signUpControl['password'].invalid &&
+              (signUpControl['password'].dirty ||
+                signUpControl['password'].touched)
+          }"
+        >
+          {{
+            signUpControl["password"].errors["required"]
+              ? validationErrorMessage.passwordRequiredError
+              : validationErrorMessage.passwordValidationError
+          }}
+        </div>
+      </div>
     </form>
 
     } @else {
-      <form [formGroup]="loginForm">
-      
-        <div class="input-box">
-            <div class="position-relative">
-                <input type="text" placeholder="Username" formControlName="email"
-                [class.is-invalid]="loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)">
-                <ion-icon name="person" class="icon"></ion-icon>
-
-            </div>
-
-            <div *ngIf="loginFormControl['email'].errors" class="invalid-feedback"  [ngClass]="{'d-block': loginFormControl['email'].invalid && (loginFormControl['email'].dirty || loginFormControl['email'].touched)}">
-                {{ loginFormControl['email'].errors['required'] ?
-                validationErrorMessage.emailRequiredError :
-                validationErrorMessage.emailValidationError }}
-              </div>
+    <form [formGroup]="loginForm">
+      <div class="input-box">
+        <div class="position-relative">
+          <input
+            type="text"
+            placeholder="Username"
+            formControlName="email"
+            [class.is-invalid]="
+              loginFormControl['email'].invalid &&
+              (loginFormControl['email'].dirty ||
+                loginFormControl['email'].touched)
+            "
+          />
+          <ion-icon name="person" class="icon"></ion-icon>
         </div>
-        <div class="input-box">
-            <div class="position-relative">
-                <input [type]="hidePassword ? 'password': 'text'"  placeholder="Password"  formControlName="password"
-                [class.is-invalid]="loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)">
-                @if(loginFormControl['password'].value) {
-                    <div  class="input-group-prepend" (click)="hidePassword = !hidePassword" >
-                   
-                        <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
-                        <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
-                      
-                    </div>
-                } @else {
 
-                    <ion-icon  name="lock-closed" class="icon"></ion-icon>
-                }
-
-            </div>
-            <div *ngIf="loginFormControl['password'].errors" class="invalid-feedback" [ngClass]="{'d-block': loginFormControl['password'].invalid && (loginFormControl['password'].dirty || loginFormControl['password'].touched)}">
-                {{ loginFormControl['password'].errors['required'] ?
-                validationErrorMessage.passwordRequiredError :
-                validationErrorMessage.passwordValidationError }}
-              </div>
+        <div
+          *ngIf="loginFormControl['email'].errors"
+          class="invalid-feedback"
+          [ngClass]="{
+            'd-block':
+              loginFormControl['email'].invalid &&
+              (loginFormControl['email'].dirty ||
+                loginFormControl['email'].touched)
+          }"
+        >
+          {{
+            loginFormControl["email"].errors["required"]
+              ? validationErrorMessage.emailRequiredError
+              : validationErrorMessage.emailValidationError
+          }}
         </div>
-        
-        
+      </div>
+      <div class="input-box">
+        <div class="position-relative">
+          <input
+            [type]="hidePassword ? 'password' : 'text'"
+            placeholder="Password"
+            formControlName="password"
+            [class.is-invalid]="
+              loginFormControl['password'].invalid &&
+              (loginFormControl['password'].dirty ||
+                loginFormControl['password'].touched)
+            "
+          />
+          @if(loginFormControl['password'].value) {
+          <div
+            class="input-group-prepend"
+            (click)="hidePassword = !hidePassword"
+          >
+            <ion-icon *ngIf="hidePassword" name="eye-off"></ion-icon>
+            <ion-icon *ngIf="!hidePassword" name="eye"></ion-icon>
+          </div>
+          } @else {
+
+          <ion-icon name="lock-closed" class="icon"></ion-icon>
+          }
+        </div>
+        <div
+          *ngIf="loginFormControl['password'].errors"
+          class="invalid-feedback"
+          [ngClass]="{
+            'd-block':
+              loginFormControl['password'].invalid &&
+              (loginFormControl['password'].dirty ||
+                loginFormControl['password'].touched)
+          }"
+        >
+          {{
+            loginFormControl["password"].errors["required"]
+              ? validationErrorMessage.passwordRequiredError
+              : validationErrorMessage.passwordValidationError
+          }}
+        </div>
+      </div>
     </form>
     }
-  
-	</div>
-	<div class="modal-footer">
-    <app-async-button type="submit" classes="restore-button"
-    [disabled]="false"
-    [isAsyncCall]="false" (click)="isLogin = !isLogin">{{!isLogin ? 'Already have an account ?' : 'Don’t have an account?'}}</app-async-button>
+  </div>
+  <div class="modal-footer">
+    <app-async-button
+      type="submit"
+      classes="restore-button"
+      [disabled]="false"
+      [isAsyncCall]="false"
+      (click)="isLogin = !isLogin"
+      >{{
+        !isLogin
+          ? "Already have an account ?"
+          : "Don’t have an
+      account?"
+      }}</app-async-button
+    >
 
     @if(!isLogin ) {
-      <app-async-button type="submit" classes="restore-button"
+    <app-async-button
+      type="submit"
+      classes="restore-button"
       [disabled]="signUpForm.invalid || isSignUpAsyncCall"
-      [isAsyncCall]="isSignUpAsyncCall" (click)="registerUser()">Singup</app-async-button>
+      [isAsyncCall]="isSignUpAsyncCall"
+      (click)="registerUser()"
+      >Singup</app-async-button
+    >
     } @else {
-      <app-async-button type="submit" classes="restore-button"
+    <app-async-button
+      type="submit"
+      classes="restore-button"
       [disabled]="loginForm.invalid || isSignInAsyncCall"
-      [isAsyncCall]="isSignInAsyncCall" (click)="loginUser()">Login</app-async-button>
+      [isAsyncCall]="isSignInAsyncCall"
+      (click)="loginUser()"
+      >Login</app-async-button
+    >
     }
-	
-
-  
-	</div>
-
-	
+  </div>
 </ng-template>
-
-
-
-
-
-
-

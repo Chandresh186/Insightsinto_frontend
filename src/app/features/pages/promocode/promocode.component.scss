@@ -1,13 +1,12 @@
 
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 15px;
+// .container {
+    // width: 90%;
+    // max-width: 1200px;
+    // margin: 50px auto;
+    // padding: 30px;
+    // border-radius: 15px;
     // box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
+// }
 
 h1 {
     text-align: center;
@@ -96,7 +95,7 @@ h1 {
 }
 
 .table-container {
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 .table-container h3 {
@@ -108,6 +107,8 @@ h1 {
 
 ::ng-deep .table-container .table-search-bar {
     box-shadow: none !important;
+    // border-top-left-radius: 8px !important;
+    // border-top-right-radius: px !important;
 }
 
 ::ng-deep .table-container .table-container {
@@ -115,9 +116,26 @@ h1 {
 }
 
 ::ng-deep .table-container .test-series-section{
+
+    padding: 0 !important;
+    border: 1px solid rgba(0, 0, 0, 0.175);
+    border-radius: 8px;
+
+} 
+
+
+::ng-deep .table-container .test-series-section .table-search-bar{
+    padding: 10px 15px !important;
+}
+
+
+::ng-deep .table-container .pagination-controls{
+    margin: 0 !important;
     padding: 20px 0 !important;
-    border: 1px solid #dddddd;
-    border-radius: 21px;
+    background-color: #fff;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
 } 
 
 input[type="number"] {
@@ -137,12 +155,12 @@ input[type="number"]::-webkit-outer-spin-button {
     // position: absolute;
     top: 1rem;
     right: 1rem;
-    padding: 0.5rem 1rem;
+    padding: 6px 12px;
     background-color: #1A1F35;
     color: #ffffff;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px;
+    // font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }

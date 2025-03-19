@@ -1,264 +1,9 @@
-<!-- <div class="container">
-
-  
-    <section class="mb-4">
-      <h2 class="mb-3">Overview</h2>
-      <div class="flex-container">
-        <div class="card">
-          <h2>Total Test Series Created</h2>
-          <p>45</p>
-        </div>
-        <div class="card">
-          <h2>Total Active Users</h2>
-          <p>1200</p>
-        </div>
-        <div class="card">
-          <h2>Recently Purchased Test Series</h2>
-          <p>8 test series purchased today</p>
-        </div>
-      </div>
-    </section>
-
-  
-   
-    <section class="list-section  mb-4">
-  
-      <div class="w-100">
-        <span class="more"><h5 class="mb-3 ">Test Series </h5> <i class="fa fa-ellipsis-v"></i></span>
-        <div class="list p-0">
-            <app-table  
-            [tableHeaders]="tableHeaders"
-            [tableData]="tableData"
-            [itemsPerPage]="5"
-            [actionsConfig]="actionsConfig"
-            (actionTriggered)="handleAction($event)"
-            [tableName]="''"
-            [showTableName]="true"
-            [showSearchBar]="true"
-            [showColumns]="showColumns1"
-            >
-            </app-table>
-        </div>
-      </div>
-
-      <section class="w-100">
-        <h5 class="mb-3">Notifications & Alerts</h5>
-        <div class="flex-container">
-         <div class="card">
-             <div class="alert">
-               <p><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
-             </div>
-             <div class="alert">
-               <p><strong>Support Requests:</strong> You have 5 new user feedback messages.</p>
-             </div>
-
-         </div>
-        </div>
-      </section>
-  
-     
-     
-    </section>
-  
-   
-     <div class="list-section d-flex w-100 gap-20px">
-        <div class="w-100">
-            <span class="more"><h5 class="mb-3 ">Tests </h5> <i class="fa fa-ellipsis-v"></i></span>
-            <div class="list p-0">
-    
-                    <app-table  
-                    [tableHeaders]="tableHeader"
-                    [tableData]="tableDatas"
-                    [itemsPerPage]="5"
-                    [actionsConfig]="actionsConfig"
-                    (actionTriggered)="handleAction($event)"
-                    [tableName]="''"
-                    [showTableName]="true"
-                    [showSearchBar]="true"
-                    [showColumns]="showColumns2"
-                    >
-                    </app-table>
-              
-            </div>
-          </div>
-       
-   
-         <section class="w-100">
-           <h5 class="mb-3">User Insights</h5>
-           <div class="flex-container">
-           
-             <div class="card">
-                <div class="alert">
-                  <p><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
-                </div>
-                <div class="alert">
-                  <p><strong>Support Requests:</strong> You have 5 new user feedback messages.</p>
-                </div>
-
-            </div>
-           </div>
-         </section>
-
-     </div>
-  </div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- <div class="container">
-  
-    <section class="mb-4">
-      <h2 class="mb-3">Overview</h2>
-      <div class="flex-container">
-        <div class="card">
-          <h2>Total Test Series Created</h2>
-          <p>45</p>
-        </div>
-        <div class="card">
-          <h2>Total Active Users</h2>
-          <p>1200</p>
-        </div>
-        <div class="card">
-          <h2>Recently Purchased Test Series</h2>
-          <p>8 test series purchased today</p>
-        </div>
-      </div>
-    </section>
-  
-   
-    <section class="list-section mb-4">
-      <div class="flex-item item-one">
-        <span class="more">
-          <h5 class="mb-3">Test Series</h5> 
-          <i class="fa fa-ellipsis-v"></i>
-        </span>
-        <div class="list p-0">
-          <app-table  
-            [tableHeaders]="tableHeaders"
-            [tableData]="tableData"
-            [itemsPerPage]="5"
-            [actionsConfig]="actionsConfig"
-            (actionTriggered)="handleAction($event)"
-            [tableName]="''"
-            [showTableName]="true"
-            [showSearchBar]="true"
-            [showColumns]="showColumns1">
-          </app-table>
-        </div>
-      </div>
-      
-      <section class="flex-item item-two">
-        <h5 class="mb-3">Notifications & Alerts</h5>
-        <div class="flex-container">
-          <div class="card alert-card">
-            <div class="alert">
-              <p><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
-            </div>
-            <div class="alert">
-              <p><strong>Support Requests:</strong> You have 5 new user feedback messages.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-  
-    
-    <section class="list-section mb-4">
-      <div class="flex-item item-one">
-        <span class="more">
-          <h5 class="mb-3">Tests</h5>
-          <i class="fa fa-ellipsis-v"></i>
-        </span>
-        <div class="list p-0">
-          <app-table  
-            [tableHeaders]="tableHeader"
-            [tableData]="tableDatas"
-            [itemsPerPage]="5"
-            [actionsConfig]="actionsConfig"
-            (actionTriggered)="handleAction($event)"
-            [tableName]="''"
-            [showTableName]="true"
-            [showSearchBar]="true"
-            [showColumns]="showColumns2">
-          </app-table>
-        </div>
-      </div>
-  
-      <section class="flex-item item-two">
-        <h5 class="mb-3">User Insights</h5>
-        <div class="flex-container">
-          <div class="card alert-card">
-            <div class="alert">
-              <p><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
-            </div>
-            <div class="alert">
-              <p><strong>Support Requests:</strong> You have 5 new user feedback messages.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-  </div> -->
-
-
-
-
-
-
-
 
 
   <div class="container">
-    
-
-    <!-- <section class="mb-4">
-      <h2 class="mb-3">Overview</h2>
-      <div class="d-flex flex-wrap justify-content-between">
-      
-        <div class="flex-grow-1 p-2">
-          <div class="card h-100">
-            <div class="card-body text-center">
-              <h2 class="card-title py-3">Total Test Series Created</h2>
-              <p class="card-text  p-2">{{dashboardData && dashboardData.totalTestSeriesCreated}}</p>
-            </div>
-          </div>
-        </div>
-    
-        
-        <div class="flex-grow-1 p-2">
-          <div class="card h-100">
-            <div class="card-body text-center">
-              <h2 class="card-title py-3">Total Active Users</h2>
-              <p class="card-text  p-2">{{dashboardData && dashboardData.totalActiveUsers}}</p>
-            </div>
-          </div>
-        </div>
-    
-        
-        <div class="flex-grow-1 p-2">
-          <div class="card h-100">
-            <div class="card-body text-center">
-              <h2 class="card-title py-3">Recently Purchased Test Series</h2>
-              <p class="card-text p-2">{{dashboardData && dashboardData.recentlyPurchasedTestSeries}} test series purchased today</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
-
-
     <section class="row g-6 mb-5 ">
       <div class="col-xl-4 col-sm-6 col-12">
-        <div class="card shadow border-0">
+        <div class="card border-0">
           <div class="card-body">
             <div class="row">
               <div class="col">
@@ -283,7 +28,7 @@
         </div>
       </div>
       <div class="col-xl-4 col-sm-6 col-12">
-        <div class="card shadow border-0">
+        <div class="card border-0">
           <div class="card-body">
             <div class="row">
               <div class="col">
@@ -306,7 +51,7 @@
         </div>
       </div>
       <div class="col-xl-4 col-sm-6 col-12">
-        <div class="card shadow border-0">
+        <div class="card border-0">
           <div class="card-body">
             <div class="row">
               <div class="col">
@@ -324,7 +69,7 @@
                 <i class="bi bi-arrow-up me-1"></i>
               </span>
               <span class="text-nowrap text-xs text-muted">
-                Recently (Today) purchased test series</span>
+                Recently purchased test series</span>
             </div>
           </div>
         </div>
@@ -335,17 +80,17 @@
 
     
   <!--flex-grow-7 flex-shrink-1     flex-grow-3 flex-shrink-1-->
-
-    <section class="list-section mb-4">
-      <div class="wrapper">
+    <section class="list-section mb-4" *ngIf="!loading">
+      <!-- <div class="wrapper">  -->
+        <!--flex-basis-left-->
        
-        <div class=" p-2 flex-basis-left" >
-          <div class="card h-100 card-width">
+        <!-- <div class=" p-2 " > -->
+          <div class="card w-100">
             <div class="card-header d-flex justify-content-between align-items-center p-3">
-              <h5 class="mb-0">Test Series</h5>
+              <h4 class="mb-0">Test Series</h4>
               <!-- <i class="fa fa-ellipsis-v"></i> -->
             </div>
-            <div class="card-body">
+            <div class="card-body p-0">
               <app-table  
               
                 [tableHeaders]="testSeriesTableHeaders"
@@ -362,15 +107,15 @@
              
             </div>
           </div>
-        </div>
+        <!-- </div> -->
     
       
-        <div class=" p-2 flex-basis-right">
+        <!-- <div class=" p-2 flex-basis-right">
           <div class="card h-100">
             <div class="card-header p-3">
               <h5 class="mb-0">Notifications & Alerts</h5>
             </div>
-            <div class="card-body p-3">
+            <div class="card-body">
               <div class="alert alert-secondary mb-3">
                 <p class="mb-0"><strong>Pending Actions:</strong> 3 unpublished test series need your attention.</p>
               </div>
@@ -379,8 +124,8 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div> -->
+      <!-- </div> -->
     </section>
 
 
@@ -388,15 +133,16 @@
     
   
 
-    <section class="list-section mb-4">
-      <div class="d-flex flex-wrap">
-        <div class="p-2 flex-basis-left">
-          <div class="card h-100 card-width">
+    <section class="list-section mb-4" *ngIf="!loading">
+      <!-- <div class="d-flex flex-wrap">  -->
+        <!--flex-basis-left-->
+        <!-- <div class="p-2 "> -->
+          <div class="card w-100">
             <div class="card-header d-flex justify-content-between align-items-center p-3">
-              <h5 class="mb-0">Tests Insights</h5>
+              <h4 class="mb-0">Tests Insights</h4>
               <!-- <i class="fa fa-ellipsis-v"></i> -->
             </div>
-            <div class="card-body">
+            <div class="card-body p-0">
               <app-table  
                 [tableHeaders]="testTableHeaders"
                 [tableData]="testData"
@@ -410,9 +156,9 @@
               </app-table>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
       
-        <div class="p-2 flex-basis-right">
+        <!-- <div class="p-2 flex-basis-right">
           <div class="card h-100">
             <div class="card-header p-3">
               <h5 class="mb-0">Insights</h5>
@@ -426,9 +172,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
-      </div>
+      <!-- </div> -->
     </section>
     
   </div>

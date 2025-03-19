@@ -12,7 +12,7 @@
                         <!-- <span class="hide company-name">Insights_Into</span> -->
                     </a>
                 </div>
-                <button class="expand-btn" type="button" (click)="toggleSidebar()"><ion-icon class="i" name="chevron-back-outline"></ion-icon>
+                <button class="expand-btn p-0" type="button" (click)="toggleSidebar()"><ion-icon class="i" name="chevron-back-outline"></ion-icon>
                 </button>
             </div>
             <div class="sidebar-links">
@@ -46,7 +46,10 @@
         </nav>
         <section class="home-section" [ngClass]="{'padding-bottom-on-mobile' : checkRole('user')}"> 
             <app-header></app-header>
-            <router-outlet (activate)="detectRoutes($event)" ></router-outlet>
+            <div class="conatiner">
+              <router-outlet (activate)="detectRoutes($event)" ></router-outlet>
+
+            </div>
         </section>
     </div>
 

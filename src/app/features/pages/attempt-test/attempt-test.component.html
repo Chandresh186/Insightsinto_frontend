@@ -2,7 +2,7 @@
 <div class="container">
   <header class="rounded">
       <div class="difficulty" aria-label="Difficulty Level">
-          <h1> <i ngbTooltip="Go back" (click)="backToCourse()" class="fas fa-arrow-left back-button"></i> &nbsp; &nbsp;{{testDetails && testDetails.title | uppercase}}     </h1>
+          <h4 class="mb-0"> <i ngbTooltip="Go back" (click)="backToCourse()" class="fas fa-arrow-left back-button"></i> &nbsp; &nbsp;{{testDetails && testDetails.title}}     </h4>
        
            <div class="test-timer">
               <i class="far fa-clock"></i> Time: {{ remainingTime }}
@@ -12,14 +12,14 @@
     </header>
     <div class="container-question">
       <div class="question-panel position-relative" >
-        <h2 class="mb-0 d-flex"><span class="pl-3 py-2">Q</span> 
+        <h4 class="mb-0 d-flex"><span class="pl-3 py-2">Q</span> 
           <!-- <ng-container *ngIf="currentQuestion?.question?.includes('http'); else textQuestion">
               <img [src]="currentQuestion?.question" alt="Question Image" class="question-image" />
             </ng-container>
             <ng-template #textQuestion> -->
              <div id="questionEditor" ></div> <!--{{ currentQuestion?.question}}  [innerHTML]="currentQuestion?.question"--> 
             <!-- </ng-template> -->
-        </h2>
+        </h4>
         <div class="wrapper">
             <div class="options">
               <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'A'}">
@@ -97,7 +97,7 @@
       </div>
     
       <div class="question-sidebar position-relative">
-        <h3>Questions</h3>
+        <h4 class="mb-0">Questions</h4>
         <div class="question-panel-list">
             <div class="question-list">
               @for( q of questions; track q;let id = $index) {

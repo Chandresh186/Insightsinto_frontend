@@ -20,7 +20,7 @@
   <div
     class="overview-header d-flex justify-content-between align-items-center mb-3"
   >
-    <h2><b>All test</b></h2>
+    <h4 class="mb-0">All test</h4>
     <div class="d-flex gap-10px">
       <!--  <button *ngIf="testSeriesDetails && testSeriesDetails.isActive === false" class="btn-create" id="createTestBtn" (click)="EditTestseries()"> Publish test series</button> -->
       <button class="btn-create" id="createTestBtn" (click)="createTestModel()">
@@ -83,9 +83,9 @@
   </header>
   <section class="series-overview">
     <div class="overview-header d-flex justify-content-between mb-3">
-      <h2>
-        <b>{{ testForm && testForm.title | uppercase }}</b>
-      </h2>
+      <h4 class="mb-0">
+        {{ testForm && testForm.title }}
+      </h4>
       <div>
         <button
           class="btn-create"
@@ -592,9 +592,9 @@
    
       <div *ngIf="GeneratedQuestions.length > 0; else noQUestion">
         <div class="d-flex align-items-baseline justify-content-between">
-          <h1 class="mb-4">
+          <h4 class="mb-0">
             Category-wise MCQs ({{ GeneratedQuestions.length }})
-          </h1>
+          </h4>
 
           <div
             class="dropdown"
@@ -851,7 +851,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
+    <h4 class="modal-title mb-0" id="modal-basic-title">
       {{ isEditTest ? "Edit test" : "Create test" }}
     </h4>
     <button
@@ -1193,7 +1193,7 @@
 
 <ng-template #genQues let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Generate Questions</h4>
+    <h4 class="modal-title mb-0" id="modal-basic-title">Generate Questions</h4>
     <button
       type="button"
       class="btn-close"

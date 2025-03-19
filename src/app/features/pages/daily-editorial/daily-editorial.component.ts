@@ -302,6 +302,7 @@ export class DailyEditorialComponent implements OnInit{
           response.sort((a: any, b: any) => new Date(a.uploadDate).getTime() - new Date(b.uploadDate).getTime());
           
           this.allEditoril = response
+          this.allEditoril = []
           
         }),
         catchError((error) => {

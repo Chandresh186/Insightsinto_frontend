@@ -1,0 +1,11 @@
+Question,A,B,C,D,Ans,Complexity,CategoryId,Description,Type,Language
+What is 2+2?,1,2,3,4,4,Easy,02883e6a-adcd-4159-bbe8-1079c06aeb31,Simple math question,MCQ,English
+What is the capital of France?,London,Berlin,Paris,Madrid,Paris,Medium,02883e6a-adcd-4159-bbe8-1079c06aeb31,Geography question,MCQ,English
+Who wrote 'Hamlet'?,Shakespeare,Dickens,Tolstoy,Hemingway,Shakespeare,Hard,02883e6a-adcd-4159-bbe8-1079c06aeb31,Literature question,MCQ,English
+What is 10*10?,20,50,100,200,100,Easy,02883e6a-adcd-4159-bbe8-1079c06aeb31,Multiplication question,MCQ,English
+Which planet is known as the Red Planet?,Venus,Mars,Jupiter,Saturn,Mars,Medium,02883e6a-adcd-4159-bbe8-1079c06aeb31,Space question,MCQ,English
+What is the boiling point of water in Celsius?,50,75,100,150,100,Easy,02883e6a-adcd-4159-bbe8-1079c06aeb31,Science question,MCQ,English
+Who developed the theory of relativity?,Newton,Einstein,Galileo,Bohr,Einstein,Hard,02883e6a-adcd-4159-bbe8-1079c06aeb31,Physics question,MCQ,English
+What is the square root of 64?,6,7,8,9,8,Medium,02883e6a-adcd-4159-bbe8-1079c06aeb31,Math question,MCQ,English
+What is the chemical symbol for Gold?,Ag,Au,Fe,Pt,Au,Easy,02883e6a-adcd-4159-bbe8-1079c06aeb31,Chemistry question,MCQ,English
+What is the largest ocean on Earth?,Atlantic,Indian,Arctic,Pacific,Pacific,Hard,02883e6a-adcd-4159-bbe8-1079c06aeb31,Geography question,MCQ,English

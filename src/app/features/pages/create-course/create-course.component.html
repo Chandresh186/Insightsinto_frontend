@@ -3,7 +3,7 @@
   <div class="row">
     @if(!getCourseId()) {
       <div class="col-10">
-        <h1>{{this.getCourseId() ? 'Edit course' : 'Create a new course'}}</h1>
+        <h4 class="mb-0  text-center">{{this.getCourseId() ? 'Edit course' : 'Create a new course'}}</h4>
 
       </div>
       <div class="col">
@@ -18,11 +18,11 @@
       </div>
 
     } @else {
-      <div class="col-9" >
-        <h1>{{getCourseId() ? 'Edit course' : 'Create a new course'}}</h1>
+      <div class="col-8" >
+        <h4 class="mb-0 text-center">{{getCourseId() ? 'Edit course' : 'Create a new course'}}</h4>
   
       </div>
-      <div class="col d-flex align-items-center gap-3" > <!--*ngIf="courseData && courseData.parentId !== null"-->
+      <div class="col d-flex align-items-center justify-content-end gap-3" > <!--*ngIf="courseData && courseData.parentId !== null"-->
         <div class="form-check form-switch">
           <div>
             <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [(ngModel)]="isCreateChapter" >
@@ -321,8 +321,8 @@
   
       <!-- Submit Button -->
       <div class="d-flex custom-gap">
-        <button type="submit" class="custom-button p12px" [disabled]="createCourseForm.invalid">{{getCourseId() ? 'Update course':'Create course'}}</button>
-        <button id="back" class="custom-button p12px" type="button" routerLink="/dash/course-list" >Back</button>
+        <button type="submit" class="custom-button" [disabled]="createCourseForm.invalid">{{getCourseId() ? 'Update course':'Create course'}}</button>
+        <button id="back" class="custom-button" type="button" routerLink="/dash/course-list" >Back</button>
       </div>
     </form>
 

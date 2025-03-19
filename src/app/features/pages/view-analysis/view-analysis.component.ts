@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TestSeriesService } from '../../../core/services/test-series.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import Quill from 'quill';
 
 @Component({
   selector: 'app-view-analysis',
@@ -37,6 +38,31 @@ getUserId() {
     .userId;
 }
 
+
+initilizeEditor() {
+  setTimeout(() => {
+  this.questions.forEach((mcq: any, index: any) => {
+    this.initializeQuill(`quill-question-${index}`, mcq.question);
+    this.initializeQuill(`quill-optionA-${index}`, mcq.a);
+    this.initializeQuill(`quill-optionB-${index}`, mcq.b);
+    this.initializeQuill(`quill-optionC-${index}`, mcq.c);
+    this.initializeQuill(`quill-optionD-${index}`, mcq.d);
+  });
+  }, 100)
+}
+
+initializeQuill(elementId: string, content: string) {
+  const container = document.getElementById(elementId);
+  if (container) {
+    const quill = new Quill(container, {
+      theme: 'snow',
+      readOnly: true,
+      modules: { toolbar: [] }
+    });
+    quill.root.innerHTML = content;
+  }
+}
+
 getAnalysis() {
   // const payload = {
   //       userId: this.getUserId(),
@@ -51,6 +77,7 @@ getAnalysis() {
         .pipe(
           tap((response) => {
             this.questions = response;
+            this.initilizeEditor();
             
           }),
           catchError((error) => {

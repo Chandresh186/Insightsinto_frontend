@@ -41,7 +41,10 @@
 
 
     <Section class="Admin-view">
-      <button class="add-button" (click)="openModel()">   Add New</button>
+      <div class="d-flex justify-content-end mb-2">
+        <button class="add-button" (click)="openModel()">   Add New</button>
+
+      </div>
         <app-table  
         [tableHeaders]="tableHeaders"
         [tableData]="tableData"

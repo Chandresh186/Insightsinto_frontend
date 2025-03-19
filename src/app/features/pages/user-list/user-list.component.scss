@@ -13,9 +13,24 @@
   }
 
 
-  ::ng-deep  .tests-list .test-series-section {
-    padding: 60px 0 10px !important;
-  }
+//   ::ng-deep  .tests-list .test-series-section {
+//     padding: 60px 0 10px !important;
+//   }
+
+  ::ng-deep .tests-list .test-series-section {
+    padding: 0 !important;
+    border: 1px solid rgba(0, 0, 0, 0.175);
+    border-radius: 8px;
+}
+
+::ng-deep .tests-list .pagination-controls{
+    margin: 0 !important;
+    padding: 20px 0 !important;
+    background-color: #fff;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+}
 
 
   .input-box input {

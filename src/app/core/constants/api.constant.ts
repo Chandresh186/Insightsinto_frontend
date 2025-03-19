@@ -40,6 +40,7 @@ export const API_CONSTANTS = {
     Questions: {
       GET_ALL_QUESTIONS: 'Question',
       CREATE_QUESTION: 'Question',
+      UPLOAD_CSVFILE: 'Question/import_csv',
       GET_QUESTION_BY_ID: (id: string) => `Question/${id}`,
       UPDATE_QUESTION_BY_ID: (id: string) => `Question/${id}`,
       DELETE_QUESTION_BY_ID: (id: string) => `Question/${id}`

@@ -494,7 +494,7 @@ footer .wrapper {
 
 .footer-title {
   color: var(--foreground-primary);
-  font-weight: 700;
+  font-weight: 700 !important;
   margin-bottom: 0.4rem;
 }
 
@@ -990,11 +990,6 @@ footer .wrapper {
 }
 
 .logo-small {
-  // height: 2rem;
-  // width: 2rem;
-  // overflow: hidden;
-  // object-fit: cover;
-
   height: 2rem;
     width: 14rem;
     overflow: hidden;

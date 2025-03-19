@@ -35,41 +35,12 @@ export class BlogDetailsComponent {
     this.quillEditor = new Quill('#editor', {
       theme: 'snow',
       readOnly: true,
-      // placeholder: 'Write your blog content here...',
+    
       modules: {
         toolbar: [
-        //   // Font family
-        //   [{ font: [] }],
-
-        //   // Font size
-        //   [{ size: [] }],
-
-        //   // Text formatting
-        //   ['bold', 'italic', 'underline', 'strike'], // Bold, italic, underline, strike
-        //   [{ script: 'sub' }, { script: 'super' }], // Subscript, superscript
-        //   [{ color: [] }, { background: [] }], // Text and background colors
-
-        //   // Headers and block styles
-        //   [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers (H1-H6)
-        //   ['blockquote', 'code-block'], // Blockquote and code block
-
-        //   // Lists and Indentation
-        //   [{ list: 'ordered' }, { list: 'bullet' }], // Ordered and unordered lists
-        //   [{ indent: '-1' }, { indent: '+1' }], // Indentation
-
-        //   // Alignment and Direction
-        //   [{ align: [] }], // Align left, center, right, justify
-        //   [{ direction: 'rtl' }], // RTL text direction
-
-        //   // Links, media, and more
-        //   ['link', 'image', 'video', 'formula'], // Links, images, videos, formulas
-
-        //   ['table'], // Table operations
-
-        //   // Clear formatting
-        //   ['clean'], // Clear formatting
+       
         ],
-        // table: true, // Enable table module
+       
       },
     });
     this.isUserLoggedIn = localStorage.getItem('currentUser') !== null;
@@ -79,7 +50,6 @@ export class BlogDetailsComponent {
 
 
    getBlogs(id: any): void {
-        // this.blogData = null;
         this.loading = true;  // Set loading state to true while fetching data
         this.blogService.getBlogById(id).pipe(
           tap(response => {

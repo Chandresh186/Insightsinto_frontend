@@ -2,7 +2,7 @@
     <h2>Your test series</h2>
       <div class="cards-container my-5">
         <ng-container *ngIf="testSeriesData.length > 0; else noTestSeries">
-        <div class="card shadow border-0" *ngFor="let series of testSeriesData">
+        <div class="card border-0" *ngFor="let series of testSeriesData">
           <div class="card-label"  [ngClass]="{
             active: series.status === 'Active',
             completed: series.status === 'Completed',

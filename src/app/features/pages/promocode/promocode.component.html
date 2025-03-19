@@ -1,7 +1,8 @@
-<body>
-    <div class="container">
+<!-- <body> -->
+    <div class="container mb-5">
         <h1>Promo Code Management</h1>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex " [ngClass]="!createCoupon ? 'justify-content-between':'justify-content-end'">
+            <h4 *ngIf="!createCoupon" class="mb-0">Promo codes</h4>
             <button class="add-button" (click)="createCoupon = !createCoupon"> {{!createCoupon ? 'New coupon' : 'See all coupons'}} </button>
         </div>
 
@@ -58,7 +59,7 @@
         } @else {
             
             <div class="table-container">
-                <h3>Existing Promo Codes</h3>
+                
                 <app-table  
                 [tableHeaders]="tableHeaders"
                 [tableData]="tableData"
@@ -108,4 +109,4 @@
 
        
     </div>
-</body>
+<!-- </body> -->

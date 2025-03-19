@@ -475,6 +475,7 @@ width: 30px;
 .course-card {
   width: 96%;
   max-width: 19rem;
+  margin-inline: 12px;
 }
 
 
@@ -493,4 +494,9 @@ width: 30px;
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #1A1F35;
   --bs-btn-disabled-border-color: #1A1F35;
+}
+
+::ng-deep .courses .container {
+  max-width: 100% !important;
+  width: auto !important;
 }

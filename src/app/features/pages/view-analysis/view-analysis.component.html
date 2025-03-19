@@ -1,14 +1,16 @@
 <div class="container">
     <div class="question-panel position-relative">
         <ng-container *ngFor="let ques of questions;let i = index">
-          <h2 class="mb-0">Q  {{i+1}}&nbsp; 
-            <ng-container *ngIf="ques.question.includes('http'); else textQuestion">
+          <h4 class="mb-0 d-flex align-items-center">Q  {{i+1}}&nbsp; 
+            <!-- <ng-container *ngIf="ques.question.includes('http'); else textQuestion">
                 <img [src]="ques.question" alt="Question Image" class="question-image" />
               </ng-container>
               <ng-template #textQuestion>
                 {{ ques.question }}
-              </ng-template>
-          </h2>
+              </ng-template> -->
+
+              <div id="quill-question-{{ i }}"></div>
+          </h4>
   
           <div class="wrapper">
               <div class="options">
@@ -17,12 +19,13 @@
                     'wrong': ques.user_ans === 'A' && ques.ans !== 'A'
                 }"> <!-- -->
                     <span class="option-label">A</span>
-                    <ng-container *ngIf="ques.a.includes('http'); else textOptionA">
+                    <!-- <ng-container *ngIf="ques.a.includes('http'); else textOptionA">
                         <img [src]="ques.a" alt="Option A Image" class="option-image" />
                       </ng-container>
                       <ng-template #textOptionA>
                         {{ ques.a }}
-                      </ng-template>
+                      </ng-template> -->
+                      <div id="quill-optionA-{{ i }}"></div>
                     <input type="radio" [name]="'answer-' + i"  value="A" [attr.aria-label]="ques?.a" [checked]="ques.user_ans === 'A'" disabled> <!--[(ngModel)]="selectedAnswer"-->
                 </label>
                 <label class="option" tabindex="0" [ngClass]="{
@@ -30,12 +33,13 @@
                     'wrong': ques.user_ans === 'B' && ques.ans !== 'B'
                 }">  <!---->
                     <span class="option-label">B</span>
-                    <ng-container *ngIf="ques.b.includes('http'); else textOptionB">
+                    <!-- <ng-container *ngIf="ques.b.includes('http'); else textOptionB">
                         <img [src]="ques.b" alt="Option B Image" class="option-image" />
                       </ng-container>
                       <ng-template #textOptionB>
                         {{ ques.b }}
-                      </ng-template>
+                      </ng-template> -->
+                      <div id="quill-optionB-{{ i }}"></div>
                     <input type="radio" [name]="'answer-' + i"  value="B" [attr.aria-label]="ques.b" [checked]="ques.user_ans === 'B'" disabled> <!--[(ngModel)]="selectedAnswer"-->
                 </label>
                 <label class="option" tabindex="0" [ngClass]="{
@@ -43,12 +47,13 @@
                     'wrong': ques.user_ans === 'C' && ques.ans !== 'C'
                 }"> <!--"-->
                     <span class="option-label">C</span>
-                    <ng-container *ngIf="ques.c?.includes('http'); else textOptionC">
+                    <!-- <ng-container *ngIf="ques.c?.includes('http'); else textOptionC">
                         <img [src]="ques.c" alt="Option C Image" class="option-image" />
                       </ng-container>
                       <ng-template #textOptionC>
                         {{ ques.c }}
-                      </ng-template>
+                      </ng-template> -->
+                      <div id="quill-optionC-{{ i }}"></div>
                     <input type="radio" [name]="'answer-' + i"  value="C" [attr.aria-label]="ques.c" [checked]="ques.user_ans === 'C'" disabled> <!--[(ngModel)]="selectedAnswer"-->
                 </label>
                 <label class="option" tabindex="0" [ngClass]="{
@@ -56,12 +61,13 @@
                     'wrong': ques.user_ans === 'D' && ques.ans !== 'D'
                 }"> <!---->
                     <span class="option-label">D</span>
-                    <ng-container *ngIf="ques.d.includes('http'); else textOptionD">
+                    <!-- <ng-container *ngIf="ques.d.includes('http'); else textOptionD">
                         <img [src]="ques.d" alt="Option D Image" class="option-image" />
                       </ng-container>
                       <ng-template #textOptionD>
                         {{ ques.d }}
-                      </ng-template>
+                      </ng-template> -->
+                      <div id="quill-optionD-{{ i }}"></div>
                     <input type="radio" [name]="'answer-' + i"  value="D" [attr.aria-label]="ques.d" [checked]="ques.user_ans === 'D'" disabled > <!--[(ngModel)]="selectedAnswer"-->
                 </label>
               </div>

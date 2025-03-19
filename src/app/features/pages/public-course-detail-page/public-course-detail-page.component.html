@@ -3,7 +3,7 @@
     <div class="course-container">
       <!-- Left: Course Details -->
       <div class="course-details">
-        <h2>{{courseData && courseData.name}}</h2>
+        <h4 >{{courseData && courseData.name}}</h4>
         <p>{{courseData && courseData.description}}</p>
 
       </div>
@@ -11,7 +11,7 @@
       <!-- Right: Cards -->
       <div class="course-cards">
         <div class="card">
-            <img *ngIf="courseData && courseData.thumbnail" class="card-img-top" [src]="staticBaseUrl+ courseData.thumbnail" alt="Card image cap">
+            <img *ngIf="courseData && courseData.thumbnail" class="card-img-top" [src]="staticBaseUrl+ courseData.thumbnail" alt="Card image cap" onerror="this.src = 'assets/302x200.svg'">
             <div class="card-body">
               <h5 class="card-title">Price - {{courseData && courseData.fee | currency: 'INR'}}</h5>
               <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->

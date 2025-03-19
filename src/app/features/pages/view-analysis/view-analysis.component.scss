@@ -141,3 +141,25 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+::ng-deep .question-panel .ql-toolbar.ql-snow {
+  display: none;
+
+}
+
+::ng-deep .question-panel .ql-container {
+  border: none
+}
+
+::ng-deep .question-panel .ql-snow .ql-editor img {
+  max-width: 30%;
+}
+
+// ::ng-deep .ql-editor {
+//   padding: 0 15px;
+// }
+
+::ng-deep .ql-editor.ql-blank p{
+  margin: 0 !important;
+}

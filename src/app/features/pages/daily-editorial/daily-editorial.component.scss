@@ -50,19 +50,19 @@
     width: 100%;
 }
 
-.mt-29px {
-    margin-top: 29px;
+.mt-36px {
+    margin-top: 36px;
 }
 
 .upload-form button {
     
    
-    padding: 0.5rem 1rem;
+    padding: 6px 12px;
     background-color: #1A1F35;
     color: #ffffff;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px;
+    // font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -297,14 +297,14 @@
   }
   
   .price {
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: bold;
     color: #1A1F35;
     margin-bottom: 20px;
   }
   
   .referral-price {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     color: #1A1F35;
   }
@@ -333,12 +333,12 @@
   .button {
     background: linear-gradient(45deg, #1A1F35, #3C4258);
     color: white;
-    padding: 15px 30px;
+    padding: 6px 12px;
     border: none;
-    border-radius: 8px;
-    font-size: 1.2em;
+    border-radius: 6px;
+    // font-size: 1.2em;
     cursor: pointer;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     transition: background 0.3s, transform 0.3s;
   }
   

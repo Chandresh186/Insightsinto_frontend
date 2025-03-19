@@ -178,7 +178,6 @@ export class TestListComponent implements OnInit {
           this.GeneratedQuestions = response;
           
             this.initilizeEditor();
-            this.initilizePrimaryEditor();
 
           console.log(this.GeneratedQuestions)
 
@@ -336,18 +335,6 @@ export class TestListComponent implements OnInit {
       this.initializeQuill(`quill-optionB-${index}`, mcq.b);
       this.initializeQuill(`quill-optionC-${index}`, mcq.c);
       this.initializeQuill(`quill-optionD-${index}`, mcq.d);
-    });
-    }, 100)
-  }
-
-  initilizePrimaryEditor() {
-    setTimeout(() => {
-    this.originalData.forEach((mcq: any, index: any) => {
-      this.initializeQuill(`quill-questions-${index}`, mcq.question);
-      this.initializeQuill(`quill-optionsA-${index}`, mcq.a);
-      this.initializeQuill(`quill-optionsB-${index}`, mcq.b);
-      this.initializeQuill(`quill-optionsC-${index}`, mcq.c);
-      this.initializeQuill(`quill-optionsD-${index}`, mcq.d);
     });
     }, 100)
   }

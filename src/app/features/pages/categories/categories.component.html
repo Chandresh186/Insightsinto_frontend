@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="container">
   <div class="createContainer">
     <div class="input-group w-25rem ">
       <input type="text" class="form-control" name="Search" placeholder="Search" (input)="onSearchChange($event)" />
@@ -11,11 +11,12 @@
     </button>
 
   </div>
+<div class="wrapper">
 
   <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="offcanvasExample"
     aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Create Categories</h5>
+      <h5 class="offcanvas-title mb-0" id="offcanvasExampleLabel">Create Categories</h5>
       <label class="switch" ngbTooltip="Create Sub Category">
         <input type="checkbox" (change)="onToggleCategory($event)">
         <span class="slider"></span>
@@ -313,6 +314,8 @@
       </details>
     </li>
   </ul>
+
+</div>
 
 </div>
 

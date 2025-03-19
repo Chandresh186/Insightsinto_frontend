@@ -5,11 +5,12 @@ import { catchError, finalize, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment.development';
+import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
 
 @Component({
   selector: 'app-blogs-list',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, ngbootstrapModule],
   templateUrl: './blogs-list.component.html',
   styleUrl: './blogs-list.component.scss'
 })

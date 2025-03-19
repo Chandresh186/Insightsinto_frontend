@@ -3,7 +3,6 @@
   .container {
    
     padding: 20px;
-    background: #fff;
     border-radius: 12px;
    
     overflow: hidden;
@@ -48,7 +47,7 @@
   .btn-create {
     background: #1A1F35;
     color: #fff;
-    padding: 10px 15px;
+    padding: 6px 10px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -177,9 +176,20 @@
 
 
   ::ng-deep .tests-list .test-series-section {
-    padding: 30px 0px 10px !important;
+    padding: 0 !important;
   }
 
+  ::ng-deep .tests-list .test-series-section .table-container{
+    box-shadow: none !important;
+  }
+
+  ::ng-deep .tests-list .test-series-section .table-search-bar {
+    padding: 10px 15px !important;
+  }
+
+  .tests-list .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
 
 

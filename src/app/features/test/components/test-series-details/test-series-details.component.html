@@ -8,7 +8,7 @@
 
         <section class="series-overview">
           <div class="overview-header d-flex justify-content-between mb-3">
-            <h2> <b>{{testSeriesDetails && testSeriesDetails.name | uppercase}}</b></h2> 
+            <h4 class="mb-0"> {{testSeriesDetails && testSeriesDetails.name}}</h4> 
             <div class="d-flex gap-10px">
               <!-- <button *ngIf="testSeriesDetails && testSeriesDetails.isActive === false" class="btn-create" id="createTestBtn" (click)="EditTestseries()"> Publish test series</button> -->
               <button class="btn-create" id="createTestBtn" (click)="createTestModel()"> Add test</button>
@@ -41,20 +41,23 @@
         <hr>
     
         <section class="tests-list">
-          <h3>Tests in this Series</h3>
+          <h4 class="mb-4">Tests in this series</h4>
          
-          <app-table  
-          [tableHeaders]="tableHeaders"
-          [tableData]="tableData"
-          [itemsPerPage]="10"
-          [actionsConfig]="actionsConfig"
-          (actionTriggered)="handleAction($event)"
-          [tableName]="'Tests'"
-          [showTableName]="true"
-          [showSearchBar]="true"
-          [showColumns]="showColumns"
-          >
-          </app-table>
+          <div class="card">
+            <app-table  
+            [tableHeaders]="tableHeaders"
+            [tableData]="tableData"
+            [itemsPerPage]="10"
+            [actionsConfig]="actionsConfig"
+            (actionTriggered)="handleAction($event)"
+            [tableName]="'Tests'"
+            [showTableName]="true"
+            [showSearchBar]="true"
+            [showColumns]="showColumns"
+            >
+            </app-table>
+
+          </div>
         </section>
       </div>
 } @else {

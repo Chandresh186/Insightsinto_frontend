@@ -1,10 +1,15 @@
 <div class="container">
-    <div *ngIf="checkRole('admin') || checkRole('super admin')" class="d-flex justify-content-between p-3">
-        <h2>All Courses</h2>
-        <button class="btn btn-primary" routerLink="/dash/create-course">Add new</button>
-    </div>
-    <div class="row">
-        <ng-container *ngFor="let course of allCourses"> 
+  <div
+    *ngIf="checkRole('admin') || checkRole('super admin')"
+    class="d-flex justify-content-between py-3"
+  >
+    <h4 class="mb-0">All Courses</h4>
+    <button class="btn btn-primary" routerLink="/dash/create-course">
+      Add new
+    </button>
+  </div>
+  <div class="row gy-4">
+    <!-- <ng-container *ngFor="let course of allCourses"> 
         <div class="col-lg-4">
                 <div class="card card-margin">
                     <div class="card-header no-border" [ngClass]="{ 'user-style': checkRole('user') }">
@@ -23,8 +28,6 @@
                             </div>
                             <div class="widget-49-meeting-points mb-2">
                                 <div class="widget-49-meeting-item description-truncate"><span [ngbTooltip]="course && course.description" [openDelay]="3000">{{course && course.description}}</span></div>
-                                <!-- <li class="widget-49-meeting-item"><span>Data migration is in scope</span></li>
-                                <li class="widget-49-meeting-item"><span>Session timeout increase to 30 minutes</span></li> -->
                             </div>
                             <div class="widget-49-meeting-action d-flex justify-content-end gap-2">
                                 <a *ngIf="checkRole('admin') || checkRole('super admin')" href="javascript:void(0);" [routerLink]="['../edit-course', course.id]"  class="btn btn-sm btn-flash-border-primary edit-btn">Edit</a>
@@ -36,7 +39,89 @@
                 </div>
 
             </div>
-        </ng-container>
-       
-    </div>
-    </div>
+        </ng-container> -->
+
+    <!-- <div class="row g-4 m-2 p-2"> -->
+    <ng-container *ngFor="let course of allCourses">
+        
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div
+          class="card course-card shadow-none transform-none position-relative"
+        >
+          <!-- <div class="card-header no-border" [ngClass]="{ 'user-style': checkRole('user') }"> -->
+          <h5
+            *ngIf="checkRole('admin') || checkRole('super admin')"
+            class="card-title d-flex justify-content-end align-items-center w-100 position-absolute p-2"
+          >
+            <span
+              *ngIf="checkRole('admin') || checkRole('super admin')"
+              class="badge"
+              [ngClass]="
+                course && course.isActive ? 'badge-success' : 'badge-secondary'
+              "
+              >{{ course && course.isActive ? "Active" : "Inactive" }}</span
+            >
+          </h5>
+          <!-- </div> -->
+          <a href="javascript:void(0);">
+            <img
+              class="card-img-top"
+              [src]="staticBaseUrl + course.thumbnail"
+              alt="Card image cap"
+              height="200px"
+              onerror="this.src = 'assets/302x200.svg'"
+            />
+          </a>
+          <div class="card-body p-2 gap-0">
+            <h5 class="card-title div-courses-min-height">{{ course.name }}</h5>
+            <div class="desc">
+              {{ course && course.description }}
+            </div>
+            <div>
+              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+              <!-- <a href="javascript:void(0);" [routerLink]="['/courses-detail', course.id]" class="btn btn-primary w-100 rounded">View Details</a> -->
+
+              <!-- <a *ngIf="checkRole('admin') || checkRole('super admin')" href="javascript:void(0);" [routerLink]="['../edit-course', course.id]"  class="btn btn-sm btn-flash-border-primary edit-btn">Edit</a>
+                        <a *ngIf="checkRole('admin') || checkRole('super admin')" href="javascript:void(0);" (click)="onDelete(course.id)"  class="btn btn-sm btn-flash-border-primary delete-btn">Delete</a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-flash-border-primary edit-btn" [routerLink]="['/dash/course-detail', course.id]">Explore</a> -->
+
+              <div ngbDropdown class="d-inline-block w-100 btn-grp">
+                <a
+                  type="button"
+                  class="btn btn-primary w-100 rounded"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                >
+                  View Details
+                </a>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="w-100">
+                  <button
+                    ngbDropdownItem
+                    *ngIf="checkRole('admin') || checkRole('super admin')"
+                    [routerLink]="['../edit-course', course.id]"
+                  >
+                  <i class="fas fa-edit"></i>  Edit
+                  </button>
+                  <button
+                    ngbDropdownItem
+                    *ngIf="checkRole('admin') || checkRole('super admin')"
+                    (click)="onDelete(course.id)"
+                  >
+                  <i class="fas fa-trash"></i>  Delete
+                  </button>
+                  <button
+                    ngbDropdownItem
+                    [routerLink]="['/dash/course-detail', course.id]"
+                  >
+                  <i class="fas fa-folder-open"></i> Explore
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <!-- </div> -->
+  </div>
+</div>

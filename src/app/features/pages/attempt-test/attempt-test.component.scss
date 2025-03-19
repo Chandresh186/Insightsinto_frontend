@@ -64,8 +64,8 @@ header h1 {
     height: 100%;
 }
 
-.question-panel h2 {
-    font-size: 20px;
+.question-panel h4 {
+    // font-size: 20px;
     margin: 0 0 15px;
     // padding: 10px;
     padding: 10px 10px 0 10px;
@@ -157,9 +157,9 @@ header h1 {
 }
 
 .button {
-    padding: 10px 20px;
+    padding: 6px 12px !important;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px !important;
     font-size: 14px;
     cursor: pointer;
     transition: 0.3s;
@@ -189,9 +189,9 @@ header h1 {
     background-color: #e0690d;
 }
 
-.question-sidebar h3 {
+.question-sidebar h4 {
     padding: 10px 10px;
-    font-size: 18px;
+    // font-size: 18px;
     color: black;
     background: #d9d9d9;
     margin-bottom: 0;

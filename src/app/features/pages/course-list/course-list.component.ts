@@ -5,6 +5,7 @@ import { CourseService } from '../../../core/services/course.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-course-list',
@@ -16,7 +17,8 @@ import { AuthService } from '../../../core/services/auth.service';
 export class CourseListComponent implements OnInit {
   public loading = false;
   private errorMessage: string | null = null;
-  public allCourses: any = []
+  public allCourses: any = [];
+  staticBaseUrl : any = environment.staticBaseUrl
 
   constructor(private courseService : CourseService, private _authService : AuthService) {}
 

@@ -1,19 +1,20 @@
-<body>
+<div class="container">
     <header class="header">
       <h1>Insight Into Blog</h1>
       <p>Your source for insightful articles and tutorials.</p>
 
     
     </header>
-    <div class="search blog-container d-flex justify-content-between">
+    <div class="search blog-container d-flex justify-content-between mb-4">
         <input type="text" name="search" id="search" placeholder="search" (input)="onSearch($event)">
         <a *ngIf="checkRole('admin') || checkRole('super admin')" routerLink="../create-blog"   class="read-more">Create blog</a>
 
       </div>
     <main class="blog-container">
         <!-- getBlogs -->
-         @for (blog of filteredBlogs; track $index) {
-            <ng-container >
+         <div class="row gy-4">
+           @for (blog of filteredBlogs; track $index) {
+              <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="blog-card">
                  <div class="position-relative">
                      <img [src]="blog && staticBaseUrl+blog.coverImage" alt="Core Web Vitals" class="blog-img" loading="lazy">
@@ -23,20 +24,24 @@
      
                      </div>
                  </div>
-                  <h2>{{blog && blog.title}}</h2>
-                  <p>{{blog && blog.description}}</p>
+                  <h3>{{blog && blog.title}}</h3>
+                  <p class="truncate-text"  [ngbTooltip]="blog.description" [openDelay]="1000">{{blog && blog.description}}</p>
                    
                       <a [routerLink]="['../blog-details', blog.id]"  class="read-more">Read More</a>
      
                 </div>
-     
-            </ng-container>
-         } @empty {
-            <p *ngIf="filteredBlogs.length == blogs.length">No data found. </p> 
-            <p *ngIf="filteredBlogs.length !== blogs.length">No data found matching your search. </p>
 
-         }
+              </div>
+       
+              
+           } @empty {
+              <p *ngIf="filteredBlogs.length == blogs.length">No data found. </p> 
+              <p *ngIf="filteredBlogs.length !== blogs.length">No data found matching your search. </p>
+  
+           }
+
+         </div>
      
     </main>
   
-  </body>
+  </div>
