@@ -67,7 +67,7 @@
     
 }
 
-.pagination-controls ion-icon {
+.pagination-controls i {
     font-size: 24px;
     color: #1A1F35; /* Primary color for the icons */
     cursor: pointer;
@@ -75,7 +75,7 @@
     transition: color 0.3s ease, opacity 0.3s ease;
 }
 
-.pagination-controls ion-icon[disabled] {
+.pagination-controls i[disabled] {
     color: #ccc; /* Disabled state color */
     cursor: not-allowed;
     opacity: 0.6;
@@ -87,7 +87,7 @@
     color: #555; /* Text color */
 }
 
-.pagination-controls ion-icon:hover:not([disabled]) {
+.pagination-controls i:hover:not([disabled]) {
     color: #0056b3; /* Darker shade on hover */
 }
 
@@ -129,7 +129,7 @@
         flex-direction: column;
     }
 
-    .pagination-controls ion-icon {
+    .pagination-controls i {
         font-size: 20px;
         margin: 5px;
     }
@@ -193,14 +193,14 @@
     flex-direction: row;
   }
   
-  .pagination-controls ion-icon {
+  .pagination-controls i {
     font-size: 24px;
     cursor: pointer;
     margin: 0 10px;
     transition: color 0.3s ease, opacity 0.3s ease;
   }
   
-  .pagination-controls ion-icon[disabled] {
+  .pagination-controls i[disabled] {
     color: #ccc;  /* Disabled color */
     cursor: not-allowed;
     opacity: 0.6;
@@ -211,7 +211,7 @@
     margin: 0 10px;
   }
   
-  .pagination-controls ion-icon:hover:not([disabled]) {
+  .pagination-controls i:hover:not([disabled]) {
     color: #4e54c8; /* Darker shade on hover */
   }
   

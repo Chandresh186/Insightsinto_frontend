@@ -17,6 +17,7 @@ import { loginRequest } from '../../../core/models/interface/login_request.inter
 import { CourseService } from '../../../core/services/course.service';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { environment } from '../../../../environments/environment.development';
+import { SettingsService } from '../../../core/services/settings.service';
 
 @Component({
   selector: 'app-test-series-landing-page',
@@ -120,7 +121,7 @@ export class TestSeriesLandingPageComponent implements OnInit{
   }
 
 
-  constructor(private courseService : CourseService, private authService: AuthService, private testSeriesService: TestSeriesService, private modalService: NgbModal, private paymentService: PaymentService, private router : Router) {}
+  constructor(private courseService : CourseService, private authService: AuthService, private testSeriesService: TestSeriesService, private modalService: NgbModal, private paymentService: PaymentService, private router : Router, public settingsService: SettingsService) {}
 
   ngOnInit() {
     this.signUpForm = new FormGroup({

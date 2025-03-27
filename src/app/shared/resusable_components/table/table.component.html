@@ -82,17 +82,17 @@
   
     <!-- Pagination Controls -->
     <div class="pagination-controls" *ngIf="!(paginatedData.length === 0)">
-      <ion-icon
-        name="chevron-back-outline"
+      <i
+        class="fas fa-angle-left"
         [style.cursor]="currentPage === 1 ? 'not-allowed' : 'pointer'"
         (click)="goToPreviousPage()"
-      ></ion-icon>
+      ></i>
       <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <ion-icon
-        name="chevron-forward-outline"
+      <i
+        class="fas fa-angle-right"
         [style.cursor]="currentPage === totalPages ? 'not-allowed' : 'pointer'"
         (click)="goToNextPage()"
-      ></ion-icon>
+      ></i>
     </div>
   </div>
   

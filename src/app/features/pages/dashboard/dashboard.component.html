@@ -1,19 +1,16 @@
-
-
 <div class="container">
 
-  
 
-  
-  
-  <section id="your-test-series" #yourtestSeries class=" my-0 py-0">
+
+
+  <section id="your-test-series" #yourtestSeries class=" my-0 py-0" *ngIf="settingsService.isModuleVisible('Courses')">
     <h4 class="mb-5">Your Courses</h4>
     <div class="courses">
       <app-course-list></app-course-list>
     </div>
-  
-    
-  <!-- <div class="cards-container mb-5">
+
+
+    <!-- <div class="cards-container mb-5">
     <ng-container *ngIf="testSeriesData.length > 0; else noTestSeries">
     <div class="card shadow border-0" *ngFor="let series of testSeriesData">
       <div class="card-label"  [ngClass]="{
@@ -43,44 +40,48 @@
    
   
   </div> -->
-</section>
-<hr>
+  </section>
+  <hr *ngIf="settingsService.isModuleVisible('Courses')">
 
-<div class="section">
-  
-  <h1 class="mb-5"  *ngIf="dashboardData && dashboardData.activeTests.length > 0">Active Tests</h1>
-  <ul class="active-tests"  *ngIf="dashboardData && dashboardData.activeTests.length > 0">
+  <section id="your-test-series" #yourtestSeries class=" my-0 py-0"
+    *ngIf="settingsService.isModuleVisible('Test Series')">
+    <!-- <h4 class="mb-5">Your Test Series</h4> -->
+    <div class="courses">
+      <app-user-test-series></app-user-test-series>
+    </div>
+  </section>
+
+  <hr *ngIf="settingsService.isModuleVisible('Test Series')">
+
+  <div class="section" *ngIf="settingsService.isModuleVisible('Test Series')">
+
+    <h1 class="mb-5" *ngIf="dashboardData && dashboardData.activeTests.length > 0">Active Tests</h1>
+    <ul class="active-tests" *ngIf="dashboardData && dashboardData.activeTests.length > 0">
       <ng-container *ngFor="let test of dashboardData && dashboardData.activeTests">
-        <li class="d-flex justify-content-between align-items-center"> {{test.title | uppercase}} <button class="btn btn-sm btn-primary rounded" [routerLink]="['/dash/series-details',  test.testSeriesId]" >Start</button></li>
+        <li class="d-flex justify-content-between align-items-center"> {{test.title | uppercase}} <button
+            class="btn btn-sm btn-primary rounded"
+            [routerLink]="['/dash/series-details',  test.testSeriesId]">Start</button></li>
 
       </ng-container>
       <!-- <li><a href="#" class="btn">Test 2</a></li> -->
-  </ul>
-  <hr *ngIf="dashboardData && dashboardData.activeTests.length > 0" />
-  <h1 class="mb-5" *ngIf="resultTableData.length > 0">Completed Tests</h1>
- 
-  <div id="test-series" class="table-wrapper" *ngIf="resultTableData.length > 0">
-      <app-table  
-          [tableHeaders]="resultTableHeaders"
-          [tableData]="resultTableData"
-          [itemsPerPage]="5"
-          [actionsConfig]="resultActionConfig"
-          (actionTriggered)="resultHandleAction($event)"
-          [tableName]="''"
-          [showTableName]="true"
-          [showSearchBar]="true"
-          [showColumns]="resultShowColumns">
-        </app-table>
+    </ul>
+    <hr *ngIf="dashboardData && dashboardData.activeTests.length > 0" />
+    <h4 class="mb-5" *ngIf="resultTableData.length > 0">Completed Tests</h4>
+
+    <div id="test-series" class="table-wrapper" *ngIf="resultTableData.length > 0">
+      <app-table [tableHeaders]="resultTableHeaders" [tableData]="resultTableData" [itemsPerPage]="5"
+        [actionsConfig]="resultActionConfig" (actionTriggered)="resultHandleAction($event)" [tableName]="''"
+        [showTableName]="true" [showSearchBar]="true" [showColumns]="resultShowColumns">
+      </app-table>
+
+    </div>
 
   </div>
- 
-</div>
+  <hr *ngIf="resultTableData.length > 0 && settingsService.isModuleVisible('Test Series') " />
 
-<hr *ngIf="resultTableData.length > 0" />
-    
-    <section id="test-series" #testSeries class=" my-0 py-0">
-      <h4 class="mb-5">Courses</h4>
-      <!-- <app-table
+  <section id="test-series" #testSeries class=" my-0 py-0" *ngIf="settingsService.isModuleVisible('Courses')">
+    <h4 class="mb-5">Courses</h4>
+    <!-- <app-table
         [tableHeaders]="tableHeaders"
         [tableData]="tableData"
         [itemsPerPage]="5"
@@ -91,141 +92,127 @@
         [showSearchBar]="true"
         [showColumns]="showColumns"
       ></app-table> -->
-      <owl-carousel-o [options]="customOptions">
+    <owl-carousel-o [options]="customOptions">
 
-        <ng-container *ngFor="let slide of tableData">
-          <ng-template carouselSlide [id]="slide.id">
-            <!-- <img [src]="staticBaseUrl+slide.thumbnail" [alt]="slide.alt" [title]="slide.title"> -->
-            <div class="card course-card shadow-none transform-none" >
-              <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]">
-                <img class="card-img-top"  [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px" onerror="this.src = 'assets/302x200.svg'">
-              </a>
-              <div class="card-body p-2 gap-0">
-                <h5 class="card-title div-courses-min-height">{{slide. name}}</h5>
-                <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]" class="btn btn-primary w-100 rounded">View Details</a>
-              </div>
+      <ng-container *ngFor="let slide of tableData">
+        <ng-template carouselSlide [id]="slide.id">
+          <!-- <img [src]="staticBaseUrl+slide.thumbnail" [alt]="slide.alt" [title]="slide.title"> -->
+          <div class="card course-card shadow-none transform-none">
+            <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]">
+              <img class="card-img-top" [src]="staticBaseUrl+slide.thumbnail" alt="Card image cap" height="200px"
+                onerror="this.src = 'assets/302x200.svg'">
+            </a>
+            <div class="card-body p-2 gap-0">
+              <h5 class="card-title div-courses-min-height">{{slide. name}}</h5>
+              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+              <a href="javascript:void(0);" [routerLink]="['/courses-detail', slide.id]"
+                class="btn btn-primary w-100 rounded">View Details</a>
             </div>
-          </ng-template>
-        </ng-container>
-    
-      </owl-carousel-o>
-    </section>
+          </div>
+        </ng-template>
+      </ng-container>
 
-    <section class="row g-6 my-5 ">
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card border-0">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Overview</span>
-                <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.purchasedTestSeriesCount}}</span>
-                
-              </div>
-              <div class="col-auto">
-                <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
-                  <!-- <i class="bi bi-credit-card"></i> -->
-                  <i class="fas fa-shopping-cart"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 mb-0 text-sm">
-              <span class="badge badge-pill bg-soft-success text-success me-2">
-                <i class="bi bi-arrow-up me-1"></i>
-              </span>
-              <span class="text-nowrap text-xs text-muted">Purchased Test Series</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card border-0">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Overview</span>
-                <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.recentScore.toFixed(2)}}%</span>
-              </div>
-              <div class="col-auto">
-                <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
-                  <i class="fas fa-chart-bar"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 mb-0 text-sm">
-              <span class="badge badge-pill bg-soft-success text-success me-2">
-                <i class="bi bi-arrow-up me-1"></i>
-              </span>
-              <span class="text-nowrap text-xs text-muted">Recent Scores</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card border-0">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Progress Tracking</span>
-                <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.completedTests}}</span>
-              </div>
-              <div class="col-auto">
-                <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
-                  <i class="fas fa-flag-checkered"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 mb-0 text-sm">
-              <span class="badge badge-pill bg-soft-success text-success me-2">
-                <i class="bi bi-arrow-up me-1"></i>
-              </span>
-              <span class="text-nowrap text-xs text-muted">
-                Tests Completed</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 col-12">
-        <div class="card border-0">
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Progress Tracking</span>
-                <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.pendingTests}}</span>
-              </div>
-              <div class="col-auto">
-                <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
-                  <i class="fas fa-hourglass-half"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 mb-0 text-sm">
-              <span class="badge badge-pill bg-soft-success text-success me-2">
-                <i class="bi bi-arrow-up me-1"></i>
-              </span>
-              <span class="text-nowrap text-xs text-muted">Tests Pending</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </section>
+    </owl-carousel-o>
+  </section>
 
-    
+  <section class="row g-6 my-5 ">
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card border-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <span class="h6 font-semibold text-muted text-sm d-block mb-2">Overview</span>
+              <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.purchasedTestSeriesCount}}</span>
+
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                <!-- <i class="bi bi-credit-card"></i> -->
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-0 text-sm">
+            <span class="badge badge-pill bg-soft-success text-success me-2">
+              <i class="bi bi-arrow-up me-1"></i>
+            </span>
+            <span class="text-nowrap text-xs text-muted">Purchased Test Series</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card border-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <span class="h6 font-semibold text-muted text-sm d-block mb-2">Overview</span>
+              <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.recentScore.toFixed(2)}}%</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-0 text-sm">
+            <span class="badge badge-pill bg-soft-success text-success me-2">
+              <i class="bi bi-arrow-up me-1"></i>
+            </span>
+            <span class="text-nowrap text-xs text-muted">Recent Scores</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card border-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <span class="h6 font-semibold text-muted text-sm d-block mb-2">Progress Tracking</span>
+              <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.completedTests}}</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
+                <i class="fas fa-flag-checkered"></i>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-0 text-sm">
+            <span class="badge badge-pill bg-soft-success text-success me-2">
+              <i class="bi bi-arrow-up me-1"></i>
+            </span>
+            <span class="text-nowrap text-xs text-muted">
+              Tests Completed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12">
+      <div class="card border-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <span class="h6 font-semibold text-muted text-sm d-block mb-2">Progress Tracking</span>
+              <span class="h3 font-bold mb-0">{{dashboardData && dashboardData.pendingTests}}</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                <i class="fas fa-hourglass-half"></i>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 mb-0 text-sm">
+            <span class="badge badge-pill bg-soft-success text-success me-2">
+              <i class="bi bi-arrow-up me-1"></i>
+            </span>
+            <span class="text-nowrap text-xs text-muted">Tests Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
 </div>
-
-
-
-  
- 
-
-
-
-
-
-
-
-
-
-
-  

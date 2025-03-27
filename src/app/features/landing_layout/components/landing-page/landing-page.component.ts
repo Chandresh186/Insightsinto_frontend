@@ -9,6 +9,7 @@ import { environment } from '../../../../../environments/environment.development
 import { TestSeriesLandingPageComponent } from '../../../pages/test-series-landing-page/test-series-landing-page.component';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CourseService } from '../../../../core/services/course.service';
+import { SettingsService } from '../../../../core/services/settings.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -73,7 +74,7 @@ export class LandingPageComponent implements OnInit{
       autoplay: true,
     }
 
-  constructor(private blogService : BlogService, private courseService : CourseService,) {}
+  constructor(private blogService : BlogService, private courseService : CourseService,public settingsService: SettingsService) {}
 
   ngOnInit() {
     this.getBlogs();

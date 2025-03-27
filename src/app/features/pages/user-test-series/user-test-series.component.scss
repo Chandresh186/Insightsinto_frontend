@@ -245,7 +245,7 @@
   
   .card {
     background-color: var(--card-background-color);
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
@@ -256,7 +256,7 @@
   }
   
   .card:hover {
-    transform: translateY(-5px);
+    // transform: translateY(-5px);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
   }
   
@@ -309,7 +309,7 @@
     padding: var(--btn-padding);
     font-size: var(--btn-font-size);
     font-weight: var(--btn-font-weight);
-    border-radius: var(--btn-radius);
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -322,27 +322,27 @@
   
   .btn.start-now:hover {
     background-color: #218838;
-    transform: translateY(-3px);
+    // transform: translateY(-3px);
   }
   
   .btn.continue {
     background-color: #ffbc00;
-    color: var(--cta-button-color);
+    // color: var(--cta-button-color);
   }
   
   .btn.continue:hover {
     background-color: #e68900;
-    transform: translateY(-3px);
+    // transform: translateY(-3px);
   }
   
   .btn.view-details {
-    background-color: var(--primary-color);
+    background-color: #17a589;
     color: var(--cta-button-color);
   }
   
   .btn.view-details:hover {
-    background-color: #0056b3;
-    transform: translateY(-3px);
+    background-color: #48B8A7;
+    // transform: translateY(-3px);
   }
   
   /* Responsiveness */

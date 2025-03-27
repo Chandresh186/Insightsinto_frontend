@@ -1,40 +1,55 @@
-
-
-
 <div class="restore-body">
-    <!-- <ngx-guided-tour skipText="Skip Tutorial" nextText="Next" doneText="Complete"></ngx-guided-tour> -->
-    <div class="d-flex" [ngClass]="{ 'collapsed': !isSidebarOpen }" [class.open]="isSidebarOpen">
-        <nav class="sidebar dashboard-sidebar">
-            <div class="sidebar-top-wrapper">
-                <div class="sidebar-top w-100 d-flex align-items-center">
-                    <a routerLink="/" class="logo__wrapper">
-                        <img src="assets/icons/icon-logo.jpeg" alt="Logo" class="logo-small">
-                        <!-- <span class="hide company-name">Insights_Into</span> -->
-                    </a>
-                </div>
-                <button class="expand-btn p-0" type="button" (click)="toggleSidebar()"><ion-icon class="i" name="chevron-back-outline"></ion-icon>
-                </button>
-            </div>
-            <div class="sidebar-links">
-                <ul>
-                    <ng-container *ngFor="let menu of menuItems">
-                      
-                        <ng-container *ngIf="checkPermission(menu.title)">
-                            <li>
-                                <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="tooltip " [ngClass]="{'active' : this.lastSegment === menu.routeURL }" placement="right" [ngbTooltip]="menu?.title">
-                                    <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}"
-                                        width="23px">
-                                    <span class="link hide">
-                                        {{menu?.title}}</span>
-                                </a>
-                            </li>
-                        </ng-container>
-                    </ng-container>
-                </ul>
-            </div>
+  <!-- <ngx-guided-tour skipText="Skip Tutorial" nextText="Next" doneText="Complete"></ngx-guided-tour> -->
+  <div class="d-flex" [ngClass]="{ 'collapsed': !isSidebarOpen }" [class.open]="isSidebarOpen">
+    <nav class="sidebar dashboard-sidebar">
+      <div class="sidebar-top-wrapper">
+        <div class="sidebar-top w-100 d-flex align-items-center">
+          <a routerLink="/" class="logo__wrapper">
+            <img src="assets/icons/icon-logo.jpeg" alt="Logo" class="logo-small">
+            <!-- <span class="hide company-name">Insights_Into</span> -->
+          </a>
+        </div>
+        <button class="expand-btn p-0" type="button" (click)="toggleSidebar()"><i class="i fas fa-angle-left"></i>
+        </button>
+      </div>
+      <div class="sidebar-links">
+        <ul>
+          <ng-container *ngFor="let menu of menuItems">
 
-            <div class="sidebar__profile sidebar-links">
-                <!-- <ul>
+            <ng-container *ngIf="checkPermission(menu.title)">
+              <li>
+                
+                <!-- <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="tooltip "
+                  [ngClass]="{'active' : this.lastSegment === menu.routeURL }" placement="right"
+                  [ngbTooltip]="menu?.title">
+                  <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}" width="23px">
+                  <span class="link hide">
+                    {{menu?.title}}</span>
+                </a> -->
+
+                @if (menu?.routeURL === 'user-testSeries' && settingsService.isModuleVisible('Test Series')) {
+                  <a [routerLink]="menu?.routeURL" title="{{menu?.title}}" class="tooltip"
+                     [ngClass]="{'active' : this.lastSegment === menu.routeURL }" placement="right"
+                     [ngbTooltip]="menu?.title">
+                    <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}" width="23px">
+                    <span class="link hide">{{menu?.title}}</span>
+                  </a>
+                } @else if (menu?.routeURL !== 'user-testSeries') {
+                  <a [routerLink]="menu?.routeURL" title="{{menu?.title}}" class="tooltip"
+                     [ngClass]="{'active' : this.lastSegment === menu.routeURL }" placement="right"
+                     [ngbTooltip]="menu?.title">
+                    <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}" width="23px">
+                    <span class="link hide">{{menu?.title}}</span>
+                  </a>
+                }
+              </li>
+            </ng-container>
+          </ng-container>
+        </ul>
+      </div>
+
+      <div class="sidebar__profile sidebar-links">
+        <!-- <ul>
                     <li>
                         <a [routerLink]="'support'" title="Support" class="tooltip">
                             <img src="assets/icons/Support Icon.svg" alt="Support" width="23px">
@@ -42,164 +57,168 @@
                         </a>
                     </li>
                 </ul> -->
-            </div>
-        </nav>
-        <section class="home-section" [ngClass]="{'padding-bottom-on-mobile' : checkRole('user')}"> 
-            <app-header></app-header>
-            <div class="conatiner">
-              <router-outlet (activate)="detectRoutes($event)" ></router-outlet>
+      </div>
+    </nav>
+    <section class="home-section" [ngClass]="{'padding-bottom-on-mobile' : checkRole('user')}">
+      <app-header></app-header>
+      <div class="conatiner">
+        <router-outlet (activate)="detectRoutes($event)"></router-outlet>
 
-            </div>
-        </section>
-    </div>
+      </div>
+    </section>
+  </div>
 
-    <!-- Mobile and tablet size header -->
+  <!-- Mobile and tablet size header -->
 
-    <header class="mobile-header">
-        <nav class="navbar d-lg-none d-xl-none d-xxl-none fixed-top" >
-            <div class="container-fluid">
-                <a class="navbar-brand" routerLink="/"> <img class="logo-small" src="assets/icons/icon-logo.jpeg" alt=""> </a>
+  <header class="mobile-header">
+    <nav class="navbar d-lg-none d-xl-none d-xxl-none fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/"> <img class="logo-small" src="assets/icons/icon-logo.jpeg" alt=""> </a>
 
-                  <div class="d-flex">
-                    <ng-container>
-                      <div class="d-flex">
-                         
-                            <div class="pe-3">
-                              <button type="button"  id="notification" class="btn position-relative main-notification" (click)="singleRNotification()">
-                                <i class="far fa-bell"id="notification-bell" ></i>
-                                <span *ngIf="messages.length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                  {{messageCount}}
-                                  <span class="visually-hidden">unread messages</span>
-                                </span>
-                                <div *ngIf="isSingleRNotifationVisible" class="notification-single-message d-flex flex-column">
-                                  <h4 class="0">Notifications ({{messages.length}})</h4>
-                                  <div class="message-box">
-                                    <p class="empty-notification" *ngIf="messages.length === 0">No notification right now
-                                    </p>
-                                    <ng-container *ngIf="messages.length != 0">
-                                      <ng-container *ngFor="let message of messages" style="cursor: pointer;">
-                                        <p [ngClass]="{'unread_message' : !(message && message.isRead)}" class="m-0" >{{message?.message }} 
-                                        </p>
-                                      </ng-container>
-                                    </ng-container>
-                                  </div>
-                                  <button *ngIf="messages.length > 0" class="btn text-primary" (click)="readAllNotification()">Make all as
-                                    read</button>
-                                </div>
-                              </button>
-                            </div>
-                      </div>
-                        
-                    </ng-container>
+        <div class="d-flex">
+          <ng-container>
+            <div class="d-flex">
 
-                    <button *ngIf="checkRole('admin') || checkRole('super admin')" class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-                        aria-labelledby="toggleNavigationLabel">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <span *ngIf="checkRole('admin') || checkRole('super admin')" id="toggleNavigationLabel" class="visually-hidden">Open Navigation Menu</span>
-    
-                    <div *ngIf="checkRole('admin') || checkRole('super admin')" class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-                        aria-labelledby="offcanvasNavbarLabel">
-                        <div class="offcanvas-header">
-                            <div class="offcanvas-header_child">
-                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Insight_Into</h5>
-    
-                            <div class="flex-center">
-                                <div>
-                                  <p class="status-user-name">{{userDetails.firstName | titlecase }} {{userDetails.lastName |
-                                    titlecase}}
-                                  </p>
-                                  <p class="status-user-role">{{userDetails.role}}</p>
-                                </div>
-                                <div class='status-icon-container cursor_pointer' id="log_out"> 
-                                  <img alt=""
-                                    src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
-                              
-                                 
-                                </div>
-                              </div>
-                            </div>
-                            
-    
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body">
-                                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                    <ng-container *ngFor="let menu of menuItems">
-                                        <ng-container *ngIf="checkPermission(menu.title)">
-                                            <li class="nav-item">
-                                                <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="nav-link" aria-current="page" data-bs-toggle="offcanvas">
-                                                    <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}"
-                                                        width="23px">
-                                                    <span class="link hide">
-                                                        {{menu?.title}}</span>
-                                                </a>
-                                            </li>
-                                        </ng-container>
-                                    </ng-container>
-                                </ul>
-                          
-    
-                            <ul class="navbar-nav justify-content-end flex-grow-1 position-absolute bottom-0">
-                                <li class="nav-item cursor-pointer">
-                                    <a class="nav-link" id="log_out" aria-current="page" data-bs-toggle="offcanvas"
-                                      (click)="logOut()"  >
-                                        <i class="bi bi-box-arrow-right"></i>
-                                        <span>Logout</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+              <div class="pe-3">
+                <button type="button" id="notification" class="btn position-relative main-notification"
+                  (click)="singleRNotification()">
+                  <i class="far fa-bell" id="notification-bell"></i>
+                  <span *ngIf="messages.length > 0"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{messageCount}}
+                    <span class="visually-hidden">unread messages</span>
+                  </span>
+                  <div *ngIf="isSingleRNotifationVisible" class="notification-single-message d-flex flex-column">
+                    <h4 class="0">Notifications ({{messages.length}})</h4>
+                    <div class="message-box">
+                      <p class="empty-notification" *ngIf="messages.length === 0">No notification right now
+                      </p>
+                      <ng-container *ngIf="messages.length != 0">
+                        <ng-container *ngFor="let message of messages" style="cursor: pointer;">
+                          <p [ngClass]="{'unread_message' : !(message && message.isRead)}" class="m-0">
+                            {{message?.message }}
+                          </p>
+                        </ng-container>
+                      </ng-container>
                     </div>
+                    <button *ngIf="messages.length > 0" class="btn text-primary" (click)="readAllNotification()">Make
+                      all as
+                      read</button>
                   </div>
-
-                 
-                  
-
-
+                </button>
+              </div>
             </div>
-        </nav>   
-        
-        <nav *ngIf="checkRole('user')" class="navbar d-lg-none d-xl-none d-xxl-none fixed-bottom py-0">
-          <div class="nav-box w-100">
-            <ul class="nav-container d-flex w-100 justify-content-around p-0">
-              <ng-container *ngFor="let menu of menuItems">
-                <ng-container *ngIf="checkPermission(menu.title)">
-                  <li class="nav__item " [ngClass]="{'active' : this.lastSegment === menu.routeURL }">
-                    <a [routerLink]="menu?.routeURL" class="nav__item-link d-flex flex-column align-items-center" title={{menu?.title}}>
-                      <div class="nav__item-icon">
-                        <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}"
-                                                        width="23px">
-                        <!-- <ion-icon name="home-outline"></ion-icon> -->
-                      </div>
-                      <span class="nav__item-text">{{menu?.title}}</span>
-                    </a>
-                  </li>
-                </ng-container>
-              </ng-container>
-              <li class="nav_item">
-               
 
-                <div ngbDropdown placement="top-end" class="d-inline-block status-icon-container cursor_pointer"  id="log_out_mobile">
-                  <img alt="" class="dropdown-toggle" id="logout" ngbDropdownToggle id="logout"
+          </ng-container>
+
+          <button *ngIf="checkRole('admin') || checkRole('super admin')" class="navbar-toggler" type="button"
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+            aria-labelledby="toggleNavigationLabel">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <span *ngIf="checkRole('admin') || checkRole('super admin')" id="toggleNavigationLabel"
+            class="visually-hidden">Open Navigation Menu</span>
+
+          <div *ngIf="checkRole('admin') || checkRole('super admin')" class="offcanvas offcanvas-end" tabindex="-1"
+            id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <div class="offcanvas-header_child">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Insight_Into</h5>
+
+                <div class="flex-center">
+                  <div>
+                    <p class="status-user-name">{{userDetails.firstName | titlecase }} {{userDetails.lastName |
+                      titlecase}}
+                    </p>
+                    <p class="status-user-role">{{userDetails.role}}</p>
+                  </div>
+                  <div class='status-icon-container cursor_pointer' id="log_out">
+                    <img alt=""
                       src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
-            
-            <div ngbDropdownMenu aria-labelledby="logout">
-              <button ngbDropdownItem class="d-flex justify-content-around align-items-center" (click)="logOut()"><ion-icon name="log-out-outline" ></ion-icon> Logout</button>
-              
+
+
+                  </div>
+                </div>
+              </div>
+
+
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <ng-container *ngFor="let menu of menuItems">
+                  <ng-container *ngIf="checkPermission(menu.title)">
+                    <li class="nav-item">
+                      <a [routerLink]="menu?.routeURL" title={{menu?.title}} class="nav-link" aria-current="page"
+                        data-bs-toggle="offcanvas">
+                        <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}" width="23px">
+                        <span class="link hide">
+                          {{menu?.title}}</span>
+                      </a>
+                    </li>
+                  </ng-container>
+                </ng-container>
+              </ul>
+
+
+              <ul class="navbar-nav justify-content-end flex-grow-1 position-absolute bottom-0">
+                <li class="nav-item cursor-pointer">
+                  <a class="nav-link" id="log_out" aria-current="page" data-bs-toggle="offcanvas" (click)="logOut()">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
+        </div>
+
+
+
+
+
+      </div>
+    </nav>
+
+    <nav *ngIf="checkRole('user')" class="navbar d-lg-none d-xl-none d-xxl-none fixed-bottom py-0">
+      <div class="nav-box w-100">
+        <ul class="nav-container d-flex w-100 justify-content-around p-0">
+          <ng-container *ngFor="let menu of menuItems">
+            <ng-container *ngIf="checkPermission(menu.title)">
+              <li class="nav__item " [ngClass]="{'active' : this.lastSegment === menu.routeURL }">
+                <a [routerLink]="menu?.routeURL" class="nav__item-link d-flex flex-column align-items-center"
+                  title={{menu?.title}}>
+                  <div class="nav__item-icon">
+                    <img id="{{menu?.title}}" src="{{ menu?.icon }}" alt="{{ menu?.title }}" width="23px">
+                    <!-- <ion-icon name="home-outline"></ion-icon> -->
+                  </div>
+                  <span class="nav__item-text">{{menu?.title}}</span>
+                </a>
               </li>
-              
-            </ul>
-          </div>
-        </nav>
-       
-       
+            </ng-container>
+          </ng-container>
+          <li class="nav_item">
 
-        
-    </header>
+
+            <div ngbDropdown placement="top-end" class="d-inline-block status-icon-container cursor_pointer"
+              id="log_out_mobile">
+              <img alt="" class="dropdown-toggle" id="logout" ngbDropdownToggle id="logout"
+                src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png" />
+
+              <div ngbDropdownMenu aria-labelledby="logout">
+                <button ngbDropdownItem class="d-flex justify-content-around align-items-center"
+                  (click)="logOut()"><ion-icon name="log-out-outline"></ion-icon> Logout</button>
+
+              </div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+
+
+
+
+  </header>
 </div>
-
-

@@ -87,7 +87,7 @@
       <div class="test-result-card">
         <div class="test-card-header d-flex justify-content-between">
           <div class="w-100">
-            <h2>Test Result</h2>
+            <h4 class="mb-0">Test Result</h4>
           </div>
           <button
             type="button"
@@ -170,10 +170,15 @@
 
 
 <ng-template #instruction let-modal>
-	<div class="modal-header" style="background:linear-gradient(135deg, #1A1F35, #3C4258); color: white">
-		<h4 class="modal-title" id="modal-basic-title">Paper Instructions: Online & Offline</h4>
+	<div class="modal-header">
+		<h4 class="modal-title mb-0" id="modal-basic-title">Paper Instructions: Online & Offline</h4>
 		
-
+    <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="modal.dismiss('Cross click')"
+  ></button>
     
 	</div>
 	<div class="modal-body">
@@ -255,11 +260,12 @@
   <div class="enterprise-content">
     <!-- Test Series Overview -->
     <section class="series-overview">
-      <div class="overview-header">
-        <h2> <b>
+      <div class="overview-header d-flex align-items-center justify-content-between mb-2">
+        <h4 class="mb-0">
           {{ testSeriesDetails?.name  | uppercase}}
-        </b></h2>
+        </h4>
         <!-- <p>{{ testSeriesDetails?.details }}</p> -->
+         <button type="button" class="btn btn-primary" routerLink="/dash/user-testSeries">Back</button>
       </div>
       <div class="overview-metrics">
         <div>
@@ -276,7 +282,7 @@
     <!-- Test List -->
    
     <section id="section3">
-      <h3 class="">Your Test</h3>
+      <h4 class="mb-0">Your Test</h4>
   
       <div class="cards-container mb-5">
         <ng-container *ngIf="testData.length > 0; else noTest">

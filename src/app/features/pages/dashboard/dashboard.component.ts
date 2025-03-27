@@ -13,11 +13,13 @@ import { CourseService } from '../../../core/services/course.service';
 import { CourseListComponent } from '../course-list/course-list.component';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { environment } from '../../../../environments/environment.development';
+import { SettingsService } from '../../../core/services/settings.service';
+import { UserTestSeriesComponent } from "../user-test-series/user-test-series.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule, RouterModule, CourseListComponent, CarouselModule],
+  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule, RouterModule, CourseListComponent, CarouselModule, UserTestSeriesComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
  
@@ -107,7 +109,7 @@ export class DashboardComponent {
       }
 
 
-    constructor(private userDashboardService : UserDashboardService,private testSeriesService: TestSeriesService,private paymentService: PaymentService, private router : Router, private courseService : CourseService) {}
+    constructor(private userDashboardService : UserDashboardService,private testSeriesService: TestSeriesService,private paymentService: PaymentService, private router : Router, private courseService : CourseService, public settingsService: SettingsService) {}
 
 
     handleAction(event: { action: string; row: any }) {

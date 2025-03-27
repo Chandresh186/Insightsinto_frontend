@@ -1,6 +1,15 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { SettingsService } from './core/services/settings.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, finalize, of, tap } from 'rxjs';
+
+interface Setting {
+  id: string;
+  moduleName: string;
+  show: boolean;
+}
 
 @Component({
   selector: 'app-root',
@@ -9,15 +18,38 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  
 })
 export class AppComponent {
   title = 'insightInto';
   public themeColor = null;
-  
+  // settingsSignal = signal<Setting[]>([]);
+
   // public themeColor = 'restoreDarkMode';
-  
+  constructor(
+    private settingsService: SettingsService,
+    private toastr: ToastrService
+  ) {}
+
   ngOnInit() {
-     
+    this.settingsService.fetchSettings(); 
   }
+
+  // getSettingList() {
+  //   this.settingsService
+  //     .getSettingList()
+  //     .pipe(
+  //       tap((response) => {
+  //         console.log(response);
+  //         this.settingsSignal.set(response);
+  //         // this.settingList = response
+  //         console.log('Fetched Data:', this.settingsSignal());
+  //       }),
+  //       catchError((error) => {
+  //         this.toastr.warning('We couldnt find your profile.', 'Error!');
+  //         return of([]); // Return an empty array if there's an error
+  //       }),
+  //       finalize(() => {})
+  //     )
+  //     .subscribe();
+  // }
 }

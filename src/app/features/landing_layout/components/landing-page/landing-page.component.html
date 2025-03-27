@@ -34,8 +34,8 @@
               <app-daily-editorial-landing-page ></app-daily-editorial-landing-page>
           </div>
 
-          <h2 class="h2">Our Courses</h2>
-          <div class="courses mb-5">
+          <h2 class="h2" *ngIf="settingsService.isModuleVisible('Courses')">Our Courses</h2>
+          <div class="courses mb-5" *ngIf="settingsService.isModuleVisible('Courses')">
             <owl-carousel-o [options]="customOptions">
               <ng-container *ngFor="let slide of tableData">
                 <ng-template carouselSlide [id]="slide.id">

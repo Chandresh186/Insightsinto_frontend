@@ -351,12 +351,12 @@
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="tab.label == 'Manage dashboard'">
-                                <!-- <form [formGroup]="manageDashboardForm" (ngSubmit)="manageDashboard()">
-                                    <div class="flex-between">
+                                <form [formGroup]="manageDashboardForm" (ngSubmit)="manageDashboard()">
+                                    <div class="flex-between mb-3">
                                         <h4>{{ tab.label }}</h4>
-                                        <button class="btn restore-button" type="submit">Save Changes</button>
+                                        <!-- <button class="btn restore-button" type="submit">Save Changes</button> -->
                                     </div>
-                                    <ng-container *ngIf="userRole==='Admin'">
+                                    <!-- <ng-container *ngIf="userRole==='Admin'">
                                         <select class="form-select mt-3" (change)="adminSelectDropdown($event)">
                                             <option [value]="'all'" [selected]="adminFilterData === 'all'">All
                                             </option>
@@ -365,21 +365,21 @@
                                             <option [value]="'employee'" [selected]="adminFilterData === 'employee'">
                                                 Employee</option>
                                         </select>
-                                    </ng-container>
-                                    <ng-container *ngFor="let details of customdashboardDetails[userRole]">
-                                        <div class="d-flex flex-column gap-3">
-                                            <h6 class="m-0 color-gray fs-5 pt-4">{{ details.heading }}</h6>
-                                            <ng-container *ngFor="let subTitle of details.subHeading;">
+                                    </ng-container>-->
+                                    <!-- <ng-container *ngFor="let details of customdashboardDetails[userRole]">
+                                        <div class="d-flex flex-column gap-3"> -->
+                                            <!-- <h6 class="m-0 color-gray fs-5 pt-4">{{ details.heading }}</h6> -->
+                                            <ng-container *ngFor="let subTitle of settingList">
                                                 <div class=" d-flex justify-content-between">
-                                                    <p class="m-0 text-black-color">{{ subTitle.label }} </p>
+                                                    <p class="m-0 text-black-color">{{ subTitle.moduleName }} </p>
                                                     <input class="restore-switch" type="checkbox"
-                                                        formControlName="{{ subTitle.isChecked }}"
-                                                        (change)="onSwitchChange(subTitle.isChecked, $event)">
+                                                        formControlName="{{ subTitle.moduleName }}"
+                                                        (change)="onSwitchChange(subTitle, $event)">
                                                 </div>
                                             </ng-container>
-                                        </div>
-                                    </ng-container>
-                                </form> -->
+                                        <!-- </div>
+                                    </ng-container> -->
+                                </form> 
                             </ng-container>
                         </div>
                     </div>

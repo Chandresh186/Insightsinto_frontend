@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { INSIGHT_INTO_ROLE } from '../../../../core/enums/roles';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AsyncButtonComponent } from '../../../../shared/resusable_components/async-button/async-button.component';
 import { validationErrorMessage } from '../../../../core/constants/validation.constant';
 import { SettingsService } from '../../../../core/services/settings.service';
@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
   public userId!: string;
   public isLightMode: boolean = false;
   public loading : boolean = false
+  public settingList: any;
   private errorMessage: string | null = null; // To store error messages
 
   public eventPriorityForm!: FormGroup;
@@ -58,7 +59,7 @@ export class SettingsComponent implements OnInit {
     {
       heading: 'Account',
       permission: [INSIGHT_INTO_ROLE.SupperAdmin, INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.User],
-      icon: 'bi bi-person',
+      icon: 'far fa-user',
       tabs: [
         { id: 'v-pills-profile', permission: [INSIGHT_INTO_ROLE.SupperAdmin, INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.User],target: "Profile", label: 'Profile', active: true },
         // { id: 'v-pills-onboarding', 
@@ -77,16 +78,16 @@ export class SettingsComponent implements OnInit {
     //         target: "calendar", label: 'Calendar', active: false },
     //   ],
     // },
-    // {
-    //   heading: 'Dashboard',
-    //   permission: [INSIGHT_INTO_ROLE.Admin],
-    //   icon: 'bi bi-grid-1x2',
-    //   tabs: [
-    //     { id: 'v-pills-manage-dashboard',
-    //        permission: [INSIGHT_INTO_ROLE.Admin],
-    //         target: "Manage-dashboard", label: 'Manage dashboard', active: false },
-    //   ],
-    // },
+    {
+      heading: 'Dashboard',
+      permission: [INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.SupperAdmin],
+      icon: 'far fa-th',
+      tabs: [
+        { id: 'v-pills-manage-dashboard',
+           permission: [INSIGHT_INTO_ROLE.Admin, INSIGHT_INTO_ROLE.SupperAdmin],
+            target: "Manage-dashboard", label: 'Manage dashboard', active: false },
+      ],
+    },
   ];
 
 
@@ -98,6 +99,7 @@ export class SettingsComponent implements OnInit {
     this.isLightMode = !!localStorage.getItem('themeColor');
 
     this.getProfile(this.userId)
+    this.getSettingList();
 
     this.initForms();
   }
@@ -140,30 +142,31 @@ export class SettingsComponent implements OnInit {
     });
 
     this.manageDashboardForm = this.fb.group({
-      activeEmployee: [false],
-      totalEmployee: [false],
-      appInteractionTracking: [false],
-      employeeEventTaskLineChart: [false],
-      employeeLinechart: [false],
-      employeePichart: [false],
-      meetingAnalytics: [false],
-      timeUtilization: [false],
-      totalMeetingsHour: [false],
-      totalTasksHour: [false],
-      totalUpcommingMeeting: [false],
-      totalUpcommingTasks: [false],
-      todo: [false],
-      dailyStatus: [false],
-      restoreRatio: [false],
-      equilibrium: [false],
-      restoreScore: [false],
-      burnout: [false],
+      // moduleName:[false],
+      // activeEmployee: [false],
+      // totalEmployee: [false],
+      // appInteractionTracking: [false],
+      // employeeEventTaskLineChart: [false],
+      // employeeLinechart: [false],
+      // employeePichart: [false],
+      // meetingAnalytics: [false],
+      // timeUtilization: [false],
+      // totalMeetingsHour: [false],
+      // totalTasksHour: [false],
+      // totalUpcommingMeeting: [false],
+      // totalUpcommingTasks: [false],
+      // todo: [false],
+      // dailyStatus: [false],
+      // restoreRatio: [false],
+      // equilibrium: [false],
+      // restoreScore: [false],
+      // burnout: [false],
 
-      totalMeeting: [false],
-      totalTask: [false],
-      activeManager: [false],
-      totalManager: [false],
-      userId: JSON.parse(localStorage.getItem('currentUser')!).response.userId
+      // totalMeeting: [false],
+      // totalTask: [false],
+      // activeManager: [false],
+      // totalManager: [false],
+      // userId: JSON.parse(localStorage.getItem('currentUser')!).response.userId
     });
   }
 
@@ -218,6 +221,33 @@ export class SettingsComponent implements OnInit {
   }
 
 
+  getSettingList() {
+    this.loading = true;  // Set loading state to true while fetching data
+    this.settingsService.getSettingList ().pipe(
+      tap(response => {
+        console.log(response)
+        response.forEach((setting: any) => {
+          this.manageDashboardForm.addControl(setting.moduleName, new FormControl(setting.show));
+        });
+        this.settingList = response
+      
+     
+      }),
+      catchError(error => {
+        this.errorMessage = 'Failed to load categories.';
+        console.error('Error fetching categories:', error);
+        this.toastr.warning('We couldnt find your profile.', "Error!");
+        return of([]);  // Return an empty array if there's an error
+      }),
+      finalize(() => {
+        this.loading = false;  // Reset loading state when the request is completed
+        
+        
+      })
+    ).subscribe();
+  }
+
+
 
   eventPriorityColor() {
     
@@ -229,6 +259,39 @@ export class SettingsComponent implements OnInit {
 
   addMeetingType(val:any, n: any) {
 
+  }
+
+  onSwitchChange(val: any, e: any) {
+    console.log(val,e.target.checked)
+    // const payload = {
+    //   id: val.id,
+    //   data: {
+    //     moduleName: val.moduleName,
+    //     show: val.show
+    //   }
+    // }
+    this.isProfileAsyncCall = true;
+    this.loading = true;  // Set loading state to true while fetching data
+
+    
+    
+    this.settingsService.updateSetting(val.id, { moduleName: val.moduleName,show: e.target.checked}).pipe(
+      tap(response => {
+        // Assign the fetched categories to the categories array
+      }),
+      catchError(error => {
+        this.errorMessage = 'Failed to load categories.';
+        console.error('Error fetching categories:', error);
+        this.toastr.warning('Error in dashboard Setting updation', "Error!");
+        return of([]);  // Return an empty array if there's an error
+      }),
+      finalize(() => {
+        this.loading = false;  // Reset loading state when the request is completed
+        this.isProfileAsyncCall = false;
+        this.getSettingList()
+        this.toastr.success('Dashboard Setting updated successfully.', "Success!");
+      })
+    ).subscribe();
   }
 
   accountSettings() {
@@ -264,5 +327,10 @@ export class SettingsComponent implements OnInit {
       })
     ).subscribe();
    
+  }
+
+  manageDashboard() {
+    console.log(this.manageDashboardForm.value)
+    
   }
 }

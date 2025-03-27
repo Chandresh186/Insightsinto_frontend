@@ -31,7 +31,7 @@ export class UserTestSeriesComponent {
     private loadUserTestSeries(userId: any, testSeriesId: any): void {
       this.loading = true; // Set loading state to true while fetching data
     
-      this.testSeriesService.getTestSeriesByUserId(userId, testSeriesId).pipe(
+      this.testSeriesService.getTestSeriesByUserId(userId).pipe(
         tap((response: any) => {
           console.log(response)
           this.testSeriesData = response 

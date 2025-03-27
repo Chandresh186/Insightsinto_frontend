@@ -236,7 +236,7 @@ export const dashboardRoutes: Routes = [
             ).then((component) => component.CourseDetailPageComponent)
     },
     {
-        path: 'user-testSeries/:id',
+        path: 'user-testSeries',
         canActivate: [permissionGuard], 
         data: { requiredRoles: ['User'] },
         loadComponent:() => 

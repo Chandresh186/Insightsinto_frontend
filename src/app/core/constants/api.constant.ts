@@ -17,6 +17,13 @@ export const API_CONSTANTS = {
       GET_USER_BY_ID: (userId: string) => `Account/profile?userId=${userId}`,
       UPDATE_USER: (userId: string) => `Account/update-profile/${userId}`
     },
+
+    SETTINGS: {
+      GET_ALL_SETTINGS: "Setting",
+      ADD_SETTINGS: "Setting",
+      UPDATE_SETTING:(id: string) => `Setting/${id}`
+    },
+
   
     // User Endpoints
     CATEGORIES: {
@@ -60,7 +67,7 @@ export const API_CONSTANTS = {
       GET_ALL_TEST: 'Test',
       
       GET_TEST_SERIES_BY_ID: (id: string) => `TestSeries/${id}`,
-      GET_TEST_SERIES_BY_USER_ID: (id: string, testSeriesId: string) => `TestSeries/GetTestSeriesByUserId/${id}/${testSeriesId}`,
+      GET_TEST_SERIES_BY_USER_ID: (id: string) => `TestSeries/GetTestSeriesByUserId/${id}`,
       CREATE_TEST_SERIES: 'TestSeries',
       UPDATE_TEST_SERIES: (id: string) => `TestSeries/${id}`,
       DELETE_TEST_SERIES: (id: string) => `TestSeries/${id}`,
