@@ -135,6 +135,7 @@ export class SidebarComponent {
   }
 
   detectRoutes(e: any) {
+    this.settingsService.fetchSettings();
     var currentPath = this.router.url.split('/');
     const isRouteIncluded = this.menuItems.some((item: any) =>
       item.routeURL.includes(currentPath[currentPath.length - 1])

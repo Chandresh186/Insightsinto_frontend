@@ -537,6 +537,7 @@ input[type="number"] {
   margin-left: 10px;
   cursor: pointer;
   font-size: 14px;
+  padding: 0;
 }
 
 input.form-control {
@@ -561,6 +562,9 @@ input.form-control {
 .chip-container:focus-within {
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+.chip-input:focus {
+  box-shadow: none;
 }
 
 .chips {

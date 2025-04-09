@@ -1,6 +1,6 @@
 
 <div class="container">
-    <h4 class="mb-0 text-center">{{getQuestionId() ? 'Edit Question': 'Create a New Question'}}</h4>
+    <h4 class="mb-0 text-center">{{getQuestionId() ? 'Edit Question': 'Create Question'}}</h4>
     <form [formGroup]="questionForm" (ngSubmit)="getQuestionId() ? onEditSubmit(questionForm.value)  : onSubmit(questionForm.value)" >
       
       <div>
@@ -183,15 +183,15 @@
        </div>
       </div>
 
-      <div>
+      <div class="d-flex flex-column">
         <label for="description">Description</label>
-        <input
+        <textarea
           type="text"
           id="description"
           name="description"
           placeholder="Enter the Description"
           formControlName = "description"
-        />
+        ></textarea>
       </div>
 
       <div>

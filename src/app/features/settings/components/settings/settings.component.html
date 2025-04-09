@@ -369,12 +369,21 @@
                                     <!-- <ng-container *ngFor="let details of customdashboardDetails[userRole]">
                                         <div class="d-flex flex-column gap-3"> -->
                                             <!-- <h6 class="m-0 color-gray fs-5 pt-4">{{ details.heading }}</h6> -->
-                                            <ng-container *ngFor="let subTitle of settingList">
+                                            <ng-container *ngFor="let subTitle of settingList; let i = index">
                                                 <div class=" d-flex justify-content-between">
                                                     <p class="m-0 text-black-color">{{ subTitle.moduleName }} </p>
-                                                    <input class="restore-switch" type="checkbox"
+                                                    <!-- <input class="restore-switch" type="checkbox"
                                                         formControlName="{{ subTitle.moduleName }}"
-                                                        (change)="onSwitchChange(subTitle, $event)">
+                                                        (change)="onSwitchChange(subTitle, $event)"> -->
+
+                                                        <div class="form-check form-switch" ngbTooltip="Create Sub Category">
+                                                            <div>
+                                                              <!-- <label class="form-check-label" for="flexSwitchCheckDefault">Sub categories</label> -->
+                                                              <input class="form-check-input" type="checkbox" [id]="'flexSwitchCheckDefault'+ i" [formControlName]="subTitle.moduleName" (change)="onSwitchChange(subTitle, $event)">
+                                                    
+                                                            </div>
+                                                            
+                                                          </div>
                                                 </div>
                                             </ng-container>
                                         <!-- </div>

@@ -425,6 +425,10 @@ export class CreateQuestionComponent {
       if (targetElement.id !== 'dropdownTypeOpen' ) {
         this.dropdownTypeOpen = false;
       }
+
+      if (targetElement.id !== 'dropdownLanguageOpen') {
+        this.dropdownLanguageOpen = false;
+      }
     }
    
 

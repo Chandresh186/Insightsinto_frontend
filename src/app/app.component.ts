@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { SettingsService } from './core/services/settings.service';
@@ -19,9 +19,10 @@ interface Setting {
   styleUrl: './app.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'insightInto';
   public themeColor = null;
+  private intervalId: any;
   // settingsSignal = signal<Setting[]>([]);
 
   // public themeColor = 'restoreDarkMode';
@@ -31,8 +32,16 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    this.settingsService.fetchSettings(); 
+    // // this.settingsService.fetchSettings(); 
+    // this.intervalId = setInterval(() => {
+    //   console.log('Fetching settings...');
+    //   this.settingsService.fetchSettings();
+    // }, 120000); // 2 minutes interval
   }
+
+  // detectRoutes(e: any) {
+    // this.settingsService.fetchSettings();
+  // }
 
   // getSettingList() {
   //   this.settingsService

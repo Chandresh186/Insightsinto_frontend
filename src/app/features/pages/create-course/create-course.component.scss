@@ -63,6 +63,7 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
+    font-weight: 500;
     // font-size: 1em;
   }
   
@@ -502,9 +503,9 @@ input[type="file"] {
   transition: background-color 0.3s;
 }
 
-.p12px {
-  padding: 12px !important;
-}
+// .p12px {
+//   padding: 6px 10px;
+// }
 
 /* Edit Button */
 .edit-btn {

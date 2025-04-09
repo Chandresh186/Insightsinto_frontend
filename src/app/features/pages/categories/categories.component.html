@@ -2,12 +2,11 @@
   <div class="createContainer">
     <div class="input-group w-25rem ">
       <input type="text" class="form-control" name="Search" placeholder="Search" (input)="onSearchChange($event)" />
-      <button ngbTooltip="Search" class="btn btn-primary add-more remove-default-css" type="button"><ion-icon
-          name="search-outline"></ion-icon></button>
+      <button ngbTooltip="Search" class="btn btn-primary add-more remove-default-css" type="button"><i class="fas fa-search"></i> </button>
     </div>
     <button class="btn btn-primary custom-button" placement="bottom" ngbTooltip="Create Category" type="button"
       data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-      <ion-icon class="create" name="add-outline"></ion-icon> Create Category
+      Create Category
     </button>
 
   </div>
@@ -17,10 +16,19 @@
     aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title mb-0" id="offcanvasExampleLabel">Create Categories</h5>
-      <label class="switch" ngbTooltip="Create Sub Category">
+      <!-- <label class="switch" ngbTooltip="Create Sub Category">
         <input type="checkbox" (change)="onToggleCategory($event)">
         <span class="slider"></span>
-      </label>
+      </label> -->
+
+      <div class="form-check form-switch" ngbTooltip="Create Sub Category">
+        <div>
+          <!-- <label class="form-check-label" for="flexSwitchCheckDefault">Sub categories</label> -->
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [(ngModel)]="isCreateNewCategory" >
+
+        </div>
+        
+      </div>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -69,7 +77,7 @@
               <input type="text" class="form-control" name="chipInput" placeholder="Add sub Category"
                 [(ngModel)]="chipInput" (keyup.enter)="addChip()" />
               <button ngbTooltip="Create Category" class="btn btn-primary add-more" type="button"
-                (click)="addChip()"><ion-icon name="add-outline"></ion-icon></button>
+                (click)="addChip()"><i class="fas fa-plus p-2"></i></button>
             </div>
 
             <div class="chip-list">

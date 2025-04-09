@@ -36,7 +36,10 @@ export class TestListComponent implements OnInit {
   public questionForm!: FormGroup;
   public testSeriesDetails: any;
   public quillEditor: Quill[] | undefined;
-  public originalData: any[] = []
+  public originalData: any[] = [];
+  public dropdownLanguageOpen : boolean = false;
+  public selectedLanguageOption: any| null = null;
+  public filteredLanguageOptions : any[] | null = [];
   // public testForm!: FormGroup;
   public testForm: any = {
     title: '',
@@ -95,6 +98,13 @@ export class TestListComponent implements OnInit {
       visible: true,
     },
   ];
+
+  languages =  [
+    "English",
+    "Hindi",
+    "Gujarati",
+  
+  ]
 
   // JSON Data
   AccordionData: any = [
@@ -206,6 +216,38 @@ export class TestListComponent implements OnInit {
     return [...new Set(data.map((res: any)=> res.categoryName))]
   }
 
+
+  public toggleLanguageDropdown(): void {
+    this.dropdownLanguageOpen = !this.dropdownLanguageOpen;
+  }
+
+
+  public filterLanguageOptions() {
+      
+    if (this.searchQuery.trim() && this.languages && this.languages.length > 0) {
+      // Filter categories based on catName, case insensitive
+      this.filteredLanguageOptions = this.languages.filter(type =>
+        type.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    } else {
+      // If searchQuery is empty, reset to all categories
+      this.filteredLanguageOptions = this.languages ? [...this.languages] : [];
+    }
+  }
+
+  public selectLanguageOption(option: any): void {
+    this.selectedLanguageOption = option; // Set the selected option
+    this.testForm.language = option
+    this.dropdownLanguageOpen = false; // Close dropdown
+    this.searchQuery = ''; // Reset search input
+    this.filteredLanguageOptions = this.languages ? [...this.languages] : []; // Reset filtered list
+ 
+  }
+
+  public setLanguageFilteration(type: any) {
+    this.filteredLanguageOptions = [...type]; // Filtered options for search
+  }
+
   getCourseByTestId(id: any) {
     this.loading = true; // Start loading
    
@@ -281,6 +323,7 @@ export class TestListComponent implements OnInit {
 
   ngOnInit(): void {
     // this.showColumns = this.tableHeaders;
+    this.setLanguageFilteration(this.languages)
     this.loadAllCourses();
     this.getCategories();
     this.getAllMappedCategories();
@@ -953,7 +996,13 @@ export class TestListComponent implements OnInit {
       .pipe(
         tap((response) => {
           // this.AccordionData = response;
-          this.AccordionData = [...this.AccordionData, ...response];
+          // this.AccordionData = [...this.AccordionData, ...response];
+          const merged = [...this.AccordionData, ...response];
+          // Remove duplicates by `id`
+          const uniqueById = Array.from(
+            new Map(merged.map(item => [item.id, item])).values()
+          );
+          this.AccordionData = uniqueById;
           this.GeneratedQuestions = [...this.AccordionData]
           // this.transformData();
           this.initilizeEditor();
@@ -978,7 +1027,6 @@ export class TestListComponent implements OnInit {
     this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
     this.loading = true; // Start loading
     this.createTestAsyncCall = true;
-
 
     this.testSeriesService
       .createTest(this.testForm)
@@ -1186,7 +1234,10 @@ export class TestListComponent implements OnInit {
     this.AccordionData = this.AccordionData.filter(
       (item: any) => item.id !== val.id
     );
-    this.transformData();
+
+    this.GeneratedQuestions = [...this.AccordionData]
+    // this.transformData();
+ 
   }
 
   DeleteCategory(id: any) {
@@ -1246,6 +1297,10 @@ export class TestListComponent implements OnInit {
 
     if(targetElement.id !== 'dropdownCourseOpen') {
       this.dropdownCourseOpen = false;
+    }
+
+    if(targetElement.id !== 'dropdownLanguageOpen') {
+      this.dropdownLanguageOpen = false;
     }
   }
 

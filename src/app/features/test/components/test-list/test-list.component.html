@@ -913,7 +913,7 @@
       <div class="chip-container mb-10px">
         <input
           type="text"
-          class="chip-input"
+          class="chip-input p-0"
           placeholder="Type and press Enter"
           [(ngModel)]="keywordsInput"
           name="keywords"
@@ -961,7 +961,7 @@
         >Topics
         <span class="text-muted"> (Optional)</span>
       </label>
-      <div class="chip-container mb-10px">
+      <div class="chip-container mb-10px p-0">
         <input
           type="text"
           class="chip-input"
@@ -1052,7 +1052,7 @@
           </div>
         </div>
         <div
-          class="chip-container mb-10px"
+          class="chip-container mb-10px p-0"
           *ngIf="testForm.categoryIds.length > 0"
         >
           <div class="chips">
@@ -1136,7 +1136,7 @@
     </div>
 
     <!-- Language Field -->
-    <div class="input-box">
+    <!-- <div class="input-box">
       <label for="language" class="form-label"
         >Language
         <span class="text-muted"> (Optional)</span>
@@ -1150,6 +1150,69 @@
         name="language"
         required
       />
+    </div> -->
+
+  
+    <div class="input-box">
+      <label for="language" class="form-label">Language
+        <span class="text-muted"> (Optional)</span>
+      </label>
+      <div class="dropdown"  [class.show]="dropdownLanguageOpen" (clickOutside)="dropdownLanguageOpen = false">
+
+        <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+     <div class="input-group" id="target_Dropdown">
+       <input
+       type="text"
+       class="select_input form-control dropdown-toggle  text-start cursor-pointer"
+       placeholder="Select Category"
+       [value]="selectedLanguageOption && selectedLanguageOption || 'Select an option'"
+       (click)="toggleLanguageDropdown()"
+      
+       name="selectInput"
+       aria-expanded="dropdownOpen"
+       id="dropdownLanguageOpen"
+       readonly
+     /> <!--(focus)="toggleDropdown()"-->
+     <span class="input-group-append"  >
+      <i class="fa fa-caret-down" (click)="toggleLanguageDropdown()"></i>
+       <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+     </span>
+   </div>
+     
+       <!-- Dropdown menu with search functionality -->
+       <div class="dropdown-menu p-2" [class.show]="dropdownLanguageOpen" style="width: 100%;">
+         <!-- Search input -->
+         <input
+           type="text"
+           class="form-control mb-2"
+           placeholder="Search..."
+           name="searchInput"
+           [(ngModel)]="searchQuery"
+           [ngModelOptions]="{standalone: true}"
+           (input)="filterLanguageOptions()"
+           (click)="$event.stopPropagation()"  
+         />
+     
+         <div class="list-wrapper">
+
+             <a
+               *ngFor="let option of filteredLanguageOptions"
+               class="dropdown-item "
+               href="#"
+               (click)="selectLanguageOption(option); $event.preventDefault()"
+             >
+               {{ option}} 
+             </a>
+         </div>
+         <!-- Filtered options list -->
+     
+         <!-- Message for no matches -->
+         <div *ngIf="filteredLanguageOptions && filteredLanguageOptions.length === 0" class="dropdown-item disabled">
+           No options found
+         </div>
+       </div>
+     </div>
+     
     </div>
 
     <!-- Files Field -->

@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ngbootstrapModule } from '../../../../shared/modules/ng-bootstrap.modules';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { LogoutService } from '../../../../core/services/logout.service';
+import { SettingsService } from '../../../../core/services/settings.service';
 
 @Component({
   selector: 'app-layout',
@@ -23,7 +24,7 @@ export class LayoutComponent {
 
   currentRoute: string = '';
 
-  constructor(private router: Router, private logoutService : LogoutService) {}
+  constructor(private router: Router, private logoutService : LogoutService, private settingsService: SettingsService) {}
 
   toggleNav() {
     this.isNavActive = !this.isNavActive;
@@ -46,6 +47,7 @@ export class LayoutComponent {
   }
 
   detectRoutes(e: any) {
+    this.settingsService.fetchSettings();
     var currentPath = this.router.url.split('/');
     // const isRouteIncluded = this.menuItems.some((item : any) => item.routeURL.includes(currentPath[currentPath.length - 1]));
     // if (isRouteIncluded) {

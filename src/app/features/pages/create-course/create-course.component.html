@@ -3,7 +3,7 @@
   <div class="row">
     @if(!getCourseId()) {
       <div class="col-10">
-        <h4 class="mb-0  text-center">{{this.getCourseId() ? 'Edit course' : 'Create a new course'}}</h4>
+        <h4 class="mb-0  text-center">{{this.getCourseId() ? 'Edit Course' : 'Create Course'}}</h4>
 
       </div>
       <div class="col">
@@ -19,7 +19,7 @@
 
     } @else {
       <div class="col-8" >
-        <h4 class="mb-0 text-center">{{getCourseId() ? 'Edit course' : 'Create a new course'}}</h4>
+        <h4 class="mb-0 text-center">{{getCourseId() ? 'Edit Course' : 'Create Course'}}</h4>
   
       </div>
       <div class="col d-flex align-items-center justify-content-end gap-3" > <!--*ngIf="courseData && courseData.parentId !== null"-->
@@ -281,16 +281,16 @@
         </div>
       </div>
 
-      <div>
+      <div class="d-flex flex-column">
         <label for="description">Description</label>
-        <input
+        <textarea
           type="text"
           id="description"
           name="description"
           placeholder="Enter the Description"
           formControlName = "description"
           [class.is-invalid]="createCourseFormControl['description'].invalid && (createCourseFormControl['description'].dirty || createCourseFormControl['description'].touched)"
-        />
+        ></textarea>
 
         <div class="invalid-feedback" >
           Description is required
