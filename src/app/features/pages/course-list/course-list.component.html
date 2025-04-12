@@ -74,8 +74,9 @@
           </a>
           <div class="card-body p-2 gap-0">
             <h5 class="card-title div-courses-min-height">{{ course.name }}</h5>
-            <div class="desc">
-              {{ course && course.description }}
+        
+            <div class="ql-editor desc" [innerHTML]="sanitizer.bypassSecurityTrustHtml(course && course.description)">
+              <!-- {{ course && course.description }} -->
             </div>
             <div>
               <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->

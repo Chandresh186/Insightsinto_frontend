@@ -283,14 +283,15 @@
 
       <div class="d-flex flex-column">
         <label for="description">Description</label>
-        <textarea
+        <div id="descriptionEditor" class="editor-container"></div>
+        <!-- <textarea
           type="text"
           id="description"
           name="description"
           placeholder="Enter the Description"
           formControlName = "description"
           [class.is-invalid]="createCourseFormControl['description'].invalid && (createCourseFormControl['description'].dirty || createCourseFormControl['description'].touched)"
-        ></textarea>
+        ></textarea> -->
 
         <div class="invalid-feedback" >
           Description is required

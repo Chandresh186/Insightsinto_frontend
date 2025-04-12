@@ -2,7 +2,7 @@ import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, HostListe
 import { AsyncButtonComponent } from '../../../../shared/resusable_components/async-button/async-button.component';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../../../shared/resusable_components/table/table.component';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ngbootstrapModule } from '../../../../shared/modules/ng-bootstrap.modules';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { catchError, debounceTime, finalize, of, Subject, Subscription, tap } from 'rxjs';
@@ -12,6 +12,7 @@ import { CategoriesService } from '../../../../core/services/categories.service'
 import { TestSeriesService } from '../../../../core/services/test-series.service';
 import { CourseService } from '../../../../core/services/course.service';
 import Quill from 'quill';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-test-list',
@@ -338,27 +339,32 @@ export class TestListComponent implements OnInit {
       id: new FormControl(''),
       selectedCategory: new FormControl('', Validators.required),
       easyQuestions: new FormControl('', [
-        Validators.required,
+        // Validators.required,
         Validators.min(1),
       ]),
       mediumQuestions: new FormControl('', [
-        Validators.required,
+        // Validators.required,
         Validators.min(1),
       ]),
       hardQuestions: new FormControl('', [
-        Validators.required,
+        // Validators.required,
         Validators.min(1),
       ]),
 
       totalQuestions: new FormControl('')
+    }, { validators: this.atLeastOneQuestionValidator() });
+
+    this.questionForm.get('easyQuestions')?.valueChanges.subscribe(() => {
+      this.questionForm.updateValueAndValidity();
+    });
+    this.questionForm.get('mediumQuestions')?.valueChanges.subscribe(() => {
+      this.questionForm.updateValueAndValidity();
+    });
+    this.questionForm.get('hardQuestions')?.valueChanges.subscribe(() => {
+      this.questionForm.updateValueAndValidity();
     });
 
 
-
-      
-
-
-   
 
     const testSeriesId  = this.getTestSeriesId()
     // this.getTestseries(testSeriesId)
@@ -368,6 +374,19 @@ export class TestListComponent implements OnInit {
 
     
 
+  }
+
+
+  atLeastOneQuestionValidator(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const easy = group.get('easyQuestions')?.value;
+      const medium = group.get('mediumQuestions')?.value;
+      const hard = group.get('hardQuestions')?.value;
+  
+      const hasAtLeastOne = [easy, medium, hard].some(val => !!val && val > 0);
+  
+      return hasAtLeastOne ? null : { atLeastOneRequired: true };
+    };
   }
 
   initilizeEditor() {
@@ -653,6 +672,7 @@ export class TestListComponent implements OnInit {
     private modalService: NgbModal,
     private route : ActivatedRoute,
     private courseService: CourseService,
+    public sanitizer: DomSanitizer
   ) {
     this.searchCatSubject.pipe(debounceTime(300)).subscribe((query) => {
       this.searchCategory = query; // Assign the value to searchQuery
@@ -757,9 +777,25 @@ export class TestListComponent implements OnInit {
 
     });
     this.modalRef = this.modalService.open(this.genQues, {
-      scrollable: false,
+      scrollable: true,
       ariaLabelledBy: 'modal-basic-title',
     });
+
+
+    this.modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with result:', result);
+        this.questionForm.reset();
+        this.selectedLanguageOption = null;
+        this.selectedOption = null
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+        this.questionForm.reset();
+        this.selectedLanguageOption = null;
+        this.selectedOption = null
+      }
+    );
   }
 
     // Subscribe to form control value changes with debounce
@@ -979,9 +1015,10 @@ export class TestListComponent implements OnInit {
   genQuestions() {
     const reqBody: any = {
       categoryIds: [this.questionForm.get('id')?.value],
-      numberOfQuestionsEasy: this.questionForm.get('easyQuestions')?.value,
-      numberOfQuestionsMedium: this.questionForm.get('mediumQuestions')?.value,
-      numberOfQuestionsHard: this.questionForm.get('hardQuestions')?.value,
+      language: this.selectedLanguageOption,
+      numberOfQuestionsEasy: this.questionForm.get('easyQuestions')?.value || 0,
+      numberOfQuestionsMedium: this.questionForm.get('mediumQuestions')?.value || 0,
+      numberOfQuestionsHard: this.questionForm.get('hardQuestions')?.value || 0,
     };
 
     if(this.selectedCourseOption != null) {
@@ -1018,6 +1055,7 @@ export class TestListComponent implements OnInit {
           this.selectedOption = null;
           this.loading = false; // Stop loading
           this.genQuesAsyncCall = false;
+          this.selectedLanguageOption = null;
         })
       )
       .subscribe();

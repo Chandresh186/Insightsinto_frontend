@@ -14,6 +14,7 @@ import { loginRequest } from '../../../core/models/interface/login_request.inter
 import { registerRequest } from '../../../core/models/interface/register_request.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-public-course-detail-page',
@@ -42,7 +43,7 @@ export class PublicCourseDetailPageComponent implements OnInit {
   public isLogin: boolean = false;
   @ViewChild('content') content!: TemplateRef<any>; 
   @ViewChild('confirmmEmail') confirmmEmail!: TemplateRef<any>; 
-  constructor(private authService: AuthService, private courseService : CourseService, private route : ActivatedRoute,private paymentService: PaymentService, private router : Router, private modalService: NgbModal, private toastr: ToastrService) {}
+  constructor(private authService: AuthService, private courseService : CourseService, private route : ActivatedRoute,private paymentService: PaymentService, private router : Router, private modalService: NgbModal, private toastr: ToastrService, public sanitizer: DomSanitizer) {}
 
   ngOnInit() {
      this.signUpForm = new FormGroup({

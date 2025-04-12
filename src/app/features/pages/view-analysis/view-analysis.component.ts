@@ -4,6 +4,7 @@ import { TestSeriesService } from '../../../core/services/test-series.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import Quill from 'quill';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-view-analysis',
@@ -23,7 +24,7 @@ export class ViewAnalysisComponent implements OnInit{
     
 ];
 
-constructor(private testSeriesService: TestSeriesService, private route: ActivatedRoute,) {}
+constructor(private testSeriesService: TestSeriesService, private route: ActivatedRoute, public sanitizer: DomSanitizer) {}
 
 ngOnInit() {
   this.getAnalysis()
@@ -77,7 +78,7 @@ getAnalysis() {
         .pipe(
           tap((response) => {
             this.questions = response;
-            this.initilizeEditor();
+            // this.initilizeEditor();
             
           }),
           catchError((error) => {

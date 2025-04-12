@@ -17,7 +17,8 @@
               <img [src]="currentQuestion?.question" alt="Question Image" class="question-image" />
             </ng-container>
             <ng-template #textQuestion> -->
-             <div id="questionEditor" ></div> <!--{{ currentQuestion?.question}}  [innerHTML]="currentQuestion?.question"--> 
+              <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentQuestion && currentQuestion.question)"></div>
+             <!-- <div id="questionEditor" ></div> {{ currentQuestion?.question}}  [innerHTML]="currentQuestion?.question"  -->
             <!-- </ng-template> -->
         </h4>
         <div class="wrapper">
@@ -29,7 +30,8 @@
                     </ng-container>
                     <ng-template #textOptionA> -->
                   <span class="w-100 d-flex align-items-center justify-content-between" (click)="optionA.click()">
-                    <div id="optionAEditor" ></div> <!--{{ currentQuestion?.a }} [innerHTML]="currentQuestion?.a"--> 
+                    <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentQuestion && currentQuestion.a)"></div>
+                    <!-- <div id="optionAEditor" ></div> {{ currentQuestion?.a }} [innerHTML]="currentQuestion?.a"  -->
                       <!-- </ng-template> -->
                     <input type="radio" name="answer" #optionA [(ngModel)]="selectedAnswer" value="A" [attr.aria-label]="currentQuestion?.a">
 
@@ -42,7 +44,8 @@
                     </ng-container>
                     <ng-template #textOptionB> -->
                       <span class="w-100 d-flex align-items-center justify-content-between" (click)="optionB.click()">
-                        <div id="optionBEditor" ></div> <!--{{ currentQuestion?.b }} [innerHTML]="currentQuestion?.b"--> 
+                        <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentQuestion && currentQuestion.b)"></div>
+                        <!-- <div id="optionBEditor" ></div> {{ currentQuestion?.b }} [innerHTML]="currentQuestion?.b"  -->
                       <!-- </ng-template> -->
                     <input type="radio" name="answer" #optionB [(ngModel)]="selectedAnswer" value="B" [attr.aria-label]="currentQuestion?.b">
 
@@ -55,7 +58,8 @@
                     </ng-container>
                     <ng-template #textOptionC> -->
                       <span class="w-100 d-flex align-items-center justify-content-between" (click)="optionC.click()">
-                        <div id="optionCEditor" ></div> <!--{{ currentQuestion?.c }} [innerHTML]="currentQuestion?.c"-->
+                        <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentQuestion && currentQuestion.c)"></div>
+                        <!-- <div id="optionCEditor" ></div> {{ currentQuestion?.c }} [innerHTML]="currentQuestion?.c" -->
                        <!-- </ng-template> -->
                      <input type="radio" name="answer" #optionC [(ngModel)]="selectedAnswer" value="C" [attr.aria-label]="currentQuestion?.c">
 
@@ -68,7 +72,8 @@
                     </ng-container>
                     <ng-template #textOptionD> -->
                       <span class="w-100 d-flex align-items-center justify-content-between" (click)="optionD.click()">
-                        <div id="optionDEditor" ></div>  <!--{{ currentQuestion?.d }} [innerHTML]="currentQuestion?.d"--> 
+                        <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentQuestion && currentQuestion.d)"></div>
+                        <!-- <div id="optionDEditor" ></div>  {{ currentQuestion?.d }} [innerHTML]="currentQuestion?.d"  -->
                       <!-- </ng-template> -->
                     <input type="radio" name="answer" #optionD [(ngModel)]="selectedAnswer" value="D" [attr.aria-label]="currentQuestion?.d">
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BlogService } from '../../../core/services/blog.service';
 import { catchError, finalize, of, tap } from 'rxjs';
@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment.development';
 import { DomSanitizer } from '@angular/platform-browser';
 import Quill from 'quill';
 import { ShareButtons } from 'ngx-sharebuttons/buttons';
+
 
 @Component({
   selector: 'app-blog-details',
@@ -24,7 +25,10 @@ export class BlogDetailsComponent {
   public isUserLoggedIn!: boolean;
   public quillEditor: Quill | undefined;
 
-  constructor(private route : ActivatedRoute, private blogService : BlogService, private router: Router, private cdr: ChangeDetectorRef,public sanitizer: DomSanitizer) {}
+  private cdr = inject(ChangeDetectorRef);
+
+
+  constructor(private route : ActivatedRoute, private blogService : BlogService, private router: Router,public sanitizer: DomSanitizer) {}
 
 
   getBlogId() {
@@ -32,17 +36,17 @@ export class BlogDetailsComponent {
   }
 
   ngOnInit() {
-    this.quillEditor = new Quill('#editor', {
-      theme: 'snow',
-      readOnly: true,
+    // this.quillEditor = new Quill('#editor', {
+    //   theme: 'snow',
+    //   readOnly: true,
     
-      modules: {
-        toolbar: [
+    //   modules: {
+    //     toolbar: [
        
-        ],
+    //     ],
        
-      },
-    });
+    //   },
+    // });
     this.isUserLoggedIn = localStorage.getItem('currentUser') !== null;
     this.getBlogs(this.getBlogId());
     
@@ -53,11 +57,13 @@ export class BlogDetailsComponent {
         this.loading = true;  // Set loading state to true while fetching data
         this.blogService.getBlogById(id).pipe(
           tap(response => {
-            this.blogData = response;  // Assign the fetched categories to the categories array
-            if (this.quillEditor && this.quillEditor.root) {
+            console.log(this.blogData?.blogContent)
+            // this.blogData =  this.sanitizer.bypassSecurityTrustHtml(response.blogContent);  // Assign the fetched categories to the categories array
+            this.blogData =  response;  // Assign the fetched categories to the categories array
+            // if (this.quillEditor && this.quillEditor.root) {
 
-              this.quillEditor.root.innerHTML = response.blogContent
-            }
+            //   this.quillEditor.root.innerHTML = response?.blogContent
+            // }
             this.cdr.detectChanges();
           }),
           catchError(error => {

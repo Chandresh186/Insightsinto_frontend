@@ -1,278 +1,324 @@
-
 <div class="container">
-    <h4 class="mb-0 text-center">{{getQuestionId() ? 'Edit Question': 'Create Question'}}</h4>
-    <form [formGroup]="questionForm" (ngSubmit)="getQuestionId() ? onEditSubmit(questionForm.value)  : onSubmit(questionForm.value)" >
-      
-      <div>
-        <label for="question">Question</label>
-        <div id="questionEditor" class="editor-container"></div>
-      </div>
-      
+  <h4 class="mb-0 text-center">
+    {{ getQuestionId() ? "Edit Question" : "Create Question" }}
+  </h4>
+  <form
+    [formGroup]="questionForm"
+    (ngSubmit)="
+      getQuestionId()
+        ? onEditSubmit(questionForm.value)
+        : onSubmit(questionForm.value)
+    "
+  >
+    <div>
+      <label for="question">Question</label>
+      <div id="questionEditor" class="editor-container"></div>
+    </div>
 
-      
-      <div>
-        <label for="optionA">Option A</label>
-        <div id="optionAEditor" class="editor-container"></div>
-      </div>
-  
-    
-      <div>
-        <label for="optionB">Option B</label>
-        <div id="optionBEditor" class="editor-container"></div>
-      </div>
+    <div>
+      <label for="optionA">Option A</label>
+      <div id="optionAEditor" class="editor-container"></div>
+    </div>
 
-      <div>
-        <label for="optionC">Option C</label>
-        <div id="optionCEditor" class="editor-container"></div>
-      </div>
+    <div>
+      <label for="optionB">Option B</label>
+      <div id="optionBEditor" class="editor-container"></div>
+    </div>
 
-      <div>
-        <label for="optionD">Option D</label>
-        <div id="optionDEditor" class="editor-container"></div>
-      </div>
+    <div>
+      <label for="optionC">Option C</label>
+      <div id="optionCEditor" class="editor-container"></div>
+    </div>
 
-      <div>
-        <label for="ans">Answer</label>
-        <input
-          type="text"
-          id="ans"
-          name="ans"
-          placeholder="Enter the ans"
-          formControlName = "ans"
-        />
-      </div>
+    <div>
+      <label for="optionD">Option D</label>
+      <div id="optionDEditor" class="editor-container"></div>
+    </div>
 
-      <div>
-        <div>
-            <label for="categoryId" class="form-label">Select Category</label>
-            <div class="dropdown"  [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
- 
-              <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
-           <div class="input-group" id="target_Dropdown">
-             <input
-             type="text"
-             class="select_input form-control dropdown-toggle  text-start cursor-pointer"
-             placeholder="Select Category"
-             [value]="selectedOption && selectedOption.catName  || 'Select an option'"
-             (click)="toggleDropdown()"
-            
-             name="selectInput"
-             aria-expanded="dropdownOpen"
-             id="dropdownOpen"
-             readonly
-           /> <!--(focus)="toggleDropdown()"-->
-           <span class="input-group-append"  >
-            <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
-             <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
-           </span>
-         </div>
-           
-             <!-- Dropdown menu with search functionality -->
-             <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
-               <!-- Search input -->
-               <input
-                 type="text"
-                 class="form-control mb-2"
-                 placeholder="Search..."
-                 name="searchInput"
-                 [(ngModel)]="searchQuery"
-                 [ngModelOptions]="{standalone: true}"
-                 (input)="filterOptions()"
-                 (click)="$event.stopPropagation()"  
-               />
-           
-               <div class="list-wrapper">
+    <div>
+      <label for="ans">Answer</label>
+      <input
+        type="text"
+        id="ans"
+        name="ans"
+        placeholder="Enter the ans"
+        formControlName="ans"
+      />
+    </div>
 
-                   <a
-                     *ngFor="let option of filteredOptions"
-                     class="dropdown-item "
-                     href="#"
-                     [ngStyle]="{ 'cursor': isElementInChips(option) ? 'not-allowed' : 'pointer' }"
-                     (click)="isElementInChips(option) ? '' : selectOption(option); $event.preventDefault()"
-                   >
-                     {{ option.catName}} 
-                   </a>
-               </div>
-               <!-- Filtered options list -->
-           
-               <!-- Message for no matches -->
-               <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
-                 No options found
-               </div>
-             </div>
-           </div>
+    <div>
+      <div>
+        <label for="categoryId" class="form-label">Select Category</label>
+        <div
+          class="dropdown"
+          [class.show]="dropdownOpen"
+          (clickOutside)="dropdownOpen = false"
+        >
+          <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+          <div class="input-group" id="target_Dropdown">
+            <input
+              type="text"
+              class="select_input form-control dropdown-toggle text-start cursor-pointer"
+              placeholder="Select Category"
+              [value]="
+                (selectedOption && selectedOption.catName) || 'Select an option'
+              "
+              (click)="toggleDropdown()"
+              name="selectInput"
+              aria-expanded="dropdownOpen"
+              id="dropdownOpen"
+              readonly
+            />
+            <!--(focus)="toggleDropdown()"-->
+            <span class="input-group-append">
+              <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+              <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+            </span>
           </div>
-        <div *ngIf="chips.length > 0" class="my-3">
-          <div class="chip-input-container">
-          
-          
-            <div class="chip-list">
-              <span
-                class="badge bg-primary me-2 mb-2"
-                *ngFor="let chip of chips; let i = index">
-                {{ chip.catName }}
-                <button
-                  type="button"
-                  class="bg-transparent"
-                  aria-label="Remove"
-                  (click)="removeChip(i)">
-                  <i class="fas fa-times"></i>
-                </button> 
-              </span>
+
+          <!-- Dropdown menu with search functionality -->
+          <div
+            class="dropdown-menu p-2"
+            [class.show]="dropdownOpen"
+            style="width: 100%"
+          >
+            <!-- Search input -->
+            <input
+              type="text"
+              class="form-control mb-2"
+              placeholder="Search..."
+              name="searchInput"
+              [(ngModel)]="searchQuery"
+              [ngModelOptions]="{ standalone: true }"
+              (input)="filterOptions()"
+              (click)="$event.stopPropagation()"
+            />
+
+            <div class="list-wrapper">
+              <a
+                *ngFor="let option of filteredOptions"
+                class="dropdown-item"
+                href="#"
+                [ngStyle]="{
+                  cursor: isElementInChips(option) ? 'not-allowed' : 'pointer'
+                }"
+                (click)="
+                  isElementInChips(option) ? '' : selectOption(option);
+                  $event.preventDefault()
+                "
+              >
+                {{ option.catName }}
+              </a>
+            </div>
+            <!-- Filtered options list -->
+
+            <!-- Message for no matches -->
+            <div
+              *ngIf="filteredOptions && filteredOptions.length === 0"
+              class="dropdown-item disabled"
+            >
+              No options found
             </div>
           </div>
         </div>
       </div>
-
-      <div>
-        <label for="description">Select Type</label>
-        <div class="dropdown"  [class.show]="dropdownTypeOpen" (clickOutside)="dropdownTypeOpen = false">
- 
-          <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
-       <div class="input-group" id="target_Dropdown">
-         <input
-         type="text"
-         class="select_input form-control dropdown-toggle  text-start cursor-pointer"
-         placeholder="Select Category"
-         [value]="selectedTypeOption && selectedTypeOption || 'Select an option'"
-         (click)="toggleTypeDropdown()"
-        
-         name="selectInput"
-         aria-expanded="dropdownOpen"
-         id="dropdownTypeOpen"
-         readonly
-       /> <!--(focus)="toggleDropdown()"-->
-       <span class="input-group-append"  >
-        <i class="fa fa-caret-down" (click)="toggleTypeDropdown()"></i>
-         <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
-       </span>
-     </div>
-       
-         <!-- Dropdown menu with search functionality -->
-         <div class="dropdown-menu p-2" [class.show]="dropdownTypeOpen" style="width: 100%;">
-           <!-- Search input -->
-           <input
-             type="text"
-             class="form-control mb-2"
-             placeholder="Search..."
-             name="searchInput"
-             [(ngModel)]="searchQuery"
-             [ngModelOptions]="{standalone: true}"
-             (input)="filterTypeOptions()"
-             (click)="$event.stopPropagation()"  
-           />
-       
-           <div class="list-wrapper">
-
-               <a
-                 *ngFor="let option of filteredTypeOptions"
-                 class="dropdown-item "
-                 href="#"
-                 (click)="selectTypeOption(option); $event.preventDefault()"
-               >
-                 {{ option}} 
-               </a>
-           </div>
-           <!-- Filtered options list -->
-       
-           <!-- Message for no matches -->
-           <div *ngIf="filteredTypeOptions && filteredTypeOptions.length === 0" class="dropdown-item disabled">
-             No options found
-           </div>
-         </div>
-       </div>
+      <div *ngIf="chips.length > 0" class="my-3">
+        <div class="chip-input-container">
+          <div class="chip-list">
+            <span
+              class="badge bg-primary me-2 mb-2"
+              *ngFor="let chip of chips; let i = index"
+            >
+              {{ chip.catName }}
+              <button
+                type="button"
+                class="bg-transparent"
+                aria-label="Remove"
+                (click)="removeChip(i)"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </span>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div class="d-flex flex-column">
-        <label for="description">Description</label>
-        <textarea
+    <div>
+      <label for="description">Select Type</label>
+      <div
+        class="dropdown"
+        [class.show]="dropdownTypeOpen"
+        (clickOutside)="dropdownTypeOpen = false"
+      >
+        <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+        <div class="input-group" id="target_Dropdown">
+          <input
+            type="text"
+            class="select_input form-control dropdown-toggle text-start cursor-pointer"
+            placeholder="Select Category"
+            [value]="
+              (selectedTypeOption && selectedTypeOption) || 'Select an option'
+            "
+            (click)="toggleTypeDropdown()"
+            name="selectInput"
+            aria-expanded="dropdownOpen"
+            id="dropdownTypeOpen"
+            readonly
+          />
+          <!--(focus)="toggleDropdown()"-->
+          <span class="input-group-append">
+            <i class="fa fa-caret-down" (click)="toggleTypeDropdown()"></i>
+            <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+          </span>
+        </div>
+
+        <!-- Dropdown menu with search functionality -->
+        <div
+          class="dropdown-menu p-2"
+          [class.show]="dropdownTypeOpen"
+          style="width: 100%"
+        >
+          <!-- Search input -->
+          <input
+            type="text"
+            class="form-control mb-2"
+            placeholder="Search..."
+            name="searchInput"
+            [(ngModel)]="searchQuery"
+            [ngModelOptions]="{ standalone: true }"
+            (input)="filterTypeOptions()"
+            (click)="$event.stopPropagation()"
+          />
+
+          <div class="list-wrapper">
+            <a
+              *ngFor="let option of filteredTypeOptions"
+              class="dropdown-item"
+              href="#"
+              (click)="selectTypeOption(option); $event.preventDefault()"
+            >
+              {{ option }}
+            </a>
+          </div>
+          <!-- Filtered options list -->
+
+          <!-- Message for no matches -->
+          <div
+            *ngIf="filteredTypeOptions && filteredTypeOptions.length === 0"
+            class="dropdown-item disabled"
+          >
+            No options found
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column">
+      <label for="description">Description</label>
+      <div id="descriptionEditor" class="editor-container"></div>
+      <!-- <textarea
           type="text"
           id="description"
           name="description"
           placeholder="Enter the Description"
           formControlName = "description"
-        ></textarea>
-      </div>
+        ></textarea> -->
+    </div>
 
-      <div>
-        <label for="complexity">Complexity</label>
-        <input
-          type="text"
-          id="complexity"
-          name="complexity"
-          placeholder="Enter the complexity"
-          formControlName = "complexity"
-        />
-      </div>
-      <div>
-        <label for="language">Language</label>
-        <div class="dropdown"  [class.show]="dropdownLanguageOpen" (clickOutside)="dropdownLanguageOpen = false">
- 
-          <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
-       <div class="input-group" id="target_Dropdown">
-         <input
-         type="text"
-         class="select_input form-control dropdown-toggle  text-start cursor-pointer"
-         placeholder="Select Category"
-         [value]="selectedLanguageOption && selectedLanguageOption || 'Select an option'"
-         (click)="toggleLanguageDropdown()"
-        
-         name="selectInput"
-         aria-expanded="dropdownOpen"
-         id="dropdownLanguageOpen"
-         readonly
-       /> <!--(focus)="toggleDropdown()"-->
-       <span class="input-group-append"  >
-        <i class="fa fa-caret-down" (click)="toggleLanguageDropdown()"></i>
-         <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
-       </span>
-     </div>
-       
-         <!-- Dropdown menu with search functionality -->
-         <div class="dropdown-menu p-2" [class.show]="dropdownLanguageOpen" style="width: 100%;">
-           <!-- Search input -->
-           <input
-             type="text"
-             class="form-control mb-2"
-             placeholder="Search..."
-             name="searchInput"
-             [(ngModel)]="searchQuery"
-             [ngModelOptions]="{standalone: true}"
-             (input)="filterLanguageOptions()"
-             (click)="$event.stopPropagation()"  
-           />
-       
-           <div class="list-wrapper">
+    <div>
+      <label for="complexity">Complexity</label>
+      <input
+        type="text"
+        id="complexity"
+        name="complexity"
+        placeholder="Enter the complexity"
+        formControlName="complexity"
+      />
+    </div>
+    <div>
+      <label for="language">Language</label>
+      <div
+        class="dropdown"
+        [class.show]="dropdownLanguageOpen"
+        (clickOutside)="dropdownLanguageOpen = false"
+      >
+        <!-- Input field with dropdown arrow  (focus)="toggleDropdown()" -->
+        <div class="input-group" id="target_Dropdown">
+          <input
+            type="text"
+            class="select_input form-control dropdown-toggle text-start cursor-pointer"
+            placeholder="Select Category"
+            [value]="
+              (selectedLanguageOption && selectedLanguageOption) ||
+              'Select an option'
+            "
+            (click)="toggleLanguageDropdown()"
+            name="selectInput"
+            aria-expanded="dropdownOpen"
+            id="dropdownLanguageOpen"
+            readonly
+          />
+          <!--(focus)="toggleDropdown()"-->
+          <span class="input-group-append">
+            <i class="fa fa-caret-down" (click)="toggleLanguageDropdown()"></i>
+            <!-- <ion-icon name="caret-down-outline" ></ion-icon> -->
+          </span>
+        </div>
 
-               <a
-                 *ngFor="let option of filteredLanguageOptions"
-                 class="dropdown-item "
-                 href="#"
-                 (click)="selectLanguageOption(option); $event.preventDefault()"
-               >
-                 {{ option}} 
-               </a>
-           </div>
-           <!-- Filtered options list -->
-       
-           <!-- Message for no matches -->
-           <div *ngIf="filteredLanguageOptions && filteredLanguageOptions.length === 0" class="dropdown-item disabled">
-             No options found
-           </div>
-         </div>
-       </div>
-       
+        <!-- Dropdown menu with search functionality -->
+        <div
+          class="dropdown-menu p-2"
+          [class.show]="dropdownLanguageOpen"
+          style="width: 100%"
+        >
+          <!-- Search input -->
+          <input
+            type="text"
+            class="form-control mb-2"
+            placeholder="Search..."
+            name="searchInput"
+            [(ngModel)]="searchQuery"
+            [ngModelOptions]="{ standalone: true }"
+            (input)="filterLanguageOptions()"
+            (click)="$event.stopPropagation()"
+          />
+
+          <div class="list-wrapper">
+            <a
+              *ngFor="let option of filteredLanguageOptions"
+              class="dropdown-item"
+              href="#"
+              (click)="selectLanguageOption(option); $event.preventDefault()"
+            >
+              {{ option }}
+            </a>
+          </div>
+          <!-- Filtered options list -->
+
+          <!-- Message for no matches -->
+          <div
+            *ngIf="
+              filteredLanguageOptions && filteredLanguageOptions.length === 0
+            "
+            class="dropdown-item disabled"
+          >
+            No options found
+          </div>
+        </div>
       </div>
-  
-      <!-- Blog Content -->
-    
-  
-      <!-- Submit Button -->
-      <div class="d-flex custom-gap">
-        <button type="submit" [disabled]="questionForm.invalid">{{getQuestionId() ? "Edit Question": "Create Question"}}</button>
-        <button id="back" type="button" routerLink="/dash/question-list" >Back</button>
-      </div>
-    </form>
- 
-  </div>
-  
+    </div>
+
+    <!-- Blog Content -->
+
+    <!-- Submit Button -->
+    <div class="d-flex custom-gap">
+      <button type="submit" [disabled]="questionForm.invalid">
+        {{ getQuestionId() ? "Edit Question" : "Create Question" }}
+      </button>
+      <button id="back" type="button" routerLink="/dash/question-list">
+        Back
+      </button>
+    </div>
+  </form>
+</div>

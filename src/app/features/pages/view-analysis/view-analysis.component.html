@@ -8,8 +8,8 @@
               <ng-template #textQuestion>
                 {{ ques.question }}
               </ng-template> -->
-
-              <div id="quill-question-{{ i }}"></div>
+              <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(ques.question)"></div>
+              <!-- <div id="quill-question-{{ i }}"></div> -->
           </h4>
   
           <div class="wrapper">
@@ -25,7 +25,8 @@
                       <ng-template #textOptionA>
                         {{ ques.a }}
                       </ng-template> -->
-                      <div id="quill-optionA-{{ i }}"></div>
+                      <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(ques.a)"></div>
+                      <!-- <div id="quill-optionA-{{ i }}"></div> -->
                     <input type="radio" [name]="'answer-' + i"  value="A" [attr.aria-label]="ques?.a" [checked]="ques.user_ans === 'A'" disabled> <!--[(ngModel)]="selectedAnswer"-->
                 </label>
                 <label class="option" tabindex="0" [ngClass]="{
@@ -39,7 +40,8 @@
                       <ng-template #textOptionB>
                         {{ ques.b }}
                       </ng-template> -->
-                      <div id="quill-optionB-{{ i }}"></div>
+                      <!-- <div id="quill-optionB-{{ i }}"></div> -->
+                      <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(ques.b)"></div>
                     <input type="radio" [name]="'answer-' + i"  value="B" [attr.aria-label]="ques.b" [checked]="ques.user_ans === 'B'" disabled> <!--[(ngModel)]="selectedAnswer"-->
                 </label>
                 <label class="option" tabindex="0" [ngClass]="{
@@ -53,7 +55,8 @@
                       <ng-template #textOptionC>
                         {{ ques.c }}
                       </ng-template> -->
-                      <div id="quill-optionC-{{ i }}"></div>
+                      <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(ques.c)"></div>
+                      <!-- <div id="quill-optionC-{{ i }}"></div> -->
                     <input type="radio" [name]="'answer-' + i"  value="C" [attr.aria-label]="ques.c" [checked]="ques.user_ans === 'C'" disabled> <!--[(ngModel)]="selectedAnswer"-->
                 </label>
                 <label class="option" tabindex="0" [ngClass]="{
@@ -67,13 +70,16 @@
                       <ng-template #textOptionD>
                         {{ ques.d }}
                       </ng-template> -->
-                      <div id="quill-optionD-{{ i }}"></div>
+
+                      <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(ques.d)"></div>
+                      <!-- <div id="quill-optionD-{{ i }}"></div> -->
                     <input type="radio" [name]="'answer-' + i"  value="D" [attr.aria-label]="ques.d" [checked]="ques.user_ans === 'D'" disabled > <!--[(ngModel)]="selectedAnswer"-->
                 </label>
               </div>
-        
-              <div class="desc">
-                {{ques.description}}
+              
+              <div class="ql-editor desc" [innerHTML]="sanitizer.bypassSecurityTrustHtml(ques.description)">
+                
+                <!-- {{ques.description}} -->
               </div>
     
           </div>

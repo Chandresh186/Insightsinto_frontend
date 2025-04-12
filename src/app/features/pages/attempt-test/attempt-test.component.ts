@@ -8,6 +8,7 @@ import { Test } from '../../../core/models/interface/test.interface';
 import { ToastrService } from 'ngx-toastr';
 import Quill from 'quill';
 import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-attempt-test',
@@ -1264,13 +1265,13 @@ export class AttemptTestComponent implements OnInit {
   private totalTimeInSeconds: number = 0; // Total test time in seconds
   private timerSubscription: Subscription | null = null;
 
-  constructor(private cdr: ChangeDetectorRef, private route : ActivatedRoute,private testSeriesService: TestSeriesService, private router: Router, private toastr: ToastrService) {
+  constructor(private cdr: ChangeDetectorRef, private route : ActivatedRoute,private testSeriesService: TestSeriesService, private router: Router, private toastr: ToastrService, public sanitizer: DomSanitizer) {
     
   }
 
 
   ngOnInit(): void {
-    this.initilizeEditor();
+    // this.initilizeEditor();
     const back = this.getCourseId();
     
     window.onload = function() {
@@ -1667,13 +1668,13 @@ export class AttemptTestComponent implements OnInit {
             this.getActiveQuestion(this.questions[0].id);
             this.currentQuestion = this.questions[0];
   
-            if (this.quillEditor && this.quillEditor.length > 0) {
-              this.quillEditor[0].root.innerHTML = this.currentQuestion.question;
-              this.quillEditor[1].root.innerHTML = this.currentQuestion.a;
-              this.quillEditor[2].root.innerHTML = this.currentQuestion.b;
-              this.quillEditor[3].root.innerHTML = this.currentQuestion.c;
-              this.quillEditor[4].root.innerHTML = this.currentQuestion.d;
-            }
+            // if (this.quillEditor && this.quillEditor.length > 0) {
+            //   this.quillEditor[0].root.innerHTML = this.currentQuestion.question;
+            //   this.quillEditor[1].root.innerHTML = this.currentQuestion.a;
+            //   this.quillEditor[2].root.innerHTML = this.currentQuestion.b;
+            //   this.quillEditor[3].root.innerHTML = this.currentQuestion.c;
+            //   this.quillEditor[4].root.innerHTML = this.currentQuestion.d;
+            // }
           }
   
           

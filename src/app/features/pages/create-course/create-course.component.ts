@@ -10,6 +10,7 @@ import { CourseService } from '../../../core/services/course.service';
 import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
 import { environment } from '../../../../environments/environment.development';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Quill from 'quill';
 
 @Component({
   selector: 'app-create-course',
@@ -40,6 +41,7 @@ public isCourseMaterialSelected: boolean = false;
 public baseUrl = environment.staticBaseUrl
 public isCreateChapter: boolean = false;
 public courseData: any;
+public quillEditor: Quill[] | undefined;
 
 selectedFiles: { pdf: File[]; // Array to store multiple PDF files 
   video: File | null| any;
@@ -52,6 +54,7 @@ selectedFiles: { pdf: File[]; // Array to store multiple PDF files
 constructor(private route : ActivatedRoute, private testSeriesService: TestSeriesService, private courseService : CourseService, private router: Router, private modalService : NgbModal) {}
 
 ngOnInit() {
+  this.initilizeEditor()
   console.log(this.getCourseId())
   if(this.getCourseId()) {
     this.getCourseById(this.getCourseId())
@@ -64,7 +67,7 @@ ngOnInit() {
     this.createCourseForm = new FormGroup({
       
         name: new FormControl('', Validators.required),
-        description: new FormControl('', Validators.required),
+        description: new FormControl(''),
         fee: new FormControl(''),
         active: new FormControl(false),
         isOfflineTest: new FormControl(false)
@@ -77,6 +80,54 @@ ngOnInit() {
 
 get createCourseFormControl() {
   return this.createCourseForm.controls;
+}
+
+
+initilizeEditor() {
+  // Initialize Quill Editor
+  const editors = [{id:'#descriptionEditor', placeholder: 'Enter the Description...'}]
+  this.quillEditor =  editors.map((obj) => {
+   return  new Quill(obj.id, {
+     theme: 'snow',
+     placeholder: obj.placeholder,
+     modules: {
+       toolbar: [
+         // Font family
+         [{ font: [] }],
+
+         // Font size
+         [{ size: [] }],
+
+         // Text formatting
+         ['bold', 'italic', 'underline', 'strike'], // Bold, italic, underline, strike
+         [{ script: 'sub' }, { script: 'super' }], // Subscript, superscript
+         [{ color: [] }, { background: [] }], // Text and background colors
+
+         // Headers and block styles
+         [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers (H1-H6)
+         ['blockquote', 'code-block'], // Blockquote and code block
+
+         // Lists and Indentation
+         [{ list: 'ordered' }, { list: 'bullet' }], // Ordered and unordered lists
+         [{ indent: '-1' }, { indent: '+1' }], // Indentation
+
+         // Alignment and Direction
+         [{ align: [] }], // Align left, center, right, justify
+         [{ direction: 'rtl' }], // RTL text direction
+
+         // Links, media, and more
+         ['link', 'image', 'video', 'formula'], // Links, images, videos, formulas
+
+         ['table'], // Table operations
+
+         // Clear formatting
+         ['clean'], // Clear formatting
+       ],
+       table: true, // Enable table module
+     },
+   });
+
+  })
 }
 
 
@@ -416,9 +467,13 @@ onSubmit(val: any) {
     TestId: this.testChips.length > 0 ? this.testChips[0].id : null,
     ParentId: this.chapterchips.length > 0 ? this.chapterchips[0].id : null,
     Fee: val.fee ?? null,
-    Description: val.description,
+    Description: "",
     IsActive: val.active,
     IsOfflineTest: val.isOfflineTest 
+  }
+
+  if (this.quillEditor && this.quillEditor.length > 0) {
+    obj.Description = this.quillEditor[0].root.innerHTML
   }
   console.log(obj)
 
@@ -452,9 +507,13 @@ onEditSubmit(val: any) {
     TestId:  this.testChips.length > 0 ? this.testChips[0].id : null,
     ParentId: this.chapterchips.length > 0 ? this.chapterchips[0].id : null,
     Fee: val.fee ?? null,
-    Description: val.description,
+    Description: "",
     IsActive: val.active,
     IsOfflineTest: val.isOfflineTest 
+  }
+
+  if (this.quillEditor && this.quillEditor.length > 0) {
+    obj.Description = this.quillEditor[0].root.innerHTML
   }
   console.log(obj)
 
@@ -489,11 +548,18 @@ getCourseById(id: any) {
           this.isCreateChapter = true;
       }
       this.createCourseForm.get('name')?.setValue(response.name);
-      this.createCourseForm.get('description')?.setValue(response.description);
+      // this.createCourseForm.get('description')?.setValue(response.description);
       this.createCourseForm.get('fee')?.setValue(response.fee);
       this.createCourseForm.get('active')?.setValue(response.isActive)
       this.createCourseForm.get('isOfflineTest')?.setValue(response.isOfflineTest)
       this.testChips = response.testDetails !== null ?  [response.testDetails] : []
+
+      if (this.quillEditor && this.quillEditor.length > 0) {
+    
+        this.quillEditor[0].root.innerHTML = response.description;
+    
+
+      }
       if(response.parentDetails !== null) {
         this.chapterchips = response.parentDetails !== null ? [response.parentDetails] : []
       }

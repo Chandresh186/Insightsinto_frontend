@@ -32,6 +32,7 @@
               "src/web.config"
             ],
             "styles": [
+              "node_modules/quill/dist/quill.snow.css",
               "src/assets/styles/typography.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
@@ -40,7 +41,6 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
-              "node_modules/quill/dist/quill.snow.css",
               "node_modules/ngx-sharebuttons/themes/modern.scss",
               "node_modules/ngx-sharebuttons/themes/material.scss"
             ],

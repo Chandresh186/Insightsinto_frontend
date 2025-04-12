@@ -13,7 +13,8 @@
       {{ blogData && blogData.createdAt | date : "MMMM d, yyyy" }} by
       <strong>Admin</strong>
     </p>
-    <div id="editor" class="editor-container"></div>
+    <!-- <div id="editor" class="editor-container"></div> -->
+    <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(blogData.blogContent)"></div>
 
     <div class="blog-tags">
       <ng-container *ngFor="let tag of blogData && blogData.tags">

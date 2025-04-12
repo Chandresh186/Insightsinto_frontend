@@ -4,7 +4,10 @@
       <!-- Left: Course Details -->
       <div class="course-details">
         <h4 >{{courseData && courseData.name}}</h4>
-        <p>{{courseData && courseData.description}}</p>
+        <!-- {{courseData && courseData.description}}
+        <div class="ql-editor" [innerHTML]="sa"></div> -->
+        <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(courseData && courseData.description)"></div>
+        <!-- <p></p> -->
 
       </div>
   

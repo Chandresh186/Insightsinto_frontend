@@ -28,6 +28,7 @@ import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules'
 import { ToastrService } from 'ngx-toastr';
 import { UserTestAnswerSheetService } from '../../../core/services/user-test-answer-sheet.service';
 import { TestSeriesService } from '../../../core/services/test-series.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-detail-page',
@@ -76,7 +77,8 @@ export class CourseDetailPageComponent implements OnInit {
     private courseService: CourseService,
     private cdr: ChangeDetectorRef,
     private _authService: AuthService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {

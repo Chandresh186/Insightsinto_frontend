@@ -97,7 +97,7 @@ export class CreateQuestionComponent {
 
   initilizeEditor() {
      // Initialize Quill Editor
-     const editors = [{id: '#questionEditor', placeholder: 'Write question content here...'}, {id:'#optionAEditor', placeholder: 'Write option A content here...'}, {id:'#optionBEditor', placeholder: 'Write option B content here...'}, {id:'#optionCEditor', placeholder: 'Write option C content here...'}, {id:'#optionDEditor', placeholder: 'Write option D content here...'}]
+     const editors = [{id: '#questionEditor', placeholder: 'Write question content here...'}, {id:'#optionAEditor', placeholder: 'Write option A content here...'}, {id:'#optionBEditor', placeholder: 'Write option B content here...'}, {id:'#optionCEditor', placeholder: 'Write option C content here...'}, {id:'#optionDEditor', placeholder: 'Write option D content here...'}, {id:'#descriptionEditor', placeholder: 'Enter the Description...'}]
      this.quillEditor =  editors.map((obj) => {
       return  new Quill(obj.id, {
         theme: 'snow',
@@ -303,6 +303,7 @@ export class CreateQuestionComponent {
                 this.quillEditor[2].root.innerHTML = response.b;
                 this.quillEditor[3].root.innerHTML = response.c;
                 this.quillEditor[4].root.innerHTML = response.d;
+                this.quillEditor[5].root.innerHTML = response.description;
             
         
               }
@@ -337,7 +338,7 @@ export class CreateQuestionComponent {
         ans: this.questionForm.get('ans')?.value,
         complexity: this.questionForm.get('complexity')?.value,
         categoryId: this.chips[0].id,
-        description: this.questionForm.get('description')?.value,
+        description: "",
         type: this.selectedTypeOption &&  this.selectedTypeOption,
         language: this.selectedLanguageOption && this.selectedLanguageOption
       }
@@ -347,7 +348,8 @@ export class CreateQuestionComponent {
         payload.b = this.quillEditor[2].root.innerHTML;
         payload.c = this.quillEditor[3].root.innerHTML;
         payload.d = this.quillEditor[4].root.innerHTML;
-    
+        payload.d = this.quillEditor[4].root.innerHTML;
+        payload.description = this.quillEditor[5].root.innerHTML
 
       }
       console.log(payload)
@@ -380,7 +382,7 @@ export class CreateQuestionComponent {
         ans: this.questionForm.get('ans')?.value,
         complexity: this.questionForm.get('complexity')?.value,
         categoryId: this.chips[0].id,
-        description: this.questionForm.get('description')?.value,
+        description: "",
         type: this.selectedTypeOption &&  this.selectedTypeOption,
         language: this.selectedLanguageOption && this.selectedLanguageOption
       }
@@ -390,6 +392,7 @@ export class CreateQuestionComponent {
         payload.b = this.quillEditor[2].root.innerHTML;
         payload.c = this.quillEditor[3].root.innerHTML;
         payload.d = this.quillEditor[4].root.innerHTML;
+        payload.description = this.quillEditor[5].root.innerHTML;
     
 
       }

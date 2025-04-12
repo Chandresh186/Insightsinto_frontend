@@ -65,7 +65,7 @@
             data-bs-parent="#accordionExample"
           >
             <div class="accordion-body">
-              <p><strong>Description:</strong> {{ item.description }}</p>
+              <p><strong>Description:</strong></p>  <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(item.description)"></div> <!--{{ item.description }}-->
               <!-- <p><strong>Video:</strong> <a [href]="item.video" target="_blank">View Video</a></p>
               <p><strong>Test Series ID:</strong> {{ item.testSeriesId }}</p>
       

@@ -6,6 +6,7 @@ import { catchError, finalize, of, tap } from 'rxjs';
 import { RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment.development';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-list',
@@ -20,7 +21,7 @@ export class CourseListComponent implements OnInit {
   public allCourses: any = [];
   staticBaseUrl : any = environment.staticBaseUrl
 
-  constructor(private courseService : CourseService, private _authService : AuthService) {}
+  constructor(private courseService : CourseService, private _authService : AuthService, public sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     if(this.checkRole('admin') || this.checkRole('super admin') ) {

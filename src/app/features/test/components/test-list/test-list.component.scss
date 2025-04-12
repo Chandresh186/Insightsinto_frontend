@@ -493,8 +493,8 @@ input[type="number"] {
 ::ng-deep .options .ql-container {
   border: none
 }
-
-::ng-deep .options .ql-snow .ql-editor img {
+// .options .ql-snow
+::ng-deep  .ql-editor img {
   max-width: 30%;
 }
 

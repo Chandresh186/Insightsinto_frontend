@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment.development';
 import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blogs-list',

@@ -25,7 +25,8 @@
                      </div>
                  </div>
                   <h3>{{blog && blog.title}}</h3>
-                  <p class="truncate-text"  [ngbTooltip]="blog.description" [openDelay]="1000">{{blog && blog.description}}</p>
+                  <div class="truncate-text"  [ngbTooltip]="blog.description" [openDelay]="1000">{{blog && blog.description}}</div>
+                
                    
                       <a [routerLink]="['../blog-details', blog.id]"  class="read-more">Read More</a>
      
