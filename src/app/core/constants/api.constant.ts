@@ -68,6 +68,7 @@ export const API_CONSTANTS = {
       
       GET_TEST_SERIES_BY_ID: (id: string) => `TestSeries/${id}`,
       GET_TEST_SERIES_BY_USER_ID: (id: string) => `TestSeries/GetTestSeriesByUserId/${id}`,
+      GET_TEST_QUESTION_MAPPING_BY_ID: (id: string) => `TestQuestionsMapping/${id}`,
       CREATE_TEST_SERIES: 'TestSeries',
       UPDATE_TEST_SERIES: (id: string) => `TestSeries/${id}`,
       DELETE_TEST_SERIES: (id: string) => `TestSeries/${id}`,

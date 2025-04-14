@@ -356,12 +356,6 @@
         <div class="test-card-body">
           <ul>
             <li>
-              Right Answered:
-              <span>{{
-                testResultDetails && testResultDetails.rightAnswered
-              }}</span>
-            </li>
-            <li>
               Total Questions:
               <span>{{
                 testResultDetails && testResultDetails.totalQuestions
@@ -379,6 +373,77 @@
                 testResultDetails && testResultDetails.unansweredQuestions
               }}</span>
             </li>
+            <p class="border"></p>
+
+            <li>
+              
+             <ul>
+              <li><b>Answer Type</b></li>
+              <li>Right Answered:</li>
+              <li>Wrong Answered:</li>
+              <li>Total Marks:</li>
+             </ul>
+             <ul>
+              <li><b>Count</b></li>
+              <li>
+                <span>{{
+                  testResultDetails && testResultDetails.rightAnswered
+                }}</span>
+              </li>
+              <li>
+                <span>{{
+                  testResultDetails && testResultDetails.wrongAnswered
+                }}</span>
+              </li>
+              <li>
+                <span>{{
+                  testResultDetails && testResultDetails.totalMarks
+                }}</span>
+              </li>
+             </ul>
+             <ul>
+              <li><b>Marks</b></li>
+              <li>
+                <span>{{
+                  (testResultDetails && testResultDetails.marksObtained) + (testResultDetails && testResultDetails.negativeMarksObtained)
+                }}</span>
+              </li> 
+              <li>
+               <span>{{
+                  testResultDetails && testResultDetails.negativeMarksObtained
+                }}</span>
+              </li> 
+              <li>
+                <span>{{
+                  testResultDetails && testResultDetails.marksObtained
+                }}</span>
+              </li>
+             </ul>
+           </li>
+
+            <!--<li>
+               Right Answered:
+              <span>{{
+                testResultDetails && testResultDetails.rightAnswered
+              }}</span>
+            </li> -->
+
+
+            <!-- <li>
+              Wrong Answered:
+              <span>{{
+                testResultDetails && testResultDetails.wrongAnswered
+              }}</span>
+            </li>
+           
+            <li>
+              Total Marks:
+              <span>{{
+                testResultDetails && testResultDetails.totalMarks
+              }}</span>
+            </li> -->
+            
+            <p class="border"></p>
             <li>
               Evaluation Score:
               <span
@@ -388,6 +453,16 @@
                 }}%</span
               >
             </li>
+
+            <li>
+              Negative Marking:
+              <span
+                >{{
+                - (testResultDetails && testResultDetails.negativeMarksObtained)/(testResultDetails && testResultDetails.wrongAnswered)
+                }}</span
+              >
+            </li>
+
           </ul>
         </div>
         <div class="test-card-footer">

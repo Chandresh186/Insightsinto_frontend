@@ -59,6 +59,11 @@ export class TestSeriesService {
       const headers = this.getHeaders();
       return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_SERIES_BY_USER_ID(id)}`, headers);
     }
+
+    getTestQuestionMappingById(id: any): Observable<any> {
+      const headers = this.getHeaders();
+      return this.httpService.getById(`${this.baseUrl}${API_CONSTANTS.TESTSERIES.GET_TEST_QUESTION_MAPPING_BY_ID(id)}`, headers);
+    }
   
     // Update Test Series
     updateTestSeries(id: any, testSeries: any): Observable<any> {

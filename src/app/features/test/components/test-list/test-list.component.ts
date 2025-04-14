@@ -41,6 +41,10 @@ export class TestListComponent implements OnInit {
   public dropdownLanguageOpen : boolean = false;
   public selectedLanguageOption: any| null = null;
   public filteredLanguageOptions : any[] | null = [];
+  public editingQuestionId: string | null = null;
+  public originalMarks: number = 0;
+  public isEditingNegativeMarks = false;
+  public originalNegativeMark = 0;
   // public testForm!: FormGroup;
   public testForm: any = {
     title: '',
@@ -111,6 +115,8 @@ export class TestListComponent implements OnInit {
   AccordionData: any = [
     
   ];
+
+  StoredQuestions: any = []
 
 
   validationErrorMessage = {
@@ -1012,10 +1018,34 @@ export class TestListComponent implements OnInit {
       .subscribe();
   }
 
+  getTestQuestionMappingById(testId: any) {
+  
+    this.loading = true; // Start loading
+
+    this.testSeriesService
+      .getTestQuestionMappingById(testId)
+      .pipe(
+        tap((response) => {
+          console.log(response)
+          this.StoredQuestions = response || [];
+        }),
+        catchError((error) => {
+          console.error('Error creating category:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          this.loading = false; // Stop loading
+          
+        })
+      )
+      .subscribe();
+  }
+
   genQuestions() {
     const reqBody: any = {
       categoryIds: [this.questionForm.get('id')?.value],
       language: this.selectedLanguageOption,
+      testId: this.testForm.id,
       numberOfQuestionsEasy: this.questionForm.get('easyQuestions')?.value || 0,
       numberOfQuestionsMedium: this.questionForm.get('mediumQuestions')?.value || 0,
       numberOfQuestionsHard: this.questionForm.get('hardQuestions')?.value || 0,
@@ -1032,6 +1062,7 @@ export class TestListComponent implements OnInit {
       .fetchQuestionsForTest(reqBody)
       .pipe(
         tap((response) => {
+          this.getTestQuestionMappingById(this.testForm.id)
           // this.AccordionData = response;
           // this.AccordionData = [...this.AccordionData, ...response];
           const merged = [...this.AccordionData, ...response];
@@ -1059,6 +1090,122 @@ export class TestListComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+
+  addQuesToTest() {
+
+    const storedIds = new Set((this.StoredQuestions || []).map((q: any) => q.id));
+    const newQuestions = (this.AccordionData || []).filter((q: any) => !storedIds.has(q.id));
+
+    let Obj = {
+      testId: this.testForm.id,
+      questionIds : newQuestions.map((q: any) => ({
+        questionId: q.id,
+        marks: q.marks || 1,       // Default to 0 if not provided
+        negativeMarks: q.negativeMarks || 0  
+      }))
+    }
+    
+    console.log(Obj)
+    // this.loading = true; // Start loading
+   
+
+    this.testSeriesService
+      .addQuestionToTest(Obj)
+      .pipe(
+        tap((response) => {
+          // this.testSeriesDetails =  response.response
+          
+        }),
+        catchError((error) => {
+          console.error('Error:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          
+        
+          this.loading = false; // Stop loading
+          this.generateQues = false;
+         
+
+        })
+      )
+      .subscribe();
+  }
+
+  enableEditing(event: Event, question: any) {
+    event.preventDefault();
+    this.editingQuestionId = question.id;
+    this.originalMarks = question.marks || 0;
+    
+    // Focus and select content
+    setTimeout(() => {
+      const element = event.target as HTMLElement;
+      element.focus();
+      document.execCommand('selectAll', false);
+    }, 0);
+  }
+
+  saveMarks(event: Event, question: any) {
+    const element = event.target as HTMLElement;
+    this.editingQuestionId = null;
+    
+    const newMarks = parseFloat(element.innerText);
+    
+    if (!isNaN(newMarks)) {
+      // Update local data
+      this.AccordionData = this.AccordionData.map((q: any) => 
+        q.id === question.id ? { ...q, marks: newMarks } : q
+      );
+
+      // // Update backend
+      // this.updateQuestionMarks(question.id, newMarks);
+    } else {
+      // Reset to original value if invalid
+      element.innerText = this.originalMarks.toString();
+    }
+  }
+
+  enableNegativeMarksEditing(event: Event) {
+    event.preventDefault();
+    this.isEditingNegativeMarks = true;
+    // this.originalNegativeMark = this.commonNegativeMark;
+
+    // Get the current value from the element's text content
+    const element = event.target as HTMLElement;
+    const currentValue = parseFloat(element.textContent?.trim() || '0') || 0;
+    
+    // Store original value from the element
+    this.originalNegativeMark = currentValue;// Sync with component state
+    
+    setTimeout(() => {
+      const element = event.target as HTMLElement;
+      element.focus();
+      document.execCommand('selectAll', false);
+    }, 0);
+  }
+
+  saveNegativeMarksToAll(event: Event) {
+    const element = event.target as HTMLElement;
+    this.isEditingNegativeMarks = false;
+    
+    const newValue = parseFloat(element.innerText);
+    
+    if (!isNaN(newValue)) {
+      // this.commonNegativeMark = newValue;
+      
+      // Update all questions
+      this.AccordionData = this.AccordionData.map((question: any) => ({
+        ...question,
+        negativeMarks: newValue
+      }));
+
+      // Update backend
+      // this.updateAllNegativeMarks(newValue);
+    } else {
+      element.innerText = this.originalNegativeMark.toString();
+    }
   }
 
   createTest() {
@@ -1170,37 +1317,7 @@ export class TestListComponent implements OnInit {
   // }
 
 
-  addQuesToTest() {
-    let Obj = {
-      testId: this.testForm.id,
-      questionIds : this.AccordionData.map((r:any) => r.id)
-    }
-    
-    this.loading = true; // Start loading
-   
-
-    this.testSeriesService
-      .addQuestionToTest(Obj)
-      .pipe(
-        tap((response) => {
-          // this.testSeriesDetails =  response.response
-          
-        }),
-        catchError((error) => {
-          console.error('Error:', error);
-          return of(error); // Return an observable to handle the error
-        }),
-        finalize(() => {
-          
-        
-          this.loading = false; // Stop loading
-          this.generateQues = false;
-         
-
-        })
-      )
-      .subscribe();
-  }
+  
  
 
 

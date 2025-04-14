@@ -12,7 +12,7 @@
     </header>
     <div class="container-question">
       <div class="question-panel position-relative" >
-        <h4 class="mb-0 d-flex"><span class="pl-3 py-2">Q</span> 
+        <h6 class="mb-0 d-flex fw-normal"><span class="pl-3 py-2-custom">Q</span> 
           <!-- <ng-container *ngIf="currentQuestion?.question?.includes('http'); else textQuestion">
               <img [src]="currentQuestion?.question" alt="Question Image" class="question-image" />
             </ng-container>
@@ -20,7 +20,7 @@
               <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentQuestion && currentQuestion.question)"></div>
              <!-- <div id="questionEditor" ></div> {{ currentQuestion?.question}}  [innerHTML]="currentQuestion?.question"  -->
             <!-- </ng-template> -->
-        </h4>
+        </h6>
         <div class="wrapper">
             <div class="options">
               <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'A'}">

@@ -595,7 +595,20 @@
           <h4 class="mb-0">
             Category-wise MCQs ({{ GeneratedQuestions.length }})
           </h4>
-
+          <div class="d-flex gap-2 align-items-center">
+            <strong>Negative Mark</strong>
+            <div 
+              class="negativeMarks"
+              [attr.contenteditable]="isEditingNegativeMarks ? 'true' : 'false'"
+              (dblclick)="enableNegativeMarksEditing($event)"
+              (blur)="saveNegativeMarksToAll($event)"
+              (keydown.enter)="saveNegativeMarksToAll($event)"
+            >
+            {{GeneratedQuestions[0].negativeMarks??'marks '}}
+            <!-- {{AccordionData }} -->
+              <!-- {{  ??'marks'}} -->
+            </div>
+          </div>
           <div
             class="dropdown"
             [class.show]="dropdownOpen"
@@ -735,6 +748,15 @@
                 <strong>Complexity:</strong>
                 <span class="highlight">{{ mcq.complexity }}</span>
               </p>
+              <div class="d-flex gap-2 align-items-center">
+                <strong>Mark</strong>
+                <div class="mark" 
+                [attr.contenteditable]="editingQuestionId === mcq.id ? 'true' : 'false'"
+                (dblclick)="enableEditing($event, mcq)"
+                (blur)="saveMarks($event, mcq)"
+                (keydown.enter)="saveMarks($event, mcq)"
+                >{{mcq.marks??'marks'}}</div>
+              </div>
               <p><strong>Description:</strong><!--{{ mcq.description }}--> </p> <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(mcq && mcq.description )"></div>
             </li>
           </ul>
