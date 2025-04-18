@@ -7,6 +7,7 @@ import { catchError, finalize, of, tap } from 'rxjs';
 import { CategoriesService } from '../../../core/services/categories.service';
 import Quill from 'quill';
 import { QuestionService } from '../../../core/services/question.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-question',
@@ -65,7 +66,7 @@ export class CreateQuestionComponent {
   ]
 
 
-  constructor(private route : ActivatedRoute,  private categoriesService: CategoriesService, private questionServcie : QuestionService,  private router: Router) {}
+  constructor( private toastr: ToastrService, private route : ActivatedRoute,  private categoriesService: CategoriesService, private questionServcie : QuestionService,  private router: Router) {}
 
   ngOnInit() {
 
@@ -407,6 +408,7 @@ export class CreateQuestionComponent {
         }),
         catchError((error) => {
           this.errorMessage = 'Error loading questions.'; // Handle error message
+          this.toastr.warning(error?.error.message)
           console.error('Error loading questions:', error);
           return of([]); // Return an empty array in case of an error
         }),

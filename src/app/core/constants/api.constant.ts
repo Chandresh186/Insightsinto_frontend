@@ -129,6 +129,11 @@ export const API_CONSTANTS = {
       DELETE_COURSE_Material_BY_ID: (id:string) => `CoursesAndChapters/courseMaterial/${id}`,
       Update_COURSE_MATERIAL: "CoursesAndChapters/courseMaterial"
     },
+
+    YOUTUBE : {
+      GET_ALL_YOUTUBE_LINK: "Youtube/get-all",
+      YOUTUBE_LINK_ADD_OR_UPDATE: "Youtube/create-or-update"
+    },
     
     ANSWERSHEET: {
       UPLOAD_TEST: "UserTestAnswerSheet/create",

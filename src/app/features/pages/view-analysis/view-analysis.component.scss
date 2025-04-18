@@ -134,13 +134,7 @@
   }
 
 
-  @media (max-width: 768px) {
-  
 
-    .options {
-        grid-template-columns: 1fr;
-    }
-}
 
 
 ::ng-deep .question-panel .ql-toolbar.ql-snow {
@@ -162,4 +156,46 @@
 
 ::ng-deep .ql-editor.ql-blank p{
   margin: 0 !important;
+}
+
+.marking {
+  border-radius: 50%;
+    border: 1px solid;
+    height: 70px;
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1;
+    position: absolute;
+    // top: 160px;
+    right: 0;
+    bottom: 0;
+}
+
+.correct {
+  border-color: #28a745;
+  background-color: #d4edda;
+}
+
+.wrong {
+  border-color: #dc3545; /* Red border for wrong answer */
+  background-color: #f8d7da; /* Light red background */
+}
+
+
+@media (max-width: 768px) {
+  
+
+  .options {
+      grid-template-columns: 1fr;
+  }
+
+  .marking {
+    height: 60px !important;
+    width: 60px !important;
+    // top: 311px !important;
+    bottom: 0;
+  }
 }

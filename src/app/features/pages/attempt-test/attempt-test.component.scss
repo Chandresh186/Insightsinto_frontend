@@ -189,7 +189,7 @@ header h1 {
     background-color: #e0690d;
 }
 
-.question-sidebar h4 {
+.question-sidebar h6 {
     padding: 10px 10px;
     // font-size: 18px;
     color: black;
@@ -309,10 +309,10 @@ header h1 {
 
   
   .test-timer {
-    font-size: 1.5rem;
-    font-weight: bold;
+    // font-size: 1.5rem !important;
+    font-weight: bold !important;
     // margin-bottom: 1rem;
-    color: #d9534f;
+    color: #d9534f !important;
   }
   
 
@@ -390,6 +390,28 @@ header h1 {
     padding-bottom: .7rem !important;
 }
 
+.marking {
+    border-radius: 50%;
+      border: 1px solid;
+      height: 80px;
+      width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      z-index: 1;
+      position: absolute;
+      top: 175px;
+      right: 0;
+  }
+
+  .warn {
+    // border: 2px solid #e9ecef;
+    border-radius: 10px;
+    // color: #856404 !important;
+    // background-color: #fff3cd;
+    // border-color: #ffeeba;
+  }
 
 
 

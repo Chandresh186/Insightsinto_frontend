@@ -1,19 +1,30 @@
 <div class="container">
     <div class="question-panel position-relative">
         <ng-container *ngFor="let ques of questions;let i = index">
-          <h4 class="mb-0 d-flex align-items-center">Q  {{i+1}}&nbsp; 
-            <!-- <ng-container *ngIf="ques.question.includes('http'); else textQuestion">
-                <img [src]="ques.question" alt="Question Image" class="question-image" />
-              </ng-container>
-              <ng-template #textQuestion>
-                {{ ques.question }}
-              </ng-template> -->
-              <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(ques.question)"></div>
+          <h6 class="mb-0 d-flex align-items-center justify-content-between">
+            <div class="d-flex">
+
+              Q  {{i+1}}&nbsp; 
+              <!-- <ng-container *ngIf="ques.question.includes('http'); else textQuestion">
+                  <img [src]="ques.question" alt="Question Image" class="question-image" />
+                </ng-container>
+                <ng-template #textQuestion>
+                  {{ ques.question }}
+                </ng-template> -->
+                <div class="ql-editor py-0" [innerHTML]="sanitizer.bypassSecurityTrustHtml(ques.question)"></div>
+            </div>
               <!-- <div id="quill-question-{{ i }}"></div> -->
-          </h4>
+             
+          </h6>
   
           <div class="wrapper">
-              <div class="options">
+          
+              <div class="options position-relative">
+                @if(ques.ans === ques.user_ans) {
+                  <span class="text-success marking correct">+ {{ques.marks}}</span>
+                 }@else if(ques.user_ans != null && ques.user_ans !== '') {
+                  <span class="text-danger marking wrong ">- {{ques.negativeMarks}}</span>
+                 }
                 <label class="option" tabindex="0" [ngClass]="{
                     'correct': (ques.ans === 'A' && ques.user_ans === 'A') || ques.ans === 'A',
                     'wrong': ques.user_ans === 'A' && ques.ans !== 'A'

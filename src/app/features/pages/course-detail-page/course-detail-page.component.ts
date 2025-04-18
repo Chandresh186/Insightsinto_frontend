@@ -57,6 +57,7 @@ export class CourseDetailPageComponent implements OnInit {
 
   public showPdf: boolean = false;
   public pdfLink: any = '';
+  public selectedTest: any ;
 
   totalTimeInMinutes!: number; // Total test time in minutes
   remainingTime!: string;
@@ -171,6 +172,22 @@ export class CourseDetailPageComponent implements OnInit {
 			},
     );
   }
+
+
+  openInstuctionModel(content: TemplateRef<any>, test: any) {
+    console.log(test)
+	this.modalService.open(content, { size: 'xl', scrollable: true })
+    .result.then(
+			(result) => {
+        this.selectedTest = '';
+			},
+			(reason) => {
+        this.selectedTest = '';
+			},
+		);
+    
+    this.selectedTest  = test;
+	}
 
   openTest(content: TemplateRef<any>, courseDetail: any) {
 

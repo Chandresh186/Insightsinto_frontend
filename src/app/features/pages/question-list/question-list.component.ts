@@ -97,7 +97,7 @@ export class QuestionListComponent implements OnInit {
           tap((response: any) => {
             console.log(response)
             this.tableData = response; // Assign the fetched data to the list
-            this.showColumns  = this.generateTableHeaders(response.map(({ id,categoryId, ...rest }: any) => rest));
+            this.showColumns  = this.generateTableHeaders(response.map(({ id,categoryId,marks,negativeMarks, ...rest }: any) => rest));
             this.tableHeaders = this.generateTableHeaders(response)
           }),
           catchError((error) => {

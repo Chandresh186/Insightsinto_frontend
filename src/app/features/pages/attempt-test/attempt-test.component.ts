@@ -1512,7 +1512,7 @@ export class AttemptTestComponent implements OnInit {
   submitTest() {
 
     this.loading = true; // Start loading
-   
+   console.log(this.questions)
 
     this.testSeriesService
       .submitTest(this.getUserId(), this.getTestId(), this.questions)

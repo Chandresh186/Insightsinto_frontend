@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, ViewChild } from '@angular/core';
 import { TableComponent } from '../../../shared/resusable_components/table/table.component';
 import { TestSeriesService } from '../../../core/services/test-series.service';
 import { catchError, finalize, of, tap } from 'rxjs';
@@ -185,6 +185,7 @@ export class DashboardComponent {
     this.getUserDashboardDetails(userId);
 
     this.loadUserAllCourses(userId);
+   
    
   }
 

@@ -2,7 +2,7 @@
   
   .container {
    
-    padding: 20px;
+    // padding: 20px;
     border-radius: 12px;
    
     overflow: hidden;
@@ -500,6 +500,15 @@ input[type="number"] {
 
 ::ng-deep .ql-editor {
   padding: 0 15px;
+}
+
+.makrs {
+  display: flex
+  ;
+      justify-content: space-between;
+      padding: 0 10px;
+      border: 2px solid black;
+      border-radius: 10px;
 }
 
 

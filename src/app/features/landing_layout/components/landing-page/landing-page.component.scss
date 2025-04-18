@@ -994,7 +994,12 @@ footer .wrapper {
 
 .div-courses-min-height {
   min-height: 45px;
-  margin-bottom: 8px;
+  margin-bottom: 8px !important;
+  display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card-body {
@@ -1014,6 +1019,7 @@ footer .wrapper {
 
 .course-card {
   width: 98%;
+  max-width: 302px;
 }
 
 ::ng-deep .editorial .container {

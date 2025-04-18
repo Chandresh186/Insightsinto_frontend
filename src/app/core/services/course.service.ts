@@ -82,6 +82,19 @@ export class CourseService {
     );
   }
 
+  getYouTubeLink(): Observable<any[]> {
+    // const headers = this.getHeaders();
+    return this.httpService.get(
+      `${this.baseUrl}${API_CONSTANTS.YOUTUBE.GET_ALL_YOUTUBE_LINK}`,
+      // headers
+    );
+  }
+
+  addOrUpdateYoutubeLink(data: any): Observable<any> {
+    const headers = this.getHeaders();
+    return this.httpService.post(`${this.baseUrl}${API_CONSTANTS.YOUTUBE.YOUTUBE_LINK_ADD_OR_UPDATE}`, data, headers);
+  }
+
   getAllCourseChaptersById(id: any): Observable<any[]> {
     const headers = this.getHeaders();
     return this.httpService.get(
@@ -222,9 +235,10 @@ export class CourseService {
   getVideo(url: string): Observable<File> {
     return this.http.get(url, { 
       responseType: 'blob', 
-      headers: new HttpHeaders({
-        'Accept': 'video/*' // Specify that the response is expected to be a video
-      })
+   
+      // headers: new HttpHeaders({
+      //   'Accept': 'video/*' // Specify that the response is expected to be a video
+      // })
     }).pipe(
       map((blob) => {
         const fileName = url.split('/').pop() || 'video.mp4'; // Extract file name from URL or use default
@@ -232,4 +246,43 @@ export class CourseService {
       })
     );
   }
+
+  // getImage(url: any) {
+  //   // Fetch the image as a blob without Authorization header
+  //   return fetch(url, {
+  //     method: 'GET',
+  //   })
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch the image');
+  //       }
+  //       return response.blob(); // Get the blob from the response
+  //     })
+  //     .then(blob => {
+  //       const fileName = url.split('/').pop() || 'image.jpg'; // Extract file name from URL or use default
+  //       return new File([blob], fileName, { type: blob.type }); // Convert Blob to File
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching the image:', error);
+  //     });
+  // }
+  
+  fetchMedia(url: any) {
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch the media');
+        }
+        return response.blob(); // Get the media as a Blob (image, video, etc.)
+      })
+      .then(blob => {
+        return blob; // Return the Blob (image/video data)
+      })
+      .catch(error => {
+        console.error('Error fetching the media:', error); // Handle errors (e.g., network issues)
+        throw error; // Optionally throw the error for further handling if needed
+      });
+  }
+
+ 
 }

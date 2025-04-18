@@ -2,17 +2,17 @@
 <div class="container">
   <header class="rounded">
       <div class="difficulty" aria-label="Difficulty Level">
-          <h4 class="mb-0"> <i ngbTooltip="Go back" (click)="backToCourse()" class="fas fa-arrow-left back-button"></i> &nbsp; &nbsp;{{testDetails && testDetails.title}}     </h4>
+          <h5 class="mb-0"> <i ngbTooltip="Go back" (click)="backToCourse()" class="fas fa-arrow-left back-button"></i> &nbsp; &nbsp;{{testDetails && testDetails.title}}     </h5>
        
-           <div class="test-timer">
-              <i class="far fa-clock"></i> Time: {{ remainingTime }}
-            </div>
+           <h5 class="test-timer mb-0">
+              <i class="far fa-clock"></i> {{ remainingTime }}
+            </h5>
   
       </div>
     </header>
     <div class="container-question">
       <div class="question-panel position-relative" >
-        <h6 class="mb-0 d-flex fw-normal"><span class="pl-3 py-2-custom">Q</span> 
+        <h6 class="mb-0 d-flex"><span class="pl-3 py-2-custom">Q</span> 
           <!-- <ng-container *ngIf="currentQuestion?.question?.includes('http'); else textQuestion">
               <img [src]="currentQuestion?.question" alt="Question Image" class="question-image" />
             </ng-container>
@@ -20,7 +20,14 @@
               <div class="ql-editor" [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentQuestion && currentQuestion.question)"></div>
              <!-- <div id="questionEditor" ></div> {{ currentQuestion?.question}}  [innerHTML]="currentQuestion?.question"  -->
             <!-- </ng-template> -->
+            <!-- @if(ques.ans === ques.user_ans) { -->
+            <!-- class="marking" -->
+              <!-- <span >{{currentQuestion && currentQuestion.marks}}</span> -->
+             <!-- }@else {
+              <span class="text-danger marking wrong ">- {{ques.negativeMarks}}</span>
+             } -->
         </h6>
+        <h6 class="warn mx-2 mb-0 p-3 d-flex justify-content-between">  <div >Marks: <span class="text-success">+ {{currentQuestion && currentQuestion.marks}}</span></div>  <div >Negative Marks: <span class="text-danger">- {{currentQuestion && currentQuestion.negativeMarks}}</span></div></h6>
         <div class="wrapper">
             <div class="options">
               <label class="option" tabindex="0" [ngClass]="{'active': selectedAnswer === 'A'}">
@@ -102,7 +109,7 @@
       </div>
     
       <div class="question-sidebar position-relative">
-        <h4 class="mb-0">Questions</h4>
+        <h6 class="mb-0">Questions</h6>
         <div class="question-panel-list">
             <div class="question-list">
               @for( q of questions; track q;let id = $index) {

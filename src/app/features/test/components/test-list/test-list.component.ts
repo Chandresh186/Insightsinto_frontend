@@ -43,6 +43,7 @@ export class TestListComponent implements OnInit {
   public filteredLanguageOptions : any[] | null = [];
   public editingQuestionId: string | null = null;
   public originalMarks: number = 0;
+  isEditingMarks = false;
   public isEditingNegativeMarks = false;
   public originalNegativeMark = 0;
   // public testForm!: FormGroup;
@@ -1107,8 +1108,8 @@ export class TestListComponent implements OnInit {
       }))
     }
     
-    console.log(Obj)
-    // this.loading = true; // Start loading
+    console.log(Obj, newQuestions)
+    this.loading = true; // Start loading
    
 
     this.testSeriesService
@@ -1127,8 +1128,43 @@ export class TestListComponent implements OnInit {
         
           this.loading = false; // Stop loading
           this.generateQues = false;
-         
+          this.fetchPaper(this.testForm.id)
 
+        })
+      )
+      .subscribe();
+  }
+
+
+  fetchPaper(id: any) {
+    // this.getCourseByTestId(id)
+    this.testSeriesService
+      .getTestPaperById(id)
+      .pipe(
+        tap((response) => {
+          if(this.originalData.length === 0) {
+            this.originalData = response
+
+          }
+          this.AccordionData = response;
+          this.GeneratedQuestions = response;
+          
+            this.initilizeEditor();
+
+          console.log(this.GeneratedQuestions)
+
+          // this.transformData();
+          
+        }),
+        catchError((error) => {
+          console.error('Error:', error);
+          return of(error); // Return an observable to handle the error
+        }),
+        finalize(() => {
+          
+        
+          this.loading = false; // Stop loading
+         
         })
       )
       .subscribe();
@@ -1208,6 +1244,45 @@ export class TestListComponent implements OnInit {
     }
   }
 
+
+  enableMarksEditing(event: Event) {
+    event.preventDefault();
+    this.isEditingMarks = true;
+  
+    const element = event.target as HTMLElement;
+    const currentValue = parseFloat(element.textContent?.trim() || '0') || 0;
+  
+    this.originalMarks = currentValue;
+  
+    setTimeout(() => {
+      const element = event.target as HTMLElement;
+      element.focus();
+      document.execCommand('selectAll', false);
+    }, 0);
+  }
+
+
+  saveMarksToAll(event: Event) {
+    const element = event.target as HTMLElement;
+    this.isEditingMarks = false;
+  
+    const newValue = parseFloat(element.innerText);
+  
+    if (!isNaN(newValue)) {
+      this.AccordionData = this.AccordionData.map((question: any) => ({
+        ...question,
+        marks: newValue
+      }));
+  
+      // Optional: Trigger backend update here if needed
+      // this.updateAllMarks(newValue);
+    } else {
+      element.innerText = this.originalMarks.toString();
+    }
+  }
+  
+  
+
   createTest() {
     this.testForm.categoryIds = this.testForm.categoryIds.map((r:any) => r.id)
     this.loading = true; // Start loading
@@ -1231,6 +1306,8 @@ export class TestListComponent implements OnInit {
 
           this.loading = false; // Stop loading
           this.createTestAsyncCall = false;
+          this.filteredOptions = this.categories;
+          this.selectedLanguageOption = null;
         })
       )
       .subscribe();
@@ -1448,14 +1525,17 @@ export class TestListComponent implements OnInit {
   onClickOutside(targetElement: HTMLElement): void {
     if (targetElement.id !== 'dropdownOpen') {
       this.dropdownOpen = false;
+      this.searchQuery = ''
     }
 
     if(targetElement.id !== 'dropdownCourseOpen') {
       this.dropdownCourseOpen = false;
+      this.searchQuery = ''
     }
 
     if(targetElement.id !== 'dropdownLanguageOpen') {
       this.dropdownLanguageOpen = false;
+      this.searchQuery = ''
     }
   }
 

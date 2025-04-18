@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
 import { CourseService } from '../../../core/services/course.service';
 import { catchError, finalize, of, tap } from 'rxjs';
@@ -21,7 +21,7 @@ export class CourseListComponent implements OnInit {
   public allCourses: any = [];
   staticBaseUrl : any = environment.staticBaseUrl
 
-  constructor(private courseService : CourseService, private _authService : AuthService, public sanitizer: DomSanitizer) {}
+  constructor(private courseService : CourseService, private _authService : AuthService, public sanitizer: DomSanitizer, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     if(this.checkRole('admin') || this.checkRole('super admin') ) {
@@ -54,6 +54,7 @@ export class CourseListComponent implements OnInit {
           }),
           finalize(() => {
             this.loading = false; // Reset loading state when the request is completed
+            this.cdr.detectChanges();
           })
         ).subscribe();
       }
@@ -79,6 +80,7 @@ export class CourseListComponent implements OnInit {
           }),
           finalize(() => {
             this.loading = false; // Reset loading state when the request is completed
+            this.cdr.detectChanges();
           })
         ).subscribe();
       }

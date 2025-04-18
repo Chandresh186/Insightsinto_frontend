@@ -263,6 +263,15 @@ export const dashboardRoutes: Routes = [
             ).then((component) => component.UserPermissionsComponent)
     },
     {
+        path: 'Youtube-links',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin', 'Admin'] },
+        loadComponent:() => 
+            import (
+                '../../features/pages/youtube-link-management/youtube-link-management.component'
+            ).then((component) => component.YoutubeLinkManagementComponent)
+    },
+    {
         path: '**',
         redirectTo: '',
         pathMatch: 'full',

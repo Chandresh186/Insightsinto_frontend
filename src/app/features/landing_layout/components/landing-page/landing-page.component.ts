@@ -10,6 +10,7 @@ import { TestSeriesLandingPageComponent } from '../../../pages/test-series-landi
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CourseService } from '../../../../core/services/course.service';
 import { SettingsService } from '../../../../core/services/settings.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-landing-page',
@@ -22,6 +23,7 @@ import { SettingsService } from '../../../../core/services/settings.service';
 export class LandingPageComponent implements OnInit{
   public  isNavActive = false;
   public isLightTheme = true;
+  public youtubeVideoLink : any;
 
   public loading = false; // To track loading state
   private errorMessage: string | null = null; // To store error messages
@@ -74,12 +76,13 @@ export class LandingPageComponent implements OnInit{
       autoplay: true,
     }
 
-  constructor(private blogService : BlogService, private courseService : CourseService,public settingsService: SettingsService) {}
+  constructor(public sanitizer: DomSanitizer, private blogService : BlogService, private courseService : CourseService,public settingsService: SettingsService) {}
 
   ngOnInit() {
     this.getBlogs();
 
     this.loadAllCourses();
+    this.getYouTubeLink();
     
     if(this.getUserId() !== null) {
       this.loadUserAllCourses(this.getUserId());
@@ -129,6 +132,37 @@ export class LandingPageComponent implements OnInit{
         }
 
         this.tableData = filteredData;
+        
+
+        // this.tableData = filteredData; // Assign the fetched data to the list
+        // this.showColumns  = this.generateTableHeaders(filteredData.map(({ id,courseMaterials,isActive,parentDetails,parentId,testDetails,testId,updatedAt,video, isOfflineTest, ...rest }: any) => rest));
+        // this.tableHeaders = this.generateTableHeaders(filteredData)
+
+
+        // this.tableData = response; // Assign the fetched data to the list
+        // this.showColumns  = this.generateTableHeaders(response.map(({ id,courseMaterials,isActive,parentDetails,parentId,testDetails,testId,updatedAt,video, ...rest }: any) => rest));
+        // this.tableHeaders = this.generateTableHeaders(response)
+      }),
+      catchError((error) => {
+        this.errorMessage = 'Error loading test series.'; // Handle error message
+        console.error('Error loading test series:', error);
+        return of([]); // Return an empty array in case of an error
+      }),
+      finalize(() => {
+        this.loading = false; // Reset loading state when the request is completed
+      })
+    ).subscribe();
+  }
+
+
+  private getYouTubeLink(): void {
+    this.loading = true; // Set loading state to true while fetching data
+  
+    this.courseService.getYouTubeLink().pipe(
+      tap((response: any) => {
+
+        this.youtubeVideoLink = this.sanitizer.bypassSecurityTrustResourceUrl(response[0].videoLink)
+        console.log(this.youtubeVideoLink)
         
 
         // this.tableData = filteredData; // Assign the fetched data to the list

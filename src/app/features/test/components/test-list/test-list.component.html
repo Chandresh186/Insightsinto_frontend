@@ -87,6 +87,7 @@
         {{ testForm && testForm.title }}
       </h4>
       <div>
+       
         <button
           class="btn-create"
           id="createTestBtns"
@@ -94,7 +95,7 @@
             generateQues = !generateQues;
           "
         >
-          {{ generateQues ? "See question" : "Add question" }}
+          {{ generateQues ? "See question" : "Add question" }} 
         </button>
         &nbsp;
         <button
@@ -595,20 +596,9 @@
           <h4 class="mb-0">
             Category-wise MCQs ({{ GeneratedQuestions.length }})
           </h4>
-          <div class="d-flex gap-2 align-items-center">
-            <strong>Negative Mark</strong>
-            <div 
-              class="negativeMarks"
-              [attr.contenteditable]="isEditingNegativeMarks ? 'true' : 'false'"
-              (dblclick)="enableNegativeMarksEditing($event)"
-              (blur)="saveNegativeMarksToAll($event)"
-              (keydown.enter)="saveNegativeMarksToAll($event)"
-            >
-            {{GeneratedQuestions[0].negativeMarks??'marks '}}
-            <!-- {{AccordionData }} -->
-              <!-- {{  ??'marks'}} -->
-            </div>
-          </div>
+          
+
+
           <div
             class="dropdown"
             [class.show]="dropdownOpen"
@@ -689,7 +679,41 @@
 
           <!-- {{getCategoriesOfData(GeneratedQuestions) | json}} -->
         </div>
-        <div class="question-sec-height">
+        <div>
+          <div class="makrs">
+            <div class="d-flex flex-column">
+              <div class="d-flex gap-2 align-items-center pt-1">
+                <strong>Negative Mark</strong>
+                <div 
+                  class="negativeMarks"
+                  [attr.contenteditable]="isEditingNegativeMarks && generateQues ? 'true' : 'false'"
+                  (dblclick)="enableNegativeMarksEditing($event)"
+                  (blur)="saveNegativeMarksToAll($event)"
+                  (keydown.enter)="saveNegativeMarksToAll($event)"
+                >
+                {{GeneratedQuestions[0].negativeMarks??'marks '}}
+          
+                </div>
+              </div>
+              <small>Please enter only numbers. Minus sign is not allowed.</small>
+            </div>
+  
+            <div class="d-flex gap-2 align-items-center">
+              <strong>Marks</strong>
+              <div 
+                class="marks"
+                [attr.contenteditable]="isEditingMarks && generateQues ? 'true' : 'false'"
+                (dblclick)="enableMarksEditing($event)"
+                (blur)="saveMarksToAll($event)"
+                (keydown.enter)="saveMarksToAll($event)"
+              >
+                {{GeneratedQuestions[0].marks ?? 'marks'}}
+              </div>
+            </div>
+          </div>
+          <small>Use the global marks assignment tool only after all questions have been fetched and before creating the test.</small>
+        </div>
+        <div class="question-sec-height pt-3">
           <!-- <ul class="options"> 
                             <li *ngFor="let mcq of GeneratedQuestions; let index = index">  
                               <div class="d-flex align-items-center justify-content-between"><span><strong>Q{{ index + 1 }}:</strong> {{ mcq.question }}</span> <i (click)="deleteGeneratedQues(mcq)" class=" far fa-trash-alt trash"></i></div>
@@ -751,7 +775,7 @@
               <div class="d-flex gap-2 align-items-center">
                 <strong>Mark</strong>
                 <div class="mark" 
-                [attr.contenteditable]="editingQuestionId === mcq.id ? 'true' : 'false'"
+                [attr.contenteditable]="editingQuestionId === mcq.id && generateQues ? 'true' : 'false'"
                 (dblclick)="enableEditing($event, mcq)"
                 (blur)="saveMarks($event, mcq)"
                 (keydown.enter)="saveMarks($event, mcq)"

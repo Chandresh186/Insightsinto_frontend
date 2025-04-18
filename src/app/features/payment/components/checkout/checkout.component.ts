@@ -155,7 +155,7 @@ export class CheckoutComponent {
 
 
      this.loading = true; // Set loading state
-        this.couponService.getCouponByCode(this.couponForm.get('couponCode')?.value).pipe(
+        this.couponService.getCouponByCode(this.couponForm.get('couponCode')?.value.toUpperCase()).pipe(
           tap(response => {
     
            
@@ -163,7 +163,7 @@ export class CheckoutComponent {
            this.calculate(this.selectedProduct.fee)
 
            // Logic for applying coupon
-            if (response.data.code === this.couponForm.get('couponCode')?.value) {
+            if (response.data.code === this.couponForm.get('couponCode')?.value.toUpperCase()) {
               // this.getNewOrderId();
               this.isValid = true;
               this.couponMessage = 'Coupon applied successfully!';  // Success message

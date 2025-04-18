@@ -161,7 +161,7 @@ handleInput(event: Event): void {
     
 
     const payload = {
-      code:  this.promoForm.get('code')?.value, // Gets the value from the form input
+      code:  this.promoForm.get('code')?.value.toUpperCase(), // Gets the value from the form input
       discountPercentage: this.promoForm.get('discount')?.value, // Get discount value from the form (replace 10 with dynamic value)
       validFrom: this.promoForm.get('validFrom')?.value ? new Date(this.promoForm.get('validFrom')?.value).toISOString() : null, // Converts the date from the form to ISO string
       validUntil: this.promoForm.get('validUntil')?.value ? new Date(this.promoForm.get('validUntil')?.value).toISOString() : null, // Converts the date from the form to ISO string

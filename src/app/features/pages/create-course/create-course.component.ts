@@ -564,17 +564,19 @@ getCourseById(id: any) {
         this.chapterchips = response.parentDetails !== null ? [response.parentDetails] : []
       }
       if(response.video !== null) {
-        this.courseService.getVideo(this.baseUrl+response.video).subscribe((res) => {
-          this.selectedFiles.video = res 
+        // this.courseService.getVideo(this.baseUrl+response.video).subscribe((res) => {
+        //   console.log("Video")
+          this.selectedFiles.video = this.fetchMedia(this.baseUrl+response.video)
           
-        })
+        // })
       }
 
       if(response.thumbnail !== null) {
-        this.courseService.getVideo(this.baseUrl+response.thumbnail).subscribe((res) => {
-          this.selectedFiles.image = res 
+        // this.courseService.fetchMedia(this.baseUrl+response.thumbnail).then((res: any) => {
+        //   console.log("Image")
+          this.selectedFiles.image = this.fetchMedia(this.baseUrl+response.thumbnail)
           
-        })
+        // })
       }
 
     }),
@@ -587,6 +589,15 @@ getCourseById(id: any) {
       this.loading = false;  // Reset loading state when the request is completed
     })
   ).subscribe();
+}
+
+ fetchMedia(url: any) {
+  return fetch(url)
+    .then(res => res.ok ? res.blob() : Promise.reject('Failed to fetch media'))
+    .catch(err => {
+      console.error('Fetch error:', err);
+      throw err;
+    });
 }
 
 
