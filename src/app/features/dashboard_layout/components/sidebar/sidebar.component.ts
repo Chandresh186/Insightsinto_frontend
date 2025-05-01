@@ -86,8 +86,18 @@ export class SidebarComponent {
     // { title: 'Employee Assigned To Group', routeURL: 'user-group-mapping', icon: 'assets/icons/employees.svg' },
     {
       title: 'YouTube Links',
-      routeURL: 'Youtube-links',
+      routeURL: 'youtube-links',
       icon: 'assets/icons/youtube.png',
+    },
+    {
+      title: 'Resource Categories',
+      routeURL: 'resource-categories',
+      icon: 'assets/icons/menu.png',
+    },
+    {
+      title: 'Resources',
+      routeURL: 'resources',
+      icon: 'assets/icons/school.png',
     },
     {
       title: 'Settings',

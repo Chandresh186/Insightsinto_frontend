@@ -538,66 +538,121 @@ onEditSubmit(val: any) {
   ).subscribe();
 }
 
-getCourseById(id: any) {
-  this.loading = true;  // Set loading state to true while fetching data
-  this.courseService.getCourseById(id).pipe(
-    tap(response => {
-      console.log(response)
-      this.courseData = response;
-      if(response.parentId !== null) {
-          this.isCreateChapter = true;
-      }
-      this.createCourseForm.get('name')?.setValue(response.name);
-      // this.createCourseForm.get('description')?.setValue(response.description);
-      this.createCourseForm.get('fee')?.setValue(response.fee);
-      this.createCourseForm.get('active')?.setValue(response.isActive)
-      this.createCourseForm.get('isOfflineTest')?.setValue(response.isOfflineTest)
-      this.testChips = response.testDetails !== null ?  [response.testDetails] : []
+// async getCourseById(id: any) {
+//   this.loading = true;  // Set loading state to true while fetching data
+//   this.courseService.getCourseById(id).pipe(
+//     tap(response => {
+//       console.log(response)
+//       this.courseData = response;
+//       if(response.parentId !== null) {
+//           this.isCreateChapter = true;
+//       }
+//       this.createCourseForm.get('name')?.setValue(response.name);
+//       // this.createCourseForm.get('description')?.setValue(response.description);
+//       this.createCourseForm.get('fee')?.setValue(response.fee);
+//       this.createCourseForm.get('active')?.setValue(response.isActive)
+//       this.createCourseForm.get('isOfflineTest')?.setValue(response.isOfflineTest)
+//       this.testChips = response.testDetails !== null ?  [response.testDetails] : []
 
-      if (this.quillEditor && this.quillEditor.length > 0) {
+//       if (this.quillEditor && this.quillEditor.length > 0) {
     
-        this.quillEditor[0].root.innerHTML = response.description;
+//         this.quillEditor[0].root.innerHTML = response.description;
     
 
-      }
-      if(response.parentDetails !== null) {
-        this.chapterchips = response.parentDetails !== null ? [response.parentDetails] : []
-      }
-      if(response.video !== null) {
-        // this.courseService.getVideo(this.baseUrl+response.video).subscribe((res) => {
-        //   console.log("Video")
-          this.selectedFiles.video = this.fetchMedia(this.baseUrl+response.video)
+//       }
+//       if(response.parentDetails !== null) {
+//         this.chapterchips = response.parentDetails !== null ? [response.parentDetails] : []
+//       }
+//       if(response.video !== null) {
+//         // this.courseService.getVideo(this.baseUrl+response.video).subscribe((res) => {
+//         //   console.log("Video")
+//           this.selectedFiles.video =   this.fetchMedia(this.baseUrl+response.video, 'video.mp4')
           
-        // })
-      }
+//         // })
+//       }
 
-      if(response.thumbnail !== null) {
-        // this.courseService.fetchMedia(this.baseUrl+response.thumbnail).then((res: any) => {
-        //   console.log("Image")
-          this.selectedFiles.image = this.fetchMedia(this.baseUrl+response.thumbnail)
+//       if(response.thumbnail !== null) {
+//         // this.courseService.fetchMedia(this.baseUrl+response.thumbnail).then((res: any) => {
+//         //   console.log("Image")
+//           this.selectedFiles.image = await this.fetchMedia(this.baseUrl+response.thumbnail, 'Thumbnail.png')
           
-        // })
-      }
+//         // })
+//       }
 
-    }),
-    catchError(error => {
-      this.errorMessage = 'Failed to load categories.';
-      console.error('Error fetching categories:', error);
-      return of([]);  // Return an empty array if there's an error
-    }),
-    finalize(() => {
-      this.loading = false;  // Reset loading state when the request is completed
-    })
-  ).subscribe();
+//       console.log(this.selectedFiles)
+
+//     }),
+//     catchError(error => {
+//       this.errorMessage = 'Failed to load categories.';
+//       console.error('Error fetching categories:', error);
+//       return of([]);  // Return an empty array if there's an error
+//     }),
+//     finalize(() => {
+//       this.loading = false;  // Reset loading state when the request is completed
+//     })
+//   ).subscribe();
+// }
+
+
+async getCourseById(id: any) {
+  try {
+    this.loading = true;
+
+    const response = await this.courseService.getCourseById(id).toPromise(); // Convert Observable to Promise
+    this.courseData = response;
+
+    if (response.parentId !== null) {
+      this.isCreateChapter = true;
+    }
+
+    this.createCourseForm.get('name')?.setValue(response.name);
+    this.createCourseForm.get('fee')?.setValue(response.fee);
+    this.createCourseForm.get('active')?.setValue(response.isActive);
+    this.createCourseForm.get('isOfflineTest')?.setValue(response.isOfflineTest);
+    this.testChips = response.testDetails !== null ? [response.testDetails] : [];
+
+    if (this.quillEditor && this.quillEditor.length > 0) {
+      this.quillEditor[0].root.innerHTML = response.description;
+    }
+
+    if (response.parentDetails !== null) {
+      this.chapterchips = [response.parentDetails];
+    }
+
+    // Fetch and convert media to File
+    if (response.video !== null) {
+      this.selectedFiles.video = await this.fetchMedia(this.baseUrl + response.video, 'video.mp4');
+    }
+
+    if (response.thumbnail !== null) {
+      this.selectedFiles.image = await this.fetchMedia(this.baseUrl + response.thumbnail, 'Thumbnail.png');
+    }
+
+    console.log(this.selectedFiles);
+  } catch (error) {
+    this.errorMessage = 'Failed to load course data.';
+    console.error('Error:', error);
+  } finally {
+    this.loading = false;
+  }
 }
 
- fetchMedia(url: any) {
-  return fetch(url)
-    .then(res => res.ok ? res.blob() : Promise.reject('Failed to fetch media'))
-    .catch(err => {
-      console.error('Fetch error:', err);
-      throw err;
-    });
+
+//  fetchMedia(url: any,type: any) {
+//   return fetch(url)
+//     .then(res => res.ok ? res.blob() : Promise.reject('Failed to fetch media'))
+//     .then(blob => new File([blob], type, { type: blob.type }))
+//     .catch(err => {
+//       console.error('Fetch error:', err);
+//       throw err;
+//     });
+// }
+
+async fetchMedia(url: string, fileName: string): Promise<File> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Failed to fetch media');
+  const blob = await res.blob();
+  return new File([blob], fileName, { type: blob.type });
 }
 
 

@@ -5,48 +5,61 @@ import { AdminDashboardService } from '../../../core/services/admin-dashboard.se
 import { catchError, finalize, of, tap } from 'rxjs';
 import { TestSeriesService } from '../../../core/services/test-series.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
   imports: [CommonModule, TableComponent],
   templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.scss'
+  styleUrl: './admin-dashboard.component.scss',
 })
 export class AdminDashboardComponent {
-  public testSereisShowColumns: any ;
-  public testShowColumns: any ;
-  public loading : boolean = false;
+  public testSereisShowColumns: any;
+  public testShowColumns: any;
+  public loading: boolean = false;
   private errorMessage: string | null = null;
-  public dashboardData : any;
-  testSeriesTableHeaders:any = [];
+  public dashboardData: any;
+  testSeriesTableHeaders: any = [];
 
   testTableHeaders: any = [];
-  
 
-  testSeriesData:any = [];
-
+  testSeriesData: any = [];
 
   testData: any = [];
-  
-
-
 
   testSeriesActionsConfig = [
-    { key: 'testSereisDelete', label: 'Delete', class: 'btn btn-outline-danger', visible: true },
-    { key: 'testSeriesDetail', label: 'Details', class: 'btn btn-outline-info', visible: true }, // Hidden action
+    {
+      key: 'testSereisDelete',
+      label: 'Delete',
+      class: 'btn btn-outline-danger',
+      visible: true,
+    },
+    {
+      key: 'testSeriesDetail',
+      label: 'Details',
+      class: 'btn btn-outline-info',
+      visible: true,
+    }, // Hidden action
   ];
 
   testActionsConfig = [
-    { key: 'testDelete', label: 'Delete', class: 'btn btn-outline-danger', visible: true },
-    { key: 'testDetail', label: 'Details', class: 'btn btn-outline-info', visible: true }, // Hidden action
+    {
+      key: 'testDelete',
+      label: 'Delete',
+      class: 'btn btn-outline-danger',
+      visible: true,
+    },
+    {
+      key: 'testDetail',
+      label: 'Details',
+      class: 'btn btn-outline-info',
+      visible: true,
+    }, // Hidden action
   ];
-
-
 
   handleAction(event: { action: string; row: any }) {
     switch (event.action) {
-     
       case 'testSereisDelete':
         this.onTestSeriesDelete(event.row);
         break;
@@ -61,129 +74,193 @@ export class AdminDashboardComponent {
       case 'testDetail':
         this.onTestDetails(event.row);
         break;
-    
+
       default:
         console.error('Unknown action:', event.action);
     }
   }
-  
 
-  constructor(private adminDashboardService : AdminDashboardService, private testSeriesService: TestSeriesService,private router: Router) {}
+  constructor(
+    private adminDashboardService: AdminDashboardService,
+    private testSeriesService: TestSeriesService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this. getAdminDashboardDetails();
+    this.getAdminDashboardDetails();
   }
-
 
   getAdminDashboardDetails() {
     this.loading = true; // Set loading state to true while fetching data
-    
-    this.adminDashboardService.getAdminDashboard().pipe(
-      tap((response: any) => {
-        // this.allEditoril = response
-        this.dashboardData = response;
 
-        this.testSeriesData = response && response.testSeries
-        this.testSereisShowColumns  = this.generateTableHeaders(this.testSeriesData.map(({ id, ...rest }: any) => rest));
-        this.testSeriesTableHeaders = this.generateTableHeaders(this.testSeriesData)
+    this.adminDashboardService
+      .getAdminDashboard()
+      .pipe(
+        tap((response: any) => {
+          // this.allEditoril = response
+          this.dashboardData = response;
 
-        this.testData = response && response.tests
-        this.testShowColumns  = this.generateTableHeaders(this.testData.map(({ id,files,topics,categories,minimumPassingScore,testSeriesId,testSeriesName,keywords, ...rest }: any) => rest));
-        this.testTableHeaders = this.generateTableHeaders(this.testData)
+          this.testSeriesData = response && response.testSeries;
+          this.testSereisShowColumns = this.generateTableHeaders(
+            this.testSeriesData.map(({ id, ...rest }: any) => rest)
+          );
+          this.testSeriesTableHeaders = this.generateTableHeaders(
+            this.testSeriesData
+          );
 
-      }),
-      catchError((error) => {
-        this.errorMessage = 'Error loading admin dashboard.'; // Handle error message
-        console.error('Error loading admin dashboard:', error);
-        // this.allEditoril = []; 
-        return of([]); // Return an empty array in case of an error
-      }),
-      finalize(() => {
-        this.loading = false; // Reset loading state when the request is completed
-      })
-    ).subscribe();
+          this.testData = response && response.tests;
+          this.testShowColumns = this.generateTableHeaders(
+            this.testData.map(
+              ({
+                id,
+                files,
+                topics,
+                categories,
+                minimumPassingScore,
+                testSeriesId,
+                testSeriesName,
+                keywords,
+                ...rest
+              }: any) => rest
+            )
+          );
+          this.testTableHeaders = this.generateTableHeaders(this.testData);
+        }),
+        catchError((error) => {
+          this.errorMessage = 'Error loading admin dashboard.'; // Handle error message
+          console.error('Error loading admin dashboard:', error);
+          // this.allEditoril = [];
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+        })
+      )
+      .subscribe();
   }
 
-
-
-  generateTableHeaders(dataArray: any[]): { key: string; displayName: string, pipe: string | null, pipeFormat: string | null }[] {
+  generateTableHeaders(dataArray: any[]): {
+    key: string;
+    displayName: string;
+    pipe: string | null;
+    pipeFormat: string | null;
+  }[] {
     if (!dataArray || dataArray.length === 0) {
       return [];
     }
-  
+
     const formatDisplayName = (key: string): string =>
       key
         .replace(/([A-Z])/g, ' $1') // Add a space before uppercase letters (camelCase to spaced)
         .replace(/^./, (str) => str.toUpperCase()); // Capitalize the first letter
-  
+
     return Object.keys(dataArray[0]).map((key) => {
       let pipe = null;
       let pipeFormat = null;
-  
+
       // Add 'currency' pipe for 'fee' column
       if (key === 'fee') {
-        pipe = 'currency';  // The pipe name for fee is currency
-        pipeFormat = 'INR';  // No special formatting for 'currency' pipe
-      } 
+        pipe = 'currency'; // The pipe name for fee is currency
+        pipeFormat = 'INR'; // No special formatting for 'currency' pipe
+      }
       // Add 'date' pipe for 'startDate' column
       else if (key === 'startDate') {
-        pipe = 'date';  // The pipe name for startDate is date
-        pipeFormat = 'd MMM, y';  // Custom format for date (can be changed as needed)
+        pipe = 'date'; // The pipe name for startDate is date
+        pipeFormat = 'd MMM, y'; // Custom format for date (can be changed as needed)
       }
-  
+
       return {
         key: key,
         displayName: formatDisplayName(key),
         pipe: pipe,
-        pipeFormat: pipeFormat
+        pipeFormat: pipeFormat,
       };
     });
   }
-
 
   ontestSeriesDetails(val: any) {
     this.router.navigateByUrl(`dash/test-series`);
   }
 
-  onTestSeriesDelete(val:any) {
+  onTestSeriesDelete(val: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1a1f35',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.loading = true; // Set loading state to true while fetching data
 
-    this.loading = true; // Set loading state to true while fetching data
-  
-    this.testSeriesService.deleteTestSeries(val.id).pipe(
-      tap((response: any) => {
-      }),
-      catchError((error) => {
-        this.errorMessage = 'Error creating test series.'; // Handle error message
-        console.error('Error creating test series:', error);
-        return of([]); // Return an empty array in case of an error
-      }),
-      finalize(() => {
-        this.loading = false; // Reset loading state when the request is completed
-        this.getAdminDashboardDetails();
-      })
-    ).subscribe();
+        this.testSeriesService
+          .deleteTestSeries(val.id)
+          .pipe(
+            tap((response: any) => {
+              Swal.fire({
+                title: 'Deleted!',
+                text: 'Your file has been deleted.',
+                icon: 'success',
+                confirmButtonColor: '#1a1f35',
+              });
+            }),
+            catchError((error) => {
+              this.errorMessage = 'Error creating test series.'; // Handle error message
+              console.error('Error creating test series:', error);
+              return of([]); // Return an empty array in case of an error
+            }),
+            finalize(() => {
+              this.loading = false; // Reset loading state when the request is completed
+              this.getAdminDashboardDetails();
+            })
+          )
+          .subscribe();
+      }
+    });
   }
 
   onTestDelete(val: any) {
-    this.loading = true;
-    this.testSeriesService
-    .deleteTestFromTestSeries(val.testSeriesId , val.id)
-    .pipe(
-      tap((response) => {
-      }),
-      catchError((error) => {
-        console.error('Error deleting test:', error);
-        return of(error); // Return an observable to handle the error
-      }),
-      finalize(() => {
-        this.loading = false;
-        this.getAdminDashboardDetails();
-      })
-    )
-    .subscribe();
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1a1f35',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.loading = true;
+        this.testSeriesService
+          .deleteTestFromTestSeries(val.testSeriesId, val.id)
+          .pipe(
+            tap((response) => {
+              Swal.fire({
+                title: 'Deleted!',
+                text: 'Your file has been deleted.',
+                icon: 'success',
+                confirmButtonColor: '#1a1f35',
+              });
+            }),
+            catchError((error) => {
+              console.error('Error deleting test:', error);
+              return of(error); // Return an observable to handle the error
+            }),
+            finalize(() => {
+              this.loading = false;
+              this.getAdminDashboardDetails();
+            })
+          )
+          .subscribe();
+      }
+    });
   }
 
   onTestDetails(val: any) {
-    this.router.navigateByUrl(`dash/test-series/test-series-details/${val.testSeriesId}`);
+    this.router.navigateByUrl(
+      `dash/test-series/test-series-details/${val.testSeriesId}`
+    );
   }
 }

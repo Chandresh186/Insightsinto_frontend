@@ -1,378 +1,314 @@
 <div class="container">
   <div class="createContainer">
-    <div class="input-group w-25rem ">
-      <input type="text" class="form-control" name="Search" placeholder="Search" (input)="onSearchChange($event)" />
-      <button ngbTooltip="Search" class="btn btn-primary add-more remove-default-css" type="button"><i class="fas fa-search"></i> </button>
+    <div class="input-group w-25rem">
+      <input
+        type="text"
+        class="form-control"
+        name="Search"
+        placeholder="Search"
+        (input)="onSearchChange($event)"
+      />
+      <button
+        ngbTooltip="Search"
+        class="btn btn-primary add-more remove-default-css"
+        type="button"
+      >
+        <i class="fas fa-search"></i>
+      </button>
     </div>
-    <button class="btn btn-primary custom-button" placement="bottom" ngbTooltip="Create Category" type="button"
-      data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+    <button
+      class="btn btn-primary custom-button"
+      placement="bottom"
+      ngbTooltip="Create Category"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasExample"
+      aria-controls="offcanvasExample"
+    >
       Create Category
     </button>
-
   </div>
-<div class="wrapper">
+  <div class="wrapper">
+    <div
+      class="offcanvas offcanvas-end"
+      data-bs-backdrop="static"
+      tabindex="-1"
+      id="offcanvasExample"
+      aria-labelledby="offcanvasExampleLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title mb-0" id="offcanvasExampleLabel">
+          Create Categories
+        </h5>
+        &nbsp;
+      
 
-  <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="offcanvasExample"
-    aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title mb-0" id="offcanvasExampleLabel">Create Categories</h5>
-      <!-- <label class="switch" ngbTooltip="Create Sub Category">
-        <input type="checkbox" (change)="onToggleCategory($event)">
-        <span class="slider"></span>
-      </label> -->
-
-      <div class="form-check form-switch" ngbTooltip="Create Sub Category">
-        <div>
-          <!-- <label class="form-check-label" for="flexSwitchCheckDefault">Sub categories</label> -->
-          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [(ngModel)]="isCreateNewCategory" >
-
+        <div class="form-check form-switch" ngbTooltip="Create Sub Category">
+          <div>
+          
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+              [(ngModel)]="isCreateNewCategory"
+            />
+          </div>
         </div>
-        
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
       </div>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <form>
-        <div class="mb-3" *ngIf="!isCreateNewCategory">
-          <label for="exampleInputPassword1" class="form-label">Select Category</label>
-          <div class="dropdown" [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
-
-            <!-- Input field with dropdown arrow -->
-            <div class="input-group" id="target_Dropdown">
-              <input type="text" class="select_input form-control dropdown-toggle  text-start"
-                placeholder="Select Category" [value]="selectedOption && selectedOption.catName  || 'Select an option'"
-                (click)="toggleDropdown()" (focus)="toggleDropdown()" name="selectInput" aria-expanded="dropdownOpen"
-                readonly /> <!--(focus)="toggleDropdown()"-->
-              <span class="input-group-append">
-                <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
-                <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
-              </span>
-            </div>
-
-            <!-- Dropdown menu with search functionality -->
-            <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
-              <!-- Search input -->
-              <input type="text" class="form-control mb-2" placeholder="Search..." name="searchInput"
-                [(ngModel)]="searchQuery" (input)="filterOptions()" (click)="$event.stopPropagation()" />
-
-              <!-- Filtered options list -->
-              <div class="list-wrapper">
-                <a *ngFor="let option of filteredOptions" class="dropdown-item" href="#"
-                  (click)="selectOption(option); $event.preventDefault()">
-                  {{ option.catName}}
-                </a>
+      <div class="offcanvas-body">
+        <form>
+          <div class="mb-3" *ngIf="!isCreateNewCategory">
+            <label for="exampleInputPassword1" class="form-label"
+              >Select Category</label
+            >
+            <div
+              class="dropdown"
+              [class.show]="dropdownOpen"
+              (clickOutside)="dropdownOpen = false"
+            >
+           
+              <div class="input-group" id="target_Dropdown">
+                <input
+                  type="text"
+                  class="select_input form-control dropdown-toggle text-start"
+                  placeholder="Select Category"
+                  [value]="
+                    (selectedOption && selectedOption.catName) ||
+                    'Select an option'
+                  "
+                  (click)="toggleDropdown()"
+                  (focus)="toggleDropdown()"
+                  name="selectInput"
+                  aria-expanded="dropdownOpen"
+                  readonly
+                />
+              
+                <span class="input-group-append">
+                
+                  <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+                </span>
               </div>
-              <!-- Message for no matches -->
-              <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
-                No options found
+
+           
+              <div
+                class="dropdown-menu p-2"
+                [class.show]="dropdownOpen"
+                style="width: 100%"
+              >
+             
+                <input
+                  type="text"
+                  class="form-control mb-2"
+                  placeholder="Search..."
+                  name="searchInput"
+                  [(ngModel)]="searchQuery"
+                  (input)="filterOptions()"
+                  (click)="$event.stopPropagation()"
+                />
+
+             
+                <div class="list-wrapper">
+                  <a
+                    *ngFor="let option of filteredOptions"
+                    class="dropdown-item"
+                    href="#"
+                    (click)="selectOption(option); $event.preventDefault()"
+                  >
+                    {{ option.catName }}
+                  </a>
+                </div>
+               
+                <div
+                  *ngIf="filteredOptions && filteredOptions.length === 0"
+                  class="dropdown-item disabled"
+                >
+                  No options found
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">{{isCreateNewCategory ? "Create Category" : "Sub
-            Category"}}</label>
-          <div class="chip-input-container">
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" name="chipInput" placeholder="Add sub Category"
-                [(ngModel)]="chipInput" (keyup.enter)="addChip()" />
-              <button ngbTooltip="Create Category" class="btn btn-primary add-more" type="button"
-                (click)="addChip()"><i class="fas fa-plus p-2"></i></button>
-            </div>
-
-            <div class="chip-list">
-              <span class="badge bg-primary me-2 mb-2" *ngFor="let chip of chips; let i = index">
-                {{ chip }}
-                <button type="button" class="btn-close btn-close-white ms-1" aria-label="Remove"
-                  (click)="removeChip(i)">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">{{
+              isCreateNewCategory
+                ? "Create Category"
+                : "Sub
+              Category"
+            }}</label>
+            <div class="chip-input-container">
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="chipInput"
+                  placeholder="Add sub Category"
+                  [(ngModel)]="chipInput"
+                  (keyup.enter)="addChip()"
+                />
+                <button
+                  ngbTooltip="Create Category"
+                  class="btn btn-primary add-more"
+                  type="button"
+                  (click)="addChip()"
+                >
+                  <i class="fas fa-plus p-2"></i>
                 </button>
-              </span>
-            </div>
-          </div>
-          <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-        </div>
+                <small id="categoryHelp" class="form-text">
+    Write the category name and press Enter button.
+  </small>
+              </div>
+              <div class="chip-list">
+                <span
+                  class="badge bg-primary me-2 mb-2"
+                  *ngFor="let chip of chips; let i = index"
+                >
+                  {{ chip }}
+                  <button
+                    type="button"
+                    class="btn-close btn-close-white ms-1"
+                    aria-label="Remove"
+                    (click)="removeChip(i)"
+                  ></button>
+                </span>
+                </div>
+                </div>
+      
+                </div>
 
-
-        <button type="button" class="btn btn-primary custom-button"
-          (click)="isCreateNewCategory ? createNewCategory(): createSubCategory() ">Submit</button>
-      </form>
+          <button
+            type="button"
+            class="btn btn-primary custom-button"
+             [disabled]="chips.length == 0"
+            (click)="
+              isCreateNewCategory ? createNewCategory() : createSubCategory()
+            "
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
 
+    <ul class="tree">
+      <ng-container
+        *ngTemplateOutlet="
+          recursiveList;
+          context: { $implicit: filteredCategories, isRoot: true }
+        "
+      ></ng-container>
+    </ul>
 
+    <ng-template #recursiveList let-categories let-isRoot="isRoot">
+      <li
+        *ngFor="let category of categories"
+        [class.parent]="isRoot"
+        class="nested-item mb-0"
+      >
+        <details [open]="category.isOpen" class="details">
+          <summary>
+            <span class="label">{{
+              isRoot ? "Category" : "Sub Category"
+            }}</span>
+            {{ category.catName }} &nbsp;
+            <i (click)="onEdit(category)" class="far fa-edit edit"></i>
+            <i
+              (click)="DeleteCategory(category.id)"
+              class="far fa-trash-alt trash"
+            ></i>
+            <i (click)="onMove(category)" class="move far fa-info-circle"></i>
+          </summary>
 
-
-
-
-  <!-- <ul class="tree">
-      <li class="parent">
-          <details open class="details">
-              <summary><span class="label">string</span>Level 1</summary>
-              <ul class="nested-list">
-                  <li class="nested-item">
-                      <details>
-                          <summary><span class="label">string</span>Level 2</summary>
-                          <ul class="nested-list">
-                              <li class="nested-item">
-                                  <details>
-                                      <summary><span class="label">string</span>Level 3</summary>
-                                      <ul class="nested-list">
-                                          <li class="nested-item">
-                                              <details>
-                                                  <summary><span class="label">string</span>Level 4</summary>
-                                                  <ul class="nested-list">
-                                                      <li class="nested-item">
-                                                          <details>
-                                                              <summary><span class="label">string</span>Level 5</summary>
-                                                              <ul class="nested-list">
-                                                                  <li class="nested-item">
-                                                                      <details>
-                                                                          <summary><span class="label">string</span>Level 6</summary>
-                                                                          <ul class="nested-list">
-                                                                              <li class="nested-item">
-                                                                                  <details>
-                                                                                      <summary><span class="label">string</span>Level 7</summary>
-                                                                                      <ul class="nested-list">
-                                                                                          <li class="nested-item">
-                                                                                              <details>
-                                                                                                  <summary><span class="label">string</span>Level 8</summary>
-                                                                                                  <ul class="nested-list">
-                                                                                                      <li class="nested-item">
-                                                                                                          <details>
-                                                                                                              <summary><span class="label">string</span>Level 9</summary>
-                                                                                                              <ul class="nested-list">
-                                                                                                                  <li class="nested-item">
-                                                                                                                      <details>
-                                                                                                                          <summary><span class="label">string</span>Level 10</summary>
-                                                                                                                          <ul class="nested-list">
-                                                                                                                              <li class="nested-item"><span class="label">string</span>Demo</li>
-                                                                                                                          </ul>
-                                                                                                                      </details>
-                                                                                                                  </li>
-                                                                                                              </ul>
-                                                                                                          </details>
-                                                                                                      </li>
-                                                                                                  </ul>
-                                                                                              </details>
-                                                                                          </li>
-                                                                                      </ul>
-                                                                                  </details>
-                                                                              </li>
-                                                                          </ul>
-                                                                      </details>
-                                                                  </li>
-                                                              </ul>
-                                                          </details>
-                                                      </li>
-                                                  </ul>
-                                              </details>
-                                          </li>
-                                      </ul>
-                                  </details>
-                              </li>
-                          </ul>
-                      </details>
-                  </li>
-              </ul>
-          </details>
+          <ul *ngIf="category.subCategories?.length > 0" class="nested-list">
+            <ng-container
+              *ngTemplateOutlet="
+                recursiveList;
+                context: { $implicit: category.subCategories, isRoot: false }
+              "
+            ></ng-container>
+          </ul>
+        </details>
       </li>
-  </ul> -->
-
-
-
-
-
-  <ul class="tree">
-    <li *ngFor="let category of filteredCategories" class="parent">
-      <details [open]="category.isOpen" class="details">
-        <summary><span class="label">Category</span>{{ category.catName }} &nbsp; <i (click)="onEdit(category)"
-            class="far fa-edit edit"></i> <i (click)="DeleteCategory(category.id)" class=" far fa-trash-alt trash"></i>
-          <i (click)="onMove(category)" class="move far fa-info-circle"></i></summary>
-        <ul class="nested-list">
-          <!-- Level 2 -->
-          <li *ngFor="let subCategory of category.subCategories" class="nested-item">
-            <details [open]="subCategory.isOpen">
-              <summary><span class="label">Sub Category</span>{{ subCategory.catName }} &nbsp; <i
-                  (click)="onEdit(subCategory)" class="far fa-edit edit"></i> <i
-                  (click)="DeleteCategory(subCategory.id)" class=" far fa-trash-alt trash"></i> <i
-                  (click)="onMove(subCategory)" class="move far fa-info-circle"></i></summary>
-              <ul class="nested-list">
-                <!-- Level 3 -->
-                <li *ngFor="let subSubCategory of subCategory.subCategories" class="nested-item">
-                  <details [open]="subSubCategory.isOpen">
-                    <summary><span class="label">Sub Category</span>{{ subSubCategory.catName }} &nbsp; <i
-                        (click)="onEdit(subSubCategory)" class="far fa-edit edit"></i> <i
-                        (click)="DeleteCategory(subSubCategory.id)" class=" far fa-trash-alt trash"></i> <i
-                        (click)="onMove(subSubCategory)" class="move far fa-info-circle"></i></summary>
-                    <ul class="nested-list">
-                      <!-- Level 4 -->
-                      <li *ngFor="let subSubSubCategory of subSubCategory.subCategories" class="nested-item">
-                        <details [open]="subSubSubCategory.isOpen">
-                          <summary><span class="label">Sub Category</span>{{ subSubSubCategory.catName }} &nbsp; <i
-                              (click)="onEdit(subSubSubCategory)" class="far fa-edit edit"></i> <i
-                              (click)="DeleteCategory(subSubSubCategory.id)" class=" far fa-trash-alt trash"></i> <i
-                              (click)="onMove(subSubSubCategory)" class="move far fa-info-circle"></i></summary>
-                          <ul class="nested-list">
-                            <!-- Level 5 -->
-                            <li *ngFor="let subSubSubSubCategory of subSubSubCategory.subCategories"
-                              class="nested-item">
-                              <details [open]="subSubSubSubCategory.isOpen">
-                                <summary><span class="label">Sub Category</span>{{ subSubSubSubCategory.catName }}
-                                  &nbsp; <i (click)="onEdit(subSubSubSubCategory)" class="far fa-edit edit"></i> <i
-                                    (click)="DeleteCategory(subSubSubSubCategory.id)"
-                                    class=" far fa-trash-alt trash"></i> <i (click)="onMove(subSubSubSubCategory)"
-                                    class="move far fa-info-circle"></i></summary>
-                                <ul class="nested-list">
-                                  <!-- Level 6 -->
-                                  <li *ngFor="let subSubSubSubSubCategory of subSubSubSubCategory.subCategories"
-                                    class="nested-item">
-                                    <details [open]="subSubSubSubSubCategory.isOpen">
-                                      <summary><span class="label">Sub Category</span>{{ subSubSubSubSubCategory.catName
-                                        }} &nbsp; <i (click)="onEdit(subSubSubSubSubCategory)"
-                                          class="far fa-edit edit"></i> <i
-                                          (click)="DeleteCategory(subSubSubSubSubCategory.id)"
-                                          class=" far fa-trash-alt trash"></i> <i
-                                          (click)="onMove(subSubSubSubSubCategory)" class="move far fa-info-circle"></i>
-                                      </summary>
-                                      <ul class="nested-list">
-                                        <!-- Level 7 -->
-                                        <li
-                                          *ngFor="let subSubSubSubSubSubCategory of subSubSubSubSubCategory.subCategories"
-                                          class="nested-item">
-                                          <details [open]="subSubSubSubSubSubCategory.isOpen">
-                                            <summary><span class="label">Sub Category</span>{{
-                                              subSubSubSubSubSubCategory.catName }} &nbsp; <i
-                                                (click)="onEdit(subSubSubSubSubSubCategory)"
-                                                class="far fa-edit edit"></i> <i
-                                                (click)="DeleteCategory(subSubSubSubSubSubCategory.id)"
-                                                class=" far fa-trash-alt trash"></i> <i
-                                                (click)="onMove(subSubSubSubSubSubCategory)"
-                                                class="move far fa-info-circle"></i></summary>
-                                            <ul class="nested-list">
-                                              <!-- Level 8 -->
-                                              <li
-                                                *ngFor="let subSubSubSubSubSubSubCategory of subSubSubSubSubSubCategory.subCategories"
-                                                class="nested-item">
-                                                <details [open]="subSubSubSubSubSubSubCategory.isOpen">
-                                                  <summary><span class="label">Sub Category</span>{{
-                                                    subSubSubSubSubSubSubCategory.catName }} &nbsp; <i
-                                                      (click)="onEdit(subSubSubSubSubSubSubCategory)"
-                                                      class="far fa-edit edit"></i> <i
-                                                      (click)="DeleteCategory(subSubSubSubSubSubSubCategory.id)"
-                                                      class=" far fa-trash-alt trash"></i> <i
-                                                      (click)="onMove(subSubSubSubSubSubSubCategory)"
-                                                      class="move far fa-info-circle"></i></summary>
-                                                  <ul class="nested-list">
-                                                    <!-- Level 9 -->
-                                                    <li
-                                                      *ngFor="let subSubSubSubSubSubSubSubCategory of subSubSubSubSubSubSubCategory.subCategories"
-                                                      class="nested-item">
-                                                      <details [open]="subSubSubSubSubSubSubSubCategory.isOpen">
-                                                        <summary><span class="label">Sub Category</span>{{
-                                                          subSubSubSubSubSubSubSubCategory.catName }} &nbsp; <i
-                                                            (click)="onEdit(subSubSubSubSubSubSubSubCategory)"
-                                                            class="far fa-edit edit"></i> <i
-                                                            (click)="DeleteCategory(subSubSubSubSubSubSubSubCategory.id)"
-                                                            class=" far fa-trash-alt trash"></i> <i
-                                                            (click)="onMove(subSubSubSubSubSubSubSubCategory)"
-                                                            class="move far fa-info-circle"></i></summary>
-                                                        <ul class="nested-list">
-                                                          <!-- Level 10 -->
-                                                          <li
-                                                            *ngFor="let subSubSubSubSubSubSubSubSubCategory of subSubSubSubSubSubSubSubCategory.subCategories"
-                                                            class="nested-item">
-                                                            <details
-                                                              [open]="subSubSubSubSubSubSubSubSubCategory.isOpen">
-                                                              <summary><span class="label">Sub Category</span>{{
-                                                                subSubSubSubSubSubSubSubCategory.catName }} &nbsp; <i
-                                                                  (click)="onEdit(subSubSubSubSubSubSubSubCategory)"
-                                                                  class="far fa-edit edit"></i> <i
-                                                                  (click)="DeleteCategory(subSubSubSubSubSubSubSubCategory.id)"
-                                                                  class=" far fa-trash-alt trash"></i> <i
-                                                                  (click)="onMove(subSubSubSubSubSubSubSubCategory)"
-                                                                  class="move far fa-info-circle"></i></summary>
-                                                              <!-- Add the nested structure here if needed -->
-                                                            </details>
-                                                          </li>
-                                                        </ul>
-                                                      </details>
-                                                    </li>
-                                                  </ul>
-                                                </details>
-                                              </li>
-                                            </ul>
-                                          </details>
-                                        </li>
-                                      </ul>
-                                    </details>
-                                  </li>
-                                </ul>
-                              </details>
-                            </li>
-                          </ul>
-                        </details>
-                      </li>
-                    </ul>
-                  </details>
-                </li>
-              </ul>
-            </details>
-          </li>
-        </ul>
-      </details>
-    </li>
-  </ul>
-
+    </ng-template>
+  </div>
 </div>
-
-</div>
-
-
-
 
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Edit Category</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="categoryForm">
       <div class="form-group">
-
-        <input type="test" class="form-control" id="catName" formControlName="catName" aria-describedby="catName"
-          placeholder="Enter category name">
-
+        <input
+          type="test"
+          class="form-control"
+          id="catName"
+          formControlName="catName"
+          aria-describedby="catName"
+          placeholder="Enter category name"
+        />
       </div>
-
-
     </form>
   </div>
   <div class="modal-footer">
-    <app-async-button type="submit" classes="restore-button" [disabled]="categoryForm.invalid || categoryAsyncCall"
-      [isAsyncCall]="categoryAsyncCall" (click)="EditCategory()">Save</app-async-button>
-
+    <app-async-button
+      type="submit"
+      classes="restore-button"
+      [disabled]="categoryForm.invalid || categoryAsyncCall"
+      [isAsyncCall]="categoryAsyncCall"
+      (click)="EditCategory()"
+      >Save</app-async-button
+    >
   </div>
 </ng-template>
-
 
 <ng-template #changeParent let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Change Heirarchy</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
   <div class="modal-body move-modal">
-
-
     <form>
       <div class="form-group mb-3">
-        <label for="exampleInputPassword1" class="form-label">Select Category</label>
-        <div class="dropdown" [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
-
+        <label for="exampleInputPassword1" class="form-label"
+          >Select Category</label
+        >
+        <div
+          class="dropdown"
+          [class.show]="dropdownOpen"
+          (clickOutside)="dropdownOpen = false"
+        >
           <!-- Input field with dropdown arrow -->
           <div class="input-group" id="target_Dropdown">
-            <input type="text" class="form-control dropdown-toggle " placeholder="Select Category"
-              [value]="selectedOption && selectedOption.catName  || 'Select an option'" (click)="toggleDropdown()"
-              (focus)="toggleDropdown()" name="selectInput" aria-expanded="dropdownOpen" readonly />
+            <input
+              type="text"
+              class="form-control dropdown-toggle"
+              placeholder="Select Category"
+              [value]="
+                (selectedOption && selectedOption.catName) || 'Select an option'
+              "
+              (click)="toggleDropdown()"
+              (focus)="toggleDropdown()"
+              name="selectInput"
+              aria-expanded="dropdownOpen"
+              readonly
+            />
             <!--(focus)="toggleDropdown()"-->
             <span class="input-group-append">
               <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
@@ -381,21 +317,38 @@
           </div>
 
           <!-- Dropdown menu with search functionality -->
-          <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%;">
+          <div
+            class="dropdown-menu p-2"
+            [class.show]="dropdownOpen"
+            style="width: 100%"
+          >
             <!-- Search input -->
-            <input type="text" class="form-control mb-2" placeholder="Search..." name="searchInput"
-              [(ngModel)]="searchQuery " (input)="filterOptions()" (click)="$event.stopPropagation()" />
+            <input
+              type="text"
+              class="form-control mb-2"
+              placeholder="Search..."
+              name="searchInput"
+              [(ngModel)]="searchQuery"
+              (input)="filterOptions()"
+              (click)="$event.stopPropagation()"
+            />
             <div class="list-wrapper">
               <!-- Filtered options list -->
-              <a *ngFor="let option of filteredOptions" class="dropdown-item" href="#"
-                (click)="mapParentId(option); $event.preventDefault()">
-                {{ option.catName}}
+              <a
+                *ngFor="let option of filteredOptions"
+                class="dropdown-item"
+                href="#"
+                (click)="mapParentId(option); $event.preventDefault()"
+              >
+                {{ option.catName }}
               </a>
-
             </div>
 
             <!-- Message for no matches -->
-            <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
+            <div
+              *ngIf="filteredOptions && filteredOptions.length === 0"
+              class="dropdown-item disabled"
+            >
               No options found
             </div>
           </div>
@@ -405,22 +358,32 @@
     <code>
       <ul class="tree">
         <li class="parent">
-            <details open class="details">
-                <summary><span class="label">Category</span>{{selectedOption && selectedOption.catName  || 'Select an option'}}</summary>
-                <ul class="nested-list">
-                    <li class="nested-item"> <span
-                            class="label">sub category</span>{{categoryForm.value.catName}}</li>
-               
-                </ul>
-            </details>
+          <details open class="details">
+            <summary>
+              <span class="label">Category</span
+              >{{
+                (selectedOption && selectedOption.catName) || "Select an option"
+              }}
+            </summary>
+            <ul class="nested-list">
+              <li class="nested-item">
+                <span class="label">sub category</span
+                >{{ categoryForm.value.catName }}
+              </li>
+            </ul>
+          </details>
         </li>
-        
-    </ul>   
-      </code>
+      </ul>
+    </code>
   </div>
   <div class="modal-footer">
-    <app-async-button type="submit" classes="restore-button" [disabled]="categoryForm.invalid || categoryAsyncCall"
-      [isAsyncCall]="categoryAsyncCall" (click)="EditCategory()">Save</app-async-button>
-
+    <app-async-button
+      type="submit"
+      classes="restore-button"
+      [disabled]="categoryForm.invalid || categoryAsyncCall"
+      [isAsyncCall]="categoryAsyncCall"
+      (click)="EditCategory()"
+      >Save</app-async-button
+    >
   </div>
 </ng-template>

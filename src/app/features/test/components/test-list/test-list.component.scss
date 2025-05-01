@@ -785,3 +785,11 @@ input.form-control {
 .open > .category-toggle::before {
   transform: rotate(90deg);
 }
+
+
+::ng-deep .tests-list .test-series-table table td {
+  // width: 100vw;
+  // overflow-x: auto;
+  white-space: nowrap !important;
+max-width: 266px;
+}

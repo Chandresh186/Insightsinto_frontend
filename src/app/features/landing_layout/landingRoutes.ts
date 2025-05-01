@@ -99,6 +99,13 @@ export const landingRoutes: Routes = [
             import(
                 '../pages/contact-us/contact-us.component'
             ).then((component) => component.ContactUsComponent)
+      },
+      {
+        path: 'resources',
+        loadComponent: () => 
+            import(
+                '../pages/resources/resources.component'
+            ).then((component) => component.ResourcesComponent)
       }
     ],
   },

@@ -7,27 +7,34 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment.development';
 import { DomSanitizer } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-course-list',
   standalone: true,
   imports: [CommonModule, ngbootstrapModule, RouterModule],
   templateUrl: './course-list.component.html',
-  styleUrl: './course-list.component.scss'
+  styleUrl: './course-list.component.scss',
 })
 export class CourseListComponent implements OnInit {
   public loading = false;
   private errorMessage: string | null = null;
   public allCourses: any = [];
-  staticBaseUrl : any = environment.staticBaseUrl
+  staticBaseUrl: any = environment.staticBaseUrl;
 
-  constructor(private courseService : CourseService, private _authService : AuthService, public sanitizer: DomSanitizer, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private courseService: CourseService,
+    private _authService: AuthService,
+    public sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    if(this.checkRole('admin') || this.checkRole('super admin') ) {
+    if (this.checkRole('admin') || this.checkRole('super admin')) {
       this.loadAllCourses();
     } else {
-      const userId = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.userId;
+      const userId = JSON.parse(localStorage.getItem('currentUser') as string)
+        ?.response?.userId;
       this.loadUserAllCourses(userId);
     }
   }
@@ -36,77 +43,97 @@ export class CourseListComponent implements OnInit {
     return this._authService.checkRole(role);
   }
 
-   private loadAllCourses(): void {
+  private loadAllCourses(): void {
+    this.loading = true; // Set loading state to true while fetching data
+
+    this.courseService
+      .getAllCourses()
+      .pipe(
+        tap((response: any) => {
+          console.log(response);
+          this.allCourses = response;
+        }),
+        catchError((error) => {
+          this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+          console.error('Error loading Daily editorials:', error);
+          this.allCourses = [];
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  private loadUserAllCourses(userId: any): void {
+    this.loading = true; // Set loading state to true while fetching data
+
+    this.courseService
+      .getAllUserCourses(userId)
+      .pipe(
+        tap((response: any) => {
+          const courseIds = response.map((item: any) => item.id);
+
+          this.courseService.setCourses(courseIds);
+          this.allCourses = response;
+        }),
+        catchError((error) => {
+          this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+          console.error('Error loading Daily editorials:', error);
+          this.allCourses = [];
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  onDelete(id: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1a1f35',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Set loading state to true while fetching data
+        console.log(id);
+
         this.loading = true; // Set loading state to true while fetching data
-      
-        this.courseService.getAllCourses().pipe(
-          tap((response: any) => {
-            console.log(response)
-            this.allCourses = response
-           
-            
-          }),
-          catchError((error) => {
-            this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
-            console.error('Error loading Daily editorials:', error);
-            this.allCourses = []; 
-            return of([]); // Return an empty array in case of an error
-          }),
-          finalize(() => {
-            this.loading = false; // Reset loading state when the request is completed
-            this.cdr.detectChanges();
-          })
-        ).subscribe();
+
+        this.courseService
+          .deleteCourse(id)
+          .pipe(
+            tap((response: any) => {
+              // this.allCourses = response
+              Swal.fire({
+                title: 'Deleted!',
+                text: 'Your file has been deleted.',
+                icon: 'success',
+                confirmButtonColor: '#1a1f35',
+              });
+            }),
+            catchError((error) => {
+              this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+              console.error('Error loading Daily editorials:', error);
+              // this.allCourses = [];
+              return of([]); // Return an empty array in case of an error
+            }),
+            finalize(() => {
+              this.loading = false; // Reset loading state when the request is completed
+              this.loadAllCourses();
+            })
+          )
+          .subscribe();
       }
-
-
-      private loadUserAllCourses(userId: any): void {
-        this.loading = true; // Set loading state to true while fetching data
-      
-        this.courseService.getAllUserCourses(userId).pipe(
-          tap((response: any) => {
-           
-            const courseIds = response.map((item: any) => item.id);
-            
-            this.courseService.setCourses(courseIds);
-            this.allCourses = response
-            
-          }),
-          catchError((error) => {
-            this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
-            console.error('Error loading Daily editorials:', error);
-            this.allCourses = []; 
-            return of([]); // Return an empty array in case of an error
-          }),
-          finalize(() => {
-            this.loading = false; // Reset loading state when the request is completed
-            this.cdr.detectChanges();
-          })
-        ).subscribe();
-      }
-
-
-      onDelete(id: any) {
-        console.log(id)
-
-        this.loading = true; // Set loading state to true while fetching data
-      
-        this.courseService.deleteCourse(id).pipe(
-          tap((response: any) => {
-            console.log(response)
-            // this.allCourses = response
-            
-          }),
-          catchError((error) => {
-            this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
-            console.error('Error loading Daily editorials:', error);
-            // this.allCourses = []; 
-            return of([]); // Return an empty array in case of an error
-          }),
-          finalize(() => {
-            this.loading = false; // Reset loading state when the request is completed
-            this.loadAllCourses();
-          })
-        ).subscribe();
-      }
+    });
+  }
 }

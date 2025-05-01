@@ -1,0 +1,437 @@
+<div class="container">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center g-2">
+      <i *ngIf="isFolderOpen" class="fas fa-arrow-left cursor_pointer"
+        (click)="openCategoryIds.clear();isFolderOpen =false"></i>
+      <h4 class="mb-0">Resources</h4>
+
+    </div>
+
+    <div class="d-flex g-2">
+      <button *ngIf="checkRole('admin') || checkRole('super admin')" class="btn btn-primary custom-button"
+        placement="bottom" ngbTooltip="Add Resource" type="button" (click)="openTop(content)">
+        Add Resource
+      </button>
+
+      <button *ngIf="isFolderOpen" class="btn btn-primary custom-button hide-above-768" placement="bottom" ngbTooltip="Resource Category"
+        type="button" (click)="openTop(folderPanel)">
+        <i class="fas fa-bars"></i>
+      </button>
+
+    </div>
+  </div>
+  @if(isFolderOpen) {
+  <div class="row h-100vh">
+    <div class="col-3 border-left hide-below-768">
+      <ng-container *ngTemplateOutlet="folderPanel"></ng-container>
+      <!-- <div class="input-group mb-2">
+          <input type="text" class="form-control mb-0" name="Search" placeholder="Search"
+            (input)="onSearchChange($event)" />
+        </div> -->
+      <!-- <ul>
+          <ng-container *ngFor="let category of filteredCategories">
+            <li>
+              <span class="cursor_pointer" [class.active]="category.id === selectedFolderId">
+                <span class="arrow" *ngIf="category.subCategories.length > 0" (click)="expandCategoryInTree(category.id)">
+                  <i class="fas" [ngClass]="
+                              isCategoryOpen(category.id)
+                                ? 'fa-caret-down'
+                                : 'fa-caret-right'
+                            "></i>
+                </span>
+                &nbsp;
+                <span (click)="toggleCategory(category.id)">{{ category.catName }}</span>
+              </span>
+              <ul *ngIf="isCategoryOpen(category.id)">
+                <ng-container *ngTemplateOutlet="
+                            categoryTemplate;
+                            context: { $implicit: category.subCategories }
+                          "></ng-container>
+              </ul>
+            </li>
+          </ng-container>
+        </ul> -->
+
+      <!-- Recursive Template for Subcategories -->
+      <!-- <ng-template #categoryTemplate let-subCategories>
+          <ng-container *ngFor="let subCategory of subCategories">
+            <li>
+              <span class="cursor_pointer" [class.active]="subCategory.id === selectedFolderId">
+                <span class="arrow" *ngIf="subCategory.subCategories.length > 0"
+                  (click)="expandCategoryInTree(subCategory.id)"><i class="fas" [ngClass]="
+                              isCategoryOpen(subCategory.id)
+                                ? 'fa-caret-down'
+                                : 'fa-caret-right'
+                            "></i></span>
+  
+                <span (click)="toggleCategory(subCategory.id)">{{ subCategory.catName }}</span>
+             
+              </span>
+              <ul *ngIf="isCategoryOpen(subCategory.id)">
+                <ng-container *ngTemplateOutlet="
+                            categoryTemplate;
+                            context: { $implicit: subCategory.subCategories }
+                          "></ng-container>
+              </ul>
+            </li>
+          </ng-container>
+        </ng-template> -->
+    </div>
+    <div class="col-12 col-md-9">
+
+      <!-- <h3>{{ selectedFolder?.catName }}</h3>
+  
+        <div *ngIf="selectedFolder?.contents?.length === 0">
+          No files in this folder.
+        </div>
+      
+        <ul>
+          <li *ngFor="let content of selectedFolder?.contents">
+            {{ content.title }} ({{ content.type }})
+            <a [href]="content.url" target="_blank">Open</a>
+          </li>
+        </ul> -->
+
+      <!-- <div class="right-panel" *ngIf="selectedFolder">
+          <h2>{{ selectedFolder?.catName }}</h2>
+          <ul *ngIf="selectedFolder?.contents?.length > 0">
+            <li *ngFor="let item of selectedFolder.contents">
+              <span>{{ item.title }} ({{ item.type }})</span>
+              <a [href]="staticUrl+item.url" target="_blank">Open</a>
+            </li>
+          </ul>
+          <div *ngIf="selectedFolder?.contents?.length === 0">
+            No content available in this folder.
+          </div>
+        </div> -->
+
+      <div>
+
+
+        <!-- <div class="right-panel"> -->
+        @if(currentFolder) {
+        <div class="d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <h6 class="mb-0" *ngIf="navigationStack.length > 1">
+              <i class="fas fa-arrow-left cursor_pointer" (click)="goBack()"></i>
+            </h6>
+            &nbsp;
+            &nbsp;
+
+            <!-- Folder Name -->
+            <h6 class="mb-0">{{ currentFolder && currentFolder.catName }}</h6>
+
+          </div>
+
+          <!-- Inside your right panel div -->
+          <div class="d-flex align-items-center p-l_15px">
+            <!-- Back button (only show when not at root) -->
+            <!-- <button *ngIf="navigationStack.length > 0" 
+            class="btn btn-sm btn-outline-secondary me-2"
+            (click)="goBack()">
+      <i class="fas fa-arrow-left"></i>
+    </button> -->
+
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0 flex-grow-1 p-0 flex-wrap">
+                <li class="breadcrumb-item mb-0" *ngIf="breadcrumbItems.length === 0" [class.active]="!currentFolder">
+                  Root
+                </li>
+
+                <ng-container *ngFor="let item of breadcrumbItems; let last = last">
+                  <li class="breadcrumb-item mb-0" [class.active]="last" [class.cursor-pointer]="!last"
+                    (click)="!last && navigateViaBreadcrumb(item.id)">
+                    {{ item.name }}
+                  </li>
+                </ng-container>
+              </ol>
+            </nav>
+          </div>
+
+        </div>
+        <hr class="mt-2">
+
+        <div class="right-panel">
+          <!-- Folder Contents -->
+          @if(currentFolder.contents.length > 0 || currentFolder.subCategories. length > 0) {
+          <h5 *ngIf="currentFolder.contents.length > 0" class="p-l_15px ">Files</h5>
+          <ul>
+            <li class="file-item d-flex justify-content-between"
+              *ngFor="let item of currentFolder && currentFolder.contents">
+              <!-- <i class="fa fa-file"></i> -->
+              <div>
+                <img width="30" [src]="item.type == 'pdf' ? 'assets/icons/file.png': 'assets/icons/doc.png'" alt="">
+                <a href="javascript:void(0);" (click)="openViewDialog(docViewer, item)">{{ item.title }}</a>
+
+              </div>
+              <i *ngIf="checkRole('admin') || checkRole('super admin')"
+                class="far fa-trash-alt delete-icon cursor-pointer" (click)="deleteResource(item.id)"></i>
+            </li>
+          </ul>
+
+          <h5 *ngIf="currentFolder.subCategories.length > 0" class="p-l_15px ">Folders</h5>
+          <!-- Immediate Subfolders -->
+          <ul>
+            <li class="file-item cursor-pointer" *ngFor="let sub of currentFolder && currentFolder.subCategories" (click)="navigateToFolder(sub.id)">
+              <a href="javascript:void(0);" class="d-flex align-items-center gap-10" >
+                <img width="30"
+                  [src]="sub.contents.length == 0 && sub.subCategories.length == 0 ? 'assets/icons/folder.png': 'assets/icons/folder (1).png'"
+                  alt="">
+                {{ sub.catName }}
+
+              </a>
+
+            </li>
+          </ul>
+          }@else{
+          <div class="empty-state text-center p-5">
+            <div class="empty-state-icon mb-3">
+              <i class="far fa-folder-open fa-4x text-muted"></i>
+            </div>
+            <h3 class="h5 text-muted mb-2">This folder is empty</h3>
+            @if(checkRole('admin') || checkRole('super admin')) {
+            <p class="text-muted mb-4">Upload a file or create a new folder to get started</p>
+            <button class="btn btn-primary custom-button" (click)="openTop(content)">
+              <i class="fas fa-plus me-2"></i>Add Files
+            </button>
+
+            }
+          </div>
+          }
+
+        </div>
+
+
+        }
+
+        <!-- </div> -->
+
+
+      </div>
+
+    </div>
+  </div>
+  } @else {
+  <div class="row mb-2">
+    @for (item of AllMappedCat; track $index) {
+    <!-- toggleCategory(item.id) -->
+    <div class="col-auto mt-3 " (click)="openFolder(item.id)">
+      <div class="cursor-pointer folder-item shadow bg-white">
+        <img width="30"
+          [src]="item.contents.length == 0 && item.subCategories.length == 0 ? 'assets/icons/folder.png': 'assets/icons/folder (1).png'"
+          alt="">
+        <!-- </div> -->
+
+        <!-- <div class="col"> -->
+          <!-- {{item.catName}} -->
+        <div class="w-100 text-center text-truncate fs-12" placement="bottom" [ngbTooltip]="item.catName" >{{item.catName}}</div> 
+
+      </div>
+
+    </div>
+
+
+    }
+
+  </div>
+  }
+
+
+
+  <ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+      <h4 class="offcanvas-title">Add Resource</h4>
+      <button type="button" class="btn-close" aria-label="Close"
+        (click)="resetForm();offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+      <form [formGroup]="dailyEditorialForm" class="upload-form">
+        <!-- < class="input-box"> -->
+        <div class="mb-2">
+          <label for="exampleInputPassword1" class="form-label">Select Category</label>
+          <div class="dropdown" [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
+
+            <div class="input-group position-relative" id="target_Dropdown">
+              <input type="text" class="select_input form-control dropdown-toggle text-start"
+                placeholder="Select Category" [value]="
+                            (selectedOption && selectedOption.catName) ||
+                            'Select an option'
+                          " (click)="toggleDropdown()" (focus)="toggleDropdown()" name="selectInput"
+                aria-expanded="dropdownOpen" readonly />
+
+              <span class="input-group-append">
+
+                <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+              </span>
+            </div>
+
+
+            <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%">
+
+              <input type="text" class="form-control mb-2" placeholder="Search..." name="searchInput"
+                [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}" (input)="filterOptions()"
+                (click)="$event.stopPropagation()" />
+
+
+              <div class="list-wrapper">
+                <a *ngFor="let option of filteredOptions" class="dropdown-item" href="#"
+                  (click)="selectOption(option); $event.preventDefault()">
+                  {{ option.catName }}
+                </a>
+              </div>
+
+              <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
+                No options found
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="mb-2">
+          <label for="files" class="form-label">File</label>
+          <input type="file" #fileInput
+            accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            class="form-control" id="files" (change)="onFileChange($event)" multiple [ngStyle]=" { 'color': 'white' } ">
+
+          <!-- {{objectKeys(selectedFiles) | json}} -->
+          <ul class="mb-0 p-0">
+            <li *ngIf="selectedFile" class="d-flex align-items-center justify-content-between mt-2">
+
+              {{ selectedFile.name }}
+              <i class="far fa-trash-alt delete-icon cursor-pointer" (click)="deleteFromUploadList()">
+              </i>
+            </li>
+          </ul>
+
+        </div>
+
+
+
+        <div class="input-box">
+          <label for="fileName" class="form-label">File name</label>
+          <input type="text" class="form-control" id="fileName" formControlName="fileName"
+            placeholder="Enter File Name ..."
+            [class.is-invalid]="dailyEditorialFormControl['fileName'].invalid && (dailyEditorialFormControl['fileName'].dirty || dailyEditorialFormControl['fileName'].touched)">
+          <div *ngIf="dailyEditorialFormControl['fileName'].errors" class="invalid-feedback"
+            [ngClass]="{'d-block': dailyEditorialFormControl['fileName'].invalid && (dailyEditorialFormControl['fileName'].dirty || dailyEditorialFormControl['fileName'].touched)}">
+            {{ dailyEditorialFormControl['fileName'].errors['required'] ?
+            'file name is required' :
+            ''}}
+          </div>
+        </div>
+
+        <!-- <div class="mt-36px">
+                    <button type="submit" [disabled]=" dailyEditorialForm.invalid">Upload</button> 
+    
+                </div> -->
+      </form>
+      <div class="text-end mt-5">
+        <button type="button" class="btn btn-outline-secondary custom-button"
+          [disabled]=" dailyEditorialForm.invalid || selectedOption == null || selectedFile == null"
+          (click)="createResource()">Upload</button>
+
+
+      </div>
+    </div>
+  </ng-template>
+
+</div>
+
+
+
+
+<ng-template #docViewer let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Doc Viewer</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    @if(pdfLink.type=='pdf') {
+    <pdf-viewer id="outerContainer" [src]="pdfLink && pdfLink.link" [rotation]="0" [original-size]="false"
+      [show-all]="true" [fit-to-page]="false" [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="false"
+      [render-text]="true" [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false"
+      style="width: 100%; height: 400px;"></pdf-viewer>
+    }@else {
+    <!-- 'https://api.insightsinto.in/UploadedResources/20250429115205622.docx'   'pdfLink && pdfLink.link'-->
+    <ngx-doc-viewer [url]="pdfLink && pdfLink.link" viewer="google" style="width: 100%; height: 400px"
+      [disableDownload]="true">
+    </ngx-doc-viewer>
+    }
+
+
+
+
+    <!-- <iframe [src]="pdfLink" loading="lazy" frameborder="0"  style="width: 100%; height: 400px;"></iframe> -->
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-primary custom-button" (click)="downloadFile(pdfLink)">
+      Download
+    </button>
+    <button type="button" class="btn btn-outline-secondary custom-button"
+      (click)="modal.close('Save click')">Close</button>
+  </div>
+</ng-template>
+
+<!-- <button class="btn btn-lg btn-outline-primary" >Launch demo modal</button> -->
+
+
+
+
+
+
+
+
+<ng-template #folderPanel let-offcanvas>
+  <div class="offcanvas-header hide-above-768">
+    <div class="d-flex align-items-center">
+      <h4 class="offcanvas-title mb-0">Categories</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+
+    </div>
+  </div>
+  <div class="offcanvas-body">
+    <div class="input-group mb-2">
+      <input type="text" class="form-control mb-0" name="Search" placeholder="Search"
+        (input)="onSearchChange($event)" />
+    </div>
+    <ul>
+      <ng-container *ngFor="let category of filteredCategories">
+        <li>
+          <span class="cursor_pointer" [class.active]="category.id === selectedFolderId">
+            <span class="arrow" *ngIf="category.subCategories.length > 0" (click)="expandCategoryInTree(category.id)">
+              <i class="fas" [ngClass]="isCategoryOpen(category.id) ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            </span>
+            &nbsp;
+            <span (click)="toggleCategory(category.id)">{{ category.catName }}</span>
+          </span>
+          <ul *ngIf="isCategoryOpen(category.id)">
+            <ng-container
+              *ngTemplateOutlet="categoryTemplate; context: { $implicit: category.subCategories }"></ng-container>
+          </ul>
+        </li>
+      </ng-container>
+    </ul>
+
+    <!-- Recursive Subcategory Template -->
+    <ng-template #categoryTemplate let-subCategories>
+      <ng-container *ngFor="let subCategory of subCategories">
+        <li>
+          <span class="cursor_pointer" [class.active]="subCategory.id === selectedFolderId">
+            <span class="arrow" *ngIf="subCategory.subCategories.length > 0"
+              (click)="expandCategoryInTree(subCategory.id)">
+              <i class="fas" [ngClass]="isCategoryOpen(subCategory.id) ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            </span>
+            <span (click)="toggleCategory(subCategory.id)">{{ subCategory.catName }}</span>
+          </span>
+          <ul *ngIf="isCategoryOpen(subCategory.id)">
+            <ng-container
+              *ngTemplateOutlet="categoryTemplate; context: { $implicit: subCategory.subCategories }"></ng-container>
+          </ul>
+        </li>
+      </ng-container>
+    </ng-template>
+
+  </div>
+</ng-template>

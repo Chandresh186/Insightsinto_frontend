@@ -9,9 +9,20 @@
   padding-right: 0.5rem; /* Extra padding for the close button */
 }
 
+.chip-list span {
+  display: inline-flex;
+  align-items: center;
+  background-color: #1A1F35 !important;
+  color: #fff;
+  border-radius: 16px;
+  padding: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
 .chip-list .btn-close {
   margin-left: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
 }
 
 .dropdown-menu {
@@ -155,8 +166,8 @@ input:checked + .slider:before {
 .trash {
   color: red;
   font-size: 13px;
-  margin-right: 0.2rem;
-  margin-left: 0.2rem;
+  margin-right: 0.6rem;
+  margin-left: 0.6rem;
   z-index: 1;
 }
 
@@ -180,7 +191,7 @@ input:checked + .slider:before {
   border-radius: 8px; /* Rounded corners */
   padding: 8px 16px; /* Add padding for a better look */
   font-size: 16px; /* Adjust font size */
-  font-weight: bold; /* Make the text bold */
+  // font-weight: bold; /* Make the text bold */
   cursor: pointer; /* Pointer cursor on hover */
   transition: all 0.3s ease; /* Smooth transition for hover effect */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
@@ -213,4 +224,21 @@ input:checked + .slider:before {
   color: var(--bs-dropdown-link-active-color);
   text-decoration: none;
   background-color: #1a1f35;
+}
+
+@media (max-width: 768px) {
+  .w-25rem {
+    width: 15rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  /* Your styles here */
+  .w-25rem {
+    width: 9rem;
+  }
+
+  .custom-button {
+    padding: 8px 10px;
+  }
 }

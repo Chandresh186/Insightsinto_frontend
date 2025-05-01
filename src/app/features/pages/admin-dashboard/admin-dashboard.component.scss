@@ -319,3 +319,11 @@
   margin-right: calc(var(--x-gutter-x) * -0.5);
   margin-left: calc(var(--x-gutter-x) * -0.5);
 }
+
+
+::ng-deep .tests .test-series-table table td {
+  // width: 100vw;
+  // overflow-x: auto;
+  white-space: nowrap !important;
+max-width: 300px;
+}

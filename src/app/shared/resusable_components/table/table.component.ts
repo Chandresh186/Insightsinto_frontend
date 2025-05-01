@@ -44,13 +44,31 @@ export class TableComponent implements OnChanges {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.filteredData = this.tableData;
+    this.filteredData = [...this.tableData];
     this.updatePagination();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tableData']) {
-      this.filteredData = this.tableData;
+      this.filteredData = [...this.tableData];
+
+
+      // Reapply search if there's an active search term
+      if (this.searchTerm) {
+        this.onSearch();
+      }
+      
+      // Reapply sort if there's an active sort
+      if (this.sortColumn) {
+        this.sortData();
+      }
+
+      //  // Adjust current page if needed
+      //  const totalPages = this.totalPages;
+      //  if (this.currentPage > totalPages && totalPages > 0) {
+      //    this.currentPage = totalPages;
+      //  }
+      this.adjustPageAfterDataChange();
       this.updatePagination();
     }
    
@@ -87,14 +105,14 @@ export class TableComponent implements OnChanges {
     }
 
     private sortData(): void {
-      this.tableData.sort((a, b) => {
+      this.filteredData.sort((a, b) => {
         const valA = a[this.sortColumn];
         const valB = b[this.sortColumn];
         if (valA < valB) return this.sortDirection === 'asc' ? -1 : 1;
         if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
         return 0;
       });
-      this.filteredData = this.tableData;
+      // this.filteredData = this.tableData;
     }
 
       // Pagination functionality
@@ -112,7 +130,7 @@ export class TableComponent implements OnChanges {
   }
 
   goToNextPage(): void {
-    const totalPages = Math.ceil(this.tableData.length / this.itemsPerPage);
+    const totalPages = Math.ceil(this.filteredData.length / this.itemsPerPage);
     if (this.currentPage < totalPages) {
       this.currentPage++;
       this.updatePagination();
@@ -120,7 +138,7 @@ export class TableComponent implements OnChanges {
   }
 
   get totalPages(): number {
-    return Math.ceil(this.tableData.length / this.itemsPerPage);
+    return Math.ceil(this.filteredData.length / this.itemsPerPage);
   }
 
     // Handle Button Click
@@ -150,4 +168,28 @@ export class TableComponent implements OnChanges {
       // Default behavior if showColumns is just an array of strings
       return this.showColumns.includes(columnKey);
     }
+
+
+     // Add this method to adjust page after data changes
+  private adjustPageAfterDataChange(): void {
+    const totalItems = this.filteredData.length;
+    const totalPages = Math.ceil(totalItems / this.itemsPerPage);
+    // const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+     // If current page is beyond new total pages, go to last page
+     if (this.currentPage > totalPages && totalPages > 0) {
+      this.currentPage = totalPages;
+    }
+    // If on page > 1 and current page would be empty, go to previous page
+    else if (this.currentPage > 1 && totalItems <= (this.currentPage - 1) * this.itemsPerPage) {
+      this.currentPage--;
+    }
+  
+    
+    // // If we're not on the first page and the current page would be empty after deletion
+    // if (this.currentPage > 1 && ((totalItems) <= (this.currentPage - 1) * itemsPerPage)) {
+    //   this.currentPage--;
+    //   this.updatePagination();
+    // }
+  }
 }

@@ -23,6 +23,7 @@
                     <li><a routerLink="/blogs" class="nav-link">Blogs</a></li>
                     <li><a routerLink="/courses" class="nav-link">Courses</a></li>
                     <li><a routerLink="/editorial" class="nav-link">Editorial</a></li>
+                    <li><a (click)="toggleValue()" routerLink="/resources" class="nav-link">Resources</a></li>
                     <li *ngIf="!isLoggedIn()"><a routerLink="/auth" class="nav-link">Login</a></li>
                     <li *ngIf="isLoggedIn()">
                         <div ngbDropdown class="d-inline-block status-icon-container cursor_pointer"  id="log_out">
@@ -55,8 +56,11 @@
 
                     <ul>
                         <li (click)="toggleNav()" class="nav-item"><a routerLink="/" routerLinkActive="router-link-active" class="nav-link">Home</a></li>
+                       
+                        <li (click)="toggleNav()" class="nav-item"><a routerLink="/blogs" class="nav-link">Blogs</a></li>
                         <li (click)="toggleNav()" class="nav-item"><a routerLink="/courses" class="nav-link">Courses</a></li>
                         <li (click)="toggleNav()" class="nav-item"><a routerLink="/editorial" class="nav-link">Editorial</a></li>
+                        <li (click)="toggleNav()" class="nav-item"><a routerLink="/resources" class="nav-link">Resources</a></li>
                         <li *ngIf="!isLoggedIn()" (click)="toggleNav()" class="nav-item"><a routerLink="/auth" class="nav-link">Login</a></li>
                         <!-- <li ><a routerLink="/auth" class="nav-link">Login</a></li> -->
                         <li *ngIf="isLoggedIn()">

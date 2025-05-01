@@ -5,6 +5,7 @@ import { ngbootstrapModule } from '../../../../shared/modules/ng-bootstrap.modul
 import { catchError, finalize, of, tap } from 'rxjs';
 import { LogoutService } from '../../../../core/services/logout.service';
 import { SettingsService } from '../../../../core/services/settings.service';
+import { ToggleService } from '../../../../core/services/toggle.service';
 
 @Component({
   selector: 'app-layout',
@@ -24,10 +25,14 @@ export class LayoutComponent {
 
   currentRoute: string = '';
 
-  constructor(private router: Router, private logoutService : LogoutService, private settingsService: SettingsService) {}
+  constructor(private toggleService: ToggleService, private router: Router, private logoutService : LogoutService, private settingsService: SettingsService) {}
 
   toggleNav() {
     this.isNavActive = !this.isNavActive;
+  }
+
+  toggleValue() {
+    this.toggleService.toggle(); // toggles the boolean
   }
 
   @HostListener('window:scroll', [])

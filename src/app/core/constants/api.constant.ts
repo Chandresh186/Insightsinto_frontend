@@ -35,6 +35,19 @@ export const API_CONSTANTS = {
       DELETE_CATEGORY: (id: string) => `Category/${id}`
     },
 
+    RESOURCE_CATEGORIES: {
+      GET_ALL_CATEGORIES: 'ResourceCategory',
+      GET_ALL_MAPPED_CATEGORIES: 'ResourceCategory/categories-with-subcategories',
+      GET_ALL_MAPPED_CATEGORIES_CONTENTS: 'ResourceCategory/categories-with-subcategories-with-contents',
+      CREATE_CATEGORY: 'ResourceCategory',
+      GET_CATEGORY_BY_ID: (id: string) => `ResourceCategory/${id}`,
+      UPDATE_CATEGORY: (id: string) => `ResourceCategory/${id}`,
+      DELETE_CATEGORY: (id: string) => `ResourceCategory/${id}`,
+      DELETE_RESOURCE: (id: string) => `ResourceCategory/delete/${id}`,
+
+      UPLOAD_RESOURCE: "ResourceCategory/upload",
+    },
+
     Blogs: {
       GET_ALL_BLOGS: 'Blog',
       CREATE_BLOG: 'Blog',

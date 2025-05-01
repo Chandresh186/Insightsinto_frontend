@@ -1,0 +1,232 @@
+<div class="container">
+  <div class="createContainer">
+    <div class="input-group w-25rem">
+      <input type="text" class="form-control" name="Search" placeholder="Search" (input)="onSearchChange($event)" />
+      <button ngbTooltip="Search" class="btn btn-primary add-more remove-default-css" type="button">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    <button class="btn btn-primary custom-button" placement="bottom" ngbTooltip="Create Category" type="button"
+      data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+      Create Category
+    </button>
+  </div>
+  <div class="wrapper">
+    <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="offcanvasExample"
+      aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title mb-0" id="offcanvasExampleLabel">
+          Create Categories
+        </h5>
+        &nbsp;
+
+
+        <div class="form-check form-switch" ngbTooltip="Create Sub Category">
+          <div>
+
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+              [(ngModel)]="isCreateNewCategory" />
+          </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form>
+          <div class="mb-3" *ngIf="!isCreateNewCategory">
+            <label for="exampleInputPassword1" class="form-label">Select Category</label>
+            <div class="dropdown" [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
+
+              <div class="input-group" id="target_Dropdown">
+                <input type="text" class="select_input form-control dropdown-toggle text-start"
+                  placeholder="Select Category" [value]="
+                      (selectedOption && selectedOption.catName) ||
+                      'Select an option'
+                    " (click)="toggleDropdown()" (focus)="toggleDropdown()" name="selectInput"
+                  aria-expanded="dropdownOpen" readonly />
+
+                <span class="input-group-append">
+
+                  <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+                </span>
+              </div>
+
+
+              <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%">
+
+                <input type="text" class="form-control mb-2" placeholder="Search..." name="searchInput"
+                  [(ngModel)]="searchQuery" (input)="filterOptions()" (click)="$event.stopPropagation()" />
+
+
+                <div class="list-wrapper">
+                  <a *ngFor="let option of filteredOptions" class="dropdown-item" href="#"
+                    (click)="selectOption(option); $event.preventDefault()">
+                    {{ option.catName }}
+                  </a>
+                </div>
+
+                <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
+                  No options found
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">{{
+              isCreateNewCategory
+              ? "Create Category"
+              : "Sub
+              Category"
+              }}</label>
+            <div class="chip-input-container">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" name="chipInput" placeholder="Add sub Category"
+                  [(ngModel)]="chipInput" (keyup.enter)="addChip()" />
+                <button ngbTooltip="Create Category" class="btn btn-primary add-more" type="button" (click)="addChip()">
+                  <i class="fas fa-plus p-2"></i>
+                </button>
+                <small id="categoryHelp" class="form-text">
+                  Write the category name and press Enter button.
+                </small>
+              </div>
+
+              <div class="chip-list">
+                <span class="badge bg-primary me-2 mb-2" *ngFor="let chip of chips; let i = index">
+                  {{ chip }}
+                  <button type="button" class="btn-close btn-close-white ms-1" aria-label="Remove"
+                    (click)="removeChip(i)"></button>
+                </span>
+              </div>
+            </div>
+            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+          </div>
+
+          <button type="button" class="btn btn-primary custom-button" [disabled]="chips.length == 0" (click)="
+                isCreateNewCategory ? createNewCategory() : createSubCategory()
+              ">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <ul class="tree">
+      <ng-container *ngTemplateOutlet="
+            recursiveList;
+            context: { $implicit: filteredCategories, isRoot: true }
+          "></ng-container>
+    </ul>
+
+    <ng-template #recursiveList let-categories let-isRoot="isRoot">
+      <li *ngFor="let category of categories" [class.parent]="isRoot" class="nested-item mb-0">
+        <details [open]="category.isOpen" class="details">
+          <summary>
+            <span class="label">{{
+              isRoot ? "Category" : "Sub Category"
+              }}</span>
+            {{ category.catName }} &nbsp;
+            <i (click)="onEdit(category)" class="far fa-edit edit"></i>
+            <i (click)="DeleteCategory(category.id)" class="far fa-trash-alt trash"></i>
+            <i (click)="onMove(category)" class="move far fa-info-circle"></i>
+          </summary>
+
+          <ul *ngIf="category.subCategories?.length > 0" class="nested-list">
+            <ng-container *ngTemplateOutlet="
+                  recursiveList;
+                  context: { $implicit: category.subCategories, isRoot: false }
+                "></ng-container>
+          </ul>
+        </details>
+      </li>
+    </ng-template>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Category</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="categoryForm">
+      <div class="form-group">
+        <input type="test" class="form-control" id="catName" formControlName="catName" aria-describedby="catName"
+          placeholder="Enter category name" />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <app-async-button type="submit" classes="restore-button" [disabled]="categoryForm.invalid || categoryAsyncCall"
+      [isAsyncCall]="categoryAsyncCall" (click)="EditCategory()">Save</app-async-button>
+  </div>
+</ng-template>
+
+<ng-template #changeParent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Change Heirarchy</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body move-modal">
+    <form>
+      <div class="form-group mb-3">
+        <label for="exampleInputPassword1" class="form-label">Select Category</label>
+        <div class="dropdown" [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
+          <!-- Input field with dropdown arrow -->
+          <div class="input-group" id="target_Dropdown">
+            <input type="text" class="form-control dropdown-toggle" placeholder="Select Category" [value]="
+                  (selectedOption && selectedOption.catName) || 'Select an option'
+                " (click)="toggleDropdown()" (focus)="toggleDropdown()" name="selectInput" aria-expanded="dropdownOpen"
+              readonly />
+            <!--(focus)="toggleDropdown()"-->
+            <span class="input-group-append">
+              <!-- <ion-icon name="caret-down-outline" (click)="toggleDropdown()"></ion-icon>Bootstrap Icon for dropdown  -->
+              <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+            </span>
+          </div>
+
+          <!-- Dropdown menu with search functionality -->
+          <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%">
+            <!-- Search input -->
+            <input type="text" class="form-control mb-2" placeholder="Search..." name="searchInput"
+              [(ngModel)]="searchQuery" (input)="filterOptions()" (click)="$event.stopPropagation()" />
+            <div class="list-wrapper">
+              <!-- Filtered options list -->
+              <a *ngFor="let option of filteredOptions" class="dropdown-item" href="#"
+                (click)="mapParentId(option); $event.preventDefault()">
+                {{ option.catName }}
+              </a>
+            </div>
+
+            <!-- Message for no matches -->
+            <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
+              No options found
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <code>
+        <ul class="tree">
+          <li class="parent">
+            <details open class="details">
+              <summary>
+                <span class="label">Category</span
+                >{{
+                  (selectedOption && selectedOption.catName) || "Select an option"
+                }}
+              </summary>
+              <ul class="nested-list">
+                <li class="nested-item">
+                  <span class="label">sub category</span
+                  >{{ categoryForm.value.catName }}
+                </li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </code>
+  </div>
+  <div class="modal-footer">
+    <app-async-button type="submit" classes="restore-button" [disabled]="categoryForm.invalid || categoryAsyncCall"
+      [isAsyncCall]="categoryAsyncCall" (click)="EditCategory()">Save</app-async-button>
+  </div>
+</ng-template>

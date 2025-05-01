@@ -1,52 +1,27 @@
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  ElementRef,
-  HostListener,
-  OnInit,
-  TemplateRef,
-  viewChild,
-  ViewChild,
-} from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
-import { CategoriesService } from '../../../core/services/categories.service';
+import { Component, ElementRef, HostListener, TemplateRef, ViewChild } from '@angular/core';
 import { catchError, debounceTime, finalize, of, Subject, tap } from 'rxjs';
-import {
-  apiResponse,
-  Category,
-  CategoryList,
-} from '../../../core/models/interface/categories.interface';
-import {
-  ModalDismissReasons,
-  NgbModal,
-  NgbModalRef,
-} from '@ng-bootstrap/ng-bootstrap';
+import { apiResponse, Category, CategoryList } from '../../../core/models/interface/categories.interface';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategoriesService } from '../../../core/services/categories.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { ngbootstrapModule } from '../../../shared/modules/ng-bootstrap.modules';
 import { AsyncButtonComponent } from '../../../shared/resusable_components/async-button/async-button.component';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-categories',
+  selector: 'app-resource-categories',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ngbootstrapModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AsyncButtonComponent,
-  ],
-  templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [   CommonModule,
+      FormsModule,
+      ngbootstrapModule,
+      FormsModule,
+      ReactiveFormsModule,
+      AsyncButtonComponent,],
+  templateUrl: './resource-categories.component.html',
+  styleUrl: './resource-categories.component.scss'
 })
-export class CategoriesComponent implements OnInit {
+export class ResourceCategoriesComponent {
   public chips: string[] = [];
   public chipInput: string = '';
 
@@ -225,7 +200,7 @@ export class CategoriesComponent implements OnInit {
   getCategories(): void {
     this.loading = true; // Set loading state to true while fetching data
     this.categoriesService
-      .getCategories()
+      .getResourceCategories()
       .pipe(
         tap((response) => {
           var res: apiResponse = response;
@@ -247,7 +222,7 @@ export class CategoriesComponent implements OnInit {
   getAllMappedCategories(): void {
     this.loading = true; // Set loading state to true while fetching data
     this.categoriesService
-      .getallmappedCategories()
+      .getallmappedResourceCategories()
       .pipe(
         tap((response) => {
           this.addIsOpenProperty(response);
@@ -295,7 +270,7 @@ export class CategoriesComponent implements OnInit {
     this.loading = true; // Start loading
 
     this.categoriesService
-      .createCategory(reqBody)
+      .createResourceCategory(reqBody)
       .pipe(
         tap((response) => {}),
         catchError((error) => {
@@ -320,7 +295,7 @@ export class CategoriesComponent implements OnInit {
     this.loading = true; // Start loading
 
     this.categoriesService
-      .createCategory(reqBody)
+      .createResourceCategory(reqBody)
       .pipe(
         tap((response) => {}),
         catchError((error) => {
@@ -345,7 +320,7 @@ export class CategoriesComponent implements OnInit {
     this.categoryAsyncCall = true;
 
     this.categoriesService
-      .updateCategory(this.categoryForm.value.id, reqBody)
+      .updateResourceCategory(this.categoryForm.value.id, reqBody)
       .pipe(
         tap((response) => {}),
         catchError((error) => {
@@ -366,44 +341,41 @@ export class CategoriesComponent implements OnInit {
   }
 
   DeleteCategory(id: any) {
-
-     Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#1a1f35",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.categoriesService
-            .deleteCategory(id)
-            .pipe(
-              tap((response) => {
-                Swal.fire({
-                  title: "Deleted!",
-                  text: "Your file has been deleted.",
-                  icon: "success",
-                  confirmButtonColor: '#1a1f35'
-                });
-              }),
-              catchError((error) => {
-                console.error('Error deleting category:', error);
-                return of(error); // Return an observable to handle the error
-              }),
-              finalize(() => {
-                this.getCategories();
-                this.getAllMappedCategories();
-              })
-            )
-            .subscribe();
-           
-          }
-        });
-
-
-  
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#1a1f35",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoriesService
+        .deleteResourceCategory(id)
+        .pipe(
+          tap((response) => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+              confirmButtonColor: '#1a1f35'
+            });
+          }),
+          catchError((error) => {
+            console.error('Error deleting category:', error);
+            return of(error); // Return an observable to handle the error
+          }),
+          finalize(() => {
+            this.getCategories();
+            this.getAllMappedCategories();
+          })
+        )
+        .subscribe();
+       
+      }
+    });
+   
   }
 
   closeModal() {

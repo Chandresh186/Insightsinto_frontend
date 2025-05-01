@@ -81,7 +81,7 @@
     </div>
   
     <!-- Pagination Controls -->
-    <div class="pagination-controls" *ngIf="!(paginatedData.length === 0)">
+    <div class="pagination-controls" *ngIf="filteredData.length > 0">
       <i
         class="fas fa-angle-left"
         [style.cursor]="currentPage === 1 ? 'not-allowed' : 'pointer'"

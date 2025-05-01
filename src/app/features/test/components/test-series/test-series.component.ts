@@ -1,33 +1,56 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TableComponent } from '../../../../shared/resusable_components/table/table.component';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { TestSeriesService } from '../../../../core/services/test-series.service';
-import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ModalDismissReasons,
+  NgbModal,
+  NgbModalRef,
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { testSeriesValidationErrorMessage } from '../../../../core/constants/validation.constant';
 import { HttpHeaders } from '@angular/common/http';
 import { AsyncButtonComponent } from '../../../../shared/resusable_components/async-button/async-button.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-test-series',
   standalone: true,
-  imports: [CommonModule, TableComponent, FormsModule, ReactiveFormsModule, AsyncButtonComponent],
+  imports: [
+    CommonModule,
+    TableComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    AsyncButtonComponent,
+  ],
   templateUrl: './test-series.component.html',
   styleUrls: ['./test-series.component.css'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class TestSeriesComponent implements OnInit {
   public loading = false; // To track loading state
   private errorMessage: string | null = null; // To store error messages
-  public showColumns: any ;
+  public showColumns: any;
   public testSeriesForm!: FormGroup;
   public validationErrorMessage = testSeriesValidationErrorMessage;
   isCreateTestSeriesAsyncCall: boolean = false;
   private modalRef!: NgbModalRef;
-  public idToBeUpdated : any;
-	closeResult = '';
+  public idToBeUpdated: any;
+  closeResult = '';
 
   @ViewChild('content') content!: TemplateRef<any>;
   testSeries = [
@@ -113,20 +136,31 @@ export class TestSeriesComponent implements OnInit {
     // }
   ];
 
+  tableHeaders: any = [];
 
-  tableHeaders:any = [];
-
-
-  tableData:any = [];
-
+  tableData: any = [];
 
   actionsConfig = [
-    { key: 'edit', label: 'Edit', class: 'btn btn-outline-primary', visible: true },
-    { key: 'delete', label: 'Delete', class: 'btn btn-outline-danger', visible: true },
-    { key: 'detail', label: 'Details', class: 'btn btn-outline-info', visible: true }, // Hidden action
+    {
+      key: 'edit',
+      label: 'Edit',
+      class: 'btn btn-outline-primary',
+      visible: true,
+    },
+    {
+      key: 'delete',
+      label: 'Delete',
+      class: 'btn btn-outline-danger',
+      visible: true,
+    },
+    {
+      key: 'detail',
+      label: 'Details',
+      class: 'btn btn-outline-info',
+      visible: true,
+    }, // Hidden action
     // { key: 'publish', label: 'Publish', class: 'btn btn-outline-success', visible: true }, // Hidden action
   ];
-
 
   handleAction(event: { action: string; row: any }) {
     switch (event.action) {
@@ -139,13 +173,17 @@ export class TestSeriesComponent implements OnInit {
       case 'detail':
         this.onDetails(event.row);
         break;
-    
+
       default:
         console.error('Unknown action:', event.action);
     }
   }
 
-  constructor(private testSeriesService: TestSeriesService, private modalService: NgbModal, private router : Router) { }
+  constructor(
+    private testSeriesService: TestSeriesService,
+    private modalService: NgbModal,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.testSeriesForm = new FormGroup({
@@ -153,7 +191,10 @@ export class TestSeriesComponent implements OnInit {
       medium: new FormControl('', [Validators.required]),
       details: new FormControl('', [Validators.required]),
       startDate: new FormControl('', [Validators.required]),
-      fee: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]) // Fee should be a number
+      fee: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'),
+      ]), // Fee should be a number
     });
     this.loadTestSeries();
   }
@@ -162,141 +203,159 @@ export class TestSeriesComponent implements OnInit {
     return this.testSeriesForm.controls;
   }
 
-  generateTableHeaders(dataArray: any[]): { key: string; displayName: string, pipe: string | null, pipeFormat: string | null }[] {
+  generateTableHeaders(
+    dataArray: any[]
+  ): {
+    key: string;
+    displayName: string;
+    pipe: string | null;
+    pipeFormat: string | null;
+  }[] {
     if (!dataArray || dataArray.length === 0) {
       return [];
     }
-  
+
     const formatDisplayName = (key: string): string =>
       key
         .replace(/([A-Z])/g, ' $1') // Add a space before uppercase letters (camelCase to spaced)
         .replace(/^./, (str) => str.toUpperCase()); // Capitalize the first letter
-  
+
     return Object.keys(dataArray[0]).map((key) => {
       let pipe = null;
       let pipeFormat = null;
-  
+
       // Add 'currency' pipe for 'fee' column
       if (key === 'fee') {
-        pipe = 'currency';  // The pipe name for fee is currency
-        pipeFormat = 'INR';  // No special formatting for 'currency' pipe
-      } 
+        pipe = 'currency'; // The pipe name for fee is currency
+        pipeFormat = 'INR'; // No special formatting for 'currency' pipe
+      }
       // Add 'date' pipe for 'startDate' column
       else if (key === 'startDate') {
-        pipe = 'date';  // The pipe name for startDate is date
-        pipeFormat = 'd MMM, y';  // Custom format for date (can be changed as needed)
+        pipe = 'date'; // The pipe name for startDate is date
+        pipeFormat = 'd MMM, y'; // Custom format for date (can be changed as needed)
       }
-  
+
       return {
         key: key,
         displayName: formatDisplayName(key),
         pipe: pipe,
-        pipeFormat: pipeFormat
+        pipeFormat: pipeFormat,
       };
     });
   }
-  
-   private getHeaders(): HttpHeaders {
-        const token: string = JSON.parse(localStorage.getItem('currentUser') as string)?.response?.token;
-        return new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        });
-      }
+
+  private getHeaders(): HttpHeaders {
+    const token: string = JSON.parse(
+      localStorage.getItem('currentUser') as string
+    )?.response?.token;
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+  }
 
   private loadTestSeries(): void {
     this.loading = true; // Set loading state to true while fetching data
     const headers = this.getHeaders();
-    this.testSeriesService.getTestSeries(headers).pipe(
-      tap((response: any) => {
-        this.tableData = response.response; // Assign the fetched data to the list
-        
-        this.showColumns  = this.generateTableHeaders(response.response.map(({ id, ...rest }: any) => rest));
-        this.tableHeaders = this.generateTableHeaders(response.response)
-        
-      }),
-      catchError((error) => {
-        this.errorMessage = 'Error loading test series.'; // Handle error message
-        console.error('Error loading test series:', error);
-        return of([]); // Return an empty array in case of an error
-      }),
-      finalize(() => {
-        this.loading = false; // Reset loading state when the request is completed
-      })
-    ).subscribe();
-  }
+    this.testSeriesService
+      .getTestSeries(headers)
+      .pipe(
+        tap((response: any) => {
+          this.tableData = response.response; // Assign the fetched data to the list
 
+          this.showColumns = this.generateTableHeaders(
+            response.response.map(({ id, ...rest }: any) => rest)
+          );
+          this.tableHeaders = this.generateTableHeaders(response.response);
+        }),
+        catchError((error) => {
+          this.errorMessage = 'Error loading test series.'; // Handle error message
+          console.error('Error loading test series:', error);
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+        })
+      )
+      .subscribe();
+  }
 
   CreateTestseries() {
-    
     const reqBody = {
       name: this.testSeriesForm.get('name')?.value,
       medium: this.testSeriesForm.get('medium')?.value,
       details: this.testSeriesForm.get('details')?.value,
       startDate: new Date(this.testSeriesForm.get('startDate')?.value),
-      fee: this.testSeriesForm.get('fee')?.value
-    }
-
+      fee: this.testSeriesForm.get('fee')?.value,
+    };
 
     this.isCreateTestSeriesAsyncCall = true;
     this.loading = true; // Set loading state to true while fetching data
-  
-    this.testSeriesService.createTestSeries(reqBody).pipe(
-      tap((response: any) => {
-      }),
-      catchError((error) => {
-        this.errorMessage = 'Error creating test series.'; // Handle error message
-        console.error('Error creating test series:', error);
-        return of([]); // Return an empty array in case of an error
-      }),
-      finalize(() => {
-        this.loading = false; // Reset loading state when the request is completed
-        this.isCreateTestSeriesAsyncCall = true;
-        this.testSeriesForm.reset();
-        this.loadTestSeries();
-        this.closeModal();
-      })
-    ).subscribe();
-  }
 
+    this.testSeriesService
+      .createTestSeries(reqBody)
+      .pipe(
+        tap((response: any) => {}),
+        catchError((error) => {
+          this.loading = false;
+
+          this.isCreateTestSeriesAsyncCall = false;
+          this.errorMessage = 'Error creating test series.'; // Handle error message
+          console.error('Error creating test series:', error);
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+          this.isCreateTestSeriesAsyncCall = false;
+          this.testSeriesForm.reset();
+          this.loadTestSeries();
+          this.closeModal();
+        })
+      )
+      .subscribe();
+  }
 
   EditTestseries() {
-    
     const reqBody = {
       name: this.testSeriesForm.get('name')?.value,
       medium: this.testSeriesForm.get('medium')?.value,
       details: this.testSeriesForm.get('details')?.value,
       startDate: new Date(this.testSeriesForm.get('startDate')?.value),
-      fee: this.testSeriesForm.get('fee')?.value
-    }
-
+      fee: this.testSeriesForm.get('fee')?.value,
+    };
 
     this.isCreateTestSeriesAsyncCall = true;
     this.loading = true; // Set loading state to true while fetching data
-  
-    this.testSeriesService.updateTestSeries(this.idToBeUpdated, reqBody).pipe(
-      tap((response: any) => {
-      }),
-      catchError((error) => {
-        this.errorMessage = 'Error creating test series.'; // Handle error message
-        console.error('Error creating test series:', error);
-        return of([]); // Return an empty array in case of an error
-      }),
-      finalize(() => {
-        this.loading = false; // Reset loading state when the request is completed
-        this.isCreateTestSeriesAsyncCall = true;
-        this.idToBeUpdated = undefined
-        this.testSeriesForm.reset();
-        this.loadTestSeries();
-        this.closeModal();
-      })
-    ).subscribe();
+
+    this.testSeriesService
+      .updateTestSeries(this.idToBeUpdated, reqBody)
+      .pipe(
+        tap((response: any) => {}),
+        catchError((error) => {
+          this.loading = false;
+          this.isCreateTestSeriesAsyncCall = false;
+          this.errorMessage = 'Error creating test series.'; // Handle error message
+          console.error('Error creating test series:', error);
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+          this.isCreateTestSeriesAsyncCall = false;
+          this.idToBeUpdated = undefined;
+          this.testSeriesForm.reset();
+          this.loadTestSeries();
+          this.closeModal();
+        })
+      )
+      .subscribe();
   }
 
-
   openModel() {
-		this.modalRef = this.modalService.open(this.content, { scrollable: true, ariaLabelledBy: 'modal-basic-title' })
-	}
+    this.modalRef = this.modalService.open(this.content, {
+      scrollable: true,
+      ariaLabelledBy: 'modal-basic-title',
+    });
+  }
 
   closeModal() {
     if (this.modalRef) {
@@ -306,54 +365,69 @@ export class TestSeriesComponent implements OnInit {
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-  
+
     // Manually extract the day, month, and year
     const day = ('0' + date.getDate()).slice(-2);
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);  // Months are 0-indexed
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are 0-indexed
     const year = date.getFullYear();
-  
+
     // Return formatted date as yyyy-MM-dd
     return `${year}-${month}-${day}`;
   }
 
-
-
-  onEdit(e:any) {
-
+  onEdit(e: any) {
     this.testSeriesForm.patchValue({
       name: e.name,
       details: e.details,
       fee: e.fee,
       medium: e.medium,
-      startDate: this.formatDate(e.startDate) // set the new value for startDate
+      startDate: this.formatDate(e.startDate), // set the new value for startDate
     });
-    this.idToBeUpdated = e.id
+    this.idToBeUpdated = e.id;
 
-    this.openModel()
+    this.openModel();
   }
 
-  onDelete(e:any) {  
+  onDelete(e: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1a1f35',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.loading = true; // Set loading state to true while fetching data
 
-    this.loading = true; // Set loading state to true while fetching data
-  
-    this.testSeriesService.deleteTestSeries(e.id).pipe(
-      tap((response: any) => {
-      }),
-      catchError((error) => {
-        this.errorMessage = 'Error creating test series.'; // Handle error message
-        console.error('Error creating test series:', error);
-        return of([]); // Return an empty array in case of an error
-      }),
-      finalize(() => {
-        this.loading = false; // Reset loading state when the request is completed
-        this.loadTestSeries();
-      })
-    ).subscribe();
+        this.testSeriesService
+          .deleteTestSeries(e.id)
+          .pipe(
+            tap((response: any) => {
+              Swal.fire({
+                title: 'Deleted!',
+                text: 'Your file has been deleted.',
+                icon: 'success',
+                confirmButtonColor: '#1a1f35',
+              });
+            }),
+            catchError((error) => {
+              this.errorMessage = 'Error creating test series.'; // Handle error message
+              console.error('Error creating test series:', error);
+              return of([]); // Return an empty array in case of an error
+            }),
+            finalize(() => {
+              this.loading = false; // Reset loading state when the request is completed
+              this.loadTestSeries();
+            })
+          )
+          .subscribe();
+      }
+    });
   }
 
-
-  onDetails(e:any) {
+  onDetails(e: any) {
     this.router.navigateByUrl(`dash/test-series/test-series-details/${e.id}`);
   }
-
 }

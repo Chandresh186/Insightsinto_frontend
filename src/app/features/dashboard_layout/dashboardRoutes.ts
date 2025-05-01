@@ -263,13 +263,31 @@ export const dashboardRoutes: Routes = [
             ).then((component) => component.UserPermissionsComponent)
     },
     {
-        path: 'Youtube-links',
+        path: 'youtube-links',
         canActivate: [permissionGuard], 
         data: { requiredRoles: ['Super Admin', 'Admin'] },
         loadComponent:() => 
             import (
                 '../../features/pages/youtube-link-management/youtube-link-management.component'
             ).then((component) => component.YoutubeLinkManagementComponent)
+    },
+    {
+        path: 'resource-categories',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin', 'Admin'] },
+        loadComponent:() => 
+            import (
+                '../../features/pages/resource-categories/resource-categories.component'
+            ).then((component) => component.ResourceCategoriesComponent)
+    },
+    {
+        path: 'resources',
+        canActivate: [permissionGuard], 
+        data: { requiredRoles: ['Super Admin', 'Admin'] },
+        loadComponent:() => 
+            import (
+                '../../features/pages/resources/resources.component'
+            ).then((component) => component.ResourcesComponent)
     },
     {
         path: '**',
