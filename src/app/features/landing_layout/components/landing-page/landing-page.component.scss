@@ -1007,9 +1007,14 @@ footer .wrapper {
 }
 
 ::ng-deep .owl-carousel .owl-item img {
+  // display: block;
+  // width: 100%;
+  // object-fit: cover;
   display: block;
-  width: 100%;
-  object-fit: cover;
+    // border-top-left-radius: 12px;
+    // border-top-right-radius: 12px;
+    object-fit: cover;
+
 }
 
 ::ng-deep .owl-theme .owl-dots .owl-dot.active span {
@@ -1018,8 +1023,11 @@ footer .wrapper {
 }
 
 .course-card {
-  width: 98%;
-  max-width: 302px;
+  // width: 98%;
+  // max-width: 302px;
+
+      width: 96%;
+    max-width: 19rem;
 }
 
 ::ng-deep .editorial .container {

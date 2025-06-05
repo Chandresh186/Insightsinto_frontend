@@ -93,7 +93,7 @@ Trust Signals
     <div class="container">
       <!-- Cart Section -->
       <div class="cart-section">
-        <h2>Your Cart</h2>
+        <h4>Your Cart</h4>
         <div class="cart-item">
           <div class="cart-item-info">
             <!-- <img src="https://via.placeholder.com/70" alt="Product 1"> -->
@@ -121,7 +121,7 @@ Trust Signals
       <div class="right-section">
         <!-- Coupon Section -->
         <div class="coupon-section">
-          <h3>Apply Referral Coupon Code</h3>
+          <h4>Apply Referral Coupon Code</h4>
           
           
           
@@ -129,16 +129,19 @@ Trust Signals
           <form [formGroup]="couponForm" >
             <div class="coupon-input">
                 <div>
-                    <input type="text" id="couponCode" class="form-control" placeholder="Enter coupon code" formControlName="couponCode"
-                    [class.is-invalid]="couponMessage && !isValid" [class.is-valid]="couponMessage && isValid" (input)="handleInput($event)" (keydown.enter)="applyCoupon()"
+                  <!-- (paste)="handleInput($event)" -->
+                    <input type="text" id="couponCode" class="form-control" placeholder="Enter coupon code" formControlName="couponCode" [readOnly]="isValid"
+                    [class.is-invalid]="couponMessage && !isValid" [class.is-valid]="couponMessage && isValid" (input)="handleInput($event)"   (keydown.enter)="applyCoupon()"
                     >
                     <div *ngIf="couponMessage && isValid || couponMessage && !isValid" class=" m-0" [ngClass]="couponMessage && isValid ? 'valid-feedback' : 'invalid-feedback'">
                         {{ couponMessage }}
                     </div>
 
                 </div>
-                
-              <button type="button" [ngClass]="{'mb-4': couponMessage, 'btn-apply': !couponMessage, 'btn-cancel':couponMessage}" (click)="isValid  ? removeCoupon() :applyCoupon()">{{isValid ? 'Remove' :'Apply'}}</button>  <!-- Changed to type="button" to prevent form submission -->
+
+               <div>
+                 <button type="button" [ngClass]="{'mb-4': couponMessage, 'btn-apply': !couponMessage, 'btn-cancel':couponMessage}" (click)="isValid  ? removeCoupon() :applyCoupon()">{{isValid ? 'Remove' :'Apply'}}</button>  <!-- Changed to type="button" to prevent form submission -->
+               </div> 
             </div>
             
             <!-- <p id="couponMessage" class="coupon-message" *ngIf="couponMessage">{{ couponMessage }}</p>  Use *ngIf to display the message when needed -->
@@ -149,7 +152,7 @@ Trust Signals
   
         <!-- Summary Section -->
         <div class="summary-section">
-          <h3>Order Summary</h3>
+          <h4>Order Summary</h4>
           <div class="summary-item">
             <span>Subtotal:</span>
             <span id="subtotal"> {{Subtotal | currency :'INR'}}</span>

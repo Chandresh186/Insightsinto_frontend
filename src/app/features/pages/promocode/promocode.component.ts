@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -12,6 +12,7 @@ import { promoValidationMessages } from '../../../core/constants/validation.cons
 import { CouponService } from '../../../core/services/coupon.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import Swal from 'sweetalert2';
+import { CourseService } from '../../../core/services/course.service';
 
 @Component({
   selector: 'app-promocode',
@@ -28,22 +29,12 @@ export class PromocodeComponent {
   public validationErrorMessage = promoValidationMessages;
   public ShowColumns: any;
   public tableHeaders: any = [];
-  public tableData = [
-    {
-      promoCode: 'SPRING20',
-      discountPercentage: 20,
-      validFrom: '2024-03-01',
-      validUntil: '2024-05-31',
-      isActive: true,
-    },
-    {
-      promoCode: 'SUMMER15',
-      discountPercentage: 15,
-      validFrom: '2024-06-01',
-      validUntil: '2024-08-31',
-      isActive: false,
-    },
-  ];
+  public tableData = [];
+  public dropdownOpen: boolean = false;
+  public selectedOption: any = null;
+  public searchQuery: string = '';
+  public filteredOptions: any[] | null = [];
+  public courses: any[] | null = [];
 
   actionConfig = [
     {
@@ -65,9 +56,10 @@ export class PromocodeComponent {
     }
   }
 
-  constructor(private couponService: CouponService) {}
+  constructor(private couponService: CouponService, private courseService: CourseService) {}
 
   ngOnInit() {
+    
     // Initialize the reactive form
     this.promoForm = new FormGroup({
       code: new FormControl('', [Validators.required]), // Promo code field with required validation
@@ -76,13 +68,45 @@ export class PromocodeComponent {
       validUntil: new FormControl('', Validators.required), // Date picker for valid until
       isActive: new FormControl(), // Active checkbox default to false
     });
-
+    this.loadAllCourses();
     this.getAllCoupons();
+  
+  }
+
+  setFilteration(courses: any) {
+    this.filteredOptions = [...courses]; // Filtered options for search
   }
 
   get promoFormControl() {
     return this.promoForm.controls;
   }
+
+  toggleDropdown(): void {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  filterOptions() {
+    if (
+      this.searchQuery.trim() &&
+      this.courses &&
+      this.courses.length > 0
+    ) {
+      // Filter categories based on catName, case insensitive
+      this.filteredOptions = this.courses.filter((course) =>
+        course.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    } else {
+      // If searchQuery is empty, reset to all categories
+      this.filteredOptions = this.courses ? [...this.courses] : [];
+    }
+  }
+
+    selectOption(option: any): void {
+      this.selectedOption = option; // Set the selected option
+      this.dropdownOpen = false; // Close dropdown
+      this.searchQuery = ''; // Reset search input
+      this.filteredOptions = this.courses ? [...this.courses] : []; // Reset filtered list
+    }
 
   handleInput(event: Event): void {
     const inputField = event.target as HTMLInputElement;
@@ -149,7 +173,7 @@ export class PromocodeComponent {
   }
 
   CreateCoupon() {
-    const payload = {
+    const payload: any = {
       code: this.promoForm.get('code')?.value.toUpperCase(), // Gets the value from the form input
       discountPercentage: this.promoForm.get('discount')?.value, // Get discount value from the form (replace 10 with dynamic value)
       validFrom: this.promoForm.get('validFrom')?.value
@@ -161,7 +185,9 @@ export class PromocodeComponent {
       isActive: this.promoForm.get('isActive')?.value, // Get the boolean value for active status
     };
 
-    this.promoForm.value;
+    if(this.selectedOption !== null) {
+      payload.productId = this.selectedOption.id
+    }
 
     this.loading = true; // Set loading state
     this.couponService
@@ -177,8 +203,33 @@ export class PromocodeComponent {
           return of(null); // Return a default value to continue the stream
         }),
         finalize(() => {
+          this.selectedOption = null;
           this.loading = false; // Reset loading state
           this.getAllCoupons();
+        })
+      )
+      .subscribe();
+  }
+
+  private loadAllCourses(): void {
+    this.loading = true; // Set loading state to true while fetching data
+
+    this.courseService
+      .getAllCourses()
+      .pipe(
+        tap((response: any) => {
+          this.courses = response;
+          this.setFilteration(this.courses);
+        }),
+        catchError((error) => {
+          this.errorMessage = 'Error loading Daily editorials.'; // Handle error message
+          console.error('Error loading Daily editorials:', error);
+          this.courses = [];
+          return of([]); // Return an empty array in case of an error
+        }),
+        finalize(() => {
+          this.loading = false; // Reset loading state when the request is completed
+        
         })
       )
       .subscribe();
@@ -246,4 +297,12 @@ export class PromocodeComponent {
       }
     });
   }
+
+
+    @HostListener('document:click', ['$event.target'])
+    onClickOutside(targetElement: HTMLElement): void {
+      if (targetElement.id !== 'target_Dropdown') {
+        this.dropdownOpen = false;
+      }
+    }
 }

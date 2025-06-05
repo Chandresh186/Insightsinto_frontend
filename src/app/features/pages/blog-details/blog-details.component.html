@@ -2,7 +2,7 @@
   <header class="blog-header">
     <img
       loading="lazy"
-      [src]="staticBaseUrl + blogData.coverImage"
+      [src]="staticBaseUrl + (blogData && blogData.coverImage)"
       alt="Blog Cover Image"
       onerror="this.src = 'assets/1276x260.svg'"
     />

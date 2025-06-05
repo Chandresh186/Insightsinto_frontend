@@ -7,45 +7,89 @@
         </div>
 
         @if(createCoupon) {
-            <form class="form-container" [formGroup]="promoForm" (ngSubmit)="CreateCoupon()">
-                <div class="input-field">
-                    <label for="promoCode">Promo Code</label>
-                    <input type="text" id="promoCode" class="form-control" placeholder="Enter Promo Code"
-                    formControlName="code" (input)="handleInput($event)"
-                    [class.is-invalid]="promoFormControl['code'].invalid && (promoFormControl['code'].dirty || promoFormControl['code'].touched)"
-                    >
-                    <div *ngIf="promoFormControl['code'].errors?.['required']" class="invalid-feedback m-0">
-                        {{validationErrorMessage.promoCodeRequired}}
-                      </div>
+            <form  [formGroup]="promoForm" (ngSubmit)="CreateCoupon()">
+                <div class="form-container">
+                    <div class="input-field">
+                        <label for="promoCode">Promo Code</label>
+                        <input type="text" id="promoCode" class="form-control" placeholder="Enter Promo Code"
+                        formControlName="code" (input)="handleInput($event)"
+                        [class.is-invalid]="promoFormControl['code'].invalid && (promoFormControl['code'].dirty || promoFormControl['code'].touched)"
+                        >
+                        <div *ngIf="promoFormControl['code'].errors?.['required']" class="invalid-feedback m-0">
+                            {{validationErrorMessage.promoCodeRequired}}
+                          </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="discount">Discount (%)</label>
+                        <input type="number" id="discount" class="form-control" placeholder="Enter Discount Percentage"
+                        formControlName="discount"
+                        [class.is-invalid]="promoFormControl['discount'].invalid && (promoFormControl['discount'].dirty || promoFormControl['discount'].touched)"
+                        >
+                        <div *ngIf="promoFormControl['discount'].errors?.['required']" class="invalid-feedback m-0">
+                            {{validationErrorMessage.discountRequired}}
+                          </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="validFrom">Valid From</label>
+                        <input type="date" id="validFrom" class="form-control" formControlName="validFrom"
+                        [class.is-invalid]="promoFormControl['validFrom'].invalid && (promoFormControl['validFrom'].dirty || promoFormControl['validFrom'].touched)"
+                        >
+                        <div *ngIf="promoFormControl['validFrom'].errors?.['required']" class="invalid-feedback m-0">
+                            {{validationErrorMessage.validFromRequired}}
+                          </div>
+                    </div>
+                    <div class="input-field">
+                        <label for="validUntil">Valid Until</label>
+                        <input type="date" id="validUntil" class="form-control"  formControlName="validUntil"
+                        [class.is-invalid]="promoFormControl['validUntil'].invalid && (promoFormControl['validUntil'].dirty || promoFormControl['validUntil'].touched)"
+                        >
+                        <div *ngIf="promoFormControl['validUntil'].errors?.['required']" class="invalid-feedback m-0">
+                            {{validationErrorMessage.validUntilRequired}}
+                          </div>
+                    </div>
+
                 </div>
-                <div class="input-field">
-                    <label for="discount">Discount (%)</label>
-                    <input type="number" id="discount" class="form-control" placeholder="Enter Discount Percentage"
-                    formControlName="discount"
-                    [class.is-invalid]="promoFormControl['discount'].invalid && (promoFormControl['discount'].dirty || promoFormControl['discount'].touched)"
-                    >
-                    <div *ngIf="promoFormControl['discount'].errors?.['required']" class="invalid-feedback m-0">
-                        {{validationErrorMessage.discountRequired}}
+
+                <div class="input-field input-group mb-2">
+                    <label for="exampleInputPassword1" class="form-label">Select Course</label>
+                    <div class="dropdown" [class.show]="dropdownOpen" (clickOutside)="dropdownOpen = false">
+          
+                      <div class="input-group position-relative"  id="target_Dropdown" >
+                        <input type="text" class="select_input form-control dropdown-toggle text-start"
+                        
+                          placeholder="Select Course" [value]="
+                                      (selectedOption && selectedOption.name) ||
+                                      'Select an option'
+                                    " (click)="toggleDropdown()" (focus)="toggleDropdown()" name="selectInput"
+                          aria-expanded="dropdownOpen" readonly />
+          
+                        <span class="input-group-append">
+          
+                          <i class="fa fa-caret-down" (click)="toggleDropdown()"></i>
+                        </span>
                       </div>
-                </div>
-                <div class="input-field">
-                    <label for="validFrom">Valid From</label>
-                    <input type="date" id="validFrom" class="form-control" formControlName="validFrom"
-                    [class.is-invalid]="promoFormControl['validFrom'].invalid && (promoFormControl['validFrom'].dirty || promoFormControl['validFrom'].touched)"
-                    >
-                    <div *ngIf="promoFormControl['validFrom'].errors?.['required']" class="invalid-feedback m-0">
-                        {{validationErrorMessage.validFromRequired}}
+          
+          
+                      <div class="dropdown-menu p-2" [class.show]="dropdownOpen" style="width: 100%">
+          
+                        <input type="text" class="form-control mb-2" placeholder="Search..." name="searchInput"
+                          [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}" (input)="filterOptions()"
+                          (click)="$event.stopPropagation()" />
+          
+                       
+                        <div class="list-wrapper">
+                          <a *ngFor="let option of filteredOptions" class="dropdown-item" href="#"
+                            (click)="selectOption(option); $event.preventDefault()">
+                            {{ option.name }}
+                          </a>
+                        </div>
+          
+                        <div *ngIf="filteredOptions && filteredOptions.length === 0" class="dropdown-item disabled">
+                          No options found
+                        </div>
                       </div>
-                </div>
-                <div class="input-field">
-                    <label for="validUntil">Valid Until</label>
-                    <input type="date" id="validUntil" class="form-control"  formControlName="validUntil"
-                    [class.is-invalid]="promoFormControl['validUntil'].invalid && (promoFormControl['validUntil'].dirty || promoFormControl['validUntil'].touched)"
-                    >
-                    <div *ngIf="promoFormControl['validUntil'].errors?.['required']" class="invalid-feedback m-0">
-                        {{validationErrorMessage.validUntilRequired}}
-                      </div>
-                </div>
+                    </div>
+                  </div>
     
              
                 <div class="checkbox-field">

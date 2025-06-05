@@ -8,7 +8,7 @@
           <img src="assets/icons/logo.png" alt="image" class="hero-img w-75" />
           <div class="btn-groups">
             <a routerLink="/courses" class="btn btn-primary">Courses</a>
-            <a routerLink="/editorial" class="btn btn-secondary">Editorial</a>
+            <a routerLink="/resources" class="btn btn-secondary">Resources</a>
           </div>
         </div>
       </div>
@@ -36,38 +36,43 @@
 
           <h2 class="h2" *ngIf="settingsService.isModuleVisible('Courses') && tableData.length > 0">Our Courses</h2>
           <div class="courses mb-5" *ngIf="settingsService.isModuleVisible('Courses')">
-            <owl-carousel-o [options]="customOptions">
-              <ng-container *ngFor="let slide of tableData">
-                <ng-template carouselSlide [id]="slide.id">
-                  <div class="card course-card">
-                    <a
-                      href="javascript:void(0);"
-                      [routerLink]="['/courses-detail', slide.id]"
-                    >
-                      <img
-                        class="card-img-top"
-                        [src]="staticBaseUrl + slide.thumbnail"
-                        alt="Card image cap"
-                        height="200px"
-                        loading="lazy"
-                        onerror="this.src = 'assets/302x200.svg'"
-                      />
-                    </a>
-                    <div class="card-body">
-                      <h5 class="card-title div-courses-min-height">
-                        {{ slide.name }}
-                      </h5>
-                      <a
-                        href="javascript:void(0);"
-                        [routerLink]="['/courses-detail', slide.id]"
-                        class="btn btn-primary w-100"
-                        >View Details</a
-                      >
+            <div class="row">
+              <owl-carousel-o [options]="customOptions">
+                <ng-container *ngFor="let slide of tableData">
+                  <ng-template carouselSlide [id]="slide.id">
+                    <div class="col-12 d-flex justify-content-center">
+                      <div class="course-card">
+                        <a
+                          href="javascript:void(0);"
+                          [routerLink]="['/courses-detail', slide.id]"
+                        >
+                          <img
+                            class="card-img-top"
+                            [src]="staticBaseUrl + slide.thumbnail"
+                            alt="Card image cap"
+                            loading="lazy"
+                            onerror="this.src = 'assets/302x200.svg'"
+                          />
+                        </a>
+                        <div class="card-body">
+                          <h5 class="card-title div-courses-min-height">
+                            {{ slide.name }}
+                          </h5>
+                          <a
+                            href="javascript:void(0);"
+                            [routerLink]="['/courses-detail', slide.id]"
+                            class="btn btn-primary w-100"
+                            >View Details</a
+                          >
+                        </div>
+
+                      </div>
                     </div>
-                  </div>
-                </ng-template>
-              </ng-container>
-            </owl-carousel-o>
+                  </ng-template>
+                </ng-container>
+              </owl-carousel-o>
+
+            </div>
           </div>
 
           <h2 class="h2">Latest Blog Post</h2>

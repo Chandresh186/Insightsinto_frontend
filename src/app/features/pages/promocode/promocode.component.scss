@@ -19,7 +19,7 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .input-field {
@@ -188,3 +188,16 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: #1A1F35;
     border-color: #1A1F35;
 }
+
+.input-group-append {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    cursor: pointer;
+    z-index: 1;
+    transform: translate(0px, 0px);
+}
+
+.input-group > .form-control:focus {
+    z-index: -1;
+  }
